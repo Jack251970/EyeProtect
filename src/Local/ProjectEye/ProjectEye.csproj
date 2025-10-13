@@ -461,39 +461,41 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Costura.Fody">
-      <Version>4.0.0</Version>
+      <Version>6.0.0</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="EntityFramework">
-      <Version>6.3.0</Version>
+      <Version>6.5.1</Version>
     </PackageReference>
     <PackageReference Include="Fody">
-      <Version>5.0.6</Version>
+      <Version>6.9.3</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.2</Version>
+      <Version>13.0.4</Version>
     </PackageReference>
     <PackageReference Include="Npoi.Mapper">
       <Version>3.5.1</Version>
     </PackageReference>
     <PackageReference Include="SQLite.CodeFirst">
-      <Version>1.5.3.29</Version>
+      <Version>1.7.0.36</Version>
     </PackageReference>
     <PackageReference Include="System.Data.SQLite">
-      <Version>1.0.112</Version>
+      <Version>2.0.2</Version>
     </PackageReference>
     <PackageReference Include="System.Data.SQLite.Core">
-      <Version>1.0.112.1</Version>
+      <Version>1.0.119</Version>
     </PackageReference>
     <PackageReference Include="System.Data.SQLite.EF6">
-      <Version>1.0.112.1</Version>
+      <Version>2.0.2</Version>
     </PackageReference>
     <PackageReference Include="System.Data.SQLite.Linq">
-      <Version>1.0.112.1</Version>
+      <Version>1.0.119</Version>
     </PackageReference>
     <PackageReference Include="WpfAnimatedGif">
-      <Version>2.0.0</Version>
+      <Version>2.0.2</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
