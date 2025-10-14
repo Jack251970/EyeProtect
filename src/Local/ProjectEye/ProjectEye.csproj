@@ -505,8 +505,8 @@
     <Resource Include="Resources\tomato.ico" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="costura32\SQLite.Interop.dll" />
-    <EmbeddedResource Include="costura64\SQLite.Interop.dll" />
+    <EmbeddedResource Include="costura-win-x86\SQLite.Interop.dll" />
+    <EmbeddedResource Include="costura-win-x64\SQLite.Interop.dll" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\growth_monochromatic.png" />
