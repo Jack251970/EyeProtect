@@ -1,8 +1,8 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="clr-namespace:Project1.UI.Controls"
-                    >
-    <!--TITLE-->
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Project1.UI.Controls">
+    <!--  TITLE  -->
     <Style x:Key="title" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="Microsoft YaHei" />
         <Setter Property="FontSize" Value="14" />

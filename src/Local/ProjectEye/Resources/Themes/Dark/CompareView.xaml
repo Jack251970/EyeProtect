@@ -1,9 +1,9 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="clr-namespace:Project1.UI.Controls;assembly=Project1.UI"
-                    xmlns:converter="clr-namespace:Project1.UI.Controls.Converters;assembly=Project1.UI"
-                    >
-    <converter:StringConverter x:Key="StringConverter"/>
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Project1.UI.Controls;assembly=Project1.UI"
+    xmlns:converter="clr-namespace:Project1.UI.Controls.Converters;assembly=Project1.UI">
+    <converter:StringConverter x:Key="StringConverter" />
     <Style TargetType="{x:Type controls:CompareView}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="#d9d9d9" />
@@ -15,52 +15,82 @@
                     <Grid>
                         <Popup
                             x:Name="Popup"
-                            Placement="Top"
-                            PlacementTarget="{Binding ElementName=Border}"
                             AllowsTransparency="True"
                             HorizontalOffset="-10"
-                            >
+                            Placement="Top"
+                            PlacementTarget="{Binding ElementName=Border}">
                             <Border
                                 x:Name="PopupBorder"
+                                Margin="15"
+                                Padding="10"
                                 Background="{DynamicResource WindowBackground}"
                                 BorderBrush="{DynamicResource WindowBorderBrush}"
-                                BorderThickness="1"
-                                Padding="10"
-                                Margin="15"
-                                >
+                                BorderThickness="1">
                                 <Border.Effect>
-                                    <DropShadowEffect BlurRadius="5" Opacity="0.2"  ShadowDepth="1"/>
+                                    <DropShadowEffect
+                                        BlurRadius="5"
+                                        Opacity="0.2"
+                                        ShadowDepth="1" />
                                 </Border.Effect>
                                 <Grid>
-                                    <TextBlock x:Name="PopupText"/>
-                                    <Path 
-                      Width="15"
-                      Height="15"
-                      SnapsToDevicePixels="False"
-                      Data="M 0 0 L 7.5 7.5 L 15 0" Fill="{DynamicResource WindowBackground}"
-                                        Stroke="{DynamicResource WindowBorderBrush}"
-                                        StrokeThickness="1"
-                                        VerticalAlignment="Bottom"
-                                        HorizontalAlignment="Left"
+                                    <TextBlock x:Name="PopupText" />
+                                    <Path
+                                        Width="15"
+                                        Height="15"
                                         Margin="-5,0,0,-25"
-                                        />
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Bottom"
+                                        Data="M 0 0 L 7.5 7.5 L 15 0"
+                                        Fill="{DynamicResource WindowBackground}"
+                                        SnapsToDevicePixels="False"
+                                        Stroke="{DynamicResource WindowBorderBrush}"
+                                        StrokeThickness="1" />
                                 </Grid>
 
                             </Border>
                         </Popup>
                         <Border
                             x:Name="Border"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        Background="{TemplateBinding Background}">
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{TemplateBinding DataB,Converter={StaticResource StringConverter}}"
-                                       FontSize="26" FontWeight="Bold" Margin="0,0,10,0"/>
-                                <TextBlock x:Name="UPIcon" FontFamily="/Project1.UI;component/Assets/IconFonts/#Fabric External MDL2 Assets" Text="&#xEECC;" Margin="0,5,0,0" FontSize="10" Visibility="Collapsed" Foreground="{TemplateBinding UPColor}"/>
-                                <TextBlock x:Name="DownIcon" FontFamily="/Project1.UI;component/Assets/IconFonts/#Fabric External MDL2 Assets" Text="&#xEECD;" Margin="0,5,0,0" FontSize="10" Visibility="Collapsed" Foreground="{TemplateBinding DownColor}"/>
-                                <TextBlock x:Name="NoCIcon" FontFamily="/Project1.UI;component/Assets/IconFonts/#Fabric External MDL2 Assets" Text="&#xEC11;" Margin="0,5,0,0" FontSize="10" Visibility="Collapsed" Foreground="{TemplateBinding NoChangeColor}"/>
-                                <TextBlock x:Name="DiffValue" Margin="5,0,0,0" FontSize="14" Foreground="{TemplateBinding Foreground}">
-                                <Run Text="{TemplateBinding DiffValue,Converter={StaticResource StringConverter}}"/><Run Text="%"/>
+                                <TextBlock
+                                    Margin="0,0,10,0"
+                                    FontSize="26"
+                                    FontWeight="Bold"
+                                    Text="{TemplateBinding DataB,
+                                                           Converter={StaticResource StringConverter}}" />
+                                <TextBlock
+                                    x:Name="UPIcon"
+                                    Margin="0,5,0,0"
+                                    FontFamily="/Project1.UI;component/Assets/IconFonts/#Fabric External MDL2 Assets"
+                                    FontSize="10"
+                                    Foreground="{TemplateBinding UPColor}"
+                                    Text="&#xEECC;"
+                                    Visibility="Collapsed" />
+                                <TextBlock
+                                    x:Name="DownIcon"
+                                    Margin="0,5,0,0"
+                                    FontFamily="/Project1.UI;component/Assets/IconFonts/#Fabric External MDL2 Assets"
+                                    FontSize="10"
+                                    Foreground="{TemplateBinding DownColor}"
+                                    Text="&#xEECD;"
+                                    Visibility="Collapsed" />
+                                <TextBlock
+                                    x:Name="NoCIcon"
+                                    Margin="0,5,0,0"
+                                    FontFamily="/Project1.UI;component/Assets/IconFonts/#Fabric External MDL2 Assets"
+                                    FontSize="10"
+                                    Foreground="{TemplateBinding NoChangeColor}"
+                                    Text="&#xEC11;"
+                                    Visibility="Collapsed" />
+                                <TextBlock
+                                    x:Name="DiffValue"
+                                    Margin="5,0,0,0"
+                                    FontSize="14"
+                                    Foreground="{TemplateBinding Foreground}">
+                                    <Run Text="{TemplateBinding DiffValue, Converter={StaticResource StringConverter}}" /><Run Text="%" />
                                 </TextBlock>
 
                             </StackPanel>
@@ -71,7 +101,7 @@
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Popup" Property="IsOpen" Value="true"/>
+                            <Setter TargetName="Popup" Property="IsOpen" Value="true" />
                         </MultiTrigger>
                         <Trigger Property="DiffValueStatus" Value="Up">
                             <Setter TargetName="UPIcon" Property="Visibility" Value="Visible" />

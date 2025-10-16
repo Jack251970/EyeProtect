@@ -1,8 +1,8 @@
-﻿<Application x:Class="ProjectEye.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:ProjectEye"
-             >
+﻿<Application
+    x:Class="ProjectEye.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:ProjectEye">
     <!--<Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

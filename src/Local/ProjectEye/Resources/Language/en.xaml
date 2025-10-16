@@ -1,6 +1,7 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <sys:String x:Key="Lang_Statistics">Statistics</sys:String>
     <sys:String x:Key="Lang_Settings">Settings</sys:String>
     <sys:String x:Key="Lang_Suspendnow">Suspend now</sys:String>
@@ -24,7 +25,7 @@
     <sys:String x:Key="Lang_Hours_n">h</sys:String>
     <sys:String x:Key="Lang_Minutes_n">m</sys:String>
     <sys:String x:Key="Lang_Seconds_n">s</sys:String>
-    <sys:String x:Key="Lang_x_n"></sys:String>
+    <sys:String x:Key="Lang_x_n" />
     <sys:String x:Key="Lang_number">{value}</sys:String>
 
     <sys:String x:Key="Lang_TomatoTimer">Tomato Timer</sys:String>
@@ -173,7 +174,7 @@
 
     <sys:String x:Key="Lang_today">Today</sys:String>
     <sys:String x:Key="Lang_xmonth">/</sys:String>
-    <sys:String x:Key="Lang_xday"></sys:String>
+    <sys:String x:Key="Lang_xday" />
 
     <sys:String x:Key="Lang_Close">Close</sys:String>
     <sys:String x:Key="Lang_Minimize">Minimize</sys:String>
