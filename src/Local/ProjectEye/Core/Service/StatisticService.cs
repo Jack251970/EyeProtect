@@ -197,6 +197,12 @@ namespace ProjectEye.Core.Service
         /// <param name="value">增加的值(可以为负数)</param>
         public void Add(StatisticType type, double value)
         {
+            if (todayStatistic == null ||
+                todayStatistic.Date.Date != DateTime.Now.Date)
+            {
+                //更新日期数据
+                todayStatistic = FindCreate(DateTime.Now.Date);
+            }
             switch (type)
             {
                 case StatisticType.WorkingTime:
@@ -208,12 +214,6 @@ namespace ProjectEye.Core.Service
                 case StatisticType.SkipCount:
                     todayStatistic.SkipCount += (int)value;
                     break;
-            }
-            if (todayStatistic == null ||
-                todayStatistic.Date.Date != DateTime.Now.Date)
-            {
-                //更新日期数据
-                todayStatistic = FindCreate(DateTime.Now.Date);
             }
         }
         #endregion
