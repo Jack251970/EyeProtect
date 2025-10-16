@@ -25,7 +25,7 @@
     <sys:String x:Key="Lang_Hours_n">h</sys:String>
     <sys:String x:Key="Lang_Minutes_n">m</sys:String>
     <sys:String x:Key="Lang_Seconds_n">s</sys:String>
-    <sys:String x:Key="Lang_x_n" />
+    <sys:String x:Key="Lang_x_n">times</sys:String>
     <sys:String x:Key="Lang_number">{value}</sys:String>
 
     <sys:String x:Key="Lang_TomatoTimer">Tomato Timer</sys:String>
@@ -174,7 +174,7 @@
 
     <sys:String x:Key="Lang_today">Today</sys:String>
     <sys:String x:Key="Lang_xmonth">/</sys:String>
-    <sys:String x:Key="Lang_xday" />
+    <sys:String x:Key="Lang_xday"></sys:String>
 
     <sys:String x:Key="Lang_Close">Close</sys:String>
     <sys:String x:Key="Lang_Minimize">Minimize</sys:String>
