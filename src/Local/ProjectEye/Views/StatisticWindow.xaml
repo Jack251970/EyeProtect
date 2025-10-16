@@ -852,6 +852,7 @@
                                                 </Grid>
                                             </StackPanel>
                                             <chart:Chart
+                                                x:Name="Chart1"
                                                 Grid.Row="1"
                                                 AverageDivisor="{Binding Data.WeekTrueWorkDays}"
                                                 Background="Transparent"
@@ -859,7 +860,7 @@
                                                 IsAnimation="{Binding Data.IsAnimation}"
                                                 ItemColor="#f03a17"
                                                 TickLabelWidth="70"
-                                                TickText="{value}" />
+                                                TickText="" />
 
                                         </Grid>
                                         <Grid
