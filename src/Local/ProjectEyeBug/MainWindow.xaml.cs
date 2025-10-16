@@ -1,4 +1,11 @@
-﻿namespace ProjectEyeBug
+﻿#if !DEBUG
+using System;
+using System.Diagnostics;
+using System.Windows;
+using System.Windows.Input;
+#endif
+
+namespace ProjectEyeBug
 {
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
