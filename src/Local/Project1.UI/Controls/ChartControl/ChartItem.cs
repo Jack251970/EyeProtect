@@ -1,18 +1,11 @@
-﻿using Project1.UI.Controls.ChartControl.Models;
-using Project1.UI.Controls.Models;
-using Project1.UI.Cores;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using Project1.UI.Cores;
 
 namespace Project1.UI.Controls.ChartControl
 {
@@ -132,7 +125,7 @@ namespace Project1.UI.Controls.ChartControl
             DependencyProperty.Register("IsSelected",
                 typeof(bool),
                 typeof(ChartItem),
-                new PropertyMetadata(false,new PropertyChangedCallback(OnPropertyChanged))
+                new PropertyMetadata(false, new PropertyChangedCallback(OnPropertyChanged))
                 );
 
 
@@ -193,7 +186,7 @@ namespace Project1.UI.Controls.ChartControl
             {
                 if (e.NewValue != null)
                 {
-                    if ((bool)e.NewValue && chartItem.Label!=null)
+                    if ((bool)e.NewValue && chartItem.Label != null)
                     {
                         chartItem.Label.Foreground = chartItem.ItemColor;
                     }

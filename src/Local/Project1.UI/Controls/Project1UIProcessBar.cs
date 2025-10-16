@@ -1,18 +1,10 @@
-﻿using Project1.UI.Controls.Enums;
-using Project1.UI.Cores;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Shapes;
+using Project1.UI.Cores;
 
 namespace Project1.UI.Controls
 {
@@ -64,7 +56,7 @@ namespace Project1.UI.Controls
             var processBar = (d as Project1UIProcessBar);
             if (processBar != null)
             {
-                foreach(var r in processBar.rectangles)
+                foreach (var r in processBar.rectangles)
                 {
                     r.Fill = processBar.PointColor;
                 }
@@ -131,7 +123,7 @@ namespace Project1.UI.Controls
 
         public override void OnApplyTemplate()
         {
-            
+
             base.OnApplyTemplate();
             var rootGrid = GetTemplateChild("Root") as Grid;
             if (rootGrid != null)

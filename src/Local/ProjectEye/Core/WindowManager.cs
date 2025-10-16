@@ -1,11 +1,11 @@
-﻿using ProjectEye.Core.Models;
-using ProjectEye.Core.Service;
-using ProjectEye.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using ProjectEye.Core.Models;
+using ProjectEye.Core.Service;
+using ProjectEye.ViewModels;
 
 namespace ProjectEye.Core
 {

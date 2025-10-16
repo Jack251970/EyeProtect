@@ -1,6 +1,6 @@
-﻿using ProjectEye.Core.Service;
+﻿using System;
+using ProjectEye.Core.Service;
 using ProjectEye.Models;
-using System;
 
 namespace ProjectEye.ViewModels
 {

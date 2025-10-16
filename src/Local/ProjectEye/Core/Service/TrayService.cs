@@ -1,10 +1,10 @@
-﻿using ProjectEye.Core.Models.Options;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Resources;
 using System.Windows.Threading;
+using ProjectEye.Core.Models.Options;
 
 namespace ProjectEye.Core.Service
 {

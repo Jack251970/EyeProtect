@@ -1,11 +1,11 @@
-﻿using ProjectEye.Core.Enums;
-using ProjectEye.Core.Models.Options;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Media;
 using System.Windows;
 using System.Windows.Resources;
+using ProjectEye.Core.Enums;
+using ProjectEye.Core.Models.Options;
 
 namespace ProjectEye.Core.Service
 {

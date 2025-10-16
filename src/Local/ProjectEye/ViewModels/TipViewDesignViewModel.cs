@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Diagnostics;
+using System.Windows;
+using Newtonsoft.Json;
 using Project1.UI.Controls;
 using ProjectEye.Core;
 using ProjectEye.Core.Service;
 using ProjectEye.Models;
 using ProjectEye.Models.UI;
-using System;
-using System.Diagnostics;
-using System.Windows;
 
 namespace ProjectEye.ViewModels
 {

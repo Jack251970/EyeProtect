@@ -1,12 +1,4 @@
-﻿using Newtonsoft.Json;
-using Project1.UI.Controls;
-using Project1.UI.Controls.Models;
-using Project1.UI.Cores;
-using ProjectEye.Core;
-using ProjectEye.Core.Service;
-using ProjectEye.Models;
-using ProjectEye.Models.UI;
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +7,14 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Newtonsoft.Json;
+using Project1.UI.Controls;
+using Project1.UI.Controls.Models;
+using Project1.UI.Cores;
+using ProjectEye.Core;
+using ProjectEye.Core.Service;
+using ProjectEye.Models;
+using ProjectEye.Models.UI;
 using WpfAnimatedGif;
 
 namespace ProjectEye.ViewModels

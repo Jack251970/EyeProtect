@@ -1,9 +1,9 @@
-﻿using ProjectEye.Core;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using ProjectEye.Core;
 
 namespace ProjectEye.Database
 {

@@ -1,10 +1,5 @@
-﻿using Project1.UI.Controls.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
+﻿using System.Windows.Media;
+using Project1.UI.Controls.Enums;
 
 namespace Project1.UI.Controls.Models
 {

@@ -1,17 +1,14 @@
-﻿using Project1.UI.Cores;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using Project1.UI.Cores;
 
 namespace Project1.UI.Controls
 {
@@ -647,7 +644,7 @@ namespace Project1.UI.Controls
                 {
                     var startPoint = DataPoints[i];
                     var endPoint = DataPoints[i + 1];
-                    Draw(dc, startPoint, endPoint, UIDefaultSetting.DefaultThemeColor,2);
+                    Draw(dc, startPoint, endPoint, UIDefaultSetting.DefaultThemeColor, 2);
                 }
             }
         }

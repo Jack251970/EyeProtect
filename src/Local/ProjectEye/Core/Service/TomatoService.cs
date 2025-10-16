@@ -1,12 +1,12 @@
-﻿using Project1.UI.Controls;
-using ProjectEye.Core.Models.Options;
-using ProjectEye.Database;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
+using Project1.UI.Controls;
+using ProjectEye.Core.Models.Options;
+using ProjectEye.Database;
 
 namespace ProjectEye.Core.Service
 {
@@ -82,7 +82,7 @@ namespace ProjectEye.Core.Service
             restTimer.Interval = new TimeSpan(0, 0, 5);
 #endif
 
-            main.OnLeaveEvent += Main_OnLeaveEvent  ;
+            main.OnLeaveEvent += Main_OnLeaveEvent;
         }
 
 

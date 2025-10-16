@@ -1,7 +1,7 @@
-﻿using ProjectEye.Core;
-using ProjectEye.Core.Service;
-using System;
+﻿using System;
 using System.Windows;
+using ProjectEye.Core;
+using ProjectEye.Core.Service;
 
 namespace ProjectEye
 {

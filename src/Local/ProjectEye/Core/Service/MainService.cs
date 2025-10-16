@@ -1,10 +1,10 @@
-﻿using Microsoft.Win32;
-using ProjectEye.Core.Models.Options;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
+using Microsoft.Win32;
+using ProjectEye.Core.Models.Options;
 
 namespace ProjectEye.Core.Service
 {
@@ -238,7 +238,7 @@ namespace ProjectEye.Core.Service
             busy_timer.Stop();
 
             OnHandleTimeout?.Invoke(this, 0);
-           
+
         }
 
         private void back_timer_Tick(object sender, EventArgs e)

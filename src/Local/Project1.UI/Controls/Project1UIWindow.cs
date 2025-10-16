@@ -1,20 +1,14 @@
-﻿using Project1.UI.Controls.Commands;
-using Project1.UI.Cores;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System;
 using System.Drawing;
-using System.Linq;
-using System.Runtime.Caching;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using Project1.UI.Controls.Commands;
+using Project1.UI.Cores;
 
 namespace Project1.UI.Controls
 {
@@ -522,7 +516,7 @@ namespace Project1.UI.Controls
                 var easingFunction = new BackEase() { EasingMode = EasingMode.EaseInOut };
 
                 DoubleAnimation translateYAnimation = new DoubleAnimation();
-                translateYAnimation.From =  - 300;
+                translateYAnimation.From = -300;
                 translateYAnimation.To = ScreenArea.Height / 2 - 150;
                 translateYAnimation.Duration = TimeSpan.FromSeconds(1);
                 translateYAnimation.EasingFunction = easingFunction;
@@ -660,7 +654,7 @@ namespace Project1.UI.Controls
             {
 
                 var container = Content as Grid;
-                
+
                 DoubleAnimationUsingKeyFrames scaleAnimation = new DoubleAnimationUsingKeyFrames();
                 scaleAnimation.AutoReverse = true;
                 scaleAnimation.KeyFrames.Add(

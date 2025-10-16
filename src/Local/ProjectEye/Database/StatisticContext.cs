@@ -1,6 +1,6 @@
-﻿using ProjectEye.Core.Models.Statistic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.SQLite;
+using ProjectEye.Core.Models.Statistic;
 
 namespace ProjectEye.Database
 {

@@ -1,6 +1,6 @@
-﻿using ProjectEye.Core.Models.Options;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
+using ProjectEye.Core.Models.Options;
 
 namespace ProjectEye.Core.Service
 {

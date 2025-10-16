@@ -139,7 +139,7 @@ namespace ProjectEye.Core
 
         #region 获取系统信息
         [DllImport("ntdll.dll", SetLastError = true)]
-        internal static extern uint RtlGetVersion(out OsVersionInfo versionInformation); 
+        internal static extern uint RtlGetVersion(out OsVersionInfo versionInformation);
 
         [StructLayout(LayoutKind.Sequential)]
         internal struct OsVersionInfo

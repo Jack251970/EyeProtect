@@ -1,13 +1,13 @@
 ﻿
-using ProjectEye.Core;
-using ProjectEye.Core.Net;
-using ProjectEye.Core.Service;
-using ProjectEye.Models;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows;
+using ProjectEye.Core;
+using ProjectEye.Core.Net;
+using ProjectEye.Core.Service;
+using ProjectEye.Models;
 
 namespace ProjectEye.ViewModels
 {

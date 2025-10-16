@@ -1,10 +1,10 @@
-﻿using ProjectEye.Core.Models.EyesTest;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using ProjectEye.Core.Models.EyesTest;
 
 namespace ProjectEye.Core.Service
 {

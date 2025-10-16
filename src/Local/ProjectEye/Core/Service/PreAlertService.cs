@@ -1,10 +1,10 @@
-﻿using Project1.UI.Controls;
-using ProjectEye.Models;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Threading;
+using Project1.UI.Controls;
+using ProjectEye.Models;
 
 namespace ProjectEye.Core.Service
 {

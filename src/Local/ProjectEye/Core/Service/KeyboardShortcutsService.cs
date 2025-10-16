@@ -1,7 +1,7 @@
-﻿using ProjectEye.ViewModels;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Input;
+using ProjectEye.ViewModels;
 
 namespace ProjectEye.Core.Service
 {

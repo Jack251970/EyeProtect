@@ -1,6 +1,6 @@
-﻿using Project1.UI.Controls.ChartControl.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Media;
+using Project1.UI.Controls.ChartControl.Models;
 
 namespace ProjectEye.Models
 {

@@ -1,17 +1,12 @@
-﻿using Project1.UI.Controls.ChartControl.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Shapes;
+using Project1.UI.Controls.ChartControl.Models;
 
 namespace Project1.UI.Controls.ChartControl
 {

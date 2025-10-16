@@ -1,11 +1,11 @@
-﻿using Project1.UI.Controls.Models;
-using Project1.UI.Cores;
-using ProjectEye.Models.UI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Media;
+using Project1.UI.Controls.Models;
+using Project1.UI.Cores;
+using ProjectEye.Models.UI;
 
 namespace ProjectEye.Core.Service
 {

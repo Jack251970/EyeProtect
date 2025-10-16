@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
-using ProjectEye.Core.Models.Options;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using Newtonsoft.Json;
+using ProjectEye.Core.Models.Options;
 
 namespace ProjectEye.Core.Service
 {

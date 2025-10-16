@@ -1,17 +1,12 @@
-﻿using Project1.UI.Controls.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using Project1.UI.Controls.Enums;
 
 namespace Project1.UI.Controls
 {
     public class Project1UIButton : Button
     {
-      
+
         //按钮圆角半径
         /// <summary>
         /// 按钮圆角半径
@@ -45,7 +40,7 @@ namespace Project1.UI.Controls
             set { SetValue(IconProperty, value); }
         }
         public static readonly DependencyProperty IconProperty =
-            DependencyProperty.Register("Icon", typeof(Project1UIIconType), typeof(Project1UIButton),new PropertyMetadata(Project1UIIconType.Null));
+            DependencyProperty.Register("Icon", typeof(Project1UIIconType), typeof(Project1UIButton), new PropertyMetadata(Project1UIIconType.Null));
         //图标大小
         /// <summary>
         /// 图标大小
@@ -63,7 +58,7 @@ namespace Project1.UI.Controls
             DefaultStyleKey = typeof(Project1UIButton);
 
         }
-     
+
 
     }
 }

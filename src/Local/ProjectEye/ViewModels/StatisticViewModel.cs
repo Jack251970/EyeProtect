@@ -1,14 +1,14 @@
-﻿using Npoi.Mapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Windows;
+using Npoi.Mapper;
 using Project1.UI.Controls.ChartControl.Models;
 using Project1.UI.Cores;
 using ProjectEye.Core;
 using ProjectEye.Core.Service;
 using ProjectEye.Models;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Windows;
 
 namespace ProjectEye.ViewModels
 {

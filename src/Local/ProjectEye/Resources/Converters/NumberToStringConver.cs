@@ -15,7 +15,7 @@ namespace ProjectEye.Resources.Converters
             return value.ToString();
         }
 
-    
+
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {

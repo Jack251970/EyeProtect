@@ -1,10 +1,5 @@
-﻿using ProjectEye.Core;
-using ProjectEye.Core.Service;
-using ProjectEye.Models;
-using System;
+﻿using System;
 using System.Diagnostics;
-using System.Reflection;
-using System.Windows;
 
 namespace ProjectEye.ViewModels
 {
@@ -19,7 +14,7 @@ namespace ProjectEye.ViewModels
             openurlCommand = new Command(new Action<object>(openurlCommand_action));
         }
 
-     
+
         private void openurlCommand_action(object obj)
         {
             Process.Start(new ProcessStartInfo(obj.ToString()));

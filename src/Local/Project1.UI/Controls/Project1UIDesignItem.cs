@@ -1,20 +1,14 @@
-﻿using Project1.UI.Controls.Data;
-using Project1.UI.Controls.Enums;
-using Project1.UI.Controls.Models;
-using Project1.UI.Cores;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using Project1.UI.Controls.Data;
+using Project1.UI.Controls.Enums;
+using Project1.UI.Controls.Models;
+using Project1.UI.Cores;
 
 namespace Project1.UI.Controls
 {
@@ -137,7 +131,7 @@ namespace Project1.UI.Controls
             HorizontalAlignment = HorizontalAlignment.Left;
             designItemModel.TextAlignmentList = new ObservableCollection<DesignTextAlignment>();
             TextAlignmentData textAlignmentData = new TextAlignmentData();
-            foreach(DesignTextAlignment item in textAlignmentData.ToList())
+            foreach (DesignTextAlignment item in textAlignmentData.ToList())
             {
                 designItemModel.TextAlignmentList.Add(item);
             }
