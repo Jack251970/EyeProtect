@@ -80,7 +80,6 @@
 
     <sys:String x:Key="Lang_About">關於</sys:String>
     <sys:String x:Key="Lang_Version">版本號</sys:String>
-    <sys:String x:Key="Lang_Checkforupdates">檢查更新</sys:String>
     <sys:String x:Key="Lang_Aprogramwhichprotectsyoureyesbehindthescenes">一個默默在暗中保護你眼睛的軟體</sys:String>
     <sys:String x:Key="Lang_Help">幫助</sys:String>
     <sys:String x:Key="Lang_Source">開源</sys:String>
@@ -105,18 +104,9 @@
     <sys:String x:Key="Lang_Monthly">月份</sys:String>
 
 
-    <sys:String x:Key="Lang_Updateprogram">升級程式</sys:String>
-    <sys:String x:Key="Lang_Updateisavailable">有可用的更新</sys:String>
-    <sys:String x:Key="Lang_Downloadupdate">下載更新</sys:String>
-    <sys:String x:Key="Lang_Noupdateisavailable">當前沒有可用的更新</sys:String>
-    <sys:String x:Key="Lang_Installupdate">安裝更新</sys:String>
     <sys:String x:Key="Lang_Viewinwebbrowser">在瀏覽器中查看</sys:String>
-    <sys:String x:Key="Lang_Viewwhatsnewintheupdate">查看版本更新內容</sys:String>
     <sys:String x:Key="Lang_Requestingdownloadsources">正在請求下載資源</sys:String>
     <sys:String x:Key="Lang_Erroroccurredduringdownload">下載時發生異常</sys:String>
-    <sys:String x:Key="Lang_Updatepackagehasbeendownloaded">更新包已下載完成</sys:String>
-    <sys:String x:Key="Lang_Downloadingupdatepackage">正在下載更新包</sys:String>
-    <sys:String x:Key="Lang_Updategeterror">無法獲取版本資訊，請嘗試重啟應用程式或稍後再試</sys:String>
 
     <sys:String x:Key="Lang_Text">文字</sys:String>
     <sys:String x:Key="Lang_Image">圖片</sys:String>

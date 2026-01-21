@@ -78,7 +78,6 @@
 
     <sys:String x:Key="Lang_About">About</sys:String>
     <sys:String x:Key="Lang_Version">Version</sys:String>
-    <sys:String x:Key="Lang_Checkforupdates">Check for updates</sys:String>
     <sys:String x:Key="Lang_Aprogramwhichprotectsyoureyesbehindthescenes">A program which protects your eyes behind the scenes</sys:String>
     <sys:String x:Key="Lang_Help">Help</sys:String>
     <sys:String x:Key="Lang_Source">Source</sys:String>
@@ -100,18 +99,9 @@
     <sys:String x:Key="Lang_Year">Year</sys:String>
     <sys:String x:Key="Lang_Monthly">Monthly</sys:String>
 
-    <sys:String x:Key="Lang_Updateprogram">Update program</sys:String>
-    <sys:String x:Key="Lang_Updateisavailable">Update is available</sys:String>
-    <sys:String x:Key="Lang_Downloadupdate">Download update</sys:String>
-    <sys:String x:Key="Lang_Noupdateisavailable">No update is available</sys:String>
-    <sys:String x:Key="Lang_Installupdate">Install update</sys:String>
     <sys:String x:Key="Lang_Viewinwebbrowser">View in web browser</sys:String>
-    <sys:String x:Key="Lang_Viewwhatsnewintheupdate">View what's new in the update</sys:String>
     <sys:String x:Key="Lang_Requestingdownloadsources">Requesting download sources</sys:String>
     <sys:String x:Key="Lang_Erroroccurredduringdownload">Error occurred during download</sys:String>
-    <sys:String x:Key="Lang_Updatepackagehasbeendownloaded">Update package has been downloaded</sys:String>
-    <sys:String x:Key="Lang_Downloadingupdatepackage">Downloading update package</sys:String>
-    <sys:String x:Key="Lang_Updategeterror">Unable to fetch version information. Please restart the program or retry later.</sys:String>
 
     <sys:String x:Key="Lang_Text">Text</sys:String>
     <sys:String x:Key="Lang_Image">Image</sys:String>
