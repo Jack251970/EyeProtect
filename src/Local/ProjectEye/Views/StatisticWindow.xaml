@@ -760,9 +760,8 @@
                                 TickLabelWidth="70"
                                 TickText="{DynamicResource Lang_StatisticsX}" />
 
-                            </StackPanel>
-                        </ScrollViewer>
-                    </Grid>
+                        </Grid>
+                    </ScrollViewer>
                 </Grid>
 
             </TabItem>

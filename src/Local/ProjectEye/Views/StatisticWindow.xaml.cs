@@ -10,7 +10,6 @@ namespace ProjectEye.Views
         public StatisticWindow()
         {
             InitializeComponent();
-            Chart1.TickText = " {value}";
         }
     }
 }

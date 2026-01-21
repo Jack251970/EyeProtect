@@ -198,7 +198,6 @@ namespace ProjectEye.Core.Service
                 CreateTipWindows();
                 Debug.WriteLine("鼠标穿透更改，重新创建窗口");
             }
-            }
             HandleLanguageChanged();
         }
         private void OnPowerModeChanged(object sender, PowerModeChangedEventArgs e)
