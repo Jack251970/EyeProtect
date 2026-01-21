@@ -102,10 +102,8 @@
     <Compile Include="Core\Models\Options\ThemeModel.cs" />
     <Compile Include="Core\Models\EyesTest\EyesTestListModel.cs" />
     <Compile Include="Core\Models\EyesTest\EyesTestModel.cs" />
-    <Compile Include="Core\Models\Options\TomatoModel.cs" />
     <Compile Include="Core\Models\Statistic\StatisticListModel.cs" />
     <Compile Include="Core\Models\Statistic\StatisticModel.cs" />
-    <Compile Include="Core\Models\Statistic\TomatoModel.cs" />
     <Compile Include="Core\Models\WindowModel.cs" />
     <Compile Include="Core\Net\GithubRelease.cs" />
     <Compile Include="Core\Net\HttpDownload.cs" />
@@ -128,7 +126,6 @@
     <Compile Include="Core\Service\StatisticService.cs" />
     <Compile Include="Core\Service\SystemResourcesService.cs" />
     <Compile Include="Core\Service\ThemeService.cs" />
-    <Compile Include="Core\Service\TomatoService.cs" />
     <Compile Include="Core\Service\TrayService.cs" />
     <Compile Include="Core\ShortcutHelper.cs" />
     <Compile Include="Core\TypeExtensions.cs" />
@@ -502,7 +499,6 @@
     <Resource Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\tomato.ico" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="costura-win-x86\SQLite.Interop.dll" />
@@ -518,28 +514,8 @@
     <Resource Include="Resources\conference_presentation__monochromatic.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\red-tomato-1.ico" />
-    <Resource Include="Resources\red-tomato-10.ico" />
-    <Resource Include="Resources\red-tomato-2.ico" />
-    <Resource Include="Resources\red-tomato-3.ico" />
-    <Resource Include="Resources\red-tomato-4.ico" />
-    <Resource Include="Resources\red-tomato-5.ico" />
-    <Resource Include="Resources\red-tomato-6.ico" />
-    <Resource Include="Resources\red-tomato-7.ico" />
-    <Resource Include="Resources\red-tomato-8.ico" />
-    <Resource Include="Resources\red-tomato-9.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\green-tomato-1.ico" />
-    <Resource Include="Resources\green-tomato-10.ico" />
-    <Resource Include="Resources\green-tomato-2.ico" />
-    <Resource Include="Resources\green-tomato-3.ico" />
-    <Resource Include="Resources\green-tomato-4.ico" />
-    <Resource Include="Resources\green-tomato-5.ico" />
-    <Resource Include="Resources\green-tomato-6.ico" />
-    <Resource Include="Resources\green-tomato-7.ico" />
-    <Resource Include="Resources\green-tomato-8.ico" />
-    <Resource Include="Resources\green-tomato-9.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\rest.png" />
@@ -549,7 +525,6 @@
     <Resource Include="Resources\work.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\tomato.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

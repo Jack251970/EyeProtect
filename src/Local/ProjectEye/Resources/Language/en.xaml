@@ -28,7 +28,6 @@
     <sys:String x:Key="Lang_x_n">times</sys:String>
     <sys:String x:Key="Lang_number">{value}</sys:String>
 
-    <sys:String x:Key="Lang_TomatoTimer">Tomato Timer</sys:String>
     <sys:String x:Key="Lang_Work">Work</sys:String>
     <sys:String x:Key="Lang_Shortbreak">Short break</sys:String>
     <sys:String x:Key="Lang_Longbreak">Long break</sys:String>
@@ -100,8 +99,6 @@
     <sys:String x:Key="Lang_Monthlyview">Monthly view</sys:String>
     <sys:String x:Key="Lang_Year">Year</sys:String>
     <sys:String x:Key="Lang_Monthly">Monthly</sys:String>
-    <sys:String x:Key="Lang_Tomato">Tomato</sys:String>
-    <sys:String x:Key="Lang_Tomatodescription">Earn one tomato for completing a round of the timer (4 sections of work).</sys:String>
 
     <sys:String x:Key="Lang_Updateprogram">Update program</sys:String>
     <sys:String x:Key="Lang_Updateisavailable">Update is available</sys:String>
@@ -194,17 +191,9 @@
     <sys:String x:Key="Lang_Workingtime">Working time</sys:String>
     <sys:String x:Key="Lang_Breakingtime">Rest time</sys:String>
     <sys:String x:Key="Lang_Great">Great</sys:String>
-    <sys:String x:Key="Lang_Getatomato">Get a tomato!</sys:String>
-    <sys:String x:Key="Lang_TomatoWorkfinishTip1">You have finished a goal,please rest {x} minutes,i will remind you next working time.</sys:String>
     <sys:String x:Key="Lang_Yes">Yes</sys:String>
-    <sys:String x:Key="Lang_TomatoWorkfinishTip2">The work is done,please rest {x} minutes,i will remind you next working time.</sys:String>
     <sys:String x:Key="Lang_Time">Time</sys:String>
-    <sys:String x:Key="Lang_TomatoStart">Ready</sys:String>
-    <sys:String x:Key="Lang_TomatoEnd">End</sys:String>
-    <sys:String x:Key="Lang_TomatoWorkfinishTip3">Ready go,focus on your job,i will remind you at the end,are you ready?</sys:String>
     <sys:String x:Key="Lang_Remainingtime">Remaining time</sys:String>
-    <sys:String x:Key="Lang_Tomatodescription2">The Pomodoro Technique is a time management method developed by Francesco Cirillo in the late 1980s.The technique uses a timer to break down work into intervals, traditionally 25 minutes in length, separated by short breaks. Each interval is known as a pomodoro, from the Italian word for 'tomato', after the tomato-shaped kitchen timer that Cirillo used as a university student.</sys:String>
-    <sys:String x:Key="Lang_Tomato_IsEnabledInteractiveModel">Enabled interactive model</sys:String>
     <sys:String x:Key="Lang_DataWindowWorkTimeImagePath">Working time placeholder image</sys:String>
     <sys:String x:Key="Lang_DataWindowRestTimeImagePath">Rest time placeholder image</sys:String>
     <sys:String x:Key="Lang_DataWindowSkipImagePath">Skip placeholder image</sys:String>

@@ -29,7 +29,6 @@
     <sys:String x:Key="Lang_number">{value} 個</sys:String>
 
 
-    <sys:String x:Key="Lang_TomatoTimer">番茄時鐘</sys:String>
     <sys:String x:Key="Lang_Work">工作時長</sys:String>
     <sys:String x:Key="Lang_Shortbreak">短休息</sys:String>
     <sys:String x:Key="Lang_Longbreak">長休息</sys:String>
@@ -104,8 +103,6 @@
     <sys:String x:Key="Lang_Monthlyview">月份視圖</sys:String>
     <sys:String x:Key="Lang_Year">年份</sys:String>
     <sys:String x:Key="Lang_Monthly">月份</sys:String>
-    <sys:String x:Key="Lang_Tomato">番茄</sys:String>
-    <sys:String x:Key="Lang_Tomatodescription">每完成一組（4次）工作可獲得一個番茄</sys:String>
 
 
     <sys:String x:Key="Lang_Updateprogram">升級程式</sys:String>
@@ -199,17 +196,9 @@
     <sys:String x:Key="Lang_Workingtime">工作時間</sys:String>
     <sys:String x:Key="Lang_Breakingtime">休息時間</sys:String>
     <sys:String x:Key="Lang_Great">太棒了</sys:String>
-    <sys:String x:Key="Lang_Getatomato">獲得一個番茄！</sys:String>
-    <sys:String x:Key="Lang_TomatoWorkfinishTip1">完成了一組工作，請休息{x}分鐘，我會在下一次工作開始時提醒你。</sys:String>
     <sys:String x:Key="Lang_Yes">好的</sys:String>
     <sys:String x:Key="Lang_Time">時間</sys:String>
-    <sys:String x:Key="Lang_TomatoWorkfinishTip2">已結束本次工作，請休息{x}分鐘，我會在下一次工作開始時再次提醒你。</sys:String>
-    <sys:String x:Key="Lang_TomatoStart">準備就緒</sys:String>
-    <sys:String x:Key="Lang_TomatoEnd">結束</sys:String>
-    <sys:String x:Key="Lang_TomatoWorkfinishTip3">準備開始，請保持專注工作，我會在結束時提醒你，準備好了嗎？</sys:String>
     <sys:String x:Key="Lang_Remainingtime">剩餘時間</sys:String>
-    <sys:String x:Key="Lang_Tomatodescription2">番茄工作法（Pomodoro Technique）是一種時間管理法，在1980年代由Francesco Cirillo創立。該方法使用一個定時器來分割出一個一般為25分鐘的工作時間和5分鐘的休息時間，而那些時間段被稱為pomodoros，為意大利語單詞 pomodoro（中文：番茄）之覆數。</sys:String>
-    <sys:String x:Key="Lang_Tomato_IsEnabledInteractiveModel">啟用交互模式</sys:String>
 
     <sys:String x:Key="Lang_DataWindowWorkTimeImagePath">工作時間占位圖片</sys:String>
     <sys:String x:Key="Lang_DataWindowRestTimeImagePath">休息時間占位圖片</sys:String>
