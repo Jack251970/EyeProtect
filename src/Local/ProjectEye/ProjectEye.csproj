@@ -457,11 +457,6 @@
     <Resource Include="Resources\Themes\Dark\Images\tipImage.png" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Costura.Fody">
-      <Version>6.0.0</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
     <PackageReference Include="EntityFramework">
       <Version>6.5.1</Version>
     </PackageReference>
@@ -499,10 +494,6 @@
     <Resource Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="costura-win-x86\SQLite.Interop.dll" />
-    <EmbeddedResource Include="costura-win-x64\SQLite.Interop.dll" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\growth_monochromatic.png" />
