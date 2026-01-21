@@ -203,21 +203,7 @@
                                 SelectedValue="{Binding Model.Data.Style.TipWindowAnimation.ID}"
                                 SelectedValuePath="ID" />
 
-                            <!--  全屏提示窗口自定义  -->
-                            <TextBlock
-                                Grid.Row="3"
-                                Grid.Column="0"
-                                Margin="0 0 10 0"
-                                VerticalAlignment="Center"
-                                Text="{DynamicResource Lang_Fullscreennotificationappearance}" />
-                            <ui:Project1UIButton
-                                Grid.Row="3"
-                                Grid.Column="1"
-                                HorizontalAlignment="Left"
-                                Command="{Binding openWindowCommand}"
-                                CommandParameter="TipViewDesignWindow"
-                                Content="{DynamicResource Lang_Customize}"
-                                Style="{DynamicResource basic}" />
+
                         </Grid>
 
                         <ui:Toggle

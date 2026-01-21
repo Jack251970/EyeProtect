@@ -65,14 +65,7 @@ namespace ProjectEye.ViewModels
         private void openWindowCommand_action(object obj)
         {
             var window = obj.ToString();
-            if (window == "TipViewDesignWindow")
-            {
-                WindowManager.CreateWindow(window, true, true);
-            }
-            else
-            {
-                WindowManager.CreateWindowInScreen(window);
-            }
+            WindowManager.CreateWindowInScreen(window);
             WindowManager.Show(window);
         }
 
