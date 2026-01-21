@@ -135,31 +135,6 @@
                             Cursor="Hand"
                             IsChecked="{Binding Model.Data.General.Sound}"
                             Text="{DynamicResource Lang_Soundforbreakend}" />
-                        <Grid Margin="0 20 0 0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="auto" />
-                            </Grid.ColumnDefinitions>
-                            <!--<TextBlock Grid.Column="0"
-                                   Margin="0,0,10,0" VerticalAlignment="Center">自定义提示音</TextBlock>-->
-
-                            <ui:Project1UIInput
-                                Grid.Column="1"
-                                Width="auto"
-                                ExtNames=".wav|*.wav"
-                                Icon="MusicNote"
-                                Placeholder="{DynamicResource Lang_Leaveblankfordefault}"
-                                Text="{Binding Model.Data.General.SoundPath}"
-                                TextWrapping="NoWrap"
-                                Type="FileSelect" />
-                            <ui:Project1UIButton
-                                Grid.Column="2"
-                                Margin="5 0 0 0"
-                                Command="{Binding soundTestCommand}"
-                                Content="{DynamicResource Lang_Preview}"
-                                Style="{DynamicResource basic}" />
-                        </Grid>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
