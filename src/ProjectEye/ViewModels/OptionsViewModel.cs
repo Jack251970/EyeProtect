@@ -51,7 +51,6 @@ namespace ProjectEye.ViewModels
             applyCommand = new Command(new Action<object>(applyCommand_action));
             openurlCommand = new Command(new Action<object>(openurlCommand_action));
             inkCommand = new Command(new Action<object>(inkCommand_action));
-            soundTestCommand = new Command(new Action<object>(soundTestCommand_actionAsync));
             updateCommand = new Command(new Action<object>(updateCommand_action));
             showWindowCommand = new Command(new Action<object>(showWindowCommand_action));
             addBreackProcessCommand = new Command(new Action<object>(addBreackProcessCommand_action));
@@ -132,21 +131,6 @@ namespace ProjectEye.ViewModels
 
         }
 
-        private void soundTestCommand_actionAsync(object obj)
-        {
-            var path = "";
-            path = config.options.General.SoundPath;
-            if (!string.IsNullOrEmpty(path))
-            {
-                var resultTest = sound.Test(path);
-                Modal(resultTest ? $"{Application.Current.Resources["Lang_Success"]}" : $"{Application.Current.Resources["Lang_Failed"]}");
-            }
-            else
-            {
-                sound.Play();
-                Modal("Ding!");
-            }
-        }
         private void inkCommand_action(object obj)
         {
 

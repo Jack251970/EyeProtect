@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Media;
 using System.Windows;
 using ProjectEye.Core.Enums;
-using ProjectEye.Core.Models.Options;
 
 namespace ProjectEye.Core.Service
 {
@@ -37,17 +36,6 @@ namespace ProjectEye.Core.Service
             players[SoundType.Other].LoadCompleted += Player_LoadCompleted;
 
             LoadConfigSound();
-
-            config.Changed += Config_Changed;
-        }
-
-        private void Config_Changed(object sender, EventArgs e)
-        {
-            var oldOptions = sender as OptionsModel;
-            if (oldOptions.General.SoundPath != config.options.General.SoundPath)
-            {
-                LoadConfigSound();
-            }
         }
 
         /// <summary>
@@ -55,13 +43,8 @@ namespace ProjectEye.Core.Service
         /// </summary>
         private void LoadConfigSound()
         {
-            string restOverPath = null;
-            if (!string.IsNullOrEmpty(config.options.General.SoundPath))
-            {
-                restOverPath = config.options.General.SoundPath;
-            }
             //加载休息结束提示音
-            LoadSound(SoundType.RestOverSound, restOverPath);
+            LoadSound(SoundType.RestOverSound);
         }
         #region 播放音效
         /// <summary>
@@ -127,14 +110,10 @@ namespace ProjectEye.Core.Service
         /// 加载指定音效文件
         /// </summary>
         /// <param name="path">音效文件路径，为空时加载默认音效</param>
-        public void LoadSound(SoundType soundType = SoundType.RestOverSound, string path = null)
+        public void LoadSound(SoundType soundType = SoundType.RestOverSound)
         {
-            var isDefault = false;
-            if (string.IsNullOrEmpty(path))
-            {
-                isDefault = true;
-                path = "/ProjectEye;component/Resources/relentless.wav";
-            }
+            var isDefault = true;
+            var path = "/ProjectEye;component/Resources/relentless.wav";
             var loadResult = Load(soundType, path, isDefault);
             //加载音效失败
             if (!loadResult && !isDefault)
