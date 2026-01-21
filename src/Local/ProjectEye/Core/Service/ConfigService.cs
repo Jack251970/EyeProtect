@@ -90,7 +90,6 @@ namespace ProjectEye.Core.Service
             options.General.Startup = false;
             options.General.LeaveListener = true;
             options.General.WarnTime = 20;
-            options.General.IsTomatoMode = false;
 
             options.Style = new StyleModel();
             options.Style.Theme = systemResources.Themes[0];
@@ -110,7 +109,6 @@ namespace ProjectEye.Core.Service
         {
             CheckOptions(options);
             CheckOptions(options.Style);
-            CheckOptions(options.Tomato);
             SaveOldOptions();
         }
         private void CheckOptions(object obj)

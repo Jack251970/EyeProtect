@@ -32,13 +32,9 @@ namespace ProjectEye.Core.Service
         public void Init()
         {
             players.Add(SoundType.RestOverSound, new SoundPlayer());
-            players.Add(SoundType.TomatoWorkStartSound, new SoundPlayer());
-            players.Add(SoundType.TomatoWorkEndSound, new SoundPlayer());
             players.Add(SoundType.Other, new SoundPlayer());
 
             players[SoundType.RestOverSound].LoadCompleted += Player_LoadCompleted;
-            players[SoundType.TomatoWorkStartSound].LoadCompleted += Player_LoadCompleted;
-            players[SoundType.TomatoWorkEndSound].LoadCompleted += Player_LoadCompleted;
             players[SoundType.Other].LoadCompleted += Player_LoadCompleted;
 
             LoadConfigSound();
@@ -49,9 +45,7 @@ namespace ProjectEye.Core.Service
         private void Config_Changed(object sender, EventArgs e)
         {
             var oldOptions = sender as OptionsModel;
-            if (oldOptions.General.SoundPath != config.options.General.SoundPath ||
-                oldOptions.Tomato.WorkStartSoundPath != config.options.Tomato.WorkStartSoundPath ||
-                oldOptions.Tomato.WorkEndSoundPath != config.options.Tomato.WorkEndSoundPath)
+            if (oldOptions.General.SoundPath != config.options.General.SoundPath)
             {
                 LoadConfigSound();
             }
@@ -62,25 +56,13 @@ namespace ProjectEye.Core.Service
         /// </summary>
         private void LoadConfigSound()
         {
-            string restOverPath = null, tomatoWorkStartPath = null, tomatoWorkEndPath = null;
+            string restOverPath = null;
             if (!string.IsNullOrEmpty(config.options.General.SoundPath))
             {
                 restOverPath = config.options.General.SoundPath;
             }
-            if (!string.IsNullOrEmpty(config.options.Tomato.WorkStartSoundPath))
-            {
-                tomatoWorkStartPath = config.options.Tomato.WorkStartSoundPath;
-            }
-            if (!string.IsNullOrEmpty(config.options.Tomato.WorkEndSoundPath))
-            {
-                tomatoWorkEndPath = config.options.Tomato.WorkEndSoundPath;
-            }
             //加载休息结束提示音
             LoadSound(SoundType.RestOverSound, restOverPath);
-            //加载番茄时钟工作开始提示音
-            LoadSound(SoundType.TomatoWorkStartSound, tomatoWorkStartPath);
-            //加载番茄时钟工作结束提示音
-            LoadSound(SoundType.TomatoWorkEndSound, tomatoWorkEndPath);
         }
         #region 播放音效
         /// <summary>

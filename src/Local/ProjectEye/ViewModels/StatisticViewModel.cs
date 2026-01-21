@@ -18,7 +18,6 @@ namespace ProjectEye.ViewModels
 
         private readonly StatisticService statistic;
         private readonly ConfigService config;
-        private readonly TomatoService tomato;
 
         private int yearmonth = 0;
         ///// <summary>
@@ -34,12 +33,10 @@ namespace ProjectEye.ViewModels
 
         public StatisticViewModel(
             StatisticService statistic,
-            ConfigService config,
-            TomatoService tomato)
+            ConfigService config)
         {
             this.statistic = statistic;
             this.config = config;
-            this.tomato = tomato;
 
             yearmonth = DateTime.Now.Year + DateTime.Now.Month;
 
@@ -54,13 +51,10 @@ namespace ProjectEye.ViewModels
             Data.MonthRestData = new List<ChartDataModel>();
             Data.MonthWorkData = new List<ChartDataModel>();
             Data.MonthSkipData = new List<ChartDataModel>();
-            Data.MonthTomatoData = new List<ChartDataModel>();
 
             Data.WeekRestData = new List<ChartDataModel>();
             Data.WeekWorkData = new List<ChartDataModel>();
             Data.WeekSkipData = new List<ChartDataModel>();
-
-            Data.TomatoWeekData = new List<ChartDataModel>();
 
             Data.PropertyChanged += Data_PropertyChanged;
 
@@ -119,7 +113,6 @@ namespace ProjectEye.ViewModels
             var MonthWorkData = new List<ChartDataModel>();
             var MonthRestData = new List<ChartDataModel>();
             var MonthSkipData = new List<ChartDataModel>();
-            var MonthTomatoData = new List<ChartDataModel>();
 
             //计算上个月的数据
             int lastYear = Data.Year;
@@ -137,9 +130,6 @@ namespace ProjectEye.ViewModels
             Data.LastMonthWork = NumberFromat(lastMonthData.Count > 0 ? lastMonthData.Sum(m => m.WorkingTime) : 0);
             Data.LastMonthRest = NumberFromat(lastMonthData.Count > 0 ? lastMonthData.Sum(m => m.ResetTime) : 0);
             Data.LastMonthSkip = lastMonthData.Count > 0 ? lastMonthData.Sum(m => m.SkipCount) : 0;
-
-            var lastTomatoData = tomato.GetData(lastYear, lastMonth);
-            Data.LastMonthTomato = lastTomatoData.Count > 0 ? lastTomatoData.Sum(m => m.TomatoCount) : 0;
 
             //计算本月的数据
             var monthData = statistic.GetData(Data.Year, Data.Month);
@@ -178,22 +168,6 @@ namespace ProjectEye.ViewModels
             Data.MonthSkipData = MonthSkipData;
             Data.MonthWorkData = MonthWorkData;
 
-            //  番茄时钟数据
-            var monthTomatoData = tomato.GetData(Data.Year, Data.Month);
-            foreach (var data in monthTomatoData)
-            {
-                bool isSelected = DateTime.Now.Date == data.Date.Date;
-                MonthTomatoData.Add(new ChartDataModel()
-                {
-                    IsSelected = isSelected,
-                    PopupText = (isSelected ? $"{Application.Current.Resources["Lang_today"]} " : "") + "{value} ",
-                    Tag = data.Date.Day.ToString(),
-                    Value = data.TomatoCount
-                });
-            }
-            Data.MonthTomatoData = MonthTomatoData;
-            Data.MonthTomato = monthTomatoData.Count > 0 ? monthTomatoData.Sum(m => m.TomatoCount) : 0;
-
         }
 
 
@@ -205,7 +179,6 @@ namespace ProjectEye.ViewModels
             var WeekWorkData = new List<ChartDataModel>();
             var WeekRestData = new List<ChartDataModel>();
             var WeekSkipData = new List<ChartDataModel>();
-            var tomatoData = new List<ChartDataModel>();
             //计算上周的数据
             DateTime lastWeekStartDate = DateTime.Now, lastWeekEndDate = DateTime.Now;
             if (DateTime.Now.DayOfWeek == DayOfWeek.Monday)
@@ -229,8 +202,6 @@ namespace ProjectEye.ViewModels
             Data.LastWeekRest = NumberFromat(lastWeekData.Count > 0 ? lastWeekData.Sum(m => m.ResetTime) : 0);
             Data.LastWeekSkip = lastWeekData.Count > 0 ? lastWeekData.Sum(m => m.SkipCount) : 0;
 
-            var lastTomatoData = tomato.GetData(lastWeekStartDate, lastWeekEndDate);
-            Data.TomatoLastWeekCount = lastTomatoData.Count > 0 ? lastTomatoData.Sum(m => m.TomatoCount) : 0;
             //计算本周的数据
             DateTime weekStartDate = DateTime.Now, weekEndDate = DateTime.Now;
             if (DateTime.Now.DayOfWeek == DayOfWeek.Monday)
@@ -254,9 +225,6 @@ namespace ProjectEye.ViewModels
             Data.WeekRest = NumberFromat(WeekData.Count > 0 ? WeekData.Sum(m => m.ResetTime) : 0);
             Data.WeekSkip = WeekData.Count > 0 ? WeekData.Sum(m => m.SkipCount) : 0;
             Data.WeekTrueWorkDays = WeekData.Count > 0 ? WeekData.Where(m => m.WorkingTime > 0).Count() : 0;
-
-            var tomatoWeekData = tomato.GetData(weekStartDate, weekEndDate);
-            Data.TomatoWeekCount = tomatoWeekData.Count > 0 ? tomatoWeekData.Sum(m => m.TomatoCount) : 0;
 
             //string[] weekText = { "日", "一", "二", "三", "四", "五", "六" };
             string[] weekText = { $"{Application.Current.Resources["Lang_sun"]}", $"{Application.Current.Resources["Lang_mon"]}", $"{Application.Current.Resources["Lang_tues"]}", $"{Application.Current.Resources["Lang_wed"]}", $"{Application.Current.Resources["Lang_thur"]}", $"{Application.Current.Resources["Lang_fri"]}", $"{Application.Current.Resources["Lang_sat"]}" };
@@ -294,25 +262,9 @@ namespace ProjectEye.ViewModels
                 });
             }
 
-            foreach (var data in tomatoWeekData)
-            {
-                bool isSelected = DateTime.Now.Date == data.Date.Date;
-                string weekStr = weekText[(int)data.Date.DayOfWeek];
-
-                string addStr = isSelected ? $"{Application.Current.Resources["Lang_today"]} " : data.Date.Month + $"{Application.Current.Resources["Lang_xmonth"]}" + data.Date.Day + $"{Application.Current.Resources["Lang_xday"]} ";
-                tomatoData.Add(new ChartDataModel()
-                {
-                    IsSelected = isSelected,
-                    PopupText = addStr + "{value}",
-                    Tag = weekStr,
-                    Value = data.TomatoCount
-                });
-            }
-
             Data.WeekRestData = WeekRestData;
             Data.WeekSkipData = WeekSkipData;
             Data.WeekWorkData = WeekWorkData;
-            Data.TomatoWeekData = tomatoData;
         }
 
         private void Analysis()

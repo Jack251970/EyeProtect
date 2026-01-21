@@ -86,11 +86,6 @@ namespace ProjectEye.Models
         /// 月份跳过统计数据
         /// </summary>
         public List<ChartDataModel> MonthSkipData { get { return MonthSkipData_; } set { MonthSkipData_ = value; OnPropertyChanged(); } }
-        private List<ChartDataModel> MonthTomatoData_;
-        /// <summary>
-        /// 月份番茄数据
-        /// </summary>
-        public List<ChartDataModel> MonthTomatoData { get { return MonthTomatoData_; } set { MonthTomatoData_ = value; OnPropertyChanged(); } }
 
         #region 本周数据
         private List<ChartDataModel> WeekWorkData_;
@@ -153,19 +148,6 @@ namespace ProjectEye.Models
                 OnPropertyChanged();
             }
         }
-        private int MonthTomato_;
-        public int MonthTomato
-        {
-            get
-            {
-                return MonthTomato_;
-            }
-            set
-            {
-                MonthTomato_ = value;
-                OnPropertyChanged();
-            }
-        }
         #endregion
 
         #region 上月数据总和
@@ -205,19 +187,6 @@ namespace ProjectEye.Models
             set
             {
                 LastMonthSkip_ = value;
-                OnPropertyChanged();
-            }
-        }
-        private int LastMonthTomato_;
-        public int LastMonthTomato
-        {
-            get
-            {
-                return LastMonthTomato_;
-            }
-            set
-            {
-                LastMonthTomato_ = value;
                 OnPropertyChanged();
             }
         }
@@ -374,43 +343,6 @@ namespace ProjectEye.Models
                 OnPropertyChanged();
             }
         }
-        #endregion
-
-        #region 番茄时钟数据
-        private List<ChartDataModel> TomatoWeekData_;
-        /// <summary>
-        /// 本周工作统计数据
-        /// </summary>
-        public List<ChartDataModel> TomatoWeekData { get { return TomatoWeekData_; } set { TomatoWeekData_ = value; OnPropertyChanged(); } }
-
-        #region 本周与上周数据总和
-        private int TomatoLastWeekCount_;
-        public int TomatoLastWeekCount
-        {
-            get
-            {
-                return TomatoLastWeekCount_;
-            }
-            set
-            {
-                TomatoLastWeekCount_ = value;
-                OnPropertyChanged();
-            }
-        }
-        private int TomatoWeekCount_;
-        public int TomatoWeekCount
-        {
-            get
-            {
-                return TomatoWeekCount_;
-            }
-            set
-            {
-                TomatoWeekCount_ = value;
-                OnPropertyChanged();
-            }
-        }
-        #endregion
         #endregion
 
         #region 窗口占位图片
