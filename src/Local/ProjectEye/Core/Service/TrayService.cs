@@ -205,9 +205,6 @@ namespace ProjectEye.Core.Service
             menuItem_NoReset.IsChecked = config.options.General.Noreset;
             //menuItem_Sound.IsChecked = config.options.General.Sound;
             menuItem_Statistic.Visibility = config.options.General.Data ? Visibility.Visible : Visibility.Collapsed;
-
-
-            var oldOptions = sender as OptionsModel;
         }
 
         private void menuItem_Options_Click(object sender, EventArgs e)
