@@ -22,7 +22,7 @@
         <ui:Project1UIModal Show="{Binding Model.ShowModal, Mode=TwoWay}">
             <Border
                 Margin="10"
-                Padding="10,15"
+                Padding="10 15"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Background="{DynamicResource WindowBackground}"
@@ -40,7 +40,7 @@
     </ui:Project1UIWindow.ExtElement>
     <Grid Margin="5">
 
-        <TabControl Margin="0,0,0,50">
+        <TabControl Margin="0 0 0 50">
             <TabItem Header="{DynamicResource Lang_General}">
                 <ScrollViewer>
                     <StackPanel Margin="10">
@@ -81,7 +81,7 @@
                         <Slider
                             Grid.Row="0"
                             Grid.Column="1"
-                            Margin="0,0,0,0"
+                            Margin="0 0 0 0"
                             VerticalAlignment="Center"
                             Maximum="420"
                             Minimum="1"
@@ -97,7 +97,7 @@
                         <Slider
                             Grid.Row="1"
                             Grid.Column="1"
-                            Margin="0,20,0,0"
+                            Margin="0 20 0 0"
                             VerticalAlignment="Center"
                             Maximum="300"
                             Minimum="1"
@@ -126,16 +126,16 @@
                             </StackPanel>
                         </Grid>-->
                         <ui:Toggle
-                            Margin="0,20,0,0"
+                            Margin="0 20 0 0"
                             Cursor="Hand"
                             IsChecked="{Binding Model.Data.General.Startup}"
                             Text="{DynamicResource Lang_Autostartatboot}" />
                         <ui:Toggle
-                            Margin="0,20,0,0"
+                            Margin="0 20 0 0"
                             Cursor="Hand"
                             IsChecked="{Binding Model.Data.General.Sound}"
                             Text="{DynamicResource Lang_Soundforbreakend}" />
-                        <Grid Margin="0,20,0,0">
+                        <Grid Margin="0 20 0 0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition Width="*" />
@@ -155,7 +155,7 @@
                                 Type="FileSelect" />
                             <ui:Project1UIButton
                                 Grid.Column="2"
-                                Margin="5,0,0,0"
+                                Margin="5 0 0 0"
                                 Command="{Binding soundTestCommand}"
                                 Content="{DynamicResource Lang_Preview}"
                                 Style="{DynamicResource basic}" />
@@ -170,7 +170,7 @@
             <TabItem Header="{DynamicResource Lang_Display}">
                 <ScrollViewer>
                     <StackPanel Margin="10">
-                        <Grid Margin="0,10,0,0">
+                        <Grid Margin="0 10 0 0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition Width="*" />
@@ -185,7 +185,7 @@
                             <!--  语言  -->
                             <TextBlock
                                 Grid.Column="0"
-                                Margin="0,0,10,0"
+                                Margin="0 0 10 0"
                                 VerticalAlignment="Center"
                                 Text="{DynamicResource Lang_Language}" />
                             <ComboBox
@@ -201,7 +201,7 @@
                             <TextBlock
                                 Grid.Row="1"
                                 Grid.Column="0"
-                                Margin="0,0,10,0"
+                                Margin="0 0 10 0"
                                 VerticalAlignment="Center"
                                 Text="{DynamicResource Lang_Theme}" />
                             <ComboBox
@@ -218,7 +218,7 @@
                             <TextBlock
                                 Grid.Row="2"
                                 Grid.Column="0"
-                                Margin="0,0,10,0"
+                                Margin="0 0 10 0"
                                 VerticalAlignment="Center"
                                 Text="{DynamicResource Lang_Fullscreennotificationanimation}" />
                             <ComboBox
@@ -236,7 +236,7 @@
                             <TextBlock
                                 Grid.Row="3"
                                 Grid.Column="0"
-                                Margin="0,0,10,0"
+                                Margin="0 0 10 0"
                                 VerticalAlignment="Center"
                                 Text="{DynamicResource Lang_Fullscreennotificationappearance}" />
                             <ui:Project1UIButton
@@ -250,18 +250,18 @@
                         </Grid>
 
                         <ui:Toggle
-                            Margin="0,10,0,0"
+                            Margin="0 10 0 0"
                             Cursor="Hand"
                             IsChecked="{Binding Model.IsAutoDark}"
                             Text="{DynamicResource Lang_Switchtodarkthemeautomatically}" />
-                        <Grid Margin="0,10,0,0" Visibility="{Binding Model.AutoDarkConfigVisibility}">
+                        <Grid Margin="0 10 0 0" Visibility="{Binding Model.AutoDarkConfigVisibility}">
                             <!--  自动切换深色模式配置  -->
-                            <StackPanel Margin="30,0,0,0">
+                            <StackPanel Margin="30 0 0 0">
                                 <TextBlock Text="{DynamicResource Lang_Specifythetime}" />
-                                <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                <StackPanel Margin="0 5 0 0" Orientation="Horizontal">
                                     <ui:TimeBox Hour="{Binding Model.Data.Style.AutoDarkStartH, Mode=TwoWay}" Minutes="{Binding Model.Data.Style.AutoDarkStartM, Mode=TwoWay}" />
                                     <TextBlock
-                                        Margin="5,0"
+                                        Margin="5 0"
                                         VerticalAlignment="Center"
                                         Text=" " />
                                     <ui:TimeBox Hour="{Binding Model.Data.Style.AutoDarkEndH, Mode=TwoWay}" Minutes="{Binding Model.Data.Style.AutoDarkEndM, Mode=TwoWay}" />
@@ -270,47 +270,47 @@
                         </Grid>
 
                         <ui:Toggle
-                            Margin="0,20,0,0"
+                            Margin="0 20 0 0"
                             Cursor="Hand"
                             IsChecked="{Binding Model.IsTipAsk, Mode=TwoWay}"
                             Text="{DynamicResource Lang_Showbuttonsinfullscreennotification}" />
                         <ui:Toggle
-                            Margin="0,10,0,0"
+                            Margin="0 10 0 0"
                             Cursor="Hand"
                             IsChecked="{Binding Model.Data.Style.IsThruTipWindow, Mode=TwoWay}"
                             IsEnabled="{Binding Model.IsThruTipWindowEnabled}"
                             Text="{DynamicResource Lang_Enablemousepassthroughduringfullscreennotification}" />
 
                         <ui:Toggle
-                            Margin="0,20,0,0"
+                            Margin="0 20 0 0"
                             Cursor="Hand"
                             IsChecked="{Binding Model.Data.Style.IsAnimation, Mode=TwoWay}"
                             Text="{DynamicResource Lang_Enableanimation}" />
 
 
                         <ui:Toggle
-                            Margin="0,20,0,0"
+                            Margin="0 20 0 0"
                             Cursor="Hand"
                             IsChecked="{Binding Model.IsPreAlert}"
                             Text="{DynamicResource Lang_Earlypopupforbreaktime}" />
-                        <Grid Margin="0,10,0,0" Visibility="{Binding Model.PreAlertConfigVisibility}">
+                        <Grid Margin="0 10 0 0" Visibility="{Binding Model.PreAlertConfigVisibility}">
                             <!--  预提醒配置  -->
-                            <StackPanel Margin="30,0,0,0">
+                            <StackPanel Margin="30 0 0 0">
                                 <!--  预提醒提示音  -->
                                 <CheckBox
-                                    Margin="0,0,0,0"
+                                    Margin="0 0 0 0"
                                     Content="{DynamicResource Lang_Popupsound}"
                                     Cursor="Hand"
                                     IsChecked="{Binding Model.Data.Style.IsPreAlertSound}" />
                                 <!--  预提醒提前时间  -->
-                                <Grid Margin="0,10,0,0">
+                                <Grid Margin="0 10 0 0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock
                                         Grid.Column="0"
-                                        Margin="0,0,10,0"
+                                        Margin="0 0 10 0"
                                         VerticalAlignment="Top"
                                         Text="{DynamicResource Lang_Popupleadtime}" />
 
@@ -332,14 +332,14 @@
                                         </TextBlock>-->
                                     </Grid>
                                 </Grid>
-                                <Grid Margin="0,10,0,0">
+                                <Grid Margin="0 10 0 0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock
                                         Grid.Column="0"
-                                        Margin="0,0,10,0"
+                                        Margin="0 0 10 0"
                                         VerticalAlignment="Center"
                                         Text="{DynamicResource Lang_Defaultactionafterthepopup}" />
                                     <ComboBox
@@ -353,14 +353,14 @@
 
                                 </Grid>
                                 <!--  预提醒的弹窗内容配置  -->
-                                <Grid Margin="0,10,0,0">
+                                <Grid Margin="0 10 0 0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="100" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock
                                         Grid.Column="0"
-                                        Margin="0,0,10,0"
+                                        Margin="0 0 10 0"
                                         VerticalAlignment="Center"
                                         Text="{DynamicResource Lang_Icon}" />
 
@@ -373,14 +373,14 @@
                                         TextWrapping="NoWrap"
                                         Type="FileSelect" />
                                 </Grid>
-                                <Grid Margin="0,10,0,0">
+                                <Grid Margin="0 10 0 0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="100" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock
                                         Grid.Column="0"
-                                        Margin="0,0,10,0"
+                                        Margin="0 0 10 0"
                                         VerticalAlignment="Center"
                                         Text="{DynamicResource Lang_Title}" />
 
@@ -393,14 +393,14 @@
                                         Type="Text" />
 
                                 </Grid>
-                                <Grid Margin="0,10,0,0">
+                                <Grid Margin="0 10 0 0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="100" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock
                                         Grid.Column="0"
-                                        Margin="0,0,10,0"
+                                        Margin="0 0 10 0"
                                         VerticalAlignment="Center"
                                         Text="{DynamicResource Lang_Subtitle}" />
 
@@ -413,14 +413,14 @@
                                         Type="Text" />
 
                                 </Grid>
-                                <Grid Margin="0,10,0,0">
+                                <Grid Margin="0 10 0 0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="100" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock
                                         Grid.Column="0"
-                                        Margin="0,0,10,0"
+                                        Margin="0 0 10 0"
                                         VerticalAlignment="Top"
                                         Text="{DynamicResource Lang_Content}" />
                                     <StackPanel Grid.Column="1">
@@ -448,7 +448,7 @@
             </TabItem>
             <TabItem Header="{DynamicResource Lang_Hotkeys}">
                 <StackPanel Margin="10">
-                    <Grid Margin="0,10,0,0">
+                    <Grid Margin="0 10 0 0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="*" />
@@ -460,7 +460,7 @@
                         <!--  进入休息  -->
                         <TextBlock
                             Grid.Column="0"
-                            Margin="0,0,10,0"
+                            Margin="0 0 10 0"
                             VerticalAlignment="Center"
                             Text="{DynamicResource Lang_Startthebreak}" />
                         <ui:Project1UIKeyboardInput
@@ -472,7 +472,7 @@
                         <TextBlock
                             Grid.Row="1"
                             Grid.Column="0"
-                            Margin="0,0,10,0"
+                            Margin="0 0 10 0"
                             VerticalAlignment="Center"
                             Text="{DynamicResource Lang_Skipthebreak}" />
                         <ui:Project1UIKeyboardInput
@@ -489,26 +489,26 @@
                 <ScrollViewer>
                     <StackPanel Margin="10">
                         <ui:Toggle
-                            Margin="0,20,0,0"
+                            Margin="0 20 0 0"
                             Cursor="Hand"
                             IsChecked="{Binding Model.Data.Behavior.IsHandleTimeoutRest}"
                             Text="{DynamicResource Lang_HandleTimeoutAutoRest}" />
                         <ui:Toggle
-                            Margin="0,10,0,0"
+                            Margin="0 10 0 0"
                             Cursor="Hand"
                             IsChecked="{Binding Model.Data.Behavior.IsDisabledSkip}"
                             Text="{DynamicResource Lang_Breakscannotbeskipped}" />
                         <ui:Toggle
-                            Margin="0,20,0,0"
+                            Margin="0 20 0 0"
                             Cursor="Hand"
                             IsChecked="{Binding Model.Data.Behavior.IsFullScreenBreak}"
                             Text="{DynamicResource Lang_Donotdisturbwhenrunningfullscreenapplications}" />
                         <ui:Toggle
-                            Margin="0,20,0,0"
+                            Margin="0 20 0 0"
                             Cursor="Hand"
                             IsChecked="{Binding Model.IsBreakProgressList, Mode=TwoWay}"
                             Text="{DynamicResource Lang_Donotdisturbwhenfollowingprocessesarerunning}" />
-                        <Grid Margin="0,10,0,0" Visibility="{Binding Model.BreakProgressListVisibility}">
+                        <Grid Margin="0 10 0 0" Visibility="{Binding Model.BreakProgressListVisibility}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30" />
                                 <RowDefinition Height="150" />
@@ -539,7 +539,7 @@
                             <ListView
                                 Name="breakProcessListView"
                                 Grid.Row="1"
-                                Margin="0,10,0,0"
+                                Margin="0 10 0 0"
                                 ItemsSource="{Binding Model.Data.Behavior.BreakProgressList, Mode=TwoWay}"
                                 SelectedItem="{Binding Model.SelectedItem}"
                                 SelectionMode="Single">
@@ -588,7 +588,7 @@
                     <StackPanel Margin="10">
                         <Image
                             Height="30"
-                            Margin="0,10,0,0"
+                            Margin="0 10 0 0"
                             HorizontalAlignment="Left"
                             RenderTransformOrigin="0.5,0.5"
                             Source="/ProjectEye;component/Resources/sunglasses.ico">
@@ -618,16 +618,16 @@
                             </Image.Triggers>
                         </Image>
                         <TextBlock
-                            Margin="0,10,0,0"
+                            Margin="0 10 0 0"
                             FontWeight="Bold"
                             Text="Project Eye"
                             TextWrapping="Wrap" />
                         <TextBlock
-                            Margin="0,10,0,0"
+                            Margin="0 10 0 0"
                             Opacity=".5"
                             Text="{DynamicResource Lang_Aprogramwhichprotectsyoureyesbehindthescenes}"
                             TextWrapping="Wrap" />
-                        <TextBlock Margin="0,10,0,0" TextWrapping="Wrap"><Run Text="{DynamicResource Lang_Version}" /> <Hyperlink Command="{Binding openurlCommand}" CommandParameter="{Binding Model.VersionLink}">
+                        <TextBlock Margin="0 10 0 0" TextWrapping="Wrap"><Run Text="{DynamicResource Lang_Version}" /> <Hyperlink Command="{Binding openurlCommand}" CommandParameter="{Binding Model.VersionLink}">
                                 <Run Text="{Binding Model.Version}" />
                             </Hyperlink> <Hyperlink Command="{Binding updateCommand}">
                                 <Run Text="{DynamicResource Lang_Checkforupdates}" />
@@ -661,18 +661,18 @@
                                 Text="https://littlepanda.gitbook.io/project-eye"
                                 />
                         </Grid>-->
-                        <TextBlock Margin="0,10,0,0" TextWrapping="Wrap">
+                        <TextBlock Margin="0 10 0 0" TextWrapping="Wrap">
                             <Hyperlink Command="{Binding openWindowCommand}" CommandParameter="ContributorsWindow">
                                 <Run Text="{DynamicResource Lang_Contributors}" />
                             </Hyperlink>
                         </TextBlock>
-                        <TextBlock Margin="0,10,0,0" TextWrapping="Wrap">
+                        <TextBlock Margin="0 10 0 0" TextWrapping="Wrap">
                             <Run Text="{DynamicResource Lang_Help}" /> <Hyperlink Command="{Binding openurlCommand}" CommandParameter="https://littlepanda.gitbook.io/project-eye/">https://littlepanda.gitbook.io/project-eye</Hyperlink>
                         </TextBlock>
-                        <TextBlock Margin="0,10,0,0" TextWrapping="Wrap">
+                        <TextBlock Margin="0 10 0 0" TextWrapping="Wrap">
                             <Run Text="{DynamicResource Lang_Source}" /> <Hyperlink Command="{Binding openurlCommand}" CommandParameter="https://github.com/Planshit/ProjectEye">https://github.com/Planshit/ProjectEye</Hyperlink>
                         </TextBlock>
-                        <TextBlock Margin="0,10,0,0" TextWrapping="Wrap">
+                        <TextBlock Margin="0 10 0 0" TextWrapping="Wrap">
                             <Run Text="{DynamicResource Lang_Feedback}" /> <Hyperlink Command="{Binding openurlCommand}" CommandParameter="https://github.com/Planshit/ProjectEye/issues">https://github.com/Planshit/ProjectEye/issues</Hyperlink>
                         </TextBlock>
                         <!--<TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
@@ -691,7 +691,7 @@
             <ui:Project1UIButton
                 Width="auto"
                 Height="auto"
-                Padding="10,6"
+                Padding="10 6"
                 Command="{Binding inkCommand}"
                 Content="{DynamicResource Lang_Createashortcutondesktop}"
                 Style="{DynamicResource basic}" />
@@ -700,8 +700,8 @@
                 Width="auto"
                 Height="auto"
                 MinWidth="80"
-                Margin="10,0,0,0"
-                Padding="10,6"
+                Margin="10 0 0 0"
+                Padding="10 6"
                 Command="{Binding applyCommand}"
                 Content="{DynamicResource Lang_Apply}"
                 Icon="Null" />
