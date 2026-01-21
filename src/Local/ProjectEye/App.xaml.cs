@@ -41,8 +41,6 @@ namespace ProjectEye
                 serviceCollection.AddInstance(this);
                 //后台任务
                 serviceCollection.Add<BackgroundWorkerService>();
-                //数据统计
-                serviceCollection.Add<StatisticService>();
                 //系统资源
                 serviceCollection.Add<SystemResourcesService>();
                 //内存缓存

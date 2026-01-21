@@ -24,7 +24,6 @@ namespace ProjectEye.Core.Service
         //托盘菜单项
         private ContextMenu contextMenu;
         private MenuItem menuItem_NoReset;
-        private MenuItem menuItem_Statistic;
         private MenuItem menuItem_Options;
         private MenuItem menuItem_Quit;
 
@@ -194,17 +193,11 @@ namespace ProjectEye.Core.Service
         {
             OnNoResetAction(sender, 1);
         }
-        private void menuItem_Statistic_Click(object sender, EventArgs e)
-        {
-            WindowManager.CreateWindowInScreen("StatisticWindow");
-            WindowManager.Show("StatisticWindow");
-        }
 
         private void config_Changed(object sender, EventArgs e)
         {
             menuItem_NoReset.IsChecked = config.options.General.Noreset;
             //menuItem_Sound.IsChecked = config.options.General.Sound;
-            menuItem_Statistic.Visibility = config.options.General.Data ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void menuItem_Options_Click(object sender, EventArgs e)
@@ -257,12 +250,6 @@ namespace ProjectEye.Core.Service
                 contextMenu.IsOpen = false;
             };
             //托盘菜单项
-            menuItem_Statistic = new MenuItem();
-            //menuItem_Statistic.Header = "查看数据统计";
-            menuItem_Statistic.Header = Application.Current.Resources["Lang_Statistics"];
-            menuItem_Statistic.Visibility = config.options.General.Data ? Visibility.Visible : Visibility.Collapsed;
-            menuItem_Statistic.Click += menuItem_Statistic_Click;
-
             menuItem_Options = new MenuItem();
             menuItem_Options.Header = Application.Current.Resources["Lang_Settings"];
             menuItem_Options.Click += menuItem_Options_Click;
@@ -300,7 +287,6 @@ namespace ProjectEye.Core.Service
             menuItem_Quit.Click += menuItem_Exit_Click;
 
             //添加托盘菜单项
-            contextMenu.Items.Add(menuItem_Statistic);
             contextMenu.Items.Add(menuItem_Options);
             contextMenu.Items.Add(new Separator());
             contextMenu.Items.Add(menuItem_NoReset);

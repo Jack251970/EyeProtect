@@ -128,11 +128,6 @@
                         <ui:Toggle
                             Margin="0,20,0,0"
                             Cursor="Hand"
-                            IsChecked="{Binding Model.Data.General.Data}"
-                            Text="{DynamicResource Lang_Statistics}" />
-                        <ui:Toggle
-                            Margin="0,20,0,0"
-                            Cursor="Hand"
                             IsChecked="{Binding Model.Data.General.Startup}"
                             Text="{DynamicResource Lang_Autostartatboot}" />
                         <ui:Toggle
@@ -448,41 +443,6 @@
                             </StackPanel>
                         </Grid>
 
-                        <TextBlock
-                            Margin="0,20,0,0"
-                            FontSize="14"
-                            FontWeight="Bold"
-                            Text="{DynamicResource Lang_StatisticsWindow}" />
-                        <TextBlock Margin="0,15,0,0" Text="{DynamicResource Lang_DataWindowWorkTimeImagePath}" />
-                        <ui:Project1UIInput
-                            Width="auto"
-                            Margin="0,10,0,0"
-                            ExtNames=".jpg|*.jpg|.png|*.png"
-                            Icon="Photo"
-                            Placeholder="{DynamicResource Lang_Leaveblankfordefault}"
-                            Text="{Binding Model.Data.Style.DataWindowWorkTimeImagePath}"
-                            TextWrapping="NoWrap"
-                            Type="FileSelect" />
-                        <TextBlock Margin="0,15,0,0" Text="{DynamicResource Lang_DataWindowRestTimeImagePath}" />
-                        <ui:Project1UIInput
-                            Width="auto"
-                            Margin="0,10,0,0"
-                            ExtNames=".jpg|*.jpg|.png|*.png"
-                            Icon="Photo"
-                            Placeholder="{DynamicResource Lang_Leaveblankfordefault}"
-                            Text="{Binding Model.Data.Style.DataWindowRestTimeImagePath}"
-                            TextWrapping="NoWrap"
-                            Type="FileSelect" />
-                        <TextBlock Margin="0,15,0,0" Text="{DynamicResource Lang_DataWindowSkipImagePath}" />
-                        <ui:Project1UIInput
-                            Width="auto"
-                            Margin="0,10,0,0"
-                            ExtNames=".jpg|*.jpg|.png|*.png"
-                            Icon="Photo"
-                            Placeholder="{DynamicResource Lang_Leaveblankfordefault}"
-                            Text="{Binding Model.Data.Style.DataWindowSkipImagePath}"
-                            TextWrapping="NoWrap"
-                            Type="FileSelect" />
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

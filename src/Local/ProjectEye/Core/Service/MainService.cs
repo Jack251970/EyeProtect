@@ -50,7 +50,6 @@ namespace ProjectEye.Core.Service
         private readonly ScreenService screen;
         private readonly ConfigService config;
         private readonly CacheService cache;
-        private readonly StatisticService statistic;
         private readonly ThemeService theme;
         private readonly SystemResourcesService systemResources;
         #endregion
@@ -101,14 +100,12 @@ namespace ProjectEye.Core.Service
             ScreenService screen,
             ConfigService config,
             CacheService cache,
-            StatisticService statistic,
             ThemeService theme,
             SystemResourcesService systemResources)
         {
             this.screen = screen;
             this.config = config;
             this.cache = cache;
-            this.statistic = statistic;
             this.theme = theme;
             this.systemResources = systemResources;
 
@@ -252,8 +249,6 @@ namespace ProjectEye.Core.Service
             date_timer.Stop();
             if (!isDateTimerReset)
             {
-                //重置统计时间
-                statistic.StatisticUseEyeData();
                 //延迟2分钟后重置timer
                 isDateTimerReset = true;
                 date_timer.Interval = new TimeSpan(0, 2, 0);
@@ -289,13 +284,7 @@ namespace ProjectEye.Core.Service
         #region 统计数据
         private void StatisticData()
         {
-            if (config.options.General.Data)
-            {
-                //更新用眼时长
-                statistic.StatisticUseEyeData();
-                //数据持久化
-                statistic.Save();
-            }
+            // Statistic feature removed
         }
         #endregion
 
@@ -336,14 +325,6 @@ namespace ProjectEye.Core.Service
         /// </summary>
         public void Exit()
         {
-            if (config.options.General.Data)
-            {
-                //更新用眼时长
-                statistic.StatisticUseEyeData();
-                //数据持久化
-                statistic.Save();
-            }
-
             screen.Dispose();
             DoStop();
             WindowManager.Close("TipWindow");
@@ -421,14 +402,6 @@ namespace ProjectEye.Core.Service
             }
             //离开监听
             leave_timer.Start();
-            //数据统计
-            if (config.options.General.Data)
-            {
-                //重置用眼计时
-                statistic.ResetStatisticTime();
-                //用眼统计
-                useeye_timer.Start();
-            }
             OnStart?.Invoke(this, 0);
         }
         #endregion
@@ -459,14 +432,12 @@ namespace ProjectEye.Core.Service
             if (config.options.Style.IsPreAlert && preAlertAction == PreAlertAction.Break)
             {
                 //预提醒设置跳过
-                statistic.Add(StatisticType.SkipCount, 1);
                 ReStartWorkTimerWatch();
             }
             else
             {
                 if (IsBreakReset())
                 {
-                    statistic.Add(StatisticType.SkipCount, 1);
                     ReStartWorkTimerWatch();
                 }
                 else
