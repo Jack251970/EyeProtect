@@ -23,9 +23,9 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Npoi.Mapper" Version="3.5.1" />
     <PackageReference Include="SQLite.CodeFirst" Version="1.7.0.36" />
-    <PackageReference Include="System.Data.SQLite" Version="2.0.2" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.119" />
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
-    <PackageReference Include="System.Data.SQLite.EF6" Version="2.0.2" />
+    <PackageReference Include="System.Data.SQLite.EF6" Version="1.0.119" />
     <PackageReference Include="System.Data.SQLite.Linq" Version="1.0.119" />
     <PackageReference Include="System.Runtime.Caching" Version="9.0.0" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
@@ -45,5 +45,15 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+
+  <!-- Ensure SQLite native DLLs are copied to output directory for proper loading -->
+  <Target Name="CopySQLiteNativeDLLs" AfterTargets="Build">
+    <ItemGroup>
+      <NativeDLLs Include="$(OutputPath)runtimes\win-x64\native\SQLite.Interop.dll" />
+      <NativeDLLs Include="$(OutputPath)runtimes\win-x86\native\SQLite.Interop.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="$(OutputPath)runtimes\win-x64\native\SQLite.Interop.dll" DestinationFolder="$(OutputPath)x64" SkipUnchangedFiles="true" Condition="Exists('$(OutputPath)runtimes\win-x64\native\SQLite.Interop.dll')" />
+    <Copy SourceFiles="$(OutputPath)runtimes\win-x86\native\SQLite.Interop.dll" DestinationFolder="$(OutputPath)x86" SkipUnchangedFiles="true" Condition="Exists('$(OutputPath)runtimes\win-x86\native\SQLite.Interop.dll')" />
+  </Target>
 
 </Project>
