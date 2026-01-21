@@ -48,10 +48,6 @@
 
   <!-- Ensure SQLite native DLLs are copied to output directory for proper loading -->
   <Target Name="CopySQLiteNativeDLLs" AfterTargets="Build">
-    <ItemGroup>
-      <NativeDLLs Include="$(OutputPath)runtimes\win-x64\native\SQLite.Interop.dll" />
-      <NativeDLLs Include="$(OutputPath)runtimes\win-x86\native\SQLite.Interop.dll" />
-    </ItemGroup>
     <Copy SourceFiles="$(OutputPath)runtimes\win-x64\native\SQLite.Interop.dll" DestinationFolder="$(OutputPath)x64" SkipUnchangedFiles="true" Condition="Exists('$(OutputPath)runtimes\win-x64\native\SQLite.Interop.dll')" />
     <Copy SourceFiles="$(OutputPath)runtimes\win-x86\native\SQLite.Interop.dll" DestinationFolder="$(OutputPath)x86" SkipUnchangedFiles="true" Condition="Exists('$(OutputPath)runtimes\win-x86\native\SQLite.Interop.dll')" />
   </Target>
