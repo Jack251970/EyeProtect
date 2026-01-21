@@ -200,10 +200,6 @@
     <sys:String x:Key="Lang_Time">時間</sys:String>
     <sys:String x:Key="Lang_Remainingtime">剩餘時間</sys:String>
 
-    <sys:String x:Key="Lang_DataWindowWorkTimeImagePath">工作時間占位圖片</sys:String>
-    <sys:String x:Key="Lang_DataWindowRestTimeImagePath">休息時間占位圖片</sys:String>
-    <sys:String x:Key="Lang_DataWindowSkipImagePath">跳過次數占位圖片</sys:String>
-    <sys:String x:Key="Lang_StatisticsWindow">數據統計視窗</sys:String>
     <sys:String x:Key="Lang_ExportMonthData">導出本月數據</sys:String>
     <sys:String x:Key="Lang_Minimum">最低</sys:String>
     <sys:String x:Key="Lang_Learnmore">了解更多</sys:String>

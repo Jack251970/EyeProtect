@@ -194,10 +194,6 @@
     <sys:String x:Key="Lang_Yes">Yes</sys:String>
     <sys:String x:Key="Lang_Time">Time</sys:String>
     <sys:String x:Key="Lang_Remainingtime">Remaining time</sys:String>
-    <sys:String x:Key="Lang_DataWindowWorkTimeImagePath">Working time placeholder image</sys:String>
-    <sys:String x:Key="Lang_DataWindowRestTimeImagePath">Rest time placeholder image</sys:String>
-    <sys:String x:Key="Lang_DataWindowSkipImagePath">Skip placeholder image</sys:String>
-    <sys:String x:Key="Lang_StatisticsWindow">Statistics window</sys:String>
     <sys:String x:Key="Lang_ExportMonthData">Export month data</sys:String>
     <sys:String x:Key="Lang_Minimum">Minimum</sys:String>
     <sys:String x:Key="Lang_Learnmore">Learn more</sys:String>
