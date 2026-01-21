@@ -7,9 +7,10 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <!-- iNKORE.UI.WPF.Modern Theme Resources -->
                 <ui:ThemeResources />
                 <ui:XamlControlsResources />
-                <!--<ResourceDictionary Source="Resources/Language/zh.xaml" />-->
+                <!-- Language resources are loaded dynamically by MainService based on user configuration -->
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
