@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace EyeProtect.Core.Core
+namespace EyeProtect.Core.Helpers
 {
     /*
      * https://stackoverflow.com/questions/45422255/determine-if-windows-is-currently-playing-sound
@@ -41,7 +41,7 @@ namespace EyeProtect.Core.Core
             }
             catch (Exception ec)
             {
-                LogHelper.Warning(ec.ToString());
+                // TODO: LogHelper.Warning(ec.ToString());
                 return false;
             }
         }
