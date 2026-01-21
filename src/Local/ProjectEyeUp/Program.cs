@@ -78,30 +78,26 @@ namespace ProjectEyeUp
                 extractPath += Path.DirectorySeparatorChar;
 
             using var archive = ZipFile.OpenRead(zipPath);
-            foreach (var entry in archive.Entries)
+            foreach (var entry in archive.Entries.Where(e => !IsIgnoreFile(e.FullName)))
             {
-
-                if (!IsIgnoreFile(entry.FullName))
+                // Gets the full path to ensure that relative segments are removed.
+                var destinationPath = Path.GetFullPath(Path.Combine(extractPath, entry.FullName));
+                if (!IsDir(destinationPath))
                 {
-                    // Gets the full path to ensure that relative segments are removed.
-                    var destinationPath = Path.GetFullPath(Path.Combine(extractPath, entry.FullName));
-                    if (!IsDir(destinationPath))
+                    if (File.Exists(destinationPath))
                     {
-                        if (File.Exists(destinationPath))
-                        {
-                            File.Delete(destinationPath);
-                        }
-                        // Ordinal match is safest, case-sensitive volumes can be mounted within volumes that
-                        // are case-insensitive.
-                        Console.WriteLine($"抽取：{destinationPath}");
-                        if (destinationPath.StartsWith(extractPath, StringComparison.Ordinal))
-                            entry.ExtractToFile(destinationPath);
+                        File.Delete(destinationPath);
                     }
-                    else
-                    {
-                        //创建目录
-                        Directory.CreateDirectory(destinationPath);
-                    }
+                    // Ordinal match is safest, case-sensitive volumes can be mounted within volumes that
+                    // are case-insensitive.
+                    Console.WriteLine($"抽取：{destinationPath}");
+                    if (destinationPath.StartsWith(extractPath, StringComparison.Ordinal))
+                        entry.ExtractToFile(destinationPath);
+                }
+                else
+                {
+                    //创建目录
+                    Directory.CreateDirectory(destinationPath);
                 }
             }
 
