@@ -137,12 +137,6 @@ namespace ProjectEye.ViewModels
             string path = "";
             switch (obj.ToString())
             {
-                case "2":
-                    path = config.options.Tomato.WorkStartSoundPath;
-                    break;
-                case "3":
-                    path = config.options.Tomato.WorkEndSoundPath;
-                    break;
                 default:
                     path = config.options.General.SoundPath;
                     break;

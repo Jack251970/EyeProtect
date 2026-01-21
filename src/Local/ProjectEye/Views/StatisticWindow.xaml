@@ -760,37 +760,6 @@
                                 TickLabelWidth="70"
                                 TickText="{DynamicResource Lang_StatisticsX}" />
 
-                            <!--  番茄  -->
-                            <StackPanel Grid.Row="6" VerticalAlignment="Bottom">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image
-                                        Width="32"
-                                        </Grid>
-                                    </Grid>
-                                </Border>
-
-                                <TextBlock
-                                    Margin="0,20,0,0"
-                                    Text="{DynamicResource Lang_Tomatodescription2}"
-                                    TextWrapping="Wrap" />
-                                <Button
-                                    HorizontalAlignment="Left"
-                                    Command="{Binding openURLCommand}"
-                                    CommandParameter="https://zh.wikipedia.org/wiki/%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95"
-                                    Style="{DynamicResource CustomButton}">
-
-                                    <StackPanel
-                                        Margin="0,0,0,0"
-                                        Cursor="Hand"
-                                        Orientation="Horizontal">
-                                        <ui:Icon Foreground="#4f6bed" Unicode="&#xE72A;" />
-                                        <TextBlock
-                                            Padding="10"
-                                            Foreground="#4f6bed"
-                                            Text="{DynamicResource Lang_Learnmore}" />
-                                    </StackPanel>
-
-                                </Button>
                             </StackPanel>
                         </ScrollViewer>
                     </Grid>
