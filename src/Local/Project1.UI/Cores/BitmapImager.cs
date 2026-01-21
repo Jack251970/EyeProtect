@@ -2,7 +2,6 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using System.Windows.Resources;
 
 namespace Project1.UI.Cores
 {
@@ -15,13 +14,11 @@ namespace Project1.UI.Cores
             bitmap.BeginInit();
             if (filePath.IndexOf("pack://") != -1)
             {
-                StreamResourceInfo info = Application.GetResourceStream(new Uri(filePath, UriKind.RelativeOrAbsolute));
-                using (var st = info.Stream)
-                {
-                    bitmap.StreamSource = st;
-                    bitmap.EndInit();
-                    bitmap.Freeze();
-                }
+                var info = Application.GetResourceStream(new Uri(filePath, UriKind.RelativeOrAbsolute));
+                using var st = info.Stream;
+                bitmap.StreamSource = st;
+                bitmap.EndInit();
+                bitmap.Freeze();
             }
             else
             {
@@ -30,15 +27,13 @@ namespace Project1.UI.Cores
                     return null;
                 }
                 byte[] imageData;
-                using (var fileStream = new FileStream(@filePath, FileMode.Open, FileAccess.Read))
+                using var fileStream = new FileStream(@filePath, FileMode.Open, FileAccess.Read);
 
-                using (var binaryReader = new BinaryReader(fileStream))
-                {
-                    imageData = binaryReader.ReadBytes((int)fileStream.Length);
-                    bitmap.StreamSource = new MemoryStream(imageData);
-                    bitmap.EndInit();
-                    bitmap.Freeze();
-                }
+                using var binaryReader = new BinaryReader(fileStream);
+                imageData = binaryReader.ReadBytes((int)fileStream.Length);
+                bitmap.StreamSource = new MemoryStream(imageData);
+                bitmap.EndInit();
+                bitmap.Freeze();
             }
 
             return bitmap;

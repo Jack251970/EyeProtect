@@ -3,7 +3,6 @@ using System;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using Project1.UI.Controls.Commands;
 using Project1.UI.Controls.Enums;
@@ -16,8 +15,7 @@ namespace Project1.UI.Controls
         #region 最小更改值
         public double SmallChange
         {
-            get { return (double)GetValue(SmallChangeProperty); }
-            set { SetValue(SmallChangeProperty, value); }
+            get => (double)GetValue(SmallChangeProperty); set => SetValue(SmallChangeProperty, value);
         }
         public static readonly DependencyProperty SmallChangeProperty =
             DependencyProperty.Register("SmallChange", typeof(double), typeof(Project1UIInput), new PropertyMetadata(0.1));
@@ -25,8 +23,7 @@ namespace Project1.UI.Controls
         #region 最大值
         public double Maximum
         {
-            get { return (double)GetValue(MaximumProperty); }
-            set { SetValue(MaximumProperty, value); }
+            get => (double)GetValue(MaximumProperty); set => SetValue(MaximumProperty, value);
         }
         public static readonly DependencyProperty MaximumProperty =
             DependencyProperty.Register("Maximum", typeof(double), typeof(Project1UIInput), new PropertyMetadata(Double.MaxValue));
@@ -34,8 +31,7 @@ namespace Project1.UI.Controls
         #region 最小值
         public double Minimum
         {
-            get { return (double)GetValue(MinimumProperty); }
-            set { SetValue(MinimumProperty, value); }
+            get => (double)GetValue(MinimumProperty); set => SetValue(MinimumProperty, value);
         }
         public static readonly DependencyProperty MinimumProperty =
             DependencyProperty.Register("Minimum", typeof(double), typeof(Project1UIInput), new PropertyMetadata(0.0));
@@ -53,8 +49,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public CornerRadius CornerRadius
         {
-            get { return (CornerRadius)GetValue(CornerRadiusProperty); }
-            set { SetValue(CornerRadiusProperty, value); }
+            get => (CornerRadius)GetValue(CornerRadiusProperty); set => SetValue(CornerRadiusProperty, value);
         }
         public static readonly DependencyProperty CornerRadiusProperty =
             DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(Project1UIInput));
@@ -64,8 +59,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public Project1UIIconType Icon
         {
-            get { return (Project1UIIconType)GetValue(IconProperty); }
-            set { SetValue(IconProperty, value); }
+            get => (Project1UIIconType)GetValue(IconProperty); set => SetValue(IconProperty, value);
         }
         public static readonly DependencyProperty IconProperty =
             DependencyProperty.Register("Icon", typeof(Project1UIIconType), typeof(Project1UIInput), new PropertyMetadata(Project1UIIconType.Null));
@@ -75,8 +69,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public double IconSize
         {
-            get { return (double)GetValue(IconSizeProperty); }
-            set { SetValue(IconSizeProperty, value); }
+            get => (double)GetValue(IconSizeProperty); set => SetValue(IconSizeProperty, value);
         }
         public static readonly DependencyProperty IconSizeProperty =
             DependencyProperty.Register("IconSize", typeof(double), typeof(Project1UIInput));
@@ -86,8 +79,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public HorizontalAlignment IconAlignment
         {
-            get { return (HorizontalAlignment)GetValue(IconAlignmentProperty); }
-            set { SetValue(IconAlignmentProperty, value); }
+            get => (HorizontalAlignment)GetValue(IconAlignmentProperty); set => SetValue(IconAlignmentProperty, value);
         }
         public static readonly DependencyProperty IconAlignmentProperty =
             DependencyProperty.Register("IconAlignment", typeof(HorizontalAlignment), typeof(Project1UIInput));
@@ -95,8 +87,7 @@ namespace Project1.UI.Controls
 
         public string Placeholder
         {
-            get { return (string)GetValue(PlaceholderProperty); }
-            set { SetValue(PlaceholderProperty, value); }
+            get => (string)GetValue(PlaceholderProperty); set => SetValue(PlaceholderProperty, value);
         }
 
         public static readonly DependencyProperty PlaceholderProperty =
@@ -106,8 +97,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public Project1UIInputType Type
         {
-            get { return (Project1UIInputType)GetValue(TypeProperty); }
-            set { SetValue(TypeProperty, value); }
+            get => (Project1UIInputType)GetValue(TypeProperty); set => SetValue(TypeProperty, value);
         }
 
         public static readonly DependencyProperty TypeProperty =
@@ -117,8 +107,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public bool IsAutoScrollToEnd
         {
-            get { return (bool)GetValue(IsAutoScrollToEndProperty); }
-            set { SetValue(IsAutoScrollToEndProperty, value); }
+            get => (bool)GetValue(IsAutoScrollToEndProperty); set => SetValue(IsAutoScrollToEndProperty, value);
         }
 
         public static readonly DependencyProperty IsAutoScrollToEndProperty =
@@ -127,8 +116,7 @@ namespace Project1.UI.Controls
         #region 禁止输入模式
         public bool IsDisabledInput
         {
-            get { return (bool)GetValue(IsDisabledInputProperty); }
-            set { SetValue(IsDisabledInputProperty, value); }
+            get => (bool)GetValue(IsDisabledInputProperty); set => SetValue(IsDisabledInputProperty, value);
         }
 
         public static readonly DependencyProperty IsDisabledInputProperty =
@@ -156,10 +144,10 @@ namespace Project1.UI.Controls
             base.OnMouseWheel(e);
             if (Type == Project1UIInputType.Number)
             {
-                int num = e.Delta / 120;
-                double changeNum = num * SmallChange;
+                var num = e.Delta / 120;
+                var changeNum = num * SmallChange;
                 HandledText();
-                double value = (double.Parse(Text) + changeNum);
+                var value = (double.Parse(Text) + changeNum);
                 if (value >= Minimum && value <= Maximum)
                 {
                     Text = value.ToString();
@@ -191,11 +179,8 @@ namespace Project1.UI.Controls
         }
         private void OnUpdateSource()
         {
-            BindingExpression be = this.GetBindingExpression(TextProperty);
-            if (be != null)
-            {
-                be.UpdateSource();
-            }
+            var be = this.GetBindingExpression(TextProperty);
+            be?.UpdateSource();
         }
         private void HandledText()
         {
@@ -249,7 +234,7 @@ namespace Project1.UI.Controls
             //}
             if (Type == Project1UIInputType.FileSelect)
             {
-                System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog();
+                var openFileDialog = new System.Windows.Forms.OpenFileDialog();
 
                 openFileDialog.CheckPathExists = true;
                 openFileDialog.Filter = ExtNames;
@@ -270,7 +255,7 @@ namespace Project1.UI.Controls
             }
             if (Type == Project1UIInputType.FolderSelect)
             {
-                System.Windows.Forms.FolderBrowserDialog folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();  //选择文件夹
+                var folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();  //选择文件夹
 
 
                 if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)

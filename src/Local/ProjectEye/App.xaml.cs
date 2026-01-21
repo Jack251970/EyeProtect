@@ -80,7 +80,7 @@ namespace ProjectEye
             //MessageBox.Show(errorMsg, "错误提示，程序即将退出", MessageBoxButton.OK, MessageBoxImage.Error);
             e.Handled = true;
             Shutdown();
-            string exePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+            var exePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "ProjectEyeBug.exe");
             ProcessHelper.Run(exePath, new string[] { "" });
         }
@@ -91,8 +91,7 @@ namespace ProjectEye
         /// </summary>
         private bool IsRuned()
         {
-            bool ret;
-            mutex = new System.Threading.Mutex(true, "projecteye", out ret);
+            mutex = new System.Threading.Mutex(true, "projecteye", out var ret);
             if (!ret)
             {
 #if !DEBUG

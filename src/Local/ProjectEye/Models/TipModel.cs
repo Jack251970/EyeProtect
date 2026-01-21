@@ -11,10 +11,7 @@ namespace ProjectEye.Models
         /// </summary>
         public bool IsAnimation
         {
-            get
-            {
-                return IsAnimation_;
-            }
+            get => IsAnimation_;
             set
             {
                 IsAnimation_ = value;
@@ -28,7 +25,7 @@ namespace ProjectEye.Models
         /// </summary>
         public string TipContent
         {
-            get { return TipContent_; }
+            get => TipContent_;
             set
             {
                 TipContent_ = value;
@@ -41,7 +38,7 @@ namespace ProjectEye.Models
         /// </summary>
         public int COUNTDOWN
         {
-            get { return CountDown_; }
+            get => CountDown_;
             set
             {
                 CountDown_ = value;
@@ -55,7 +52,7 @@ namespace ProjectEye.Models
         /// </summary>
         public Visibility CountDownVisibility
         {
-            get { return CountDownVisibility_; }
+            get => CountDownVisibility_;
             set
             {
                 CountDownVisibility_ = value;
@@ -69,7 +66,7 @@ namespace ProjectEye.Models
         /// </summary>
         public Visibility TakeButtonVisibility
         {
-            get { return TakeButtonVisibility_; }
+            get => TakeButtonVisibility_;
             set
             {
                 TakeButtonVisibility_ = value;
@@ -83,10 +80,7 @@ namespace ProjectEye.Models
         /// </summary>
         public string T
         {
-            get
-            {
-                return T_;
-            }
+            get => T_;
             set
             {
                 T_ = value;
@@ -99,10 +93,7 @@ namespace ProjectEye.Models
         /// </summary>
         public string TIME
         {
-            get
-            {
-                return TIME_;
-            }
+            get => TIME_;
             set
             {
                 TIME_ = value;
@@ -115,10 +106,7 @@ namespace ProjectEye.Models
         /// </summary>
         public string Y
         {
-            get
-            {
-                return Y_;
-            }
+            get => Y_;
             set
             {
                 Y_ = value;
@@ -131,10 +119,7 @@ namespace ProjectEye.Models
         /// </summary>
         public string M
         {
-            get
-            {
-                return M_;
-            }
+            get => M_;
             set
             {
                 M_ = value;
@@ -147,10 +132,7 @@ namespace ProjectEye.Models
         /// </summary>
         public string D
         {
-            get
-            {
-                return D_;
-            }
+            get => D_;
             set
             {
                 D_ = value;
@@ -163,10 +145,7 @@ namespace ProjectEye.Models
         /// </summary>
         public string H
         {
-            get
-            {
-                return H_;
-            }
+            get => H_;
             set
             {
                 H_ = value;
@@ -179,10 +158,7 @@ namespace ProjectEye.Models
         /// </summary>
         public string MINUTES
         {
-            get
-            {
-                return MINUTES_;
-            }
+            get => MINUTES_;
             set
             {
                 MINUTES_ = value;
@@ -195,10 +171,7 @@ namespace ProjectEye.Models
         /// </summary>
         public string TWT
         {
-            get
-            {
-                return TWT_;
-            }
+            get => TWT_;
             set
             {
                 TWT_ = value;
@@ -211,10 +184,7 @@ namespace ProjectEye.Models
         /// </summary>
         public string TRT
         {
-            get
-            {
-                return TRT_;
-            }
+            get => TRT_;
             set
             {
                 TRT_ = value;
@@ -227,10 +197,7 @@ namespace ProjectEye.Models
         /// </summary>
         public string TSC
         {
-            get
-            {
-                return TSC_;
-            }
+            get => TSC_;
             set
             {
                 TSC_ = value;
@@ -244,10 +211,7 @@ namespace ProjectEye.Models
         /// </summary>
         public AnimationType WindowAnimationType
         {
-            get
-            {
-                return WindowAnimationType_;
-            }
+            get => WindowAnimationType_;
             set
             {
                 WindowAnimationType_ = value;
@@ -261,10 +225,7 @@ namespace ProjectEye.Models
         /// </summary>
         public bool IsThruWindow
         {
-            get
-            {
-                return IsThruWindow_;
-            }
+            get => IsThruWindow_;
             set
             {
                 IsThruWindow_ = value;

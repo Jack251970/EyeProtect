@@ -7,10 +7,7 @@ namespace ProjectEye.Models
         private Project1UIDesignContainer Container_;
         public Project1UIDesignContainer Container
         {
-            get
-            {
-                return Container_;
-            }
+            get => Container_;
             set
             {
                 Container_ = value;
@@ -21,10 +18,7 @@ namespace ProjectEye.Models
         private bool ShowModal_ = false;
         public bool ShowModal
         {
-            get
-            {
-                return ShowModal_;
-            }
+            get => ShowModal_;
             set
             {
                 ShowModal_ = value;
@@ -35,10 +29,7 @@ namespace ProjectEye.Models
         private string ModalText_ = "设置已更新";
         public string ModalText
         {
-            get
-            {
-                return ModalText_;
-            }
+            get => ModalText_;
             set
             {
                 ModalText_ = value;

@@ -27,10 +27,7 @@ namespace ProjectEye.Core.Service
         private string Title_;
         public string Title
         {
-            get
-            {
-                return Title_;
-            }
+            get => Title_;
             set
             {
                 Title_ = value;
@@ -40,10 +37,7 @@ namespace ProjectEye.Core.Service
         private string Subtitle_;
         public string Subtitle
         {
-            get
-            {
-                return Subtitle_;
-            }
+            get => Subtitle_;
             set
             {
                 Subtitle_ = value;
@@ -53,10 +47,7 @@ namespace ProjectEye.Core.Service
         private string Message_;
         public string Message
         {
-            get
-            {
-                return Message_;
-            }
+            get => Message_;
             set
             {
                 Message_ = value;
@@ -77,13 +68,7 @@ namespace ProjectEye.Core.Service
         /// <summary>
         /// 获取预提醒操作
         /// </summary>
-        public PreAlertAction PreAlertAction
-        {
-            get
-            {
-                return PreAlertAction_;
-            }
-        }
+        public PreAlertAction PreAlertAction => PreAlertAction_;
         private bool isPreAlert;
         private int preAlertTime;
         /// <summary>
@@ -350,14 +335,14 @@ namespace ProjectEye.Core.Service
         /// <returns></returns>
         private string ParseContent(string tipContent)
         {
-            string pattern = @"\{(?<value>[a-zA-Z]*?)\}";
+            var pattern = @"\{(?<value>[a-zA-Z]*?)\}";
             var variableArray = Regex.Matches(tipContent, pattern)
                  .OfType<Match>()
                  .Select(m => m.Value)
                  .Distinct();
-            foreach (string variable in variableArray)
+            foreach (var variable in variableArray)
             {
-                string replace = "";
+                var replace = "";
                 switch (variable)
                 {
                     case "{t}":

@@ -2,7 +2,7 @@
 
 namespace ProjectEye.ViewModels
 {
-    interface IViewModel
+    internal interface IViewModel
     {
         /// <summary>
         /// 所在屏幕

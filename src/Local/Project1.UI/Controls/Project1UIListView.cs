@@ -7,8 +7,7 @@ namespace Project1.UI.Controls
     {
         public object Selected
         {
-            get { return (object)GetValue(SelectedProperty); }
-            set { SetValue(SelectedProperty, value); }
+            get => (object)GetValue(SelectedProperty); set => SetValue(SelectedProperty, value);
         }
         public static readonly DependencyProperty SelectedProperty =
             DependencyProperty.Register("Selected", typeof(object), typeof(Project1UIListView));

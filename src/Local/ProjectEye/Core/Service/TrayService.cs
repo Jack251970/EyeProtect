@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Resources;
 using System.Windows.Threading;
 using ProjectEye.Core.Models.Options;
 
@@ -14,7 +13,7 @@ namespace ProjectEye.Core.Service
     public class TrayService : IService
     {
         //托盘图标
-        private System.Windows.Forms.NotifyIcon notifyIcon;
+        private readonly System.Windows.Forms.NotifyIcon notifyIcon;
 
         //Service
         private readonly App app;
@@ -25,7 +24,6 @@ namespace ProjectEye.Core.Service
         //托盘菜单项
         private ContextMenu contextMenu;
         private MenuItem menuItem_NoReset;
-        private MenuItem menuItem_Sound;
         private MenuItem menuItem_Statistic;
         private MenuItem menuItem_Options;
         private MenuItem menuItem_Quit;
@@ -134,8 +132,8 @@ namespace ProjectEye.Core.Service
         {
             if (mainService.IsWorkTimerRun() && !backgroundWorker.IsBusy)
             {
-                double restCT = mainService.GetRestCountdownMinutes();
-                string restStr = Math.Round(restCT, 1) + $"{Application.Current.Resources["Lang_Minutes_n"]}";
+                var restCT = mainService.GetRestCountdownMinutes();
+                var restStr = Math.Round(restCT, 1) + $"{Application.Current.Resources["Lang_Minutes_n"]}";
                 if (restCT < 1)
                 {
                     restStr = Math.Round((restCT * 60), 0).ToString() + $"{Application.Current.Resources["Lang_Seconds_n"]}";
@@ -144,7 +142,7 @@ namespace ProjectEye.Core.Service
                 {
                     restCT = Math.Round(restCT / 60, 1);
 
-                    restStr = $"{restCT.ToString()}{Application.Current.Resources["Lang_Hours_n"]}";
+                    restStr = $"{restCT}{Application.Current.Resources["Lang_Hours_n"]}";
                     if (restCT.ToString().IndexOf(".") != -1)
                     {
                         restStr = $"{restCT.ToString().Split('.')[0]}{Application.Current.Resources["Lang_Hours_n"]} {restCT.ToString().Split('.')[1]}{Application.Current.Resources["Lang_Minutes_n"]}";
@@ -207,25 +205,12 @@ namespace ProjectEye.Core.Service
             menuItem_NoReset.IsChecked = config.options.General.Noreset;
             //menuItem_Sound.IsChecked = config.options.General.Sound;
             menuItem_Statistic.Visibility = config.options.General.Data ? Visibility.Visible : Visibility.Collapsed;
-
-
-            var oldOptions = sender as OptionsModel;
         }
 
         private void menuItem_Options_Click(object sender, EventArgs e)
         {
             WindowManager.CreateWindowInScreen("OptionsWindow");
             WindowManager.Show("OptionsWindow");
-        }
-
-
-
-        private void menuItem_Sound_Click(object sender, EventArgs e)
-        {
-            var item = sender as MenuItem;
-            item.IsChecked = !item.IsChecked;
-            config.options.General.Sound = item.IsChecked;
-            config.Save();
         }
 
         private void notifyIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -337,8 +322,8 @@ namespace ProjectEye.Core.Service
             }
             if (notifyIcon != null && name != "")
             {
-                Uri iconUri = new Uri("/ProjectEye;component/Resources/" + name + ".ico", UriKind.RelativeOrAbsolute);
-                StreamResourceInfo info = Application.GetResourceStream(iconUri);
+                var iconUri = new Uri("/ProjectEye;component/Resources/" + name + ".ico", UriKind.RelativeOrAbsolute);
+                var info = Application.GetResourceStream(iconUri);
                 notifyIcon.Icon = new Icon(info.Stream);
                 if (save)
                 {
@@ -407,7 +392,7 @@ namespace ProjectEye.Core.Service
         /// <param name="text"></param>
         public void SetText(string text)
         {
-            notifyIcon.Text = text.Length > 63 ? text.Substring(0, 63) : text;
+            notifyIcon.Text = text.Length > 63 ? text[..63] : text;
         }
 
         /// <summary>

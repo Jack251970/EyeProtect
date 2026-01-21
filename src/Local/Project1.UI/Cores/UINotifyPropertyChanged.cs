@@ -9,11 +9,8 @@ namespace Project1.UI.Cores
         public void OnPropertyChanged(string propertyName = "")
         {
 
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
+            var handler = PropertyChanged;
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         }
     }

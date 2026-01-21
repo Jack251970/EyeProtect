@@ -11,7 +11,7 @@ namespace ProjectEye.ViewModels
         public Command EndCommand { get; set; }
         public Command SaveCommand { get; set; }
 
-        private double[] Size = { 10, 15, 20, 25, 30, 40 };
+        private readonly double[] Size = { 10, 15, 20, 25, 30, 40 };
         private bool isTested = false;
 
         private readonly EyesTestService eyesTestService;
@@ -94,7 +94,7 @@ namespace ProjectEye.ViewModels
         }
         private void Next()
         {
-            int i = Index - 1;
+            var i = Index - 1;
             if (i + 1 >= Size.Length)
             {
                 //测试结束

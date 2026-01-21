@@ -5,18 +5,11 @@ namespace Project1.UI.Cores
 {
     public class WindowsCollection
     {
-        private static readonly List<Project1UIWindow> _windows = new List<Project1UIWindow>();
+        private static readonly List<Project1UIWindow> _windows = new();
 
         public Project1UIWindow this[int index]
         {
-            get
-            {
-                return _windows[index];
-            }
-            set
-            {
-                _windows[index] = value;
-            }
+            get => _windows[index]; set => _windows[index] = value;
         }
 
         public static void Add(Project1UIWindow _window)

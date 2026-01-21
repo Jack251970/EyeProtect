@@ -11,9 +11,9 @@ namespace ProjectEye.Resources.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            double sliderValue = (double)values[0];
-            double sliderMaxValue = (double)values[1];
-            double sliderWidth = (double)values[2];
+            var sliderValue = (double)values[0];
+            var sliderMaxValue = (double)values[1];
+            var sliderWidth = (double)values[2];
             double result = 0;
             if (sliderWidth > 0)
             {

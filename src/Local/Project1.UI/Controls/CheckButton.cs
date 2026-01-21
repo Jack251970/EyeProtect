@@ -11,8 +11,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public bool Checked
         {
-            get { return (bool)GetValue(CheckedProperty); }
-            set { SetValue(CheckedProperty, value); }
+            get => (bool)GetValue(CheckedProperty); set => SetValue(CheckedProperty, value);
         }
         public static readonly DependencyProperty CheckedProperty =
             DependencyProperty.Register("Checked", typeof(bool), typeof(CheckButton), new PropertyMetadata(false));
@@ -22,8 +21,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public string Content
         {
-            get { return (string)GetValue(ContentProperty); }
-            set { SetValue(ContentProperty, value); }
+            get => (string)GetValue(ContentProperty); set => SetValue(ContentProperty, value);
         }
         public static readonly DependencyProperty ContentProperty =
             DependencyProperty.Register("Content", typeof(string), typeof(CheckButton));

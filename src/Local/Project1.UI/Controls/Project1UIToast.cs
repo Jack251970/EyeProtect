@@ -19,8 +19,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public string Message
         {
-            get { return (string)GetValue(MessageProperty); }
-            set { SetValue(MessageProperty, value); }
+            get => (string)GetValue(MessageProperty); set => SetValue(MessageProperty, value);
         }
         #endregion
         #region 副标题
@@ -30,8 +29,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public string Subtitle
         {
-            get { return (string)GetValue(SubtitleProperty); }
-            set { SetValue(SubtitleProperty, value); }
+            get => (string)GetValue(SubtitleProperty); set => SetValue(SubtitleProperty, value);
         }
         #endregion
 
@@ -62,7 +60,7 @@ namespace Project1.UI.Controls
         public bool IsButtonClicked { get; set; } = false;
         private StackPanel buttonsPanel;
         private DispatcherTimer timer;
-        private Storyboard alertStoryboard, closeStoryboard;
+        private readonly Storyboard alertStoryboard, closeStoryboard;
         public Project1UIToast()
         {
             this.DefaultStyleKey = typeof(Project1UIToast);
@@ -98,7 +96,7 @@ namespace Project1.UI.Controls
         {
             if (buttonsPanel != null)
             {
-                foreach (string name in buttons)
+                foreach (var name in buttons)
                 {
                     var btn = new Project1UIButton();
                     btn.Content = name;
@@ -206,14 +204,14 @@ namespace Project1.UI.Controls
         private void CreateAnimation()
         {
             //弹出动画
-            DoubleAnimation alertDA = new DoubleAnimation();
+            var alertDA = new DoubleAnimation();
             alertDA.To = SystemParameters.PrimaryScreenWidth - this.ActualWidth;
             alertDA.EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseIn };
             alertDA.Duration = TimeSpan.FromSeconds(.5);
             Storyboard.SetTarget(alertDA, this);
             Storyboard.SetTargetProperty(alertDA, new PropertyPath(Canvas.LeftProperty));
             //关闭动画
-            DoubleAnimation closeDA = new DoubleAnimation();
+            var closeDA = new DoubleAnimation();
             closeDA.To = SystemParameters.PrimaryScreenWidth;
             closeDA.EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut };
             closeDA.Duration = TimeSpan.FromSeconds(.5);

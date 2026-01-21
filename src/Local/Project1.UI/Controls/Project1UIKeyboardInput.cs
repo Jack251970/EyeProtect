@@ -10,8 +10,7 @@ namespace Project1.UI.Controls
     {
         public string Placeholder
         {
-            get { return (string)GetValue(PlaceholderProperty); }
-            set { SetValue(PlaceholderProperty, value); }
+            get => (string)GetValue(PlaceholderProperty); set => SetValue(PlaceholderProperty, value);
         }
 
         public static readonly DependencyProperty PlaceholderProperty =
@@ -19,8 +18,7 @@ namespace Project1.UI.Controls
 
         public string KeyText
         {
-            get { return (string)GetValue(KeyTextProperty); }
-            set { SetValue(KeyTextProperty, value); }
+            get => (string)GetValue(KeyTextProperty); set => SetValue(KeyTextProperty, value);
         }
 
         public static readonly DependencyProperty KeyTextProperty =

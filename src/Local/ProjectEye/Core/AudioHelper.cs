@@ -19,13 +19,13 @@ namespace ProjectEye.Core
         {
             try
             {
-                IMMDeviceEnumerator enumerator = (IMMDeviceEnumerator)(new MMDeviceEnumerator());
-                IMMDevice speakers = enumerator.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
-                IAudioMeterInformation meter = (IAudioMeterInformation)speakers.Activate(typeof(IAudioMeterInformation).GUID, 0, IntPtr.Zero);
+                var enumerator = (IMMDeviceEnumerator)(new MMDeviceEnumerator());
+                var speakers = enumerator.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
+                var meter = (IAudioMeterInformation)speakers.Activate(typeof(IAudioMeterInformation).GUID, 0, IntPtr.Zero);
                 if (meter != null)
                 {
 
-                    float value = meter.GetPeakValue();
+                    var value = meter.GetPeakValue();
 
                     // this is a bit tricky. 0 is the official "no sound" value
                     // but for example, if you open a video and plays/stops with it (w/o killing the app/window/stream),

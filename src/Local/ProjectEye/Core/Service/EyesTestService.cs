@@ -13,7 +13,7 @@ namespace ProjectEye.Core.Service
     {
         private readonly string xmlPath;
         private readonly App app;
-        private XmlExtensions xml;
+        private readonly XmlExtensions xml;
         //存放文件夹
         private readonly string dir = "Data";
         //统计数据
@@ -96,8 +96,8 @@ namespace ProjectEye.Core.Service
         /// <returns></returns>
         public double[] GetChartData()
         {
-            ArrayList result = new ArrayList();
-            foreach (EyesTestModel statistic in statisticList.Data)
+            var result = new ArrayList();
+            foreach (var statistic in statisticList.Data)
             {
                 result.Add(statistic.Score);
             }
@@ -112,8 +112,8 @@ namespace ProjectEye.Core.Service
         /// <returns></returns>
         public string[] GetChartLabels()
         {
-            ArrayList result = new ArrayList();
-            foreach (EyesTestModel statistic in statisticList.Data)
+            var result = new ArrayList();
+            foreach (var statistic in statisticList.Data)
             {
 
                 result.Add(statistic.Date.Day + "日");

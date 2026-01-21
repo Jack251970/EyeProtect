@@ -84,7 +84,7 @@ namespace ProjectEye.ViewModels
             var data = new UIDesignModel();
             data.ContainerAttr = container.GetContainerAttr();
             data.Elements = container.GetElements();
-            string json = JsonConvert.SerializeObject(data);
+            var json = JsonConvert.SerializeObject(data);
             FileHelper.Write(UIConfigPath, json);
 
             main.CreateTipWindows();

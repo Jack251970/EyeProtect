@@ -12,10 +12,7 @@ namespace ProjectEye.Models
         /// </summary>
         public bool IsAnimation
         {
-            get
-            {
-                return IsAnimation_;
-            }
+            get => IsAnimation_;
             set
             {
                 IsAnimation_ = value;
@@ -29,10 +26,7 @@ namespace ProjectEye.Models
         /// </summary>
         public bool IsShowOnboarding
         {
-            get
-            {
-                return IsShowOnboarding_;
-            }
+            get => IsShowOnboarding_;
             set
             {
                 IsShowOnboarding_ = value;
@@ -44,10 +38,7 @@ namespace ProjectEye.Models
         private int Year_;
         public int Year
         {
-            get
-            {
-                return Year_;
-            }
+            get => Year_;
             set
             {
                 Year_ = value;
@@ -57,10 +48,7 @@ namespace ProjectEye.Models
         private int Month_;
         public int Month
         {
-            get
-            {
-                return Month_;
-            }
+            get => Month_;
             set
             {
                 Month_ = value;
@@ -72,50 +60,47 @@ namespace ProjectEye.Models
         /// <summary>
         /// 月份工作统计数据
         /// </summary>
-        public List<ChartDataModel> MonthWorkData { get { return MonthWorkData_; } set { MonthWorkData_ = value; OnPropertyChanged(); } }
+        public List<ChartDataModel> MonthWorkData { get => MonthWorkData_; set { MonthWorkData_ = value; OnPropertyChanged(); } }
 
 
         private List<ChartDataModel> MonthRestData_;
         /// <summary>
         /// 月份休息统计数据
         /// </summary>
-        public List<ChartDataModel> MonthRestData { get { return MonthRestData_; } set { MonthRestData_ = value; OnPropertyChanged(); } }
+        public List<ChartDataModel> MonthRestData { get => MonthRestData_; set { MonthRestData_ = value; OnPropertyChanged(); } }
 
         private List<ChartDataModel> MonthSkipData_;
         /// <summary>
         /// 月份跳过统计数据
         /// </summary>
-        public List<ChartDataModel> MonthSkipData { get { return MonthSkipData_; } set { MonthSkipData_ = value; OnPropertyChanged(); } }
+        public List<ChartDataModel> MonthSkipData { get => MonthSkipData_; set { MonthSkipData_ = value; OnPropertyChanged(); } }
 
         #region 本周数据
         private List<ChartDataModel> WeekWorkData_;
         /// <summary>
         /// 本周工作统计数据
         /// </summary>
-        public List<ChartDataModel> WeekWorkData { get { return WeekWorkData_; } set { WeekWorkData_ = value; OnPropertyChanged(); } }
+        public List<ChartDataModel> WeekWorkData { get => WeekWorkData_; set { WeekWorkData_ = value; OnPropertyChanged(); } }
 
 
         private List<ChartDataModel> WeekRestData_;
         /// <summary>
         /// 本周休息统计数据
         /// </summary>
-        public List<ChartDataModel> WeekRestData { get { return WeekRestData_; } set { WeekRestData_ = value; OnPropertyChanged(); } }
+        public List<ChartDataModel> WeekRestData { get => WeekRestData_; set { WeekRestData_ = value; OnPropertyChanged(); } }
 
         private List<ChartDataModel> WeekSkipData_;
         /// <summary>
         /// 本周跳过统计数据
         /// </summary>
-        public List<ChartDataModel> WeekSkipData { get { return WeekSkipData_; } set { WeekSkipData_ = value; OnPropertyChanged(); } }
+        public List<ChartDataModel> WeekSkipData { get => WeekSkipData_; set { WeekSkipData_ = value; OnPropertyChanged(); } }
         #endregion
 
         #region 本月数据总和
         private double MonthWork_;
         public double MonthWork
         {
-            get
-            {
-                return MonthWork_;
-            }
+            get => MonthWork_;
             set
             {
                 MonthWork_ = value;
@@ -125,10 +110,7 @@ namespace ProjectEye.Models
         private double MonthRest_;
         public double MonthRest
         {
-            get
-            {
-                return MonthRest_;
-            }
+            get => MonthRest_;
             set
             {
                 MonthRest_ = value;
@@ -138,10 +120,7 @@ namespace ProjectEye.Models
         private int MonthSkip_;
         public int MonthSkip
         {
-            get
-            {
-                return MonthSkip_;
-            }
+            get => MonthSkip_;
             set
             {
                 MonthSkip_ = value;
@@ -154,10 +133,7 @@ namespace ProjectEye.Models
         private double LastMonthWork_;
         public double LastMonthWork
         {
-            get
-            {
-                return LastMonthWork_;
-            }
+            get => LastMonthWork_;
             set
             {
                 LastMonthWork_ = value;
@@ -167,10 +143,7 @@ namespace ProjectEye.Models
         private double LastMonthRest_;
         public double LastMonthRest
         {
-            get
-            {
-                return LastMonthRest_;
-            }
+            get => LastMonthRest_;
             set
             {
                 LastMonthRest_ = value;
@@ -180,10 +153,7 @@ namespace ProjectEye.Models
         private int LastMonthSkip_;
         public int LastMonthSkip
         {
-            get
-            {
-                return LastMonthSkip_;
-            }
+            get => LastMonthSkip_;
             set
             {
                 LastMonthSkip_ = value;
@@ -200,10 +170,7 @@ namespace ProjectEye.Models
         /// </summary>
         public int WeekTrueWorkDays
         {
-            get
-            {
-                return WeekTrueWorkDays_;
-            }
+            get => WeekTrueWorkDays_;
             set
             {
                 WeekTrueWorkDays_ = value;
@@ -217,10 +184,7 @@ namespace ProjectEye.Models
         /// </summary>
         public double WeekWork
         {
-            get
-            {
-                return WeekWork_;
-            }
+            get => WeekWork_;
             set
             {
                 WeekWork_ = value;
@@ -233,10 +197,7 @@ namespace ProjectEye.Models
         /// </summary>
         public double WeekRest
         {
-            get
-            {
-                return WeekRest_;
-            }
+            get => WeekRest_;
             set
             {
                 WeekRest_ = value;
@@ -249,10 +210,7 @@ namespace ProjectEye.Models
         /// </summary>
         public int WeekSkip
         {
-            get
-            {
-                return WeekSkip_;
-            }
+            get => WeekSkip_;
             set
             {
                 WeekSkip_ = value;
@@ -265,10 +223,7 @@ namespace ProjectEye.Models
         private double LastWeekWork_;
         public double LastWeekWork
         {
-            get
-            {
-                return LastWeekWork_;
-            }
+            get => LastWeekWork_;
             set
             {
                 LastWeekWork_ = value;
@@ -278,10 +233,7 @@ namespace ProjectEye.Models
         private double LastWeekRest_;
         public double LastWeekRest
         {
-            get
-            {
-                return LastWeekRest_;
-            }
+            get => LastWeekRest_;
             set
             {
                 LastWeekRest_ = value;
@@ -291,10 +243,7 @@ namespace ProjectEye.Models
         private int LastWeekSkip_;
         public int LastWeekSkip
         {
-            get
-            {
-                return LastWeekSkip_;
-            }
+            get => LastWeekSkip_;
             set
             {
                 LastWeekSkip_ = value;
@@ -307,10 +256,7 @@ namespace ProjectEye.Models
         private string WorkAnalysis_;
         public string WorkAnalysis
         {
-            get
-            {
-                return WorkAnalysis_;
-            }
+            get => WorkAnalysis_;
             set
             {
                 WorkAnalysis_ = value;
@@ -320,10 +266,7 @@ namespace ProjectEye.Models
         private string RestAnalysis_;
         public string RestAnalysis
         {
-            get
-            {
-                return RestAnalysis_;
-            }
+            get => RestAnalysis_;
             set
             {
                 RestAnalysis_ = value;
@@ -333,10 +276,7 @@ namespace ProjectEye.Models
         private string SkipAnalysis_;
         public string SkipAnalysis
         {
-            get
-            {
-                return SkipAnalysis_;
-            }
+            get => SkipAnalysis_;
             set
             {
                 SkipAnalysis_ = value;
@@ -349,39 +289,18 @@ namespace ProjectEye.Models
         private ImageSource WorktimeImageSource_;
         public ImageSource WorktimeImageSource
         {
-            get
-            {
-                return WorktimeImageSource_;
-            }
-            set
-            {
-                WorktimeImageSource_ = value;
-            }
+            get => WorktimeImageSource_; set => WorktimeImageSource_ = value;
         }
 
         private ImageSource ResttimeImageSource_;
         public ImageSource ResttimeImageSource
         {
-            get
-            {
-                return ResttimeImageSource_;
-            }
-            set
-            {
-                ResttimeImageSource_ = value;
-            }
+            get => ResttimeImageSource_; set => ResttimeImageSource_ = value;
         }
         private ImageSource SkipImageSource_;
         public ImageSource SkipImageSource
         {
-            get
-            {
-                return SkipImageSource_;
-            }
-            set
-            {
-                SkipImageSource_ = value;
-            }
+            get => SkipImageSource_; set => SkipImageSource_ = value;
         }
 
         #endregion
@@ -391,10 +310,7 @@ namespace ProjectEye.Models
         private int WeekWorkLevel_;
         public int WeekWorkLevel
         {
-            get
-            {
-                return WeekWorkLevel_;
-            }
+            get => WeekWorkLevel_;
             set
             {
                 WeekWorkLevel_ = value;
@@ -404,10 +320,7 @@ namespace ProjectEye.Models
         private int WeekRestLevel_;
         public int WeekRestLevel
         {
-            get
-            {
-                return WeekRestLevel_;
-            }
+            get => WeekRestLevel_;
             set
             {
                 WeekRestLevel_ = value;
@@ -417,10 +330,7 @@ namespace ProjectEye.Models
         private int WeekSkipLevel_;
         public int WeekSkipLevel
         {
-            get
-            {
-                return WeekSkipLevel_;
-            }
+            get => WeekSkipLevel_;
             set
             {
                 WeekSkipLevel_ = value;

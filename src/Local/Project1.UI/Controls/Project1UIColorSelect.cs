@@ -15,8 +15,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public Brush Color
         {
-            get { return (Brush)GetValue(ColorProperty); }
-            set { SetValue(ColorProperty, value); }
+            get => (Brush)GetValue(ColorProperty); set => SetValue(ColorProperty, value);
         }
         public static readonly DependencyProperty ColorProperty =
             DependencyProperty.Register("Color", typeof(Brush), typeof(Project1UIColorSelect), new PropertyMetadata(Brushes.Black));
@@ -29,15 +28,15 @@ namespace Project1.UI.Controls
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
-            System.Windows.Forms.ColorDialog colorDialog = new System.Windows.Forms.ColorDialog();
+            var colorDialog = new System.Windows.Forms.ColorDialog();
 
             if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 
             {
 
-                System.Drawing.SolidBrush sb = new System.Drawing.SolidBrush(colorDialog.Color);
+                var sb = new System.Drawing.SolidBrush(colorDialog.Color);
 
-                SolidColorBrush solidColorBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B));
+                var solidColorBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B));
 
                 Color = solidColorBrush;
 

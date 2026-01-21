@@ -1,11 +1,5 @@
-﻿using Project1.UI.Cores;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using Project1.UI.Cores;
 
 namespace ProjectEyeBug
 {
@@ -17,7 +11,7 @@ namespace ProjectEyeBug
         private System.Threading.Mutex mutex;
         public App()
         {
-            Theme theme = new Theme();
+            var theme = new Theme();
             UIDefaultSetting.DefaultThemeName = "blue";
             UIDefaultSetting.DefaultThemePath = "/ProjectEye;component/Resources/Themes/";
             theme.ApplyTheme();
@@ -43,8 +37,7 @@ namespace ProjectEyeBug
         /// </summary>
         private bool IsRuned()
         {
-            bool ret;
-            mutex = new System.Threading.Mutex(true, "ProjectEyeBug", out ret);
+            mutex = new System.Threading.Mutex(true, "ProjectEyeBug", out var ret);
             if (!ret)
             {
 #if !DEBUG

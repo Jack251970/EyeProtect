@@ -35,7 +35,7 @@ namespace ProjectEye.Core.Service
         public void Init()
         {
             //创建一个隐藏的窗口，用于接收显示器拔插消息
-            Window hookWindow = new Window();
+            var hookWindow = new Window();
             hookWindow.Width = 0;
             hookWindow.Height = 0;
             hookWindow.ShowInTaskbar = false;

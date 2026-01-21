@@ -16,8 +16,7 @@ namespace Project1.UI.Controls.ChartControl
         #region 滚动位置
         public double HOffset
         {
-            get { return (double)GetValue(HOffsetProperty); }
-            set { SetValue(HOffsetProperty, value); }
+            get => (double)GetValue(HOffsetProperty); set => SetValue(HOffsetProperty, value);
         }
         public static readonly DependencyProperty HOffsetProperty =
             DependencyProperty.Register("HOffset",
@@ -28,11 +27,8 @@ namespace Project1.UI.Controls.ChartControl
 
         private static void OnHOffsetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ScrollViewer scrollViewer = d as ScrollViewer;
-            if (scrollViewer != null)
-            {
-                scrollViewer.ScrollToHorizontalOffset((double)e.NewValue);
-            }
+            var scrollViewer = d as ScrollViewer;
+            scrollViewer?.ScrollToHorizontalOffset((double)e.NewValue);
         }
 
 
@@ -46,8 +42,7 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         public Visibility AverageVisibility
         {
-            get { return (Visibility)GetValue(AverageVisibilityProperty); }
-            set { SetValue(AverageVisibilityProperty, value); }
+            get => (Visibility)GetValue(AverageVisibilityProperty); set => SetValue(AverageVisibilityProperty, value);
         }
         public static readonly DependencyProperty AverageVisibilityProperty =
             DependencyProperty.Register("AverageVisibility",
@@ -64,8 +59,7 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         public Brush ItemColor
         {
-            get { return (Brush)GetValue(ItemColorProperty); }
-            set { SetValue(ItemColorProperty, value); }
+            get => (Brush)GetValue(ItemColorProperty); set => SetValue(ItemColorProperty, value);
         }
         public static readonly DependencyProperty ItemColorProperty =
             DependencyProperty.Register("ItemColor",
@@ -81,8 +75,7 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         public double TickLabelWidth
         {
-            get { return (double)GetValue(TickLabelWidthProperty); }
-            set { SetValue(TickLabelWidthProperty, value); }
+            get => (double)GetValue(TickLabelWidthProperty); set => SetValue(TickLabelWidthProperty, value);
         }
         public static readonly DependencyProperty TickLabelWidthProperty =
             DependencyProperty.Register("TickLabelWidth",
@@ -99,8 +92,7 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         public bool IsAnimation
         {
-            get { return (bool)GetValue(IsAnimationProperty); }
-            set { SetValue(IsAnimationProperty, value); }
+            get => (bool)GetValue(IsAnimationProperty); set => SetValue(IsAnimationProperty, value);
         }
         public static readonly DependencyProperty IsAnimationProperty =
             DependencyProperty.Register("IsAnimation",
@@ -117,8 +109,7 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         public IEnumerable<ChartDataModel> Data
         {
-            get { return (IEnumerable<ChartDataModel>)GetValue(DataProperty); }
-            set { SetValue(DataProperty, value); }
+            get => (IEnumerable<ChartDataModel>)GetValue(DataProperty); set => SetValue(DataProperty, value);
         }
         public static readonly DependencyProperty DataProperty =
             DependencyProperty.Register("Data",
@@ -136,8 +127,7 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         public double MaxValue
         {
-            get { return (double)GetValue(MaxValueProperty); }
-            set { SetValue(MaxValueProperty, value); }
+            get => (double)GetValue(MaxValueProperty); set => SetValue(MaxValueProperty, value);
         }
         public static readonly DependencyProperty MaxValueProperty =
             DependencyProperty.Register("MaxValue",
@@ -154,8 +144,7 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         public double AverageDivisor
         {
-            get { return (double)GetValue(AverageDivisorProperty); }
-            set { SetValue(AverageDivisorProperty, value); }
+            get => (double)GetValue(AverageDivisorProperty); set => SetValue(AverageDivisorProperty, value);
         }
         public static readonly DependencyProperty AverageDivisorProperty =
             DependencyProperty.Register("AverageDivisor",
@@ -172,8 +161,7 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         public double GapValue
         {
-            get { return (double)GetValue(GapValueProperty); }
-            set { SetValue(GapValueProperty, value); }
+            get => (double)GetValue(GapValueProperty); set => SetValue(GapValueProperty, value);
         }
         public static readonly DependencyProperty GapValueProperty =
             DependencyProperty.Register("GapValue",
@@ -190,8 +178,7 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         public double Average
         {
-            get { return (double)GetValue(AverageProperty); }
-            set { SetValue(AverageProperty, value); }
+            get => (double)GetValue(AverageProperty); set => SetValue(AverageProperty, value);
         }
         public static readonly DependencyProperty AverageProperty =
             DependencyProperty.Register("Average",
@@ -208,8 +195,7 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         public Visibility ScrollLeftButtonVisibility
         {
-            get { return (Visibility)GetValue(ScrollLeftButtonVisibilityProperty); }
-            set { SetValue(ScrollLeftButtonVisibilityProperty, value); }
+            get => (Visibility)GetValue(ScrollLeftButtonVisibilityProperty); set => SetValue(ScrollLeftButtonVisibilityProperty, value);
         }
         public static readonly DependencyProperty ScrollLeftButtonVisibilityProperty =
             DependencyProperty.Register("ScrollLeftButtonVisibility",
@@ -226,8 +212,7 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         public Visibility ScrollRightButtonVisibility
         {
-            get { return (Visibility)GetValue(ScrollRightButtonVisibilityProperty); }
-            set { SetValue(ScrollRightButtonVisibilityProperty, value); }
+            get => (Visibility)GetValue(ScrollRightButtonVisibilityProperty); set => SetValue(ScrollRightButtonVisibilityProperty, value);
         }
         public static readonly DependencyProperty ScrollRightButtonVisibilityProperty =
             DependencyProperty.Register("ScrollRightButtonVisibility",
@@ -244,8 +229,7 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         public string TickText
         {
-            get { return (string)GetValue(TickTextProperty); }
-            set { SetValue(TickTextProperty, value); }
+            get => (string)GetValue(TickTextProperty); set => SetValue(TickTextProperty, value);
         }
         public static readonly DependencyProperty TickTextProperty =
             DependencyProperty.Register("TickText",
@@ -262,8 +246,7 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         public string AverageText
         {
-            get { return (string)GetValue(AverageTextProperty); }
-            set { SetValue(AverageTextProperty, value); }
+            get => (string)GetValue(AverageTextProperty); set => SetValue(AverageTextProperty, value);
         }
         public static readonly DependencyProperty AverageTextProperty =
             DependencyProperty.Register("AverageText",
@@ -279,8 +262,7 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         public string MinimumText
         {
-            get { return (string)GetValue(MinimumTextProperty); }
-            set { SetValue(MinimumTextProperty, value); }
+            get => (string)GetValue(MinimumTextProperty); set => SetValue(MinimumTextProperty, value);
         }
         public static readonly DependencyProperty MinimumTextProperty =
             DependencyProperty.Register("MinimumText",
@@ -295,10 +277,7 @@ namespace Project1.UI.Controls.ChartControl
             var chart = (d as Chart);
             if (e.Property == DataProperty)
             {
-
-                var newData = e.NewValue as IEnumerable<ChartDataModel>;
-
-                if (newData != null)
+                if (e.NewValue is IEnumerable<ChartDataModel> newData)
                 {
                     chart.isRendered = false;
                     chart.Render();
@@ -315,7 +294,7 @@ namespace Project1.UI.Controls.ChartControl
             }
             if (e.Property == AverageProperty)
             {
-                double value = (double)e.NewValue;
+                var value = (double)e.NewValue;
 
                 if (chart.averageValue != (int)chart.averageValue)
                 {
@@ -389,7 +368,7 @@ namespace Project1.UI.Controls.ChartControl
         /// <summary>
         /// 动画
         /// </summary>
-        private Storyboard storyboard;
+        private readonly Storyboard storyboard;
         /// <summary>
         /// 向左滚动按钮
         /// </summary>
@@ -401,15 +380,15 @@ namespace Project1.UI.Controls.ChartControl
         /// <summary>
         /// 项目容器滚动动画容器
         /// </summary>
-        private Storyboard scrollStoryboard;
+        private readonly Storyboard scrollStoryboard;
         /// <summary>
         /// 通用动画函数
         /// </summary>
-        private SineEase sineEase;
+        private readonly SineEase sineEase;
         /// <summary>
         /// 项目容器滚动动画
         /// </summary>
-        private DoubleAnimation scrollAnimation;
+        private readonly DoubleAnimation scrollAnimation;
         /// <summary>
         /// 是否在执行滚动动画
         /// </summary>
@@ -653,11 +632,11 @@ namespace Project1.UI.Controls.ChartControl
                 return;
             }
 
-            double itemTrueHeight = ItemContainer.ActualHeight - 30 - 20;
+            var itemTrueHeight = ItemContainer.ActualHeight - 30 - 20;
 
 
 
-            double bottomValue = Data.Count() > 0 ? Data.Where(m => m.Value >= 0).Min(m => m.Value) : 0;
+            var bottomValue = Data.Count() > 0 ? Data.Where(m => m.Value >= 0).Min(m => m.Value) : 0;
 
             averageTickY = (averageValue / maxValue) * itemTrueHeight + 30 - AverageTick.ActualHeight / 2;
 
@@ -666,17 +645,17 @@ namespace Project1.UI.Controls.ChartControl
 
             Average = averageValue;
 
-            double bottomTickMargin = (bottomValue / maxValue) * itemTrueHeight + 30;
+            var bottomTickMargin = (bottomValue / maxValue) * itemTrueHeight + 30;
 
-            double bottomTickY = bottomTickMargin - BottomTick.ActualHeight / 2;
-            TranslateTransform averageTransform = new TranslateTransform()
+            var bottomTickY = bottomTickMargin - BottomTick.ActualHeight / 2;
+            var averageTransform = new TranslateTransform()
             {
                 Y = -averageTickY
             };
             AverageTick.RenderTransform = averageTransform;
             //AverageTick.Margin = new Thickness(0, 0, 0, averageTickMargin);
             //BottomTick.Margin = new Thickness(0, 0, 0, bottomTickMargin);
-            TranslateTransform bottomTickTransform = new TranslateTransform()
+            var bottomTickTransform = new TranslateTransform()
             {
                 Y = -bottomTickY
             };
@@ -691,7 +670,7 @@ namespace Project1.UI.Controls.ChartControl
                 Y = -averageLabelY
             };
             //AverageLabel.Text = TickText.Replace("{value}", Math.Round(averageValue, 1).ToString());
-            double bottomTickHeight = double.IsNaN(BottomTick.Height) ? 2 : BottomTick.Height;
+            var bottomTickHeight = double.IsNaN(BottomTick.Height) ? 2 : BottomTick.Height;
             BottomValueBorder.Margin = new Thickness(0, 0, 0, bottomTickMargin - BottomValueBorder.ActualHeight / 2 - bottomTickHeight / 2);
             BottomValueLabel.Text = TickText.Replace("{value}", bottomValue.ToString());
 
@@ -711,10 +690,10 @@ namespace Project1.UI.Controls.ChartControl
                 return;
             }
 
-            for (int i = 0; i < Data.Count(); i++)
+            for (var i = 0; i < Data.Count(); i++)
             {
-                ChartDataModel data = Data.ElementAt(i);
-                ChartItem item = GetCreateItem(data, maxValue);
+                var data = Data.ElementAt(i);
+                var item = GetCreateItem(data, maxValue);
                 if (i > 0)
                 {
                     //添加间距
@@ -726,7 +705,7 @@ namespace Project1.UI.Controls.ChartControl
 
         private ChartItem GetCreateItem(ChartDataModel chartData, double maxValue)
         {
-            ChartItem item = new ChartItem(this);
+            var item = new ChartItem(this);
             item.TagName = chartData.Tag;
             item.Value = chartData.Value;
             item.MaxValue = maxValue;
@@ -745,21 +724,21 @@ namespace Project1.UI.Controls.ChartControl
             //通用动画函数
             //SineEase sineEase = new SineEase() { EasingMode = EasingMode.EaseIn };
             //平均值刻度动画
-            DoubleAnimation averageAnimation = new DoubleAnimation();
+            var averageAnimation = new DoubleAnimation();
             averageAnimation.From = 0;
             averageAnimation.To = -averageTickY;
             averageAnimation.EasingFunction = sineEase;
             Storyboard.SetTarget(averageAnimation, AverageTick);
             Storyboard.SetTargetProperty(averageAnimation, new PropertyPath("RenderTransform.Y"));
             //平均值标注动画
-            DoubleAnimation averageLabelAnimation = new DoubleAnimation();
+            var averageLabelAnimation = new DoubleAnimation();
             averageLabelAnimation.From = 0;
             averageLabelAnimation.To = -averageLabelY;
             averageLabelAnimation.EasingFunction = sineEase;
             Storyboard.SetTarget(averageLabelAnimation, AverageBorder);
             Storyboard.SetTargetProperty(averageLabelAnimation, new PropertyPath("RenderTransform.Y"));
             //平均值标注数值动画
-            DoubleAnimation averageLabelValueAnimation = new DoubleAnimation();
+            var averageLabelValueAnimation = new DoubleAnimation();
             averageLabelValueAnimation.From = 0;
             averageLabelValueAnimation.To = averageValue;
             averageLabelValueAnimation.EasingFunction = sineEase;
@@ -808,10 +787,10 @@ namespace Project1.UI.Controls.ChartControl
                 if (ItemContainer.Children.Count > 1)
                 {
                     //取第二个，才有margin属性
-                    ChartItem chartItem = ItemContainer.Children[1] as ChartItem;
-                    double oneItemWidth = chartItem.ActualWidth + chartItem.Margin.Left;
+                    var chartItem = ItemContainer.Children[1] as ChartItem;
+                    var oneItemWidth = chartItem.ActualWidth + chartItem.Margin.Left;
                     //每屏最多多少个项目
-                    double onePageMaxItemNum = ItemsScrollViewer.ActualWidth / oneItemWidth;
+                    var onePageMaxItemNum = ItemsScrollViewer.ActualWidth / oneItemWidth;
                     if ((int)onePageMaxItemNum != onePageMaxItemNum)
                     {
                         //带小数点，需要计算
@@ -820,19 +799,19 @@ namespace Project1.UI.Controls.ChartControl
                 }
 
                 //计算一屏滚动值
-                double onePageScrollValue = ItemsScrollViewer.ActualWidth - LostWidth - 2;
+                var onePageScrollValue = ItemsScrollViewer.ActualWidth - LostWidth - 2;
                 //滚动值
                 double to;
                 if (d == 0)
                 {
                     //左滚
-                    double leftScrollValue = ItemsScrollViewer.HorizontalOffset - onePageScrollValue;
+                    var leftScrollValue = ItemsScrollViewer.HorizontalOffset - onePageScrollValue;
                     to = leftScrollValue > 0 ? leftScrollValue : 0;
                 }
                 else
                 {
                     //右滚
-                    double rightScrollValue = ItemsScrollViewer.HorizontalOffset + onePageScrollValue;
+                    var rightScrollValue = ItemsScrollViewer.HorizontalOffset + onePageScrollValue;
                     to = rightScrollValue < ItemsScrollViewer.ScrollableWidth ? rightScrollValue : ItemsScrollViewer.ScrollableWidth;
                 }
 

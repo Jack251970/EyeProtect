@@ -8,10 +8,7 @@ namespace Project1.UI.Controls.Models
         private double Opacity_;
         public double Opacity
         {
-            get
-            {
-                return Opacity_;
-            }
+            get => Opacity_;
             set
             {
                 Opacity_ = value;
@@ -21,11 +18,7 @@ namespace Project1.UI.Controls.Models
         private Brush Background_;
         public Brush Background
         {
-            get
-            {
-
-                return Background_;
-            }
+            get => Background_;
             set
             {
                 Background_ = value;

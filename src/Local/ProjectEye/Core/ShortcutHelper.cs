@@ -37,7 +37,7 @@ namespace ProjectEye.Core
         /// <returns></returns>
         public static bool SetStartup(bool startup = true)
         {
-            string path = Path.Combine(
+            var path = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.Startup),
                     "Project Eye.lnk");
             if (startup)

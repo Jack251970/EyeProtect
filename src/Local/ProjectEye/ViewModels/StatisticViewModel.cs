@@ -71,9 +71,9 @@ namespace ProjectEye.ViewModels
 
         private void LoadImages()
         {
-            string worktimeimgpath = string.IsNullOrEmpty(config.options.Style.DataWindowWorkTimeImagePath) ? "pack://application:,,,/ProjectEye;component/Resources/web_developer.png" : config.options.Style.DataWindowWorkTimeImagePath;
-            string resttimeimgpath = string.IsNullOrEmpty(config.options.Style.DataWindowRestTimeImagePath) ? "pack://application:,,,/ProjectEye;component/Resources/coffee_lover.png" : config.options.Style.DataWindowRestTimeImagePath;
-            string skipimgpath = string.IsNullOrEmpty(config.options.Style.DataWindowSkipImagePath) ? "pack://application:,,,/ProjectEye;component/Resources/office_work_.png" : config.options.Style.DataWindowSkipImagePath;
+            var worktimeimgpath = string.IsNullOrEmpty(config.options.Style.DataWindowWorkTimeImagePath) ? "pack://application:,,,/ProjectEye;component/Resources/web_developer.png" : config.options.Style.DataWindowWorkTimeImagePath;
+            var resttimeimgpath = string.IsNullOrEmpty(config.options.Style.DataWindowRestTimeImagePath) ? "pack://application:,,,/ProjectEye;component/Resources/coffee_lover.png" : config.options.Style.DataWindowRestTimeImagePath;
+            var skipimgpath = string.IsNullOrEmpty(config.options.Style.DataWindowSkipImagePath) ? "pack://application:,,,/ProjectEye;component/Resources/office_work_.png" : config.options.Style.DataWindowSkipImagePath;
 
             Data.WorktimeImageSource = BitmapImager.Load(worktimeimgpath);
             Data.ResttimeImageSource = BitmapImager.Load(resttimeimgpath);
@@ -115,8 +115,8 @@ namespace ProjectEye.ViewModels
             var MonthSkipData = new List<ChartDataModel>();
 
             //计算上个月的数据
-            int lastYear = Data.Year;
-            int lastMonth = Data.Month;
+            var lastYear = Data.Year;
+            var lastMonth = Data.Month;
             if (lastMonth - 1 == 0)
             {
                 lastMonth = 12;
@@ -139,7 +139,7 @@ namespace ProjectEye.ViewModels
 
             foreach (var data in monthData)
             {
-                bool isSelected = DateTime.Now.Date == data.Date.Date;
+                var isSelected = DateTime.Now.Date == data.Date.Date;
                 MonthWorkData.Add(new ChartDataModel()
                 {
                     IsSelected = isSelected,
@@ -188,7 +188,7 @@ namespace ProjectEye.ViewModels
             }
             else
             {
-                int lastWeekNum = (int)DateTime.Now.DayOfWeek;
+                var lastWeekNum = (int)DateTime.Now.DayOfWeek;
                 if (lastWeekNum == 0)
                 {
                     lastWeekNum = 7;
@@ -211,7 +211,7 @@ namespace ProjectEye.ViewModels
             }
             else
             {
-                int weekNum = (int)DateTime.Now.DayOfWeek;
+                var weekNum = (int)DateTime.Now.DayOfWeek;
                 if (weekNum == 0)
                 {
                     weekNum = 7;
@@ -231,11 +231,11 @@ namespace ProjectEye.ViewModels
 
             foreach (var data in WeekData)
             {
-                bool isSelected = DateTime.Now.Date == data.Date.Date;
-                string weekStr = weekText[(int)data.Date.DayOfWeek];
+                var isSelected = DateTime.Now.Date == data.Date.Date;
+                var weekStr = weekText[(int)data.Date.DayOfWeek];
 
                 //string addStr = isSelected ? "今日 " : data.Date.Month + "月" + data.Date.Day + "日 ";
-                string addStr = isSelected ? $"{Application.Current.Resources["Lang_today"]} " : data.Date.Month + $"{Application.Current.Resources["Lang_xmonth"]}" + data.Date.Day + $"{Application.Current.Resources["Lang_xday"]} ";
+                var addStr = isSelected ? $"{Application.Current.Resources["Lang_today"]} " : data.Date.Month + $"{Application.Current.Resources["Lang_xmonth"]}" + data.Date.Day + $"{Application.Current.Resources["Lang_xday"]} ";
 
                 WeekWorkData.Add(new ChartDataModel()
                 {
@@ -272,14 +272,14 @@ namespace ProjectEye.ViewModels
 
             //  本周已过天数
             //int weekNum = Data.WeekTrueWorkDays;
-            int weekNum = (int)DateTime.Now.DayOfWeek;
+            var weekNum = (int)DateTime.Now.DayOfWeek;
             if (weekNum == 0)
             {
                 weekNum = 7;
             }
 
             //本周平均工作时间
-            double weekWorkAverage = weekNum > 0 ? Data.WeekWork / weekNum : 0;
+            var weekWorkAverage = weekNum > 0 ? Data.WeekWork / weekNum : 0;
 
             //工作时间
             if (weekWorkAverage <= 8)
@@ -288,7 +288,7 @@ namespace ProjectEye.ViewModels
                 Data.WorkAnalysis = $"{Application.Current.Resources["Lang_Normal"]}";
                 Data.WeekWorkLevel = 0;
             }
-            else if (weekWorkAverage > 8 && weekWorkAverage < 10)
+            else if (weekWorkAverage is > 8 and < 10)
             {
                 //  较长
                 Data.WorkAnalysis = $"{Application.Current.Resources["Lang_Busy"]}";
@@ -312,7 +312,7 @@ namespace ProjectEye.ViewModels
             else
             {
                 //  按照20-20-20规则为基准每1小时至少休息1分钟
-                double avgRest = Data.WeekRest / Data.WeekWork;
+                var avgRest = Data.WeekRest / Data.WeekWork;
 
                 if (avgRest >= 1)
                 {
@@ -350,7 +350,7 @@ namespace ProjectEye.ViewModels
             }
             else
             {
-                double skipRate = Data.WeekSkip / (Data.WeekWork * 3 / 2);
+                var skipRate = Data.WeekSkip / (Data.WeekWork * 3 / 2);
                 if (skipRate >= 0.45)
                 {
                     //  过于频繁
@@ -369,11 +369,11 @@ namespace ProjectEye.ViewModels
 
         private void OnGenerateMonthlyDataImgCommand(object obj)
         {
-            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            var dlg = new Microsoft.Win32.SaveFileDialog();
             dlg.FileName = "Project Eye " + Data.Year + Data.Month;
             dlg.DefaultExt = ".jpg";
             dlg.Filter = "(.jpg)|*.jpg";
-            Nullable<bool> result = dlg.ShowDialog();
+            var result = dlg.ShowDialog();
             if (result == true)
             {
                 new DataReportImageHelper(
@@ -392,11 +392,11 @@ namespace ProjectEye.ViewModels
         {
             try
             {
-                Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+                var dlg = new Microsoft.Win32.SaveFileDialog();
                 dlg.FileName = "Project Eye statistic data " + Data.Year + Data.Month;
                 dlg.DefaultExt = ".xlsx";
                 dlg.Filter = "(.xlsx)|*.xlsx";
-                Nullable<bool> result = dlg.ShowDialog();
+                var result = dlg.ShowDialog();
                 if (result == true)
                 {
                     //  获取选择月份的数据

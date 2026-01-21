@@ -13,8 +13,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public CornerRadius CornerRadius
         {
-            get { return (CornerRadius)GetValue(CornerRadiusProperty); }
-            set { SetValue(CornerRadiusProperty, value); }
+            get => (CornerRadius)GetValue(CornerRadiusProperty); set => SetValue(CornerRadiusProperty, value);
         }
         public static readonly DependencyProperty CornerRadiusProperty =
             DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(Project1UIButton));
@@ -25,8 +24,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public HorizontalAlignment IconAlignment
         {
-            get { return (HorizontalAlignment)GetValue(IconAlignmentProperty); }
-            set { SetValue(IconAlignmentProperty, value); }
+            get => (HorizontalAlignment)GetValue(IconAlignmentProperty); set => SetValue(IconAlignmentProperty, value);
         }
         public static readonly DependencyProperty IconAlignmentProperty =
             DependencyProperty.Register("IconAlignment", typeof(HorizontalAlignment), typeof(Project1UIButton));
@@ -36,8 +34,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public Project1UIIconType Icon
         {
-            get { return (Project1UIIconType)GetValue(IconProperty); }
-            set { SetValue(IconProperty, value); }
+            get => (Project1UIIconType)GetValue(IconProperty); set => SetValue(IconProperty, value);
         }
         public static readonly DependencyProperty IconProperty =
             DependencyProperty.Register("Icon", typeof(Project1UIIconType), typeof(Project1UIButton), new PropertyMetadata(Project1UIIconType.Null));
@@ -47,8 +44,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public double IconSize
         {
-            get { return (double)GetValue(IconSizeProperty); }
-            set { SetValue(IconSizeProperty, value); }
+            get => (double)GetValue(IconSizeProperty); set => SetValue(IconSizeProperty, value);
         }
         public static readonly DependencyProperty IconSizeProperty =
             DependencyProperty.Register("IconSize", typeof(double), typeof(Project1UIButton));

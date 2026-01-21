@@ -6,10 +6,7 @@
 
         public static void Add(Project1UIToast toast)
         {
-            if (toast_ != null)
-            {
-                toast_.Hide();
-            }
+            toast_?.Hide();
             toast_ = toast;
         }
 

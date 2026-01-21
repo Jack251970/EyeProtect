@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace ProjectEye.Core.Service
 {
@@ -10,7 +9,7 @@ namespace ProjectEye.Core.Service
         /// <summary>
         /// 已创建的实例
         /// </summary>
-        private IList<object> instanceList;
+        private readonly IList<object> instanceList;
         public ServiceCollection()
         {
             instanceList = new List<object>();
@@ -28,11 +27,8 @@ namespace ProjectEye.Core.Service
         {
             foreach (var instance in instanceList)
             {
-                MethodInfo method = instance.GetType().GetMethod("Init");
-                if (method != null)
-                {
-                    method.Invoke(instance, null);
-                }
+                var method = instance.GetType().GetMethod("Init");
+                method?.Invoke(instance, null);
             }
         }
         //public void AddViews()
@@ -55,20 +51,20 @@ namespace ProjectEye.Core.Service
         {
             var constructorInfoObj = type.GetConstructors()[0];
             var constructorParameters = constructorInfoObj.GetParameters();
-            int constructorParametersLength = constructorParameters.Length;
-            Type[] types = new Type[constructorParametersLength];
-            object[] objs = new object[constructorParametersLength];
-            for (int i = 0; i < constructorParametersLength; i++)
+            var constructorParametersLength = constructorParameters.Length;
+            var types = new Type[constructorParametersLength];
+            var objs = new object[constructorParametersLength];
+            for (var i = 0; i < constructorParametersLength; i++)
             {
-                string typeFullName = constructorParameters[i].ParameterType.FullName;
-                Type t = Type.GetType(typeFullName);
+                var typeFullName = constructorParameters[i].ParameterType.FullName;
+                var t = Type.GetType(typeFullName);
                 types[i] = t;
 
                 objs[i] = GetInstance(typeFullName);
 
             }
-            ConstructorInfo ctor = type.GetConstructor(types);
-            object instance = ctor.Invoke(objs);
+            var ctor = type.GetConstructor(types);
+            var instance = ctor.Invoke(objs);
             if (instance != null)
             {
                 instanceList.Add(instance);

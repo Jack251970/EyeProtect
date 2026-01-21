@@ -5,7 +5,7 @@ namespace Project1.UI.Controls.Data
 {
     public class TextAlignmentData
     {
-        private List<DesignTextAlignment> data;
+        private readonly List<DesignTextAlignment> data;
         public TextAlignmentData()
         {
             data = new List<DesignTextAlignment>();

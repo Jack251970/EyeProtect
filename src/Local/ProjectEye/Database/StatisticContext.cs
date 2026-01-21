@@ -15,11 +15,10 @@ namespace ProjectEye.Database
         // {
         //     DbConfiguration.SetConfiguration(new SQLiteConfiguration());
         // }
-        public StatisticContext()
-       : base(new SQLiteConnection()
-       {
-           ConnectionString = "Data Source=.\\Data\\data.db"
-       }, true)
+        public StatisticContext() : base(new SQLiteConnection()
+        {
+            ConnectionString = "Data Source=.\\Data\\data.db"
+        }, true)
         {
             DbConfiguration.SetConfiguration(new SQLiteConfiguration());
         }

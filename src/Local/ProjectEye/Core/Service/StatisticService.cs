@@ -44,7 +44,7 @@ namespace ProjectEye.Core.Service
         /// <summary>
         /// 统计数据锁
         /// </summary>
-        private object statisticLocker = new object();
+        private readonly object statisticLocker = new();
         //存放文件夹
         private readonly string dir = "Data";
         //统计数据
@@ -60,7 +60,7 @@ namespace ProjectEye.Core.Service
         /// <summary>
         /// 工作时间测量器
         /// </summary>
-        System.Diagnostics.Stopwatch workWatcher;
+        private System.Diagnostics.Stopwatch workWatcher;
 
         private double cacheWorkTotalMinutes;
         public StatisticService(
@@ -121,20 +121,18 @@ namespace ProjectEye.Core.Service
 
                     if (statisticList != null && statisticList.Data != null && statisticList.Data.Count > 0)
                     {
-                        using (var db = new StatisticContext())
+                        using var db = new StatisticContext();
+                        foreach (var item in statisticList.Data)
                         {
-                            foreach (var item in statisticList.Data)
-                            {
-                                db.Statistics.Add(item);
-                            }
-                            db.SaveChanges();
-                            //备份数据文件
-                            File.Copy(xmlPath, xmlPath + ".migrate.backup");
-                            //删除原数据文件
-                            File.Delete(xmlPath);
-                            //迁移标记文件，在用户收到迁移提示后将删除
-                            File.WriteAllText(xmlPath + ".migrate.mark", "");
+                            db.Statistics.Add(item);
                         }
+                        db.SaveChanges();
+                        //备份数据文件
+                        File.Copy(xmlPath, xmlPath + ".migrate.backup");
+                        //删除原数据文件
+                        File.Delete(xmlPath);
+                        //迁移标记文件，在用户收到迁移提示后将删除
+                        File.WriteAllText(xmlPath + ".migrate.mark", "");
                     }
 
                 }
@@ -165,27 +163,25 @@ namespace ProjectEye.Core.Service
         /// </summary>
         private void CreateMonthlyItems(DateTime dateTime)
         {
-            int days = DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
-            int today = dateTime.Day;
-            using (var db = new StatisticContext())
+            var days = DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
+            var today = dateTime.Day;
+            using var db = new StatisticContext();
+            for (var i = 0; i < days; i++)
             {
-                for (int i = 0; i < days; i++)
+                var date = dateTime.AddDays(-today + (i + 1)).Date;
+                if (db.Statistics.Where(m => m.Date == date).Count() == 0)
                 {
-                    var date = dateTime.AddDays(-today + (i + 1)).Date;
-                    if (db.Statistics.Where(m => m.Date == date).Count() == 0)
+                    //补上缺少的日期
+                    db.Statistics.Add(new StatisticModel()
                     {
-                        //补上缺少的日期
-                        db.Statistics.Add(new StatisticModel()
-                        {
-                            Date = date,
-                            ResetTime = 0,
-                            SkipCount = 0,
-                            WorkingTime = 0
-                        });
-                    }
+                        Date = date,
+                        ResetTime = 0,
+                        SkipCount = 0,
+                        WorkingTime = 0
+                    });
                 }
-                db.SaveChanges();
             }
+            db.SaveChanges();
         }
         #endregion
 
@@ -240,21 +236,19 @@ namespace ProjectEye.Core.Service
             else
             {
                 //非当日从数据库中查找
-                using (var db = new StatisticContext())
+                using var db = new StatisticContext();
+                var res = db.Statistics.Where(m => m.Date == date.Date);
+                if (res.Count() == 0)
                 {
-                    var res = db.Statistics.Where(m => m.Date == date.Date);
-                    if (res.Count() == 0)
-                    {
-                        //数据库中没有时则创建
-                        var dateData = GetNewdayData(date);
-                        db.Statistics.Add(dateData);
-                        db.SaveChanges();
-                        return dateData;
-                    }
-                    else
-                    {
-                        return res.ToList().FirstOrDefault();
-                    }
+                    //数据库中没有时则创建
+                    var dateData = GetNewdayData(date);
+                    db.Statistics.Add(dateData);
+                    db.SaveChanges();
+                    return dateData;
+                }
+                else
+                {
+                    return res.ToList().FirstOrDefault();
                 }
             }
         }
@@ -291,15 +285,13 @@ namespace ProjectEye.Core.Service
                 {
                     todayStatistic = FindCreate();
                 }
-                using (var db = new StatisticContext())
-                {
-                    //var item = db.Statistics.Where(m => m.Date == todayStatistic.Date).Single();
-                    var item = (from c in db.Statistics where c.Date == todayStatistic.Date select c).FirstOrDefault();
-                    item.ResetTime = todayStatistic.ResetTime;
-                    item.SkipCount = todayStatistic.SkipCount;
-                    item.WorkingTime = todayStatistic.WorkingTime;
-                    db.SaveChanges();
-                }
+                using var db = new StatisticContext();
+                //var item = db.Statistics.Where(m => m.Date == todayStatistic.Date).Single();
+                var item = (from c in db.Statistics where c.Date == todayStatistic.Date select c).FirstOrDefault();
+                item.ResetTime = todayStatistic.ResetTime;
+                item.SkipCount = todayStatistic.SkipCount;
+                item.WorkingTime = todayStatistic.WorkingTime;
+                db.SaveChanges();
             });
             backgroundWorker.Run();
         }
@@ -324,8 +316,8 @@ namespace ProjectEye.Core.Service
         {
             lock (statisticLocker)
             {
-                double use = GetCalculateUseEyeMinutes() + cacheWorkTotalMinutes;
-                double workTotalHours = use / 60;
+                var use = GetCalculateUseEyeMinutes() + cacheWorkTotalMinutes;
+                var workTotalHours = use / 60;
                 if (workTotalHours < 0.1)
                 {
                     cacheWorkTotalMinutes = use;

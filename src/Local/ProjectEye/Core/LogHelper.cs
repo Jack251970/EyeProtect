@@ -34,7 +34,7 @@ namespace ProjectEye.Core
         }
         private static void Log(Level level, string text, bool write = false, bool console = true)
         {
-            string log = LogFormat(level, text);
+            var log = LogFormat(level, text);
             if (write)
             {
                 //写入日志文件
@@ -50,10 +50,10 @@ namespace ProjectEye.Core
         {
             try
             {
-                string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                          "Log",
-                         $"{level.ToString()}_{DateTime.Now.ToString("yyyy_MM_dd")}.log");
-                string dir = Path.GetDirectoryName(filePath);
+                         $"{level}_{DateTime.Now:yyyy_MM_dd}.log");
+                var dir = Path.GetDirectoryName(filePath);
                 if (!Directory.Exists(dir))
                 {
                     Directory.CreateDirectory(dir);
@@ -67,7 +67,7 @@ namespace ProjectEye.Core
         }
         private static string LogFormat(Level level, string text)
         {
-            string logText = $"[{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}] [{level.ToString()}]\r\n{text}\r\n------------------------\r\n\r\n";
+            var logText = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] [{level}]\r\n{text}\r\n------------------------\r\n\r\n";
             return logText;
         }
     }

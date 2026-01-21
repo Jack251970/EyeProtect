@@ -25,8 +25,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public double[] Data
         {
-            get { return (double[])GetValue(DataProperty); }
-            set { SetValue(DataProperty, value); }
+            get => (double[])GetValue(DataProperty); set => SetValue(DataProperty, value);
         }
         public static readonly DependencyProperty DataProperty =
             DependencyProperty.Register("Data",
@@ -38,11 +37,8 @@ namespace Project1.UI.Controls
         private static void OnDataPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var chart = (d as Project1UIChart);
-            if (chart != null)
-            {
-                //重绘图表
-                chart.InvalidateVisual();
-            }
+            //重绘图表
+            chart?.InvalidateVisual();
 
         }
         #endregion
@@ -53,8 +49,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public string[] Labels
         {
-            get { return (string[])GetValue(LabelsProperty); }
-            set { SetValue(LabelsProperty, value); }
+            get => (string[])GetValue(LabelsProperty); set => SetValue(LabelsProperty, value);
         }
         public static readonly DependencyProperty LabelsProperty =
             DependencyProperty.Register("Labels",
@@ -129,13 +124,11 @@ namespace Project1.UI.Controls
             rootCanvas = GetTemplateChild("root") as Canvas;
         }
 
+        [Obsolete]
         protected override void OnRender(DrawingContext drawingContext)
         {
             //擦除画板
-            if (rootCanvas != null)
-            {
-                rootCanvas.Children.Clear();
-            }
+            rootCanvas?.Children.Clear();
             //计算图表数据
             CalculateChartValue();
             DrawBasicGrid(drawingContext);
@@ -148,6 +141,7 @@ namespace Project1.UI.Controls
 
         #region 绘制文字函数
 
+        [Obsolete]
         public void DrawText(DrawingContext dc, string text, Point point)
         {
 
@@ -197,7 +191,7 @@ namespace Project1.UI.Controls
         }
         private void Draw(DrawingContext dc, Point start, Point end, string color = "#dad9d9", double thickness = 1)
         {
-            Pen _pen = new Pen();
+            var _pen = new Pen();
             _pen.Brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(color));
             _pen.Thickness = thickness;
 
@@ -221,7 +215,7 @@ namespace Project1.UI.Controls
             {
                 Data = new double[] { 0 };
             }
-            double max = Data.Max();
+            var max = Data.Max();
             if (max < 10)
             {
                 max = 10;
@@ -234,11 +228,11 @@ namespace Project1.UI.Controls
             max = Math.Round(max / 2, MidpointRounding.AwayFromZero) * 2;
             DataLength = Data.Length;
             //取得一个间隔值（百分之0.1）
-            double interval = Math.Ceiling(max * 0.1);
+            var interval = Math.Ceiling(max * 0.1);
             //获得行数
-            double line = Math.Ceiling(max / interval);
+            var line = Math.Ceiling(max / interval);
             //计算最终间隔值
-            double realInterval = max / line;
+            var realInterval = max / line;
             if (interval - realInterval > 0)
             {
                 max = max + ((interval - realInterval) * line);
@@ -249,7 +243,7 @@ namespace Project1.UI.Controls
             Interval = realInterval;
             //Debug.WriteLine($"最大值：{max}，间隔值：{interval}，行数：{line}，最终间隔值：{realInterval}");
             Tick = new double[(int)line];
-            for (int i = 0; i < line; i++)
+            for (var i = 0; i < line; i++)
             {
                 Tick[i] = (i + 1) * realInterval;
             }
@@ -264,19 +258,19 @@ namespace Project1.UI.Controls
             Y_Offset = height * .1;
 
             //网格宽度（真正的部分）
-            double GridWidth = width - X_Offset;
+            var GridWidth = width - X_Offset;
             //数据间隔宽度值
-            double DataInterval = GridWidth / (DataLength - 1);
+            var DataInterval = GridWidth / (DataLength - 1);
 
             //网格的真实高度（数据区域）
-            double GridHeight = height - Y_Offset;
+            var GridHeight = height - Y_Offset;
             //计算数值占用的高度
-            double Value = GridHeight / MaxValue;
+            var Value = GridHeight / MaxValue;
             if (DataLength == 1)
             {
                 //只有一个数据时
-                double x = X_Offset;
-                double y = GridHeight - Value * Data[0];
+                var x = X_Offset;
+                var y = GridHeight - Value * Data[0];
                 var dataPoint = new Point()
                 {
                     X = x,
@@ -287,10 +281,10 @@ namespace Project1.UI.Controls
             else
             {
                 //超过一个数据时
-                for (int i = 0; i < DataLength; i++)
+                for (var i = 0; i < DataLength; i++)
                 {
-                    double x = X_Offset + (i * DataInterval);
-                    double y = GridHeight - Value * Data[i];
+                    var x = X_Offset + (i * DataInterval);
+                    var y = GridHeight - Value * Data[i];
 
                     if (i == 0)
                     {
@@ -320,21 +314,22 @@ namespace Project1.UI.Controls
         /// 绘制基础网格线条
         /// </summary>
         /// <param name="dc"></param>
+        [Obsolete]
         private void DrawBasicGrid(DrawingContext dc)
         {
             var height = this.ActualHeight;
             var width = this.ActualWidth;
             //预留空间宽度
-            double XValueWidth = width * 0.05;
-            double YValueWidth = height * 0.05;
+            var XValueWidth = width * 0.05;
+            var YValueWidth = height * 0.05;
 
 
 
 
             //绘制剩余网格线
             //高度间隔值
-            double IntervalHieght = (height - Y_Offset) / Line;
-            for (int i = 0; i < Line; i++)
+            var IntervalHieght = (height - Y_Offset) / Line;
+            for (var i = 0; i < Line; i++)
             {
                 var XStartPoint = new Point()
                 {
@@ -414,16 +409,17 @@ namespace Project1.UI.Controls
 
         //2.
         #region 绘制数据网格线和X轴标签文字
+        [Obsolete]
         private void DrawDataGrid(DrawingContext dc)
         {
             var height = this.ActualHeight;
             var width = this.ActualWidth;
-            double YValueWidth = height * 0.05;
+            var YValueWidth = height * 0.05;
 
             //网格宽度（真正的部分）
-            double GridWidth = width - X_Offset;
+            var GridWidth = width - X_Offset;
             //数据间隔宽度值
-            double DataInterval = GridWidth / (DataLength - 1);
+            var DataInterval = GridWidth / (DataLength - 1);
 
             if (Data.Length == 1)
             {
@@ -447,7 +443,7 @@ namespace Project1.UI.Controls
             }
             else
             {
-                for (int i = 0; i < DataLength; i++)
+                for (var i = 0; i < DataLength; i++)
                 {
                     //绘制X轴标签文字
                     var dataTextPoint = new Point()
@@ -495,12 +491,12 @@ namespace Project1.UI.Controls
             {
                 var block = new Path();
                 var brush = new LinearGradientBrush();
-                string startcolor = UIDefaultSetting.DefaultThemeColor;
-                string endcolor = UIDefaultSetting.DefaultThemeColor;
+                var startcolor = UIDefaultSetting.DefaultThemeColor;
+                var endcolor = UIDefaultSetting.DefaultThemeColor;
                 if (UIDefaultSetting.DefaultThemeColor.Length == 9)
                 {
-                    startcolor = "#B3" + startcolor.Substring(3);
-                    endcolor = "#29" + endcolor.Substring(3);
+                    startcolor = "#B3" + startcolor[3..];
+                    endcolor = "#29" + endcolor[3..];
 
                 }
                 else
@@ -524,17 +520,14 @@ namespace Project1.UI.Controls
                     Offset = 1,
                 });
                 block.Fill = brush;
-                string source = $"M{DataPoints[0].X},{DataPoints[0].Y}";
-                for (int i = 1; i < DataPoints.Length; i++)
+                var source = $"M{DataPoints[0].X},{DataPoints[0].Y}";
+                for (var i = 1; i < DataPoints.Length; i++)
                 {
                     source += $" L{DataPoints[i].X},{DataPoints[i].Y}";
                 }
                 source += $" L{XEndPoint.X},{XEndPoint.Y} L{XStartPoint.X},{XStartPoint.Y}";
                 block.Data = Geometry.Parse(source);
-                if (rootCanvas != null)
-                {
-                    rootCanvas.Children.Add(block);
-                }
+                rootCanvas?.Children.Add(block);
             }
         }
         #endregion
@@ -543,7 +536,7 @@ namespace Project1.UI.Controls
         #region 绘制数据标记点
         private void DrawDataPoint(DrawingContext dc)
         {
-            for (int i = 0; i < DataLength; i++)
+            for (var i = 0; i < DataLength; i++)
             {
                 CreateDataPoint(DataPoints[i], Data[i]);
             }
@@ -562,8 +555,8 @@ namespace Project1.UI.Controls
                 dataPoint.Height = 8;
 
                 //中心位置
-                double centerX = point.X - (dataPoint.Width / 2);
-                double centerY = point.Y - (dataPoint.Height / 2);
+                var centerX = point.X - (dataPoint.Width / 2);
+                var centerY = point.Y - (dataPoint.Height / 2);
 
                 //坐标对象
                 var translateTransform = new TranslateTransform();
@@ -638,7 +631,7 @@ namespace Project1.UI.Controls
         #region 绘制数据标记点连接线
         private void DrawDataPointLinkLine(DrawingContext dc)
         {
-            for (int i = 0; i < DataLength; i++)
+            for (var i = 0; i < DataLength; i++)
             {
                 if (i + 1 < DataLength)
                 {

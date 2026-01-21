@@ -16,8 +16,8 @@ namespace ProjectEye.Core
         {
             try
             {
-                XmlSerializer serializer = new XmlSerializer(type);
-                XmlReader xmlReader = XmlReader.Create(file);
+                var serializer = new XmlSerializer(type);
+                var xmlReader = XmlReader.Create(file);
                 if (serializer.CanDeserialize(xmlReader))
                 {
                     var des = serializer.Deserialize(xmlReader);
@@ -41,12 +41,12 @@ namespace ProjectEye.Core
         {
             try
             {
-                string dir = Path.GetDirectoryName(file);
+                var dir = Path.GetDirectoryName(file);
                 if (!Directory.Exists(dir))
                 {
                     Directory.CreateDirectory(dir);
                 }
-                XmlSerializer serializer = new XmlSerializer(data.GetType());
+                var serializer = new XmlSerializer(data.GetType());
                 TextWriter writer = new StreamWriter(file);
                 serializer.Serialize(writer, data);
                 writer.Close();

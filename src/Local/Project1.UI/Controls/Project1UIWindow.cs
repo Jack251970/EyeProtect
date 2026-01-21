@@ -42,8 +42,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public object Logo
         {
-            get { return GetValue(LogoProperty); }
-            set { SetValue(LogoProperty, value); }
+            get => GetValue(LogoProperty); set => SetValue(LogoProperty, value);
         }
         #endregion
 
@@ -54,8 +53,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public object NavigationView
         {
-            get { return GetValue(NavigationViewProperty); }
-            set { SetValue(NavigationViewProperty, value); }
+            get => GetValue(NavigationViewProperty); set => SetValue(NavigationViewProperty, value);
         }
         #endregion
 
@@ -68,8 +66,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public bool IsOpenNavigationView
         {
-            get { return (bool)GetValue(IsOpenNavigationViewProperty); }
-            set { SetValue(IsOpenNavigationViewProperty, value); }
+            get => (bool)GetValue(IsOpenNavigationViewProperty); set => SetValue(IsOpenNavigationViewProperty, value);
         }
         #endregion
 
@@ -81,8 +78,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public bool IsAutoOpenNavigationView
         {
-            get { return (bool)GetValue(IsAutoOpenNavigationViewProperty); }
-            set { SetValue(IsAutoOpenNavigationViewProperty, value); }
+            get => (bool)GetValue(IsAutoOpenNavigationViewProperty); set => SetValue(IsAutoOpenNavigationViewProperty, value);
         }
         #endregion
 
@@ -95,8 +91,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public Visibility MinimizeVisibility
         {
-            get { return (Visibility)GetValue(MinimizeVisibilityProperty); }
-            set { SetValue(MinimizeVisibilityProperty, value); }
+            get => (Visibility)GetValue(MinimizeVisibilityProperty); set => SetValue(MinimizeVisibilityProperty, value);
         }
         #endregion   
 
@@ -109,8 +104,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public Visibility MaximizeVisibility
         {
-            get { return (Visibility)GetValue(MaximizeVisibilityProperty); }
-            set { SetValue(MaximizeVisibilityProperty, value); }
+            get => (Visibility)GetValue(MaximizeVisibilityProperty); set => SetValue(MaximizeVisibilityProperty, value);
         }
         #endregion
 
@@ -123,8 +117,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public Visibility CloseVisibility
         {
-            get { return (Visibility)GetValue(CloseVisibilityProperty); }
-            set { SetValue(CloseVisibilityProperty, value); }
+            get => (Visibility)GetValue(CloseVisibilityProperty); set => SetValue(CloseVisibilityProperty, value);
         }
         #endregion
 
@@ -135,8 +128,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public object ExtElement
         {
-            get { return GetValue(ExtElementProperty); }
-            set { SetValue(ExtElementProperty, value); }
+            get => GetValue(ExtElementProperty); set => SetValue(ExtElementProperty, value);
         }
         #endregion
 
@@ -148,8 +140,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public bool IsAnimation
         {
-            get { return (bool)GetValue(IsAnimationProperty); }
-            set { SetValue(IsAnimationProperty, value); }
+            get => (bool)GetValue(IsAnimationProperty); set => SetValue(IsAnimationProperty, value);
         }
         #endregion
 
@@ -158,8 +149,7 @@ namespace Project1.UI.Controls
 
         private static void OnWindowAnimationTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var window = d as Project1UIWindow;
-            if (window != null && e.NewValue != e.OldValue)
+            if (d is Project1UIWindow window && e.NewValue != e.OldValue)
             {
                 var atype = (AnimationType)e.NewValue;
                 if (atype == AnimationType.None)
@@ -178,8 +168,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public AnimationType WindowAnimationType
         {
-            get { return (AnimationType)GetValue(WindowAnimationTypeProperty); }
-            set { SetValue(WindowAnimationTypeProperty, value); }
+            get => (AnimationType)GetValue(WindowAnimationTypeProperty); set => SetValue(WindowAnimationTypeProperty, value);
         }
         #endregion
 
@@ -192,8 +181,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public bool IsThruWindow
         {
-            get { return (bool)GetValue(IsThruWindowProperty); }
-            set { SetValue(IsThruWindowProperty, value); }
+            get => (bool)GetValue(IsThruWindowProperty); set => SetValue(IsThruWindowProperty, value);
         }
         #endregion
         #endregion
@@ -207,8 +195,8 @@ namespace Project1.UI.Controls
         #endregion
 
         #region 导航栏视图动画
-        private DoubleAnimation NavigationViewAnimation;
-        private Storyboard NavigationViewStoryboard;
+        private readonly DoubleAnimation NavigationViewAnimation;
+        private readonly Storyboard NavigationViewStoryboard;
         #endregion
 
         private readonly Theme theme;
@@ -294,12 +282,8 @@ namespace Project1.UI.Controls
             base.OnApplyTemplate();
 
 
-            var NavigationViewGrid = GetTemplateChild("NavigationViewGrid") as Grid;
-
-            var NavigationView = GetTemplateChild("NavigationView") as ContentControl;
-
-            if (NavigationViewGrid != null
-                && NavigationView != null)
+            if (GetTemplateChild("NavigationViewGrid") is Grid NavigationViewGrid
+                && GetTemplateChild("NavigationView") is ContentControl NavigationView)
             {
                 NavigationViewGrid.Loaded += (e, c) =>
                 {
@@ -412,7 +396,7 @@ namespace Project1.UI.Controls
 
 
                 var easingFunction = new BackEase() { EasingMode = EasingMode.EaseInOut };
-                DoubleAnimation translateXAnimation = new DoubleAnimation();
+                var translateXAnimation = new DoubleAnimation();
                 translateXAnimation.From = ScreenArea.Width;
                 translateXAnimation.To = Left;
                 translateXAnimation.Duration = duration;
@@ -420,7 +404,7 @@ namespace Project1.UI.Controls
                 translateXAnimation.EasingFunction = easingFunction;
                 Storyboard.SetTarget(translateXAnimation, this);
                 Storyboard.SetTargetProperty(translateXAnimation, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)"));
-                DoubleAnimation translateYAnimation = new DoubleAnimation();
+                var translateYAnimation = new DoubleAnimation();
                 translateYAnimation.From = ScreenArea.Height;
                 translateYAnimation.To = Top;
                 translateYAnimation.Duration = duration;
@@ -430,7 +414,7 @@ namespace Project1.UI.Controls
 
                 //缩放动画
                 var scaleEasingFunction = new QuarticEase() { EasingMode = EasingMode.EaseInOut };
-                DoubleAnimation scaleXAnimation = new DoubleAnimation();
+                var scaleXAnimation = new DoubleAnimation();
                 scaleXAnimation.From = 0;
                 scaleXAnimation.To = 1;
                 scaleXAnimation.Duration = duration;
@@ -438,7 +422,7 @@ namespace Project1.UI.Controls
                 scaleXAnimation.EasingFunction = scaleEasingFunction;
                 Storyboard.SetTarget(scaleXAnimation, this);
                 Storyboard.SetTargetProperty(scaleXAnimation, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[1].(ScaleTransform.ScaleX)"));
-                DoubleAnimation scaleYAnimation = new DoubleAnimation();
+                var scaleYAnimation = new DoubleAnimation();
                 scaleYAnimation.From = 0;
                 scaleYAnimation.To = 1;
                 scaleYAnimation.Duration = duration;
@@ -455,7 +439,7 @@ namespace Project1.UI.Controls
             }
             else if (WindowAnimationType == AnimationType.Opacity)
             {
-                DoubleAnimation opacityAnimation = new DoubleAnimation();
+                var opacityAnimation = new DoubleAnimation();
                 opacityAnimation.From = 0;
                 opacityAnimation.To = 1;
                 opacityAnimation.Duration = duration;
@@ -515,7 +499,7 @@ namespace Project1.UI.Controls
                 //位移动画
                 var easingFunction = new BackEase() { EasingMode = EasingMode.EaseInOut };
 
-                DoubleAnimation translateYAnimation = new DoubleAnimation();
+                var translateYAnimation = new DoubleAnimation();
                 translateYAnimation.From = -300;
                 translateYAnimation.To = ScreenArea.Height / 2 - 150;
                 translateYAnimation.Duration = TimeSpan.FromSeconds(1);
@@ -525,7 +509,7 @@ namespace Project1.UI.Controls
                 Storyboard.SetTargetProperty(translateYAnimation, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[1].(TranslateTransform.Y)"));
 
                 //  logo放大缩小动画
-                DoubleAnimationUsingKeyFrames scaleAnimation = new DoubleAnimationUsingKeyFrames();
+                var scaleAnimation = new DoubleAnimationUsingKeyFrames();
                 scaleAnimation.KeyFrames.Add(
               new LinearDoubleKeyFrame(1, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0))));
                 scaleAnimation.KeyFrames.Add(
@@ -534,7 +518,7 @@ namespace Project1.UI.Controls
                new LinearDoubleKeyFrame(15, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(1))));
 
                 Storyboard.SetTarget(scaleAnimation, icon);
-                DoubleAnimationUsingKeyFrames scaleAnimation2 = new DoubleAnimationUsingKeyFrames();
+                var scaleAnimation2 = new DoubleAnimationUsingKeyFrames();
                 scaleAnimation2.KeyFrames.Add(
              new LinearDoubleKeyFrame(1, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0))));
                 scaleAnimation2.KeyFrames.Add(
@@ -550,7 +534,7 @@ namespace Project1.UI.Controls
 
                 //  logo透明动画
 
-                DoubleAnimationUsingKeyFrames iconOpacityAnimation = new DoubleAnimationUsingKeyFrames();
+                var iconOpacityAnimation = new DoubleAnimationUsingKeyFrames();
                 iconOpacityAnimation.KeyFrames.Add(
                new LinearDoubleKeyFrame(.8, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(.8))));
                 iconOpacityAnimation.KeyFrames.Add(
@@ -560,7 +544,7 @@ namespace Project1.UI.Controls
 
 
                 //  ui透明动画
-                DoubleAnimation opacityAnimation2 = new DoubleAnimation();
+                var opacityAnimation2 = new DoubleAnimation();
                 opacityAnimation2.From = 0;
 
                 opacityAnimation2.To = 1;
@@ -574,7 +558,7 @@ namespace Project1.UI.Controls
 
 
                 //  窗口透明动画
-                DoubleAnimation windowOpacityAnimation = new DoubleAnimation();
+                var windowOpacityAnimation = new DoubleAnimation();
                 windowOpacityAnimation.From = 0;
                 windowOpacityAnimation.To = 1;
                 windowOpacityAnimation.Duration = TimeSpan.FromSeconds(1.5);
@@ -603,7 +587,7 @@ namespace Project1.UI.Controls
             {
                 //位移动画
                 var easingFunction = new BackEase() { EasingMode = EasingMode.EaseInOut };
-                DoubleAnimation translateXAnimation = new DoubleAnimation();
+                var translateXAnimation = new DoubleAnimation();
                 translateXAnimation.To = ScreenArea.Width;
                 translateXAnimation.Duration = duration;
 
@@ -611,7 +595,7 @@ namespace Project1.UI.Controls
                 translateXAnimation.EasingFunction = easingFunction;
                 Storyboard.SetTarget(translateXAnimation, this);
                 Storyboard.SetTargetProperty(translateXAnimation, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)"));
-                DoubleAnimation translateYAnimation = new DoubleAnimation();
+                var translateYAnimation = new DoubleAnimation();
                 translateYAnimation.To = ScreenArea.Height;
                 translateYAnimation.Duration = duration;
                 translateYAnimation.EasingFunction = easingFunction;
@@ -620,14 +604,14 @@ namespace Project1.UI.Controls
 
                 //缩放动画
                 var scaleEasingFunction = new QuarticEase() { EasingMode = EasingMode.EaseInOut };
-                DoubleAnimation scaleXAnimation = new DoubleAnimation();
+                var scaleXAnimation = new DoubleAnimation();
                 scaleXAnimation.To = 0;
                 scaleXAnimation.Duration = duration;
                 //BackEase,QuarticEase
                 scaleXAnimation.EasingFunction = scaleEasingFunction;
                 Storyboard.SetTarget(scaleXAnimation, this);
                 Storyboard.SetTargetProperty(scaleXAnimation, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[1].(ScaleTransform.ScaleX)"));
-                DoubleAnimation scaleYAnimation = new DoubleAnimation();
+                var scaleYAnimation = new DoubleAnimation();
                 scaleYAnimation.To = 0;
                 scaleYAnimation.Duration = duration;
                 scaleYAnimation.EasingFunction = scaleEasingFunction;
@@ -641,7 +625,7 @@ namespace Project1.UI.Controls
             }
             else if (WindowAnimationType == AnimationType.Opacity)
             {
-                DoubleAnimation opacityAnimation = new DoubleAnimation();
+                var opacityAnimation = new DoubleAnimation();
                 opacityAnimation.From = 1;
                 opacityAnimation.To = 0;
                 opacityAnimation.Duration = duration;
@@ -655,7 +639,7 @@ namespace Project1.UI.Controls
 
                 var container = Content as Grid;
 
-                DoubleAnimationUsingKeyFrames scaleAnimation = new DoubleAnimationUsingKeyFrames();
+                var scaleAnimation = new DoubleAnimationUsingKeyFrames();
                 scaleAnimation.AutoReverse = true;
                 scaleAnimation.KeyFrames.Add(
               new LinearDoubleKeyFrame(1, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0))));
@@ -664,7 +648,7 @@ namespace Project1.UI.Controls
                 scaleAnimation.KeyFrames.Add(
                new LinearDoubleKeyFrame(18, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(.6))));
 
-                DoubleAnimationUsingKeyFrames scaleAnimation2 = new DoubleAnimationUsingKeyFrames();
+                var scaleAnimation2 = new DoubleAnimationUsingKeyFrames();
                 scaleAnimation2.AutoReverse = true;
                 scaleAnimation2.KeyFrames.Add(
               new LinearDoubleKeyFrame(1, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0))));
@@ -680,7 +664,7 @@ namespace Project1.UI.Controls
                 Storyboard.SetTargetProperty(scaleAnimation, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"));
                 Storyboard.SetTargetProperty(scaleAnimation2, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"));
 
-                DoubleAnimation opacityAnimation2 = new DoubleAnimation();
+                var opacityAnimation2 = new DoubleAnimation();
                 opacityAnimation2.From = 1;
 
                 opacityAnimation2.To = 0;
@@ -757,7 +741,7 @@ namespace Project1.UI.Controls
             base.OnSourceInitialized(e);
             if (IsThruWindow)
             {
-                IntPtr hwnd = new WindowInteropHelper(this).Handle; uint extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
+                var hwnd = new WindowInteropHelper(this).Handle; var extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
                 SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT);
             }
         }

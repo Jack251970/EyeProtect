@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
@@ -46,8 +45,8 @@ namespace ProjectEye.Core.Net
         {
             public string browser_download_url { get; set; }
         }
-        private string githubUrl;
-        private string nowVersion;
+        private readonly string githubUrl;
+        private readonly string nowVersion;
         public VersionInfo Info { get; set; }
 
         public event UpdaterEventHandler RequestCompleteEvent;
@@ -74,7 +73,7 @@ namespace ProjectEye.Core.Net
             try
             {
                 System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                HttpWebRequest httpWebRequest = WebRequest.Create(githubUrl) as HttpWebRequest;
+                var httpWebRequest = WebRequest.Create(githubUrl) as HttpWebRequest;
                 httpWebRequest.Timeout = 60 * 1000;
                 httpWebRequest.ReadWriteTimeout = 60000;
                 httpWebRequest.AllowAutoRedirect = true;
@@ -82,23 +81,21 @@ namespace ProjectEye.Core.Net
                 httpWebRespones = (HttpWebResponse)httpWebRequest.GetResponse();
 
 
-                using (Stream stream = httpWebRespones.GetResponseStream())
-                {
-                    List<byte> lst = new List<byte>();
-                    int nRead = 0;
-                    while ((nRead = stream.ReadByte()) != -1) lst.Add((byte)nRead);
-                    byte[] bodyBytes = lst.ToArray();
+                using var stream = httpWebRespones.GetResponseStream();
+                var lst = new List<byte>();
+                var nRead = 0;
+                while ((nRead = stream.ReadByte()) != -1) lst.Add((byte)nRead);
+                var bodyBytes = lst.ToArray();
 
-                    string body = Encoding.UTF8.GetString(bodyBytes, 0, bodyBytes.Length);
+                var body = Encoding.UTF8.GetString(bodyBytes, 0, bodyBytes.Length);
 
-                    var data = JsonConvert.DeserializeObject<GithubModel>(body);
-                    Info.IsPre = data.prerelease;
-                    Info.Title = data.name;
-                    Info.Version = data.tag_name;
-                    Info.DownloadUrl = data.assets[0].browser_download_url;
-                    Info.HtmlUrl = data.html_url;
-                    RequestCompleteEvent?.Invoke(this, Info);
-                }
+                var data = JsonConvert.DeserializeObject<GithubModel>(body);
+                Info.IsPre = data.prerelease;
+                Info.Title = data.name;
+                Info.Version = data.tag_name;
+                Info.DownloadUrl = data.assets[0].browser_download_url;
+                Info.HtmlUrl = data.html_url;
+                RequestCompleteEvent?.Invoke(this, Info);
 
             }
             catch (Exception ec)

@@ -44,7 +44,7 @@ namespace ProjectEye.ViewModels
             Model.PreAlertActions = systemResources.PreAlertActions;
             Model.Languages = systemResources.Languages;
 
-            string[] version = Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.');
+            var version = Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.');
             Model.Version = version[0] + "." + version[1] + "." + version[2];
 
 
@@ -65,7 +65,7 @@ namespace ProjectEye.ViewModels
         /// <param name="obj"></param>
         private void openWindowCommand_action(object obj)
         {
-            string window = obj.ToString();
+            var window = obj.ToString();
             if (window == "TipViewDesignWindow")
             {
                 WindowManager.CreateWindow(window, true, true);
@@ -92,7 +92,7 @@ namespace ProjectEye.ViewModels
         /// <param name="obj"></param>
         private void addBreackProcessCommand_action(object obj)
         {
-            string process = obj.ToString();
+            var process = obj.ToString();
             if (process == string.Empty)
             {
                 Modal($"{Application.Current.Resources["Lang_Pleaseentertheprocessname"]}");
@@ -134,16 +134,11 @@ namespace ProjectEye.ViewModels
 
         private void soundTestCommand_actionAsync(object obj)
         {
-            string path = "";
-            switch (obj.ToString())
-            {
-                default:
-                    path = config.options.General.SoundPath;
-                    break;
-            }
+            var path = "";
+            path = config.options.General.SoundPath;
             if (!string.IsNullOrEmpty(path))
             {
-                bool resultTest = sound.Test(path);
+                var resultTest = sound.Test(path);
                 Modal(resultTest ? $"{Application.Current.Resources["Lang_Success"]}" : $"{Application.Current.Resources["Lang_Failed"]}");
             }
             else
@@ -155,7 +150,7 @@ namespace ProjectEye.ViewModels
         private void inkCommand_action(object obj)
         {
 
-            string msg = $"{Application.Current.Resources["Lang_Failed"]}";
+            var msg = $"{Application.Current.Resources["Lang_Failed"]}";
             if (ShortcutHelper.CreateDesktopShortcut())
             {
                 msg = $"{Application.Current.Resources["Lang_Success"]}";
@@ -170,7 +165,7 @@ namespace ProjectEye.ViewModels
 
         private void applyCommand_action(object obj)
         {
-            string msg = "更新失败！请尝试重启程序或删除配置文件Config.xml！";
+            var msg = "更新失败！请尝试重启程序或删除配置文件Config.xml！";
             theme.HandleDarkMode();
             if (config.Save())
             {

@@ -13,8 +13,7 @@ namespace Project1.UI.Controls
 
         public int Hour
         {
-            get { return (int)GetValue(HourProperty); }
-            set { SetValue(HourProperty, value); }
+            get => (int)GetValue(HourProperty); set => SetValue(HourProperty, value);
         }
         public static readonly DependencyProperty HourProperty =
             DependencyProperty.Register("Hour",
@@ -29,8 +28,7 @@ namespace Project1.UI.Controls
         #region 分
         public int Minutes
         {
-            get { return (int)GetValue(MinutesProperty); }
-            set { SetValue(MinutesProperty, value); }
+            get => (int)GetValue(MinutesProperty); set => SetValue(MinutesProperty, value);
         }
         public static readonly DependencyProperty MinutesProperty =
             DependencyProperty.Register("Minutes",
@@ -44,10 +42,7 @@ namespace Project1.UI.Controls
         private static void OnChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var timebox = d as TimeBox;
-            if (timebox != null)
-            {
-                timebox.HandleValue();
-            }
+            timebox?.HandleValue();
         }
 
         private ComboBox hourBox, minutesBox;
@@ -62,7 +57,7 @@ namespace Project1.UI.Controls
             minutesBox = GetTemplateChild("MinutesBox") as ComboBox;
             if (hourBox != null)
             {
-                for (int i = 0; i < 24; i++)
+                for (var i = 0; i < 24; i++)
                 {
                     var item = new ComboBoxItem();
                     item.Content = i.ToString().PadLeft(2, '0');
@@ -73,7 +68,7 @@ namespace Project1.UI.Controls
             }
             if (minutesBox != null)
             {
-                for (int i = 0; i < 60; i++)
+                for (var i = 0; i < 60; i++)
                 {
                     var item = new ComboBoxItem();
                     item.Content = i.ToString().PadLeft(2, '0');

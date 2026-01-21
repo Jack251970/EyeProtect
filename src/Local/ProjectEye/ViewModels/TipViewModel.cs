@@ -166,7 +166,7 @@ namespace ProjectEye.ViewModels
         private void CreateUI()
         {
             var container = new Grid();
-            string uiFilePath = $"UI\\{config.options.Style.Theme.ThemeName}_{ScreenName}.json";
+            var uiFilePath = $"UI\\{config.options.Style.Theme.ThemeName}_{ScreenName}.json";
             var data = JsonConvert.DeserializeObject<UIDesignModel>(FileHelper.Read(uiFilePath));
             if (data == null)
             {
@@ -314,7 +314,7 @@ namespace ProjectEye.ViewModels
             textBlock.FontWeight = element.IsTextBold ? FontWeights.Bold : FontWeights.Normal;
             textBlock.Foreground = element.TextColor;
             textBlock.TextWrapping = TextWrapping.Wrap;
-            TextAlignment textAlignment = TextAlignment.Left;
+            var textAlignment = TextAlignment.Left;
             switch (element.TextAlignment)
             {
                 case 0:
@@ -347,14 +347,14 @@ namespace ProjectEye.ViewModels
                 }
                 //带有变量的文本
                 var ms = Regex.Matches(element.Text, @"\{(.*?)\}");
-                int startIndex = 0;
-                for (int i = 0; i < ms.Count; i++)
+                var startIndex = 0;
+                for (var i = 0; i < ms.Count; i++)
                 {
                     var item = ms[i];
-                    string text = string.Empty;
+                    var text = string.Empty;
                     if (startIndex != item.Index)
                     {
-                        text = element.Text.Substring(startIndex, item.Index - startIndex);
+                        text = element.Text[startIndex..item.Index];
                     }
                     startIndex = startIndex + text.Length + item.Value.Length;
                     if (text != string.Empty)
@@ -362,7 +362,7 @@ namespace ProjectEye.ViewModels
                         textBlock.Inlines.Add(text);
                     }
                     var variable = new Run();
-                    string matchVariable = item.Value.Replace("{", "").Replace("}", "");
+                    var matchVariable = item.Value.Replace("{", "").Replace("}", "");
                     BindingOperations.SetBinding(variable, Run.TextProperty, new Binding()
                     {
                         Source = this,
@@ -375,7 +375,7 @@ namespace ProjectEye.ViewModels
                     if (i == ms.Count - 1)
                     {
                         //最后一个
-                        textBlock.Inlines.Add(element.Text.Substring(startIndex));
+                        textBlock.Inlines.Add(element.Text[startIndex..]);
                     }
                 }
 
