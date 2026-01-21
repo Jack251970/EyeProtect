@@ -16,8 +16,7 @@ namespace Project1.UI.Controls.DatePicker
         /// </summary>
         public int SelectedYear
         {
-            get { return (int)GetValue(SelectedYearProperty); }
-            set { SetValue(SelectedYearProperty, value); }
+            get => (int)GetValue(SelectedYearProperty); set => SetValue(SelectedYearProperty, value);
         }
         public static readonly DependencyProperty SelectedYearProperty =
             DependencyProperty.Register("SelectedYear",
@@ -32,8 +31,7 @@ namespace Project1.UI.Controls.DatePicker
         /// </summary>
         public int SelectedMonth
         {
-            get { return (int)GetValue(SelectedMonthProperty); }
-            set { SetValue(SelectedMonthProperty, value); }
+            get => (int)GetValue(SelectedMonthProperty); set => SetValue(SelectedMonthProperty, value);
         }
         public static readonly DependencyProperty SelectedMonthProperty =
             DependencyProperty.Register("SelectedMonth",
@@ -44,10 +42,7 @@ namespace Project1.UI.Controls.DatePicker
         private static void OnSelectChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as DatePicker;
-            if (control != null)
-            {
-                control.HandleSelectChange();
-            }
+            control?.HandleSelectChange();
         }
 
         private ItemList YearsList;
@@ -81,16 +76,16 @@ namespace Project1.UI.Controls.DatePicker
         private void RenderDate()
         {
             var years = new List<int>();
-            int endYear = DateTime.Now.Year + 1;
-            int startYear = endYear - 12;
-            for (int i = startYear; i < endYear; i++)
+            var endYear = DateTime.Now.Year + 1;
+            var startYear = endYear - 12;
+            for (var i = startYear; i < endYear; i++)
             {
                 years.Add(i);
             }
             YearsList.Items = years;
 
             var months = new List<int>();
-            for (int i = 1; i < 13; i++)
+            for (var i = 1; i < 13; i++)
             {
                 months.Add(i);
             }

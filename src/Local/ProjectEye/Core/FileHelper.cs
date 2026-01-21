@@ -16,7 +16,7 @@ namespace ProjectEye.Core
             {
                 path = AppDomain.CurrentDomain.BaseDirectory + path;
             }
-            string dir = Path.GetDirectoryName(path);
+            var dir = Path.GetDirectoryName(path);
             if (!Directory.Exists(dir))
             {
                 Directory.CreateDirectory(dir);

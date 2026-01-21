@@ -13,8 +13,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public bool ClickClose
         {
-            get { return (bool)GetValue(ClickCloseProperty); }
-            set { SetValue(ClickCloseProperty, value); }
+            get => (bool)GetValue(ClickCloseProperty); set => SetValue(ClickCloseProperty, value);
         }
         public static readonly DependencyProperty ClickCloseProperty =
             DependencyProperty.Register("ClickClose", typeof(bool), typeof(Project1UIModal), new PropertyMetadata(true));
@@ -23,8 +22,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public int Duration
         {
-            get { return (int)GetValue(DurationProperty); }
-            set { SetValue(DurationProperty, value); }
+            get => (int)GetValue(DurationProperty); set => SetValue(DurationProperty, value);
         }
         public static readonly DependencyProperty DurationProperty =
             DependencyProperty.Register("Duration", typeof(int), typeof(Project1UIModal), new PropertyMetadata((int)3));
@@ -33,18 +31,16 @@ namespace Project1.UI.Controls
         /// </summary>
         public double MaskLayerOpacity
         {
-            get { return (double)GetValue(MaskLayerOpacityProperty); }
-            set { SetValue(MaskLayerOpacityProperty, value); }
+            get => (double)GetValue(MaskLayerOpacityProperty); set => SetValue(MaskLayerOpacityProperty, value);
         }
         public static readonly DependencyProperty MaskLayerOpacityProperty =
             DependencyProperty.Register("MaskLayerOpacity", typeof(double), typeof(Project1UIModal), new PropertyMetadata((double)0, new PropertyChangedCallback(OnMaskLayerOpacityPropertyChanged)));
 
         private static void OnMaskLayerOpacityPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Project1UIModal obj = d as Project1UIModal;
-            if (obj != null)
+            if (d is Project1UIModal obj)
             {
-                double value = (double)e.NewValue;
+                var value = (double)e.NewValue;
                 if (value == 0)
                 {
                     obj.Visibility = Visibility.Hidden;
@@ -65,19 +61,17 @@ namespace Project1.UI.Controls
         //    DependencyProperty.Register("Text", typeof(string), typeof(Project1UIModal));
         public bool Show
         {
-            get { return (bool)GetValue(ShowProperty); }
-            set { SetValue(ShowProperty, value); }
+            get => (bool)GetValue(ShowProperty); set => SetValue(ShowProperty, value);
         }
         public static readonly DependencyProperty ShowProperty =
             DependencyProperty.Register("Show", typeof(bool), typeof(Project1UIModal), new PropertyMetadata(false, new PropertyChangedCallback(OnShowPropertyChanged)));
 
-        private DispatcherTimer closeTimer;
+        private readonly DispatcherTimer closeTimer;
         private static void OnShowPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Project1UIModal obj = d as Project1UIModal;
-            if (obj != null)
+            if (d is Project1UIModal obj)
             {
-                bool value = (bool)e.NewValue;
+                var value = (bool)e.NewValue;
                 if (value)
                 {
                     if (obj.Visibility == Visibility.Hidden)

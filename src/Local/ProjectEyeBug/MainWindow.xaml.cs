@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
@@ -27,7 +27,7 @@ namespace ProjectEyeBug
 
         private void Project1UIButton_Click_1(object sender, RoutedEventArgs e)
         {
-            string upexePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+            var upexePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "ProjectEye.exe");
             Process.Start(upexePath);
             Close();
@@ -35,7 +35,7 @@ namespace ProjectEyeBug
 
         private void Run_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            string logPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+            var logPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "Log");
             Process.Start(logPath);
         }

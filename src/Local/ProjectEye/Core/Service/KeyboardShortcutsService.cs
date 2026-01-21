@@ -7,7 +7,7 @@ namespace ProjectEye.Core.Service
 {
     public class KeyboardShortcutsService : IService
     {
-        private Dictionary<string, Command> keycommands;
+        private readonly Dictionary<string, Command> keycommands;
         public KeyboardShortcutsService()
         {
             keycommands = new Dictionary<string, Command>();

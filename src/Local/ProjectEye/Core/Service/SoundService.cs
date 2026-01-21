@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Media;
 using System.Windows;
-using System.Windows.Resources;
 using ProjectEye.Core.Enums;
 using ProjectEye.Core.Models.Options;
 
@@ -16,7 +15,7 @@ namespace ProjectEye.Core.Service
     public class SoundService : IService
     {
         private readonly ConfigService config;
-        private Dictionary<SoundType, SoundPlayer> players;
+        private readonly Dictionary<SoundType, SoundPlayer> players;
         public SoundService(ConfigService config)
         {
             players = new Dictionary<SoundType, SoundPlayer>();
@@ -105,8 +104,8 @@ namespace ProjectEye.Core.Service
                 var player = players[soundType];
                 if (resource)
                 {
-                    Uri soundUri = new Uri(file, UriKind.RelativeOrAbsolute);
-                    StreamResourceInfo info = Application.GetResourceStream(soundUri);
+                    var soundUri = new Uri(file, UriKind.RelativeOrAbsolute);
+                    var info = Application.GetResourceStream(soundUri);
                     player.Stream = info.Stream;
                 }
                 else
@@ -130,13 +129,13 @@ namespace ProjectEye.Core.Service
         /// <param name="path">音效文件路径，为空时加载默认音效</param>
         public void LoadSound(SoundType soundType = SoundType.RestOverSound, string path = null)
         {
-            bool isDefault = false;
+            var isDefault = false;
             if (string.IsNullOrEmpty(path))
             {
                 isDefault = true;
                 path = "/ProjectEye;component/Resources/relentless.wav";
             }
-            bool loadResult = Load(soundType, path, isDefault);
+            var loadResult = Load(soundType, path, isDefault);
             //加载音效失败
             if (!loadResult && !isDefault)
             {

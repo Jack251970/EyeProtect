@@ -10,15 +10,15 @@ using Project1.UI.Controls.ChartControl.Models;
 
 namespace ProjectEye.Core
 {
-    class DataReportImageHelper
+    internal class DataReportImageHelper
     {
-        private List<ChartDataModel> chartData;
+        private readonly List<ChartDataModel> chartData;
         private readonly double lastMonthlyWork, monthlyWork;
         private readonly string savePath, title;
-        private Canvas canvas;
-        private StackPanel panel;
-        private Window drawWindow;
-        private Project1.UI.Controls.ChartControl.Chart chart;
+        private readonly Canvas canvas;
+        private readonly StackPanel panel;
+        private readonly Window drawWindow;
+        private readonly Project1.UI.Controls.ChartControl.Chart chart;
         public DataReportImageHelper(
             string title,
             string savePath,
@@ -145,12 +145,12 @@ namespace ProjectEye.Core
         }
         private void WriteFile(int width, int height)
         {
-            RenderTargetBitmap rtp = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32);
+            var rtp = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32);
             rtp.Render(canvas);
-            JpegBitmapEncoder jpeg = new JpegBitmapEncoder();
+            var jpeg = new JpegBitmapEncoder();
             jpeg.QualityLevel = 100;
             jpeg.Frames.Add(BitmapFrame.Create(rtp));
-            FileStream fs = new FileStream(savePath, FileMode.Create);
+            var fs = new FileStream(savePath, FileMode.Create);
             jpeg.Save(fs);
             fs.Close();
             fs.Dispose();

@@ -14,8 +14,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public string Unicode
         {
-            get { return (string)GetValue(UnicodeProperty); }
-            set { SetValue(UnicodeProperty, value); }
+            get => (string)GetValue(UnicodeProperty); set => SetValue(UnicodeProperty, value);
         }
         public static readonly DependencyProperty UnicodeProperty =
             DependencyProperty.Register("Unicode",

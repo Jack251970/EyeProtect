@@ -9,10 +9,7 @@ namespace ProjectEye.Models
         private ProjectEye.Core.Models.Options.OptionsModel data_;
         public ProjectEye.Core.Models.Options.OptionsModel Data
         {
-            get
-            {
-                return data_;
-            }
+            get => data_;
             set
             {
                 data_ = value;
@@ -23,10 +20,7 @@ namespace ProjectEye.Models
         private string version_;
         public string Version
         {
-            get
-            {
-                return version_;
-            }
+            get => version_;
             set
             {
                 version_ = value;
@@ -34,14 +28,7 @@ namespace ProjectEye.Models
             }
         }
 
-        public string VersionLink
-        {
-            get
-            {
-                return "https://github.com/Planshit/ProjectEye/releases/tag/" + Version;
-            }
-
-        }
+        public string VersionLink => "https://github.com/Planshit/ProjectEye/releases/tag/" + Version;
         public string SelectedItem { get; set; }
         public List<ThemeModel> Themes { get; set; }
         public List<ComboxModel> PreAlertActions { get; set; }
@@ -50,10 +37,7 @@ namespace ProjectEye.Models
 
         public bool IsPreAlert
         {
-            get
-            {
-                return Data.Style.IsPreAlert;
-            }
+            get => Data.Style.IsPreAlert;
             set
             {
                 Data.Style.IsPreAlert = value;
@@ -61,20 +45,11 @@ namespace ProjectEye.Models
                 OnPropertyChanged("PreAlertConfigVisibility");
             }
         }
-        public Visibility PreAlertConfigVisibility
-        {
-            get
-            {
-                return Data.Style.IsPreAlert ? Visibility.Visible : Visibility.Collapsed;
-            }
-        }
+        public Visibility PreAlertConfigVisibility => Data.Style.IsPreAlert ? Visibility.Visible : Visibility.Collapsed;
 
         public bool IsBreakProgressList
         {
-            get
-            {
-                return Data.Behavior.IsBreakProgressList;
-            }
+            get => Data.Behavior.IsBreakProgressList;
             set
             {
                 Data.Behavior.IsBreakProgressList = value;
@@ -82,23 +57,13 @@ namespace ProjectEye.Models
                 OnPropertyChanged("PreAlertConfigVisibility");
             }
         }
-        public Visibility BreakProgressListVisibility
-        {
-            get
-            {
-
-                return Data.Behavior.IsBreakProgressList ? Visibility.Visible : Visibility.Collapsed;
-            }
-        }
+        public Visibility BreakProgressListVisibility => Data.Behavior.IsBreakProgressList ? Visibility.Visible : Visibility.Collapsed;
 
         //是否显示模态弹窗
         private bool ShowModal_ = false;
         public bool ShowModal
         {
-            get
-            {
-                return ShowModal_;
-            }
+            get => ShowModal_;
             set
             {
                 ShowModal_ = value;
@@ -109,10 +74,7 @@ namespace ProjectEye.Models
         private string ModalText_ = "设置已更新";
         public string ModalText
         {
-            get
-            {
-                return ModalText_;
-            }
+            get => ModalText_;
             set
             {
                 ModalText_ = value;
@@ -120,20 +82,11 @@ namespace ProjectEye.Models
             }
         }
 
-        public Visibility AutoDarkConfigVisibility
-        {
-            get
-            {
-                return IsAutoDark ? Visibility.Visible : Visibility.Collapsed;
-            }
-        }
+        public Visibility AutoDarkConfigVisibility => IsAutoDark ? Visibility.Visible : Visibility.Collapsed;
 
         public bool IsAutoDark
         {
-            get
-            {
-                return Data.Style.IsAutoDarkMode;
-            }
+            get => Data.Style.IsAutoDarkMode;
             set
             {
                 Data.Style.IsAutoDarkMode = value;
@@ -155,19 +108,10 @@ namespace ProjectEye.Models
         /// <summary>
         /// 鼠标穿透是否可用
         /// </summary>
-        public bool IsThruTipWindowEnabled
-        {
-            get
-            {
-                return !Data.Style.IsTipAsk;
-            }
-        }
+        public bool IsThruTipWindowEnabled => !Data.Style.IsTipAsk;
         public bool IsTipAsk
         {
-            get
-            {
-                return Data.Style.IsTipAsk;
-            }
+            get => Data.Style.IsTipAsk;
             set
             {
                 Data.Style.IsTipAsk = value;

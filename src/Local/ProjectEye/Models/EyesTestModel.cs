@@ -7,11 +7,7 @@ namespace ProjectEye.Models
         private int Score_ = 0;
         public int Score
         {
-            get
-            {
-
-                return Score_;
-            }
+            get => Score_;
 
             set
             {
@@ -22,11 +18,7 @@ namespace ProjectEye.Models
         private string ScoreInfo_ = "";
         public string ScoreInfo
         {
-            get
-            {
-
-                return ScoreInfo_;
-            }
+            get => ScoreInfo_;
 
             set
             {
@@ -38,11 +30,7 @@ namespace ProjectEye.Models
         private int Index_ = 1;
         public int Index
         {
-            get
-            {
-
-                return Index_;
-            }
+            get => Index_;
 
             set
             {
@@ -54,11 +42,7 @@ namespace ProjectEye.Models
         private double FontSize_;
         public double FontSize
         {
-            get
-            {
-
-                return FontSize_;
-            }
+            get => FontSize_;
 
             set
             {
@@ -70,10 +54,7 @@ namespace ProjectEye.Models
         private Visibility InfoVisibility_ = Visibility.Visible;
         public Visibility InfoVisibility
         {
-            get
-            {
-                return InfoVisibility_;
-            }
+            get => InfoVisibility_;
             set
             {
                 InfoVisibility_ = value;
@@ -84,10 +65,7 @@ namespace ProjectEye.Models
         private Visibility TestVisibility_ = Visibility.Hidden;
         public Visibility TestVisibility
         {
-            get
-            {
-                return TestVisibility_;
-            }
+            get => TestVisibility_;
             set
             {
                 TestVisibility_ = value;
@@ -97,10 +75,7 @@ namespace ProjectEye.Models
         private Visibility ScoreVisibility_ = Visibility.Hidden;
         public Visibility ScoreVisibility
         {
-            get
-            {
-                return ScoreVisibility_;
-            }
+            get => ScoreVisibility_;
             set
             {
                 ScoreVisibility_ = value;
@@ -111,10 +86,7 @@ namespace ProjectEye.Models
         public double[] EyesData_;
         public double[] EyesData
         {
-            get
-            {
-                return EyesData_;
-            }
+            get => EyesData_;
             set
             {
                 EyesData_ = value;
@@ -124,10 +96,7 @@ namespace ProjectEye.Models
         public string[] Labels_;
         public string[] Labels
         {
-            get
-            {
-                return Labels_;
-            }
+            get => Labels_;
             set
             {
                 Labels_ = value;

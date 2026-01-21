@@ -12,18 +12,12 @@ namespace ProjectEye.Core.Service
         /// <summary>
         /// 获取当前是否正在执行后台任务
         /// </summary>
-        public bool IsBusy
-        {
-            get
-            {
-                return backgroundWorker != null ? backgroundWorker.IsBusy : false;
-            }
-        }
+        public bool IsBusy => backgroundWorker != null && backgroundWorker.IsBusy;
         public delegate void EventHandler();
         public event EventHandler OnCompleted, DoWork;
 
-        private BackgroundWorker backgroundWorker;
-        private List<Action> actions;
+        private readonly BackgroundWorker backgroundWorker;
+        private readonly List<Action> actions;
 
         public BackgroundWorkerService()
         {
@@ -44,7 +38,7 @@ namespace ProjectEye.Core.Service
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            for (int i = 0; i < actions.Count; i++)
+            for (var i = 0; i < actions.Count; i++)
             {
                 actions[i].Invoke();
                 actions.Remove(actions[i]);

@@ -104,19 +104,19 @@ namespace ProjectEye.Core
         {
             var result = new WindowInfo();
             //获取当前焦点窗口句柄
-            IntPtr intPtr = GetForegroundWindow();
+            var intPtr = GetForegroundWindow();
             //获取窗口大小
-            RECT rect = new RECT();
+            var rect = new RECT();
             GetWindowRect(intPtr, ref rect);
             result.IsZoomed = IsZoomed(intPtr);
             result.Width = rect.Right - rect.Left;
             result.Height = rect.Bottom - rect.Top;
             //获取窗口标题
-            StringBuilder title = new StringBuilder(256);
+            var title = new StringBuilder(256);
             GetWindowText(intPtr, title, title.Capacity);
             result.Title = title.ToString();
             //获取窗口类名
-            StringBuilder className = new StringBuilder(256);
+            var className = new StringBuilder(256);
             GetClassName(intPtr, className, className.Capacity);
             result.ClassName = className.ToString();
             //判断全屏

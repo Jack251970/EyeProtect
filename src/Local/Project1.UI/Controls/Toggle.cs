@@ -8,8 +8,7 @@ namespace Project1.UI.Controls
     {
         public bool IsChecked
         {
-            get { return (bool)GetValue(IsCheckedProperty); }
-            set { SetValue(IsCheckedProperty, value); }
+            get => (bool)GetValue(IsCheckedProperty); set => SetValue(IsCheckedProperty, value);
         }
         public static readonly DependencyProperty IsCheckedProperty =
             DependencyProperty.Register("IsChecked", typeof(bool), typeof(Toggle), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(OnIsCheckedChanged)));
@@ -26,22 +25,19 @@ namespace Project1.UI.Controls
 
         public string OnText
         {
-            get { return (string)GetValue(OnTextProperty); }
-            set { SetValue(OnTextProperty, value); }
+            get => (string)GetValue(OnTextProperty); set => SetValue(OnTextProperty, value);
         }
         public static readonly DependencyProperty OnTextProperty =
             DependencyProperty.Register("OnText", typeof(string), typeof(Toggle), new PropertyMetadata("开"));
         public string OffText
         {
-            get { return (string)GetValue(OffTextProperty); }
-            set { SetValue(OffTextProperty, value); }
+            get => (string)GetValue(OffTextProperty); set => SetValue(OffTextProperty, value);
         }
         public static readonly DependencyProperty OffTextProperty =
             DependencyProperty.Register("OffText", typeof(string), typeof(Toggle), new PropertyMetadata("关"));
         public string Text
         {
-            get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
+            get => (string)GetValue(TextProperty); set => SetValue(TextProperty, value);
         }
         public static readonly DependencyProperty TextProperty =
             DependencyProperty.Register("Text", typeof(string), typeof(Toggle), new PropertyMetadata("关"));

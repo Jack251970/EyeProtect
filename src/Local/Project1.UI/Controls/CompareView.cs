@@ -31,8 +31,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public double DataA
         {
-            get { return (double)GetValue(DataAProperty); }
-            set { SetValue(DataAProperty, value); }
+            get => (double)GetValue(DataAProperty); set => SetValue(DataAProperty, value);
         }
         public static readonly DependencyProperty DataAProperty =
             DependencyProperty.Register("DataA",
@@ -49,8 +48,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public double DataB
         {
-            get { return (double)GetValue(DataBProperty); }
-            set { SetValue(DataBProperty, value); }
+            get => (double)GetValue(DataBProperty); set => SetValue(DataBProperty, value);
         }
         public static readonly DependencyProperty DataBProperty =
             DependencyProperty.Register("DataB",
@@ -73,8 +71,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public double DiffValue
         {
-            get { return (double)GetValue(DiffValueProperty); }
-            set { SetValue(DiffValueProperty, value); }
+            get => (double)GetValue(DiffValueProperty); set => SetValue(DiffValueProperty, value);
         }
         public static readonly DependencyProperty DiffValueProperty =
             DependencyProperty.Register("DiffValue",
@@ -91,8 +88,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public CompareValueType DiffValueStatus
         {
-            get { return (CompareValueType)GetValue(UpProperty); }
-            set { SetValue(UpProperty, value); }
+            get => (CompareValueType)GetValue(UpProperty); set => SetValue(UpProperty, value);
         }
         public static readonly DependencyProperty UpProperty =
             DependencyProperty.Register("DiffValueStatus",
@@ -109,8 +105,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public Brush UPColor
         {
-            get { return (Brush)GetValue(UPColorProperty); }
-            set { SetValue(UPColorProperty, value); }
+            get => (Brush)GetValue(UPColorProperty); set => SetValue(UPColorProperty, value);
         }
         public static readonly DependencyProperty UPColorProperty =
             DependencyProperty.Register("UPColor",
@@ -127,8 +122,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public Brush DownColor
         {
-            get { return (Brush)GetValue(DownColorProperty); }
-            set { SetValue(DownColorProperty, value); }
+            get => (Brush)GetValue(DownColorProperty); set => SetValue(DownColorProperty, value);
         }
         public static readonly DependencyProperty DownColorProperty =
             DependencyProperty.Register("DownColor",
@@ -145,8 +139,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public Brush NoChangeColor
         {
-            get { return (Brush)GetValue(NoChangeColorProperty); }
-            set { SetValue(NoChangeColorProperty, value); }
+            get => (Brush)GetValue(NoChangeColorProperty); set => SetValue(NoChangeColorProperty, value);
         }
         public static readonly DependencyProperty NoChangeColorProperty =
             DependencyProperty.Register("NoChangeColor",
@@ -163,8 +156,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public string PopupText
         {
-            get { return (string)GetValue(PopupTextProperty); }
-            set { SetValue(PopupTextProperty, value); }
+            get => (string)GetValue(PopupTextProperty); set => SetValue(PopupTextProperty, value);
         }
         public static readonly DependencyProperty PopupTextProperty =
             DependencyProperty.Register("PopupText",
@@ -198,7 +190,7 @@ namespace Project1.UI.Controls
             }
             DiffValueStatus = DataB > DataA ? CompareValueType.Up : DataB < DataA ? CompareValueType.Down : CompareValueType.NoChange;
 
-            double c = DataB - DataA;
+            var c = DataB - DataA;
 
             if (c != 0)
             {
@@ -221,12 +213,12 @@ namespace Project1.UI.Controls
                     DiffValueTextBlock.Foreground = NoChangeColor;
                     break;
             }
-            string popupText = PopupText;
+            var popupText = PopupText;
 
-            popupText = popupText.Replace("{a}", $"{DataA.ToString()}");
-            popupText = popupText.Replace("{b}", $"{DataB.ToString()}");
+            popupText = popupText.Replace("{a}", $"{DataA}");
+            popupText = popupText.Replace("{b}", $"{DataB}");
 
-            string diffvalueText = DiffValue > 0 ? $"+{DiffValue.ToString()}%" : DiffValue == 0 ? $"{Application.Current.Resources["Lang_Nochange"]}" : $"{DiffValue.ToString()}%";
+            var diffvalueText = DiffValue > 0 ? $"+{DiffValue}%" : DiffValue == 0 ? $"{Application.Current.Resources["Lang_Nochange"]}" : $"{DiffValue}%";
             if (DataA == DataB)
             {
                 diffvalueText = $"{Application.Current.Resources["Lang_Nochange"]}";

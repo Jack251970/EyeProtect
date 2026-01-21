@@ -8,7 +8,7 @@ namespace ProjectEye.Core
     /// </summary>
     public class BusyVerdictHelper
     {
-        private readonly static string[] MusicApps = {
+        private static readonly string[] MusicApps = {
         "cloudmusic",""};
         /// <summary>
         /// 指示用户当前是否是在看视频
@@ -16,7 +16,7 @@ namespace ProjectEye.Core
         /// <returns></returns>
         public static bool IsWatchingVideo()
         {
-            Process[] processes = Process.GetProcesses();
+            var processes = Process.GetProcesses();
             //processes.Where(m => m.ProcessName)
 
             return false;

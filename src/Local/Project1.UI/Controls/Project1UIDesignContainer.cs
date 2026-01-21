@@ -20,8 +20,7 @@ namespace Project1.UI.Controls
         #region 容器实例
         public Project1UIDesignContainer Instance
         {
-            get { return (Project1UIDesignContainer)GetValue(InstanceProperty); }
-            set { SetValue(InstanceProperty, value); }
+            get => (Project1UIDesignContainer)GetValue(InstanceProperty); set => SetValue(InstanceProperty, value);
         }
         public static readonly DependencyProperty InstanceProperty =
             DependencyProperty.Register("Instance", typeof(Project1UIDesignContainer), typeof(Project1UIDesignContainer));
@@ -31,10 +30,10 @@ namespace Project1.UI.Controls
         private Popup attrPopup;
         private bool isMouseDown = false;
         private bool isControlPointDown = false;
-        private Point olPoint = new Point();
+        private Point olPoint = new();
         private ControlPoint controlPointType = ControlPoint.LeftTop;
         public ContainerModel containerModel { get; set; }
-        private TextAlignmentData textAlignmentData;
+        private readonly TextAlignmentData textAlignmentData;
         public Project1UIDesignContainer()
         {
             //this.DefaultStyleKey = typeof(Project1UIDesignContainer);
@@ -44,7 +43,7 @@ namespace Project1.UI.Controls
             containerModel.Background = Brushes.White;
             containerModel.Opacity = .8;
 
-            Border container = new Border();
+            var container = new Border();
             container.Width = Double.NaN;
             container.Height = Double.NaN;
             container.SetValue(ZIndexProperty, -1);
@@ -361,8 +360,7 @@ namespace Project1.UI.Controls
             var res = new List<ElementModel>();
             foreach (var item in this.Children)
             {
-                var control = item as Project1UIDesignItem;
-                if (control != null)
+                if (item is Project1UIDesignItem control)
                 {
                     var data = control.DataContext as DesignItemModel;
                     var controlPoint = control.RenderTransform as TranslateTransform;
@@ -512,7 +510,7 @@ namespace Project1.UI.Controls
                 }
                 else
                 {
-                    if (controlPointType == ControlPoint.LeftBottom || controlPointType == ControlPoint.RightTop)
+                    if (controlPointType is ControlPoint.LeftBottom or ControlPoint.RightTop)
                     {
                         control.Cursor = Cursors.SizeNESW;
                     }
@@ -544,9 +542,8 @@ namespace Project1.UI.Controls
         #region 鼠标在元素上移动
         private void Control_MouseMove(object sender, MouseEventArgs e)
         {
-            var control = sender as Project1UIDesignItem;
             if (isMouseDown
-                && control != null
+                && sender is Project1UIDesignItem control
                 && e.LeftButton == MouseButtonState.Pressed
                 && !isContextMenuOpen)
             {
@@ -559,16 +556,16 @@ namespace Project1.UI.Controls
 
 
                 //最终移动坐标
-                double movetoX = e.GetPosition(null).X - olPoint.X + controlPoint.X;
-                double movetoY = e.GetPosition(null).Y - olPoint.Y + controlPoint.Y;
+                var movetoX = e.GetPosition(null).X - olPoint.X + controlPoint.X;
+                var movetoY = e.GetPosition(null).Y - olPoint.Y + controlPoint.Y;
 
                 if (isControlPointDown)
                 {
 
-                    double reWidth = control.ActualWidth;
-                    double reHeight = control.ActualHeight;
-                    double reX = controlPoint.X;
-                    double reY = controlPoint.Y;
+                    var reWidth = control.ActualWidth;
+                    var reHeight = control.ActualHeight;
+                    var reX = controlPoint.X;
+                    var reY = controlPoint.Y;
                     //拖动控制点
                     if (movetoX != controlPoint.X)
                     {

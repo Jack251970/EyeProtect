@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using Newtonsoft.Json;
 using ProjectEye.Core.Models.Options;
 
@@ -74,7 +73,7 @@ namespace ProjectEye.Core.Service
         /// </summary>
         public void SaveOldOptions()
         {
-            string optionsStr = JsonConvert.SerializeObject(options);
+            var optionsStr = JsonConvert.SerializeObject(options);
             oldOptions_ = JsonConvert.DeserializeObject<OptionsModel>(optionsStr);
         }
         /// <summary>
@@ -113,22 +112,22 @@ namespace ProjectEye.Core.Service
         }
         private void CheckOptions(object obj)
         {
-            System.Reflection.PropertyInfo[] properties = obj.GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = obj.GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
 
-            foreach (System.Reflection.PropertyInfo item in properties)
+            foreach (var item in properties)
             {
-                string name = item.Name;
-                object value = item.GetValue(obj, null);
+                var name = item.Name;
+                var value = item.GetValue(obj, null);
                 if (value == null)
                 {
                     //配置项不存在时创建
-                    Type[] types = new Type[0];
-                    object[] objs = new object[0];
+                    var types = new Type[0];
+                    var objs = new object[0];
 
-                    ConstructorInfo ctor = item.PropertyType.GetConstructor(types);
+                    var ctor = item.PropertyType.GetConstructor(types);
                     if (ctor != null)
                     {
-                        object instance = ctor.Invoke(objs);
+                        var instance = ctor.Invoke(objs);
                         item.SetValue(obj, instance);
                     }
                 }

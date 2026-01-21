@@ -19,7 +19,7 @@ namespace ProjectEye.Database
         /// <summary>
         /// 模型数据库表名
         /// </summary>
-        public string TableName { get { return Name + "s"; } }
+        public string TableName => Name + "s";
         /// <summary>
         /// 获取模型所有属性
         /// </summary>
@@ -36,27 +36,27 @@ namespace ProjectEye.Database
         public string Name { get; set; }
         public string Type { get; set; }
         public bool PK { get; set; }
-        public bool NotNull { get { return !PK; } }
+        public bool NotNull => !PK;
     }
     /// <summary>
     ///handle sqlite code first
     /// </summary>
     public class SQLiteBuilder
     {
-        private System.Data.Entity.Infrastructure.DbModel model;
+        private readonly System.Data.Entity.Infrastructure.DbModel model;
         /// <summary>
         /// 连接字符串
         /// </summary>
-        private string connstr;
+        private readonly string connstr;
         /// <summary>
         /// 数据库版本文件
         /// </summary>
-        private string versionFile;
+        private readonly string versionFile;
         /// <summary>
         /// 数据模型
         /// </summary>
-        private System.Data.Entity.Core.Metadata.Edm.EdmModel storeModel;
-        private System.Data.Entity.Core.Common.DbProviderManifest providerManifest;
+        private readonly System.Data.Entity.Core.Metadata.Edm.EdmModel storeModel;
+        private readonly System.Data.Entity.Core.Common.DbProviderManifest providerManifest;
         public SQLiteBuilder(System.Data.Entity.Infrastructure.DbModel model)
         {
             this.model = model;
@@ -93,14 +93,14 @@ namespace ProjectEye.Database
             foreach (var model in modelInfos)
             {
                 //表名
-                string tableName = model.TableName;
+                var tableName = model.TableName;
 
                 var modelInfoDb = modelInfosDb.Where(m => m.TableName == tableName);
                 //判断表是否存在
                 if (modelInfoDb.Count() <= 0)
                 {
                     //不存在则重新创建表
-                    string csql = GetCreateTableSQL(model);
+                    var csql = GetCreateTableSQL(model);
                     ExecuteNonQuery(csql);
                 }
                 else
@@ -114,7 +114,7 @@ namespace ProjectEye.Database
                     {
                         if (modelDb.Properties.Where(m => m.Name == item.Name).Count() <= 0)
                         {
-                            string csql = GetCreateColumnSQL(tableName, item);
+                            var csql = GetCreateColumnSQL(tableName, item);
                             ExecuteNonQuery(csql);
                         }
                     }
@@ -127,12 +127,12 @@ namespace ProjectEye.Database
         #region 是否需要处理
         private bool IsHandleDb()
         {
-            bool f = File.Exists(versionFile);
-            string appVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            var f = File.Exists(versionFile);
+            var appVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             if (f)
             {
                 //存在版本文件对比是否需要更新
-                string dbVersion = File.ReadAllText(versionFile);
+                var dbVersion = File.ReadAllText(versionFile);
 
                 if (dbVersion != appVersion)
                 {
@@ -158,7 +158,7 @@ namespace ProjectEye.Database
         /// <returns></returns>
         private string GetCreateColumnSQL(string tableName, IModelProperties properties)
         {
-            string typeDefault = properties.NotNull ? properties.Type == "int" ? "NOT NULL DEFAULT 0" : "NOT NULL DEFAULT ''" : "";
+            var typeDefault = properties.NotNull ? properties.Type == "int" ? "NOT NULL DEFAULT 0" : "NOT NULL DEFAULT ''" : "";
             return $"ALTER table {tableName} ADD COLUMN  [{properties.Name}] {properties.Type} {typeDefault}";
         }
         #endregion
@@ -171,11 +171,11 @@ namespace ProjectEye.Database
         /// <returns></returns>
         private string GetCreateTableSQL(IModelInfo model)
         {
-            string sql = $"CREATE TABLE \"{model.TableName}\" (";
+            var sql = $"CREATE TABLE \"{model.TableName}\" (";
             foreach (var p in model.Properties)
             {
-                string add = p.PK ? $"{p.Type} PRIMARY KEY" : p.Type + (p.NotNull ? " NOT NULL" : "");
-                string addChar = p == model.Properties[0] ? "" : ",";
+                var add = p.PK ? $"{p.Type} PRIMARY KEY" : p.Type + (p.NotNull ? " NOT NULL" : "");
+                var addChar = p == model.Properties[0] ? "" : ",";
                 sql += $"{addChar}[{p.Name}] {add}";
             }
             sql += ")";
@@ -191,22 +191,17 @@ namespace ProjectEye.Database
         /// <returns></returns>
         private bool IsTableExistDb(string tableName)
         {
-            using (var con = new SQLiteConnection(@"Data Source=.\data.db"))
+            using var con = new SQLiteConnection(@"Data Source=.\data.db");
+            con.Open();
+            using var cmd = new SQLiteCommand(con);
+            cmd.CommandText = "select count(*)  from sqlite_master where type='table' and name = 'StatisticModels3'";
+            var rd = cmd.ExecuteReader();
+            if (rd.Read())
             {
-                con.Open();
-                using (var cmd = new SQLiteCommand(con))
-                {
-                    cmd.CommandText = "select count(*)  from sqlite_master where type='table' and name = 'StatisticModels3'";
-                    var rd = cmd.ExecuteReader();
-                    if (rd.Read())
-                    {
-                        var count = rd.GetInt32(0);
-                        return count > 0;
-                    }
-                    return false;
-                }
-
+                var count = rd.GetInt32(0);
+                return count > 0;
             }
+            return false;
         }
 
         #endregion
@@ -255,21 +250,17 @@ namespace ProjectEye.Database
             using (var con = new SQLiteConnection(connstr))
             {
                 con.Open();
-                using (var cmd = new SQLiteCommand(con))
+                using var cmd = new SQLiteCommand(con);
+                cmd.CommandText = "select name from sqlite_master where type='table' order by name";
+                using var rd = cmd.ExecuteReader();
+
+
+                while (rd.Read())
                 {
-                    cmd.CommandText = "select name from sqlite_master where type='table' order by name";
-                    using (var rd = cmd.ExecuteReader())
-                    {
-
-
-                        while (rd.Read())
-                        {
-                            var modelInfo = new IModelInfo();
-                            modelInfo.Name = rd["name"].ToString().Substring(0, rd["name"].ToString().Length - 1);
-                            modelInfo.Properties = GetModelProperties(modelInfo.TableName);
-                            result.Add(modelInfo);
-                        }
-                    }
+                    var modelInfo = new IModelInfo();
+                    modelInfo.Name = rd["name"].ToString()[..^1];
+                    modelInfo.Properties = GetModelProperties(modelInfo.TableName);
+                    result.Add(modelInfo);
                 }
 
             }
@@ -286,20 +277,16 @@ namespace ProjectEye.Database
             using (var con = new SQLiteConnection(connstr))
             {
                 con.Open();
-                using (var cmd = new SQLiteCommand(con))
+                using var cmd = new SQLiteCommand(con);
+                cmd.CommandText = $"PRAGMA table_info([{tableName}])";
+                using var rd = cmd.ExecuteReader();
+                while (rd.Read())
                 {
-                    cmd.CommandText = $"PRAGMA table_info([{tableName}])";
-                    using (var rd = cmd.ExecuteReader())
-                    {
-                        while (rd.Read())
-                        {
-                            var mp = new IModelProperties();
-                            mp.Name = rd["name"].ToString();
-                            mp.Type = rd["type"].ToString();
-                            mp.PK = rd["pk"].ToString() == "1";
-                            result.Add(mp);
-                        }
-                    }
+                    var mp = new IModelProperties();
+                    mp.Name = rd["name"].ToString();
+                    mp.Type = rd["type"].ToString();
+                    mp.PK = rd["pk"].ToString() == "1";
+                    result.Add(mp);
                 }
             }
             return result;
@@ -315,16 +302,11 @@ namespace ProjectEye.Database
         /// <returns></returns>
         private int ExecuteNonQuery(string sql)
         {
-            using (var con = new SQLiteConnection(connstr))
-            {
-                con.Open();
-                using (var cmd = new SQLiteCommand(con))
-                {
-                    cmd.CommandText = sql;
-                    return cmd.ExecuteNonQuery();
-                }
-
-            }
+            using var con = new SQLiteConnection(connstr);
+            con.Open();
+            using var cmd = new SQLiteCommand(con);
+            cmd.CommandText = sql;
+            return cmd.ExecuteNonQuery();
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Media;
 
 namespace ProjectEye.Core
 {
@@ -15,14 +14,14 @@ namespace ProjectEye.Core
         }
         public static Dpi GetDpi(this System.Windows.Forms.Screen screen, DpiType dpiType)
         {
-            Dpi dpi = new Dpi();
+            var dpi = new Dpi();
             var pnt = new System.Drawing.Point(screen.Bounds.Left + 1, screen.Bounds.Top + 1);
             var mon = MonitorFromPoint(pnt, 2/*MONITOR_DEFAULTTONEAREST*/);
 
-            Win32APIHelper.RtlGetVersion(out Win32APIHelper.OsVersionInfo osVersionInfo);
+            Win32APIHelper.RtlGetVersion(out var osVersionInfo);
             if (osVersionInfo.MajorVersion != 10)
             {
-                Matrix m =
+                var m =
 PresentationSource.FromVisual(Application.Current.MainWindow).CompositionTarget.TransformToDevice;
                 dpi.x = (uint)m.M11 * 96; // notice it's divided by 96 already
                 dpi.y = (uint)m.M22 * 96; // notice it's divided by 96 already
@@ -30,8 +29,7 @@ PresentationSource.FromVisual(Application.Current.MainWindow).CompositionTarget.
             }
             else
             {
-                uint dpiX, dpiY;
-                GetDpiForMonitor(mon, dpiType, out dpiX, out dpiY);
+                GetDpiForMonitor(mon, dpiType, out var dpiX, out var dpiY);
                 dpi.x = dpiX;
                 dpi.y = dpiY;
             }

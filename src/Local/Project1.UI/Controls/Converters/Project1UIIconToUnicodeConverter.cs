@@ -11,7 +11,7 @@ namespace Project1.UI.Controls.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var icon = (Project1UIIconType)value;
-            string result = IconFonts.GetUnicodeString(icon);
+            var result = IconFonts.GetUnicodeString(icon);
             return result;
         }
 

@@ -10,17 +10,16 @@ namespace Project1.UI.Controls
 {
     public class Project1UIProcessBar : Control
     {
-        private List<System.Windows.Shapes.Rectangle> rectangles = new List<System.Windows.Shapes.Rectangle>();
-        private Dictionary<int, List<LinearDoubleKeyFrame>> linearDoubleKeyFrames = new Dictionary<int, List<LinearDoubleKeyFrame>>();
-        private Storyboard storyboard = new Storyboard();
+        private readonly List<System.Windows.Shapes.Rectangle> rectangles = new();
+        private readonly Dictionary<int, List<LinearDoubleKeyFrame>> linearDoubleKeyFrames = new();
+        private readonly Storyboard storyboard = new();
 
         /// <summary>
         /// 动画点大小
         /// </summary>
         public double PointSize
         {
-            get { return (double)GetValue(PointSizeProperty); }
-            set { SetValue(PointSizeProperty, value); }
+            get => (double)GetValue(PointSizeProperty); set => SetValue(PointSizeProperty, value);
         }
         public static readonly DependencyProperty PointSizeProperty =
             DependencyProperty.Register("PointSize", typeof(double), typeof(Project1UIProcessBar), new PropertyMetadata((double)5));
@@ -29,15 +28,13 @@ namespace Project1.UI.Controls
         /// </summary>
         public double PointPlayInterval
         {
-            get { return (double)GetValue(PointPlayIntervalProperty); }
-            set { SetValue(PointPlayIntervalProperty, value); }
+            get => (double)GetValue(PointPlayIntervalProperty); set => SetValue(PointPlayIntervalProperty, value);
         }
         public static readonly DependencyProperty PointPlayIntervalProperty =
             DependencyProperty.Register("PointPlayInterval", typeof(double), typeof(Project1UIProcessBar), new PropertyMetadata((double).15));
         public double PointRadius
         {
-            get { return (double)GetValue(PointRadiusProperty); }
-            set { SetValue(PointRadiusProperty, value); }
+            get => (double)GetValue(PointRadiusProperty); set => SetValue(PointRadiusProperty, value);
         }
         public static readonly DependencyProperty PointRadiusProperty =
             DependencyProperty.Register("PointRadius", typeof(double), typeof(Project1UIProcessBar), new PropertyMetadata((double)0));
@@ -45,8 +42,7 @@ namespace Project1.UI.Controls
 
         public SolidColorBrush PointColor
         {
-            get { return (SolidColorBrush)GetValue(PointColorProperty); }
-            set { SetValue(PointColorProperty, value); }
+            get => (SolidColorBrush)GetValue(PointColorProperty); set => SetValue(PointColorProperty, value);
         }
         public static readonly DependencyProperty PointColorProperty =
             DependencyProperty.Register("PointColor", typeof(SolidColorBrush), typeof(Project1UIProcessBar), new PropertyMetadata(Project1UIColor.ThemeColor, new PropertyChangedCallback(OnPointColorPropertyChanged)));
@@ -65,8 +61,7 @@ namespace Project1.UI.Controls
 
         public bool IsPlay
         {
-            get { return (bool)GetValue(IsPlayProperty); }
-            set { SetValue(IsPlayProperty, value); }
+            get => (bool)GetValue(IsPlayProperty); set => SetValue(IsPlayProperty, value);
         }
         public static readonly DependencyProperty IsPlayProperty =
             DependencyProperty.Register("IsPlay", typeof(bool), typeof(Project1UIProcessBar), new PropertyMetadata((bool)false, new PropertyChangedCallback(OnIsPlayPropertyChangedCallback)));
@@ -100,13 +95,13 @@ namespace Project1.UI.Controls
         {
             storyboard.Stop();
             double v1 = -5;
-            double v2 = this.ActualWidth * .33;
-            double v3 = this.ActualWidth * .66;
-            double v4 = this.ActualWidth;
+            var v2 = this.ActualWidth * .33;
+            var v3 = this.ActualWidth * .66;
+            var v4 = this.ActualWidth;
             double[] values = { v1, v2, v3, v4 };
-            for (int i = 0; i < linearDoubleKeyFrames.Count; i++)
+            for (var i = 0; i < linearDoubleKeyFrames.Count; i++)
             {
-                for (int c = 0; c < linearDoubleKeyFrames[i].Count; c++)
+                for (var c = 0; c < linearDoubleKeyFrames[i].Count; c++)
                 {
                     var ldkf = linearDoubleKeyFrames[i][c];
                     ldkf.Value = values[c];
@@ -123,12 +118,10 @@ namespace Project1.UI.Controls
 
         public override void OnApplyTemplate()
         {
-
             base.OnApplyTemplate();
-            var rootGrid = GetTemplateChild("Root") as Grid;
-            if (rootGrid != null)
+            if (GetTemplateChild("Root") is Grid rootGrid)
             {
-                for (int i = 0; i < 5; i++)
+                for (var i = 0; i < 5; i++)
                 {
                     var d = new System.Windows.Shapes.Rectangle();
                     var tf = new TranslateTransform();
@@ -142,7 +135,7 @@ namespace Project1.UI.Controls
                     d.RenderTransform = tf;
                     rectangles.Add(d);
                     rootGrid.Children.Add(d);
-                    DoubleAnimationUsingKeyFrames db = new DoubleAnimationUsingKeyFrames();
+                    var db = new DoubleAnimationUsingKeyFrames();
                     db.BeginTime = TimeSpan.FromSeconds(i * PointPlayInterval);
                     var ldkf1 = new LinearDoubleKeyFrame(0, TimeSpan.FromSeconds(0));
                     var ldkf2 = new LinearDoubleKeyFrame(0, TimeSpan.FromSeconds(0.5));

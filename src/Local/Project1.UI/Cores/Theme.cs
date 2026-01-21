@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
-using Project1.UI.Controls;
 
 namespace Project1.UI.Cores
 {
@@ -39,10 +38,10 @@ namespace Project1.UI.Cores
             var windowStyle = Application.Current.Resources[ThemeWindowStyleKey];
             if (windowStyle != null)
             {
-                foreach (Project1UIWindow w in WindowsCollection.ToList())
+                foreach (var w in WindowsCollection.ToList())
                 {
 
-                    Style _windowStyle = windowStyle as Style;
+                    var _windowStyle = windowStyle as Style;
                     if (w.Style != _windowStyle)
                     {
                         w.Style = _windowStyle;

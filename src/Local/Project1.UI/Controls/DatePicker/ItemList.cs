@@ -13,8 +13,7 @@ namespace Project1.UI.Controls.DatePicker
         /// </summary>
         public List<int> Items
         {
-            get { return (List<int>)GetValue(ItemsProperty); }
-            set { SetValue(ItemsProperty, value); }
+            get => (List<int>)GetValue(ItemsProperty); set => SetValue(ItemsProperty, value);
         }
         public static readonly DependencyProperty ItemsProperty =
             DependencyProperty.Register("Items",
@@ -33,8 +32,7 @@ namespace Project1.UI.Controls.DatePicker
         /// </summary>
         public int SelectedValue
         {
-            get { return (int)GetValue(SelectedValueProperty); }
-            set { SetValue(SelectedValueProperty, value); }
+            get => (int)GetValue(SelectedValueProperty); set => SetValue(SelectedValueProperty, value);
         }
         public static readonly DependencyProperty SelectedValueProperty =
             DependencyProperty.Register("SelectedValue",
@@ -47,8 +45,7 @@ namespace Project1.UI.Controls.DatePicker
 
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = d as ItemList;
-            if (control != null)
+            if (d is ItemList control)
             {
                 if (e.Property == ItemsProperty)
                 {
@@ -71,7 +68,7 @@ namespace Project1.UI.Controls.DatePicker
         #endregion
 
         private WrapPanel wrapPanel;
-        private Dictionary<int, CheckButton> buttons;
+        private readonly Dictionary<int, CheckButton> buttons;
         public ItemList()
         {
             DefaultStyleKey = typeof(ItemList);
@@ -94,7 +91,7 @@ namespace Project1.UI.Controls.DatePicker
                 buttons.Clear();
                 foreach (var text in Items)
                 {
-                    CheckButton item = new CheckButton();
+                    var item = new CheckButton();
                     item.Content = text.ToString();
                     item.MouseDown += (e, c) =>
                     {

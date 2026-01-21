@@ -27,10 +27,8 @@ namespace ProjectEye.Core.Service
                 }
                 return result;
             }
-            set
-            {
-                cache.Set(key, value, null);
-            }
+
+            set => cache.Set(key, value, null);
         }
     }
 }

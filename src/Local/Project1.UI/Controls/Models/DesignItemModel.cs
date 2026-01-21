@@ -11,7 +11,7 @@ namespace Project1.UI.Controls.Models
         private System.Windows.Visibility ControlPointVisibility_;
         public System.Windows.Visibility ControlPointVisibility
         {
-            get { return ControlPointVisibility_; }
+            get => ControlPointVisibility_;
             set { ControlPointVisibility_ = value; OnPropertyChanged(); }
         }
 
@@ -23,7 +23,7 @@ namespace Project1.UI.Controls.Models
         /// </summary>
         public double Width
         {
-            get { return Width_; }
+            get => Width_;
             set
             {
                 Width_ = value;
@@ -39,7 +39,7 @@ namespace Project1.UI.Controls.Models
         /// </summary>
         public double Height
         {
-            get { return Height_; }
+            get => Height_;
             set
             {
                 Height_ = value;
@@ -56,7 +56,7 @@ namespace Project1.UI.Controls.Models
         /// </summary>
         public Brush Background
         {
-            get { return Background_; }
+            get => Background_;
             set
             {
                 Background_ = value;
@@ -72,7 +72,7 @@ namespace Project1.UI.Controls.Models
         /// </summary>
         public Brush BorderColor
         {
-            get { return BorderColor_; }
+            get => BorderColor_;
             set
             {
                 BorderColor_ = value;
@@ -88,7 +88,7 @@ namespace Project1.UI.Controls.Models
         /// </summary>
         public double Opacity
         {
-            get { return Opacity_; }
+            get => Opacity_;
             set
             {
                 Opacity_ = value;
@@ -104,7 +104,7 @@ namespace Project1.UI.Controls.Models
         /// </summary>
         public double FontSize
         {
-            get { return FontSize_; }
+            get => FontSize_;
             set
             {
                 FontSize_ = value;
@@ -120,7 +120,7 @@ namespace Project1.UI.Controls.Models
         /// </summary>
         public Brush TextColor
         {
-            get { return TextColor_; }
+            get => TextColor_;
             set
             {
                 TextColor_ = value;
@@ -133,10 +133,7 @@ namespace Project1.UI.Controls.Models
         /// <summary>
         /// 边框色
         /// </summary>
-        public FontWeight FontWeight
-        {
-            get { return IsFontBold ? FontWeights.Bold : FontWeights.Normal; }
-        }
+        public FontWeight FontWeight => IsFontBold ? FontWeights.Bold : FontWeights.Normal;
         #endregion
 
         #region 是否加粗
@@ -146,7 +143,7 @@ namespace Project1.UI.Controls.Models
         /// </summary>
         public bool IsFontBold
         {
-            get { return IsFontBold_; }
+            get => IsFontBold_;
             set
             {
                 IsFontBold_ = value;
@@ -164,7 +161,7 @@ namespace Project1.UI.Controls.Models
         /// </summary>
         public string Text
         {
-            get { return Text_; }
+            get => Text_;
             set
             {
                 Text_ = value;
@@ -183,7 +180,7 @@ namespace Project1.UI.Controls.Models
         /// </summary>
         public DesignTextAlignment TextAlignment
         {
-            get { return TextAlignment_; }
+            get => TextAlignment_;
             set
             {
                 TextAlignment_ = value;
@@ -226,7 +223,7 @@ namespace Project1.UI.Controls.Models
         /// </summary>
         public string ButtonText
         {
-            get { return ButtonText_; }
+            get => ButtonText_;
             set
             {
                 ButtonText_ = value;
@@ -242,7 +239,7 @@ namespace Project1.UI.Controls.Models
         /// </summary>
         public string ButtonStyleName
         {
-            get { return ButtonStyleName_; }
+            get => ButtonStyleName_;
             set
             {
                 ButtonStyleName_ = value;
@@ -258,7 +255,7 @@ namespace Project1.UI.Controls.Models
         /// </summary>
         public Style ButtonStyle
         {
-            get { return ButtonStyle_; }
+            get => ButtonStyle_;
             set
             {
                 ButtonStyle_ = value;
@@ -274,7 +271,7 @@ namespace Project1.UI.Controls.Models
         /// </summary>
         public string Command
         {
-            get { return Command_; }
+            get => Command_;
             set
             {
                 Command_ = value;
@@ -288,14 +285,7 @@ namespace Project1.UI.Controls.Models
         private ImageSource ImageSource_;
         public ImageSource ImageSource
         {
-            get
-            {
-                return ImageSource_;
-            }
-            set
-            {
-                ImageSource_ = value;
-            }
+            get => ImageSource_; set => ImageSource_ = value;
         }
         private string Image_ = "";
         /// <summary>
@@ -303,7 +293,7 @@ namespace Project1.UI.Controls.Models
         /// </summary>
         public string Image
         {
-            get { return Image_; }
+            get => Image_;
             set
             {
                 try

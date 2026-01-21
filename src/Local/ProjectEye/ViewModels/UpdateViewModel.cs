@@ -34,7 +34,7 @@ namespace ProjectEye.ViewModels
         /// </summary>
         private readonly string upexePath;
 
-        private GithubRelease githubRelease;
+        private readonly GithubRelease githubRelease;
         private HttpDownload downloader;
         public Command openurlCommand { get; set; }
         public Command updateCommand { get; set; }
@@ -55,7 +55,7 @@ namespace ProjectEye.ViewModels
             upexePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "Update",
                 "ProjectEyeUp.exe");
-            string[] versionArray = Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.');
+            var versionArray = Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.');
             version = versionArray[0] + "." + versionArray[1] + "." + versionArray[2];
 #if DEBUG
             version = "1.0.3";
@@ -79,7 +79,7 @@ namespace ProjectEye.ViewModels
         {
             if (File.Exists(savePath))
             {
-                string updateExe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                var updateExe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                     "ProjectEyeUp.exe");
 
                 //检查升级程序文件
@@ -111,7 +111,7 @@ namespace ProjectEye.ViewModels
                 Application.Current.Shutdown();
 
                 //启动升级程序
-                bool runResult = ProcessHelper.Run(upexePath, runArgs);
+                var runResult = ProcessHelper.Run(upexePath, runArgs);
                 if (!runResult)
                 {
                     Modal("无法启动解压程序，请手动覆盖更新。");
@@ -164,7 +164,7 @@ namespace ProjectEye.ViewModels
         }
         private void openurlCommand_action(object obj)
         {
-            string url = obj.ToString();
+            var url = obj.ToString();
             if (!string.IsNullOrEmpty(url))
             {
                 Process.Start(new ProcessStartInfo(url));
@@ -180,7 +180,7 @@ namespace ProjectEye.ViewModels
 
         private void Updater_RequestCompleteEvent(object sender, object value)
         {
-            bool isCanUpdate = githubRelease.IsCanUpdate();
+            var isCanUpdate = githubRelease.IsCanUpdate();
             PlayProcess = false;
             Tip = isCanUpdate ? $"{Application.Current.Resources["Lang_Updateisavailable"]}" : $"{Application.Current.Resources["Lang_Noupdateisavailable"]}";
             UpVisibility = isCanUpdate ? Visibility.Visible : Visibility.Hidden;

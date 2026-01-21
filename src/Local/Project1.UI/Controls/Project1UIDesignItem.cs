@@ -19,8 +19,7 @@ namespace Project1.UI.Controls
         #region 元素类型
         public DesignItemType ItemType
         {
-            get { return (DesignItemType)GetValue(ItemTypeProperty); }
-            set { SetValue(ItemTypeProperty, value); }
+            get => (DesignItemType)GetValue(ItemTypeProperty); set => SetValue(ItemTypeProperty, value);
         }
         public static readonly DependencyProperty ItemTypeProperty =
             DependencyProperty.Register("ItemType", typeof(DesignItemType), typeof(Project1UIDesignItem));
@@ -29,8 +28,7 @@ namespace Project1.UI.Controls
         #region 元素类型名称
         public string ItemTypeName
         {
-            get { return (string)GetValue(ItemTypeNameProperty); }
-            set { SetValue(ItemTypeNameProperty, value); }
+            get => (string)GetValue(ItemTypeNameProperty); set => SetValue(ItemTypeNameProperty, value);
         }
         public static readonly DependencyProperty ItemTypeNameProperty =
             DependencyProperty.Register("ItemTypeName", typeof(string), typeof(Project1UIDesignItem));
@@ -39,8 +37,7 @@ namespace Project1.UI.Controls
         #region 属性编辑文字输入可见性
         public Visibility TextInputVisibility
         {
-            get { return (Visibility)GetValue(TextInputVisibilityProperty); }
-            set { SetValue(TextInputVisibilityProperty, value); }
+            get => (Visibility)GetValue(TextInputVisibilityProperty); set => SetValue(TextInputVisibilityProperty, value);
         }
         public static readonly DependencyProperty TextInputVisibilityProperty =
             DependencyProperty.Register("TextInputVisibility", typeof(Visibility), typeof(Project1UIDesignItem), new PropertyMetadata(Visibility.Collapsed));
@@ -49,8 +46,7 @@ namespace Project1.UI.Controls
         #region 属性编辑图片输入可见性
         public Visibility ImageInputVisibility
         {
-            get { return (Visibility)GetValue(ImageInputVisibilityProperty); }
-            set { SetValue(ImageInputVisibilityProperty, value); }
+            get => (Visibility)GetValue(ImageInputVisibilityProperty); set => SetValue(ImageInputVisibilityProperty, value);
         }
         public static readonly DependencyProperty ImageInputVisibilityProperty =
             DependencyProperty.Register("ImageInputVisibility", typeof(Visibility), typeof(Project1UIDesignItem), new PropertyMetadata(Visibility.Collapsed));
@@ -59,8 +55,7 @@ namespace Project1.UI.Controls
         #region 属性编辑背景和边宽颜色可见性
         public Visibility ColorVisibility
         {
-            get { return (Visibility)GetValue(ColorVisibilityProperty); }
-            set { SetValue(ColorVisibilityProperty, value); }
+            get => (Visibility)GetValue(ColorVisibilityProperty); set => SetValue(ColorVisibilityProperty, value);
         }
         public static readonly DependencyProperty ColorVisibilityProperty =
             DependencyProperty.Register("ColorVisibility", typeof(Visibility), typeof(Project1UIDesignItem), new PropertyMetadata(Visibility.Collapsed));
@@ -69,8 +64,7 @@ namespace Project1.UI.Controls
         #region 属性编辑按钮可见性
         public Visibility ButtonVisibility
         {
-            get { return (Visibility)GetValue(ButtonVisibilityProperty); }
-            set { SetValue(ButtonVisibilityProperty, value); }
+            get => (Visibility)GetValue(ButtonVisibilityProperty); set => SetValue(ButtonVisibilityProperty, value);
         }
         public static readonly DependencyProperty ButtonVisibilityProperty =
             DependencyProperty.Register("ButtonVisibility", typeof(Visibility), typeof(Project1UIDesignItem), new PropertyMetadata(Visibility.Collapsed));
@@ -79,8 +73,7 @@ namespace Project1.UI.Controls
         #region 属性编辑文本大小可见性
         public Visibility FontSizeVisibility
         {
-            get { return (Visibility)GetValue(FontSizeVisibilityProperty); }
-            set { SetValue(FontSizeVisibilityProperty, value); }
+            get => (Visibility)GetValue(FontSizeVisibilityProperty); set => SetValue(FontSizeVisibilityProperty, value);
         }
         public static readonly DependencyProperty FontSizeVisibilityProperty =
             DependencyProperty.Register("FontSizeVisibility", typeof(Visibility), typeof(Project1UIDesignItem), new PropertyMetadata(Visibility.Collapsed));
@@ -89,8 +82,7 @@ namespace Project1.UI.Controls
         #region 属性编辑文本颜色可见性
         public Visibility TextColorVisibility
         {
-            get { return (Visibility)GetValue(TextColorVisibilityProperty); }
-            set { SetValue(TextColorVisibilityProperty, value); }
+            get => (Visibility)GetValue(TextColorVisibilityProperty); set => SetValue(TextColorVisibilityProperty, value);
         }
         public static readonly DependencyProperty TextColorVisibilityProperty =
             DependencyProperty.Register("TextColorVisibility", typeof(Visibility), typeof(Project1UIDesignItem), new PropertyMetadata(Visibility.Collapsed));
@@ -106,7 +98,7 @@ namespace Project1.UI.Controls
 
 
 
-        private DesignItemModel designItemModel;
+        private readonly DesignItemModel designItemModel;
         /// <summary>
         /// 属性编辑窗口
         /// </summary>
@@ -130,8 +122,8 @@ namespace Project1.UI.Controls
             VerticalAlignment = VerticalAlignment.Top;
             HorizontalAlignment = HorizontalAlignment.Left;
             designItemModel.TextAlignmentList = new ObservableCollection<DesignTextAlignment>();
-            TextAlignmentData textAlignmentData = new TextAlignmentData();
-            foreach (DesignTextAlignment item in textAlignmentData.ToList())
+            var textAlignmentData = new TextAlignmentData();
+            foreach (var item in textAlignmentData.ToList())
             {
                 designItemModel.TextAlignmentList.Add(item);
             }
@@ -142,10 +134,9 @@ namespace Project1.UI.Controls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            var container = GetTemplateChild("Container") as Grid;
             attPopup = GetTemplateChild("popup") as Popup;
             attrScrollViewer = GetTemplateChild("ScrollViewer") as ScrollViewer;
-            if (container != null)
+            if (GetTemplateChild("Container") is Grid container)
             {
                 CreateControlPoints(container);
                 this.MouseDoubleClick += OnPopupOpen;
@@ -262,10 +253,10 @@ namespace Project1.UI.Controls
                     {
                         designItemModel.ImageSource = image.Source;
                         image.Stretch = System.Windows.Media.Stretch.Fill;
-                        double imageWidth = image.Source.Width;
-                        double imageHeight = image.Source.Height;
-                        double windowWidth = (double)this.Parent.GetValue(ActualWidthProperty);
-                        double windowHeight = (double)this.Parent.GetValue(ActualHeightProperty);
+                        var imageWidth = image.Source.Width;
+                        var imageHeight = image.Source.Height;
+                        var windowWidth = (double)this.Parent.GetValue(ActualWidthProperty);
+                        var windowHeight = (double)this.Parent.GetValue(ActualHeightProperty);
                         if (imageWidth >= windowWidth / 2)
                         {
                             //图像宽度超过了屏幕50%时缩放50%
@@ -401,7 +392,7 @@ namespace Project1.UI.Controls
                     ControlPointMouseUp?.Invoke(this, controlPoint);
                 }
             };
-            Binding binding = new Binding()
+            var binding = new Binding()
             {
                 //Source = designItemModel,
                 Path = new PropertyPath("ControlPointVisibility"),

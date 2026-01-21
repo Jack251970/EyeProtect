@@ -17,7 +17,7 @@ namespace ProjectEye.Core.Service
         /// 用眼计时器
         /// </summary>
         private DispatcherTimer work_timer;
-        System.Diagnostics.Stopwatch workTimerStopwatch;
+        private System.Diagnostics.Stopwatch workTimerStopwatch;
         /// <summary>
         /// 离开检测计时器
         /// </summary>
@@ -520,7 +520,7 @@ namespace ProjectEye.Core.Service
         /// </summary>
         private void SaveCursorPos()
         {
-            Win32APIHelper.GetCursorPos(out Point point);
+            Win32APIHelper.GetCursorPos(out var point);
             cache["CursorPos"] = point.ToString();
         }
         #endregion
@@ -532,7 +532,7 @@ namespace ProjectEye.Core.Service
         /// <returns></returns>
         private bool IsCursorPosChanged()
         {
-            Win32APIHelper.GetCursorPos(out Point point);
+            Win32APIHelper.GetCursorPos(out var point);
             var beforePos = cache["CursorPos"];
             if (beforePos == null)
             {
@@ -592,8 +592,8 @@ namespace ProjectEye.Core.Service
                 //1.进程跳过判断
                 if (config.options.Behavior.IsBreakProgressList)
                 {
-                    Process[] processes = Process.GetProcesses();
-                    foreach (Process process in processes)
+                    var processes = Process.GetProcesses();
+                    foreach (var process in processes)
                     {
                         try
                         {
@@ -647,9 +647,9 @@ namespace ProjectEye.Core.Service
         private void UpdateDateTimer()
         {
 
-            DateTime now = DateTime.Now;
-            DateTime morrow = new DateTime(now.Year, now.Month, now.Day, 23, 59, 0);
-            int diffseconds = (int)morrow.Subtract(now).TotalSeconds;
+            var now = DateTime.Now;
+            var morrow = new DateTime(now.Year, now.Month, now.Day, 23, 59, 0);
+            var diffseconds = (int)morrow.Subtract(now).TotalSeconds;
             if (diffseconds < 0)
             {
                 diffseconds = 0;

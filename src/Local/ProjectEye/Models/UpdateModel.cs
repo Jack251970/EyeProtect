@@ -7,7 +7,7 @@ namespace ProjectEye.Models
         private bool PlayProcess_ = false;
         public bool PlayProcess
         {
-            get { return PlayProcess_; }
+            get => PlayProcess_;
             set { PlayProcess_ = value; OnPropertyChanged(); }
         }
 
@@ -15,7 +15,7 @@ namespace ProjectEye.Models
 
         public Visibility UpVisibility
         {
-            get { return UpVisibility_; }
+            get => UpVisibility_;
             set { UpVisibility_ = value; OnPropertyChanged(); }
         }
 
@@ -23,45 +23,42 @@ namespace ProjectEye.Models
 
         public Visibility OpenUrlVisibility
         {
-            get { return OpenUrlVisibility_; }
+            get => OpenUrlVisibility_;
             set { OpenUrlVisibility_ = value; OnPropertyChanged(); }
         }
         private Visibility InstallVisibility_ = Visibility.Collapsed;
 
         public Visibility InstallVisibility
         {
-            get { return InstallVisibility_; }
+            get => InstallVisibility_;
             set { InstallVisibility_ = value; OnPropertyChanged(); }
         }
 
         private string Tip_ = "Loading...";
         public string Tip
         {
-            get { return Tip_; }
+            get => Tip_;
             set { Tip_ = value; OnPropertyChanged("Tip"); }
         }
 
         private string VersionInfo_ = "";
         public string VersionInfo
         {
-            get { return VersionInfo_; }
+            get => VersionInfo_;
             set { VersionInfo_ = value; OnPropertyChanged("VersionInfo"); }
         }
 
         private string VersionUrl_ = "";
         public string VersionUrl
         {
-            get { return VersionUrl_; }
+            get => VersionUrl_;
             set { VersionUrl_ = value; OnPropertyChanged("VersionUrl"); }
         }
         //是否显示模态弹窗
         private bool ShowModal_ = false;
         public bool ShowModal
         {
-            get
-            {
-                return ShowModal_;
-            }
+            get => ShowModal_;
             set
             {
                 ShowModal_ = value;
@@ -72,10 +69,7 @@ namespace ProjectEye.Models
         private string ModalText_ = "";
         public string ModalText
         {
-            get
-            {
-                return ModalText_;
-            }
+            get => ModalText_;
             set
             {
                 ModalText_ = value;

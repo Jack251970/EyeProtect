@@ -17,8 +17,7 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         public double Value
         {
-            get { return (double)GetValue(ValueProperty); }
-            set { SetValue(ValueProperty, value); }
+            get => (double)GetValue(ValueProperty); set => SetValue(ValueProperty, value);
         }
         public static readonly DependencyProperty ValueProperty =
             DependencyProperty.Register("Value",
@@ -45,8 +44,7 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         public string TagName
         {
-            get { return (string)GetValue(TagNameProperty); }
-            set { SetValue(TagNameProperty, value); }
+            get => (string)GetValue(TagNameProperty); set => SetValue(TagNameProperty, value);
         }
         public static readonly DependencyProperty TagNameProperty =
             DependencyProperty.Register("TagName",
@@ -63,8 +61,7 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         public string PopupText
         {
-            get { return (string)GetValue(PopupTextProperty); }
-            set { SetValue(PopupTextProperty, value); }
+            get => (string)GetValue(PopupTextProperty); set => SetValue(PopupTextProperty, value);
         }
         public static readonly DependencyProperty PopupTextProperty =
             DependencyProperty.Register("PopupText",
@@ -81,8 +78,7 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         public double MaxValue
         {
-            get { return (double)GetValue(MaxValueProperty); }
-            set { SetValue(MaxValueProperty, value); }
+            get => (double)GetValue(MaxValueProperty); set => SetValue(MaxValueProperty, value);
         }
         public static readonly DependencyProperty MaxValueProperty =
             DependencyProperty.Register("MaxValue",
@@ -101,8 +97,7 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         public Brush ItemColor
         {
-            get { return (Brush)GetValue(ItemColorProperty); }
-            set { SetValue(ItemColorProperty, value); }
+            get => (Brush)GetValue(ItemColorProperty); set => SetValue(ItemColorProperty, value);
         }
         public static readonly DependencyProperty ItemColorProperty =
             DependencyProperty.Register("ItemColor",
@@ -118,8 +113,7 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         public bool IsSelected
         {
-            get { return (bool)GetValue(IsSelectedProperty); }
-            set { SetValue(IsSelectedProperty, value); }
+            get => (bool)GetValue(IsSelectedProperty); set => SetValue(IsSelectedProperty, value);
         }
         public static readonly DependencyProperty IsSelectedProperty =
             DependencyProperty.Register("IsSelected",
@@ -137,8 +131,7 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         public bool AnimationLock
         {
-            get { return (bool)GetValue(AnimationLockProperty); }
-            set { SetValue(AnimationLockProperty, value); }
+            get => (bool)GetValue(AnimationLockProperty); set => SetValue(AnimationLockProperty, value);
         }
         public static readonly DependencyProperty AnimationLockProperty =
             DependencyProperty.Register("AnimationLock",
@@ -156,8 +149,7 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         public bool IsAnimation
         {
-            get { return (bool)GetValue(IsAnimationProperty); }
-            set { SetValue(IsAnimationProperty, value); }
+            get => (bool)GetValue(IsAnimationProperty); set => SetValue(IsAnimationProperty, value);
         }
         public static readonly DependencyProperty IsAnimationProperty =
             DependencyProperty.Register("IsAnimation",
@@ -170,7 +162,7 @@ namespace Project1.UI.Controls.ChartControl
         #endregion
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ChartItem chartItem = d as ChartItem;
+            var chartItem = d as ChartItem;
             if (e.Property == ItemColorProperty)
             {
                 chartItem.FillColor();
@@ -205,11 +197,11 @@ namespace Project1.UI.Controls.ChartControl
         private Border SelectedContainer;
 
         //动画
-        private Storyboard storyboard;
+        private readonly Storyboard storyboard;
         /// <summary>
         /// 标记动画
         /// </summary>
-        private Storyboard MarkStoryboard;
+        private readonly Storyboard MarkStoryboard;
 
         /// <summary>
         /// 选中标记
@@ -219,7 +211,7 @@ namespace Project1.UI.Controls.ChartControl
         /// <summary>
         /// 图表容器控件
         /// </summary>
-        private Chart chart;
+        private readonly Chart chart;
         /// <summary>
         /// 列
         /// </summary>
@@ -286,7 +278,7 @@ namespace Project1.UI.Controls.ChartControl
         private void InitAnimation()
         {
             //弹出动画
-            DoubleAnimation animation = new DoubleAnimation();
+            var animation = new DoubleAnimation();
             animation.From = 0;
             animation.To = TrueHeight;
             animation.EasingFunction = new SineEase() { EasingMode = EasingMode.EaseInOut };
@@ -298,7 +290,7 @@ namespace Project1.UI.Controls.ChartControl
             if (CheckMark != null)
             {
                 CheckMark.RenderTransform = new TranslateTransform() { Y = 5 };
-                DoubleAnimation markAnimation = new DoubleAnimation();
+                var markAnimation = new DoubleAnimation();
                 markAnimation.From = 3;
                 markAnimation.To = 6;
                 markAnimation.EasingFunction = new SineEase() { EasingMode = EasingMode.EaseInOut };
@@ -333,7 +325,7 @@ namespace Project1.UI.Controls.ChartControl
         {
             if (ValueControl != null)
             {
-                LinearGradientBrush brush = new LinearGradientBrush();
+                var brush = new LinearGradientBrush();
 
                 brush.StartPoint = new Point(0.5, 0);
                 brush.EndPoint = new Point(0.5, 1);

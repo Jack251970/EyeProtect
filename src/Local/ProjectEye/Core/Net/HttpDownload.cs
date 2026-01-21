@@ -13,9 +13,9 @@ namespace ProjectEye.Core.Net
         /// <summary>
         /// 文件网络路径
         /// </summary>
-        private string httpUrl;
-        private string savePath;
-        private Thread thread;
+        private readonly string httpUrl;
+        private readonly string savePath;
+        private readonly Thread thread;
         /// <summary>
         /// 进度更新时发生
         /// </summary>
@@ -48,21 +48,21 @@ namespace ProjectEye.Core.Net
 
             try
             {
-                Uri URL = new Uri(httpUrl);
-                HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(URL);
+                var URL = new Uri(httpUrl);
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(URL);
                 httpWebRequest.Timeout = 120 * 1000;
-                HttpWebResponse httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
 
 
-                long totalBytes = httpWebResponse.ContentLength;
+                var totalBytes = httpWebResponse.ContentLength;
                 //更新文件大小
                 StartEvent?.Invoke(this, totalBytes);
-                Stream st = httpWebResponse.GetResponseStream();
+                var st = httpWebResponse.GetResponseStream();
                 Stream so = new FileStream(savePath, FileMode.Create);
 
                 long totalDownloadedByte = 0;
-                byte[] by = new byte[1024];
-                int osize = st.Read(by, 0, (int)by.Length);
+                var by = new byte[1024];
+                var osize = st.Read(by, 0, (int)by.Length);
                 while (osize > 0)
                 {
 
@@ -72,7 +72,7 @@ namespace ProjectEye.Core.Net
                     osize = st.Read(by, 0, (int)by.Length);
 
                     //进度计算
-                    double process = double.Parse(String.Format("{0:F}",
+                    var process = double.Parse(String.Format("{0:F}",
                          ((double)totalDownloadedByte / (double)totalBytes * 100)));
                     ProcessUpdateEvent?.Invoke(this, process);
 
@@ -95,7 +95,7 @@ namespace ProjectEye.Core.Net
 
         public void Start()
         {
-            string dir = Path.GetDirectoryName(savePath);
+            var dir = Path.GetDirectoryName(savePath);
             if (!Directory.Exists(dir))
             {
                 //如果目录不存在则创建

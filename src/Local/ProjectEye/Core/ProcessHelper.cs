@@ -9,14 +9,14 @@ namespace ProjectEye.Core
         {
             try
             {
-                string arguments = "";
-                foreach (string arg in args)
+                var arguments = "";
+                foreach (var arg in args)
                 {
                     arguments += $"\"{arg}\" ";
                 }
                 arguments = arguments.Trim();
-                Process process = new Process();
-                ProcessStartInfo startInfo = new ProcessStartInfo(filename, arguments);
+                var process = new Process();
+                var startInfo = new ProcessStartInfo(filename, arguments);
                 process.StartInfo = startInfo;
                 process.Start();
                 return true;

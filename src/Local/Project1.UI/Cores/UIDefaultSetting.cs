@@ -20,12 +20,6 @@
         /// <summary>
         /// 获取主题全路径
         /// </summary>
-        public static string DefaultThemeFullPath
-        {
-            get
-            {
-                return DefaultThemePath != null ? DefaultThemePath + DefaultThemeName : "/Project1.UI;component/Assets/Themes/" + DefaultThemeName;
-            }
-        }
+        public static string DefaultThemeFullPath => DefaultThemePath != null ? DefaultThemePath + DefaultThemeName : "/Project1.UI;component/Assets/Themes/" + DefaultThemeName;
     }
 }

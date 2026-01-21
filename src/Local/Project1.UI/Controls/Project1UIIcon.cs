@@ -8,8 +8,7 @@ namespace Project1.UI.Controls
     {
         public Project1UIIconType Icon
         {
-            get { return (Project1UIIconType)GetValue(IconProperty); }
-            set { SetValue(IconProperty, value); }
+            get => (Project1UIIconType)GetValue(IconProperty); set => SetValue(IconProperty, value);
         }
         public static readonly DependencyProperty IconProperty =
             DependencyProperty.Register("Icon", typeof(Project1UIIconType), typeof(Project1UIIcon), new PropertyMetadata(Project1UIIconType.Null));

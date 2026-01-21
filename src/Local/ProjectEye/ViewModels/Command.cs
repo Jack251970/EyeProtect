@@ -5,7 +5,7 @@ namespace ProjectEye.ViewModels
 {
     public class Command : ICommand
     {
-        private Action<object> _action;
+        private readonly Action<object> _action;
 
         public Command(Action<object> action)
         {

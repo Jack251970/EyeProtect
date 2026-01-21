@@ -30,7 +30,7 @@ namespace ProjectEye.Core.Service
         }
         public void Init()
         {
-            string themeName = config.options.Style.Theme.ThemeName;
+            var themeName = config.options.Style.Theme.ThemeName;
             if (systemResources.Themes.Where(m => m.ThemeName == themeName).Count() == 0)
             {
                 themeName = systemResources.Themes[0].ThemeName;
@@ -52,7 +52,7 @@ namespace ProjectEye.Core.Service
 
             if (Project1.UI.Cores.UIDefaultSetting.DefaultThemeName != themeName)
             {
-                string oldName = Project1.UI.Cores.UIDefaultSetting.DefaultThemeName;
+                var oldName = Project1.UI.Cores.UIDefaultSetting.DefaultThemeName;
 
                 Project1.UI.Cores.UIDefaultSetting.DefaultThemeName = themeName;
 
@@ -66,7 +66,7 @@ namespace ProjectEye.Core.Service
 
         public void HandleDarkMode()
         {
-            string darkModeThemeName = "Dark";
+            var darkModeThemeName = "Dark";
             if (config.options.Style.IsAutoDarkMode)
             {
                 var darkTheme = systemResources.Themes.Where(m => m.ThemeName == darkModeThemeName).FirstOrDefault();
@@ -74,14 +74,14 @@ namespace ProjectEye.Core.Service
                 {
                     return;
                 }
-                DateTime startTime = new DateTime(
+                var startTime = new DateTime(
                     DateTime.Now.Year,
                     DateTime.Now.Month,
                     DateTime.Now.Day,
                     config.options.Style.AutoDarkStartH,
                    config.options.Style.AutoDarkStartM,
                     0);
-                DateTime endTime = new DateTime(
+                var endTime = new DateTime(
                     DateTime.Now.Year,
                     DateTime.Now.Month,
                     DateTime.Now.Day,
@@ -89,7 +89,7 @@ namespace ProjectEye.Core.Service
                    config.options.Style.AutoDarkEndM,
                     0);
 
-                bool isOpen = false;
+                var isOpen = false;
 
                 if (config.options.Style.AutoDarkStartH <= config.options.Style.AutoDarkEndH)
                 {
@@ -142,7 +142,7 @@ namespace ProjectEye.Core.Service
             {
                 foreach (var item in System.Windows.Forms.Screen.AllScreens)
                 {
-                    string itemScreenName = item.DeviceName.Replace("\\", "");
+                    var itemScreenName = item.DeviceName.Replace("\\", "");
                     if (itemScreenName == screenName)
                     {
                         screen = item;

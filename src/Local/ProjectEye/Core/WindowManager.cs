@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using ProjectEye.Core.Models;
 using ProjectEye.Core.Service;
@@ -14,8 +13,8 @@ namespace ProjectEye.Core
     /// </summary>
     public class WindowManager
     {
-        private static IList<WindowModel> windowList;
-        private static IList<object> viewModelList;
+        private static readonly IList<WindowModel> windowList;
+        private static readonly IList<object> viewModelList;
         public static ServiceCollection serviceCollection { get; set; }
         static WindowManager()
         {
@@ -35,8 +34,8 @@ namespace ProjectEye.Core
             //}
             var viewModel = GetCreateViewModel(name, newViewModel);
 
-            Type type = Type.GetType("ProjectEye.Views." + name);
-            Window objWindow = (Window)type.Assembly.CreateInstance(type.FullName);
+            var type = Type.GetType("ProjectEye.Views." + name);
+            var objWindow = (Window)type.Assembly.CreateInstance(type.FullName);
             objWindow.Uid = name;
             objWindow.DataContext = viewModel;
             objWindow.Closed += new EventHandler(window_closed);
@@ -59,8 +58,7 @@ namespace ProjectEye.Core
 
             if (viewModel != null)
             {
-                var basicModel = viewModel as IViewModel;
-                if (basicModel != null)
+                if (viewModel is IViewModel basicModel)
                 {
                     basicModel.ScreenName = screen.Replace("\\", "");
                     basicModel.WindowInstance = objWindow;
@@ -127,11 +125,11 @@ namespace ProjectEye.Core
         /// <returns></returns>
         public static Window[] CreateWindow(string name, bool isMaximized, bool newViewModel = false)
         {
-            int screenCount = System.Windows.Forms.Screen.AllScreens.Length;
+            var screenCount = System.Windows.Forms.Screen.AllScreens.Length;
             var screens = System.Windows.Forms.Screen.AllScreens;
-            Window[] windows = new Window[screenCount];
+            var windows = new Window[screenCount];
 
-            for (int index = 0; index < screenCount; index++)
+            for (var index = 0; index < screenCount; index++)
             {
                 var screen = screens[index];
                 var size = GetSize(screen);
@@ -142,8 +140,8 @@ namespace ProjectEye.Core
                     width = size.Width;
                     height = size.Height;
                 }
-                double left = ToDips(screen.Bounds.Left, size.XDPI);
-                double top = ToDips(screen.Bounds.Top, size.YDPI);
+                var left = ToDips(screen.Bounds.Left, size.XDPI);
+                var top = ToDips(screen.Bounds.Top, size.YDPI);
 
                 var window = CreateWindow(name, screen.DeviceName, left, top, width, height, newViewModel);
                 windows[index] = window;
@@ -223,10 +221,7 @@ namespace ProjectEye.Core
             foreach (var screen in screens)
             {
                 var window = GetWindowByScreen(name, screen.DeviceName) as Project1.UI.Controls.Project1UIWindow;
-                if (window != null)
-                {
-                    window.WShow();
-                }
+                window?.WShow();
             }
         }
         #endregion
@@ -328,7 +323,7 @@ namespace ProjectEye.Core
         public static Size GetSize(System.Windows.Forms.Screen screen)
         {
             //uint xDpi, yDpi;
-            ScreenExtensions.Dpi dpi = screen.GetDpi(DpiType.Effective);
+            var dpi = screen.GetDpi(DpiType.Effective);
             var size = new Size();
             size.Width = screen.Bounds.Width / (dpi.x / 96.0);
             size.Height = screen.Bounds.Height / (dpi.y / 96.0);
@@ -346,7 +341,7 @@ namespace ProjectEye.Core
         }
         public static double ToDips(System.Windows.Forms.Screen screen, double value, DpiDirection dpiDirection = DpiDirection.X)
         {
-            ScreenExtensions.Dpi dpi = screen.GetDpi(DpiType.Effective);
+            var dpi = screen.GetDpi(DpiType.Effective);
 
             return value / (dpiDirection == DpiDirection.X ? dpi.x : dpi.y / 96.0);
         }
@@ -370,9 +365,9 @@ namespace ProjectEye.Core
         #region 创建viewmodel实例
         private static object CreateViewModel(string windowName)
         {
-            string nameSpace = "ProjectEye.ViewModels";
-            string viewModelName = windowName.Replace("Window", "ViewModel");
-            Type type = Type.GetType(nameSpace + "." + viewModelName);
+            var nameSpace = "ProjectEye.ViewModels";
+            var viewModelName = windowName.Replace("Window", "ViewModel");
+            var type = Type.GetType(nameSpace + "." + viewModelName);
             if (type == null)
             {
                 //找不到对应的ViewModel
@@ -380,20 +375,20 @@ namespace ProjectEye.Core
             }
             var constructorInfoObj = type.GetConstructors()[0];
             var constructorParameters = constructorInfoObj.GetParameters();
-            int constructorParametersLength = constructorParameters.Length;
-            Type[] types = new Type[constructorParametersLength];
-            object[] objs = new object[constructorParametersLength];
-            for (int i = 0; i < constructorParametersLength; i++)
+            var constructorParametersLength = constructorParameters.Length;
+            var types = new Type[constructorParametersLength];
+            var objs = new object[constructorParametersLength];
+            for (var i = 0; i < constructorParametersLength; i++)
             {
-                string typeFullName = constructorParameters[i].ParameterType.FullName;
-                Type t = Type.GetType(typeFullName);
+                var typeFullName = constructorParameters[i].ParameterType.FullName;
+                var t = Type.GetType(typeFullName);
                 types[i] = t;
 
                 objs[i] = serviceCollection.GetInstance(typeFullName);
 
             }
-            ConstructorInfo ctor = type.GetConstructor(types);
-            object instance = ctor.Invoke(objs);
+            var ctor = type.GetConstructor(types);
+            var instance = ctor.Invoke(objs);
             viewModelList.Add(instance);
             return instance;
         }
@@ -402,7 +397,7 @@ namespace ProjectEye.Core
         #region 获取viewmodel实例
         private static List<object> GetViewModel(string windowName)
         {
-            string viewModelName = windowName.Replace("Window", "ViewModel");
+            var viewModelName = windowName.Replace("Window", "ViewModel");
             var select = viewModelList.Where(m => m.GetType().Name == viewModelName);
             if (select.Count() > 0)
             {

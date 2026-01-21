@@ -1,6 +1,6 @@
 ﻿namespace ProjectEye.Core.Service
 {
-    class NotificationService
+    internal class NotificationService
     {
     }
 }
