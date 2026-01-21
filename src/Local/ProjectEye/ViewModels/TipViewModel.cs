@@ -36,7 +36,6 @@ namespace ProjectEye.ViewModels
         private readonly RestService reset;
         private readonly SoundService sound;
         private readonly ConfigService config;
-        private readonly StatisticService statistic;
         private readonly MainService main;
         private readonly KeyboardShortcutsService keyboardShortcuts;
         private readonly PreAlertService preAlert;
@@ -47,7 +46,6 @@ namespace ProjectEye.ViewModels
         public TipViewModel(RestService reset,
             SoundService sound,
             ConfigService config,
-            StatisticService statistic,
             MainService main,
             App app,
             KeyboardShortcutsService keyboardShortcuts,
@@ -65,8 +63,6 @@ namespace ProjectEye.ViewModels
 
             resetCommand = new Command(new Action<object>(resetCommand_action));
             busyCommand = new Command(new Action<object>(busyCommand_action));
-
-            this.statistic = statistic;
 
             this.main = main;
             this.keyboardShortcuts = keyboardShortcuts;
@@ -152,11 +148,11 @@ namespace ProjectEye.ViewModels
                 //分
                 MINUTES = DateTime.Now.ToString("mm");
                 //今日用眼时长
-                TWT = statistic.GetTodayData().WorkingTime.ToString();
+                TWT = "0";
                 //今日休息时长
-                TRT = statistic.GetTodayData().ResetTime.ToString();
+                TRT = "0";
                 //今日跳过次数
-                TSC = statistic.GetTodayData().SkipCount.ToString();
+                TSC = "0";
             }
             catch (Exception ex)
             {
@@ -439,20 +435,12 @@ namespace ProjectEye.ViewModels
             CountDownVisibility = System.Windows.Visibility.Visible;
             TakeButtonVisibility = System.Windows.Visibility.Hidden;
             reset.Start();
-            if (config.options.General.Data)
-            {
-                statistic.Add(StatisticType.ResetTime, config.options.General.RestTime);
-            }
         }
         private void busyCommand_action(object obj)
         {
             main.StopBusyListener();
             main.ReStart();
             WindowManager.Hide("TipWindow");
-            if (config.options.General.Data)
-            {
-                statistic.Add(StatisticType.SkipCount, 1);
-            }
         }
         private void timeChanged(object sender, int timed)
         {

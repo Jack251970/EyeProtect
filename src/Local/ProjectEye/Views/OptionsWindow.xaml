@@ -128,11 +128,6 @@
                         <ui:Toggle
                             Margin="0,20,0,0"
                             Cursor="Hand"
-                            IsChecked="{Binding Model.Data.General.Data}"
-                            Text="{DynamicResource Lang_Statistics}" />
-                        <ui:Toggle
-                            Margin="0,20,0,0"
-                            Cursor="Hand"
                             IsChecked="{Binding Model.Data.General.Startup}"
                             Text="{DynamicResource Lang_Autostartatboot}" />
                         <ui:Toggle
