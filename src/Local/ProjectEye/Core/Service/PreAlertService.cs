@@ -348,15 +348,15 @@ namespace ProjectEye.Core.Service
 
                     case "{twt}":
                         //今日用眼时长
-                        replace = statistic.GetTodayData().WorkingTime.ToString();
+                        replace = "0";
                         break;
                     case "{trt}":
                         //今日休息时长
-                        replace = statistic.GetTodayData().ResetTime.ToString();
+                        replace = "0";
                         break;
                     case "{tsc}":
                         //今日跳过次数
-                        replace = statistic.GetTodayData().SkipCount.ToString();
+                        replace = "0";
                         break;
                 }
                 if (!string.IsNullOrEmpty(replace))
