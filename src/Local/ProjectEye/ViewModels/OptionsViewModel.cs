@@ -135,10 +135,7 @@ namespace ProjectEye.ViewModels
         private void soundTestCommand_actionAsync(object obj)
         {
             var path = "";
-            path = obj.ToString() switch
-            {
-                _ => config.options.General.SoundPath,
-            };
+            path = config.options.General.SoundPath;
             if (!string.IsNullOrEmpty(path))
             {
                 var resultTest = sound.Test(path);
