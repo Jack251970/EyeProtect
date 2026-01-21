@@ -34,9 +34,9 @@
 
 ## 运行环境
 
-OS: Windows7/10
+OS: Windows7/10/11
 
-Runtime: [.NET Framework 4.5+](https://dotnet.microsoft.com/download/dotnet-framework) 
+Runtime: [.NET 9.0](https://dotnet.microsoft.com/download/dotnet/9.0) 
 
 ## 其他
 
