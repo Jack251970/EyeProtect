@@ -121,8 +121,6 @@ namespace ProjectEye.Core.Service
         {
             //关闭暂不提醒
             config.options.General.Noreset = false;
-            //关闭番茄时钟模式
-            config.options.General.IsTomatoMode = false;
 
             //初始化用眼计时器
             work_timer = new DispatcherTimer();
@@ -200,19 +198,6 @@ namespace ProjectEye.Core.Service
                 CreateTipWindows();
                 Debug.WriteLine("鼠标穿透更改，重新创建窗口");
             }
-            if (oldOptions.General.IsTomatoMode != config.options.General.IsTomatoMode)
-            {
-                if (config.options.General.IsTomatoMode)
-                {
-                    //番茄时钟模式打开
-                    DoStop(false);
-                    Debug.WriteLine("番茄模式已启动，关闭计时休息提醒模式");
-                }
-                else
-                {
-                    DoStart(false);
-                    Debug.WriteLine("番茄模式已关闭，恢复计时休息提醒模式");
-                }
             }
             HandleLanguageChanged();
         }
@@ -428,8 +413,8 @@ namespace ProjectEye.Core.Service
         #region 启动计时实际操作
         private void DoStart(bool isHard = true)
         {
-            //允许硬启动，否则只有在关闭暂不提醒和番茄时钟模式时才允许启动工作计时
-            if (isHard || !config.options.General.Noreset && !config.options.General.IsTomatoMode)
+            //允许硬启动，否则只有在关闭暂不提醒时才允许启动工作计时
+            if (isHard || !config.options.General.Noreset)
             {
                 //休息提醒
                 work_timer.Start();

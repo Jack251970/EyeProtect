@@ -87,11 +87,7 @@ namespace ProjectEye.Core.Service
         {
             if (!backgroundWorker.IsBusy)
             {
-                if (config.options.General.IsTomatoMode)
-                {
-                    UpdateIcon("tomato");
-                }
-                else if (config.options.General.Noreset)
+                if (config.options.General.Noreset)
                 {
                     UpdateIcon("dizzy");
                 }
@@ -214,23 +210,6 @@ namespace ProjectEye.Core.Service
 
 
             var oldOptions = sender as OptionsModel;
-            if (oldOptions.General.IsTomatoMode != config.options.General.IsTomatoMode)
-            {
-
-                UpdateIcon(config.options.General.IsTomatoMode ?
-                "tomato" :
-               config.options.General.Noreset ?
-               "dizzy"
-               : "sunglasses");
-                if (config.options.General.IsTomatoMode)
-                {
-                    menuItem_NoReset.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    menuItem_NoReset.Visibility = Visibility.Visible;
-                }
-            }
         }
 
         private void menuItem_Options_Click(object sender, EventArgs e)
@@ -280,14 +259,7 @@ namespace ProjectEye.Core.Service
 
         private void NotifyIcon_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Left && !backgroundWorker.IsBusy)
-            {
-                //双击托盘图标进入或退出番茄时钟模式
-                config.SaveOldOptions();
-                config.options.General.IsTomatoMode = !config.options.General.IsTomatoMode;
-                config.OnChanged();
-
-            }
+            // Double-click functionality removed (was used for Tomato Timer mode)
         }
         #endregion
 
