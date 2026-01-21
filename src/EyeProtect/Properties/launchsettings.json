@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "EyeProtect (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "EyeProtect (Unpackaged)": {
+      "commandName": "Project",
+      "commandLineArgs": "/startup"
+    }
+  }
+}
