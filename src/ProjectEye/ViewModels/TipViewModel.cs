@@ -7,14 +7,12 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Newtonsoft.Json;
 using Project1.UI.Controls;
 using Project1.UI.Controls.Models;
 using Project1.UI.Cores;
 using ProjectEye.Core;
 using ProjectEye.Core.Service;
 using ProjectEye.Models;
-using ProjectEye.Models.UI;
 using WpfAnimatedGif;
 
 namespace ProjectEye.ViewModels
@@ -162,14 +160,7 @@ namespace ProjectEye.ViewModels
         private void CreateUI()
         {
             var container = new Grid();
-            var uiFilePath = $"UI\\{config.options.Style.Theme.ThemeName}_{ScreenName}.json";
-            var data = JsonConvert.DeserializeObject<UIDesignModel>(FileHelper.Read(uiFilePath));
-            if (data == null)
-            {
-                data = theme.GetCreateDefaultTipWindowUI(config.options.Style.Theme.ThemeName, ScreenName);
-
-                FileHelper.Write(uiFilePath, JsonConvert.SerializeObject(data));
-            }
+            var data = theme.GetCreateDefaultTipWindowUI(config.options.Style.Theme.ThemeName, ScreenName);
             var containerBG = new Border();
             containerBG.Width = Double.NaN;
             containerBG.Height = Double.NaN;
