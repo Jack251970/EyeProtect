@@ -20,7 +20,7 @@ namespace ProjectEye.Core.Service
 
             Themes.Add(new ThemeModel()
             {
-                DisplayName = $"{Application.Current.Resources["Lang_Default"]}",
+                DisplayName = $"{Application.Current.Resources["Lang_Light"]}",
                 ThemeName = "Blue",
                 ThemeColor = "#4F6BED"
             });

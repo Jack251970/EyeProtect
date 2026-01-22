@@ -6,9 +6,9 @@ namespace ProjectEye.Core.Models.Options
     public class ThemeModel
     {
         public int ID { get; set; }
-        public string DisplayName { get; set; } = "默认";
+        public string DisplayName { get; set; } = "浅色";
 
-        public string ThemeName { get; set; } = "Default";
+        public string ThemeName { get; set; } = "Light";
         public string ThemeColor { get; set; } = "#ffc83d";
 
     }

@@ -39,6 +39,7 @@
     <sys:String x:Key="Lang_Language">语言（Language）</sys:String>
     <sys:String x:Key="Lang_Theme">主题</sys:String>
     <sys:String x:Key="Lang_Default">默认</sys:String>
+    <sys:String x:Key="Lang_Light">浅色</sys:String>
     <sys:String x:Key="Lang_Dark">深色</sys:String>
     <sys:String x:Key="Lang_Switchtodarkthemeautomatically">自动切换深色主题</sys:String>
     <sys:String x:Key="Lang_Specifythetime">指定时间范围</sys:String>

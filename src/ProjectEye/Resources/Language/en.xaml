@@ -38,6 +38,7 @@
     <sys:String x:Key="Lang_Language">Language(语言)</sys:String>
     <sys:String x:Key="Lang_Theme">Theme</sys:String>
     <sys:String x:Key="Lang_Default">Default</sys:String>
+    <sys:String x:Key="Lang_Light">Light</sys:String>
     <sys:String x:Key="Lang_Dark">Dark</sys:String>
     <sys:String x:Key="Lang_Switchtodarkthemeautomatically">Switch to dark theme automatically</sys:String>
     <sys:String x:Key="Lang_Specifythetime">Specify the time</sys:String>
@@ -171,7 +172,7 @@
 
     <sys:String x:Key="Lang_today">Today</sys:String>
     <sys:String x:Key="Lang_xmonth">/</sys:String>
-    <sys:String x:Key="Lang_xday"></sys:String>
+    <sys:String x:Key="Lang_xday" />
 
     <sys:String x:Key="Lang_Close">Close</sys:String>
     <sys:String x:Key="Lang_Minimize">Minimize</sys:String>
