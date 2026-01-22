@@ -13,7 +13,6 @@ namespace ProjectEye.ViewModels
         public OptionsModel Model { get; set; }
         public Command applyCommand { get; set; }
         public Command openurlCommand { get; set; }
-        public Command inkCommand { get; set; }
         public Command soundTestCommand { get; set; }
         public Command updateCommand { get; set; }
         public Command showWindowCommand { get; set; }
@@ -23,8 +22,6 @@ namespace ProjectEye.ViewModels
 
         private readonly ConfigService config;
         private readonly MainService mainService;
-        private readonly SystemResourcesService systemResources;
-        private readonly SoundService sound;
         private readonly ThemeService theme;
         public OptionsViewModel(ConfigService config,
             MainService mainService,
@@ -34,8 +31,6 @@ namespace ProjectEye.ViewModels
         {
             this.config = config;
             this.mainService = mainService;
-            this.systemResources = systemResources;
-            this.sound = sound;
             this.theme = theme;
             Model = new OptionsModel();
             Model.Data = config.options;
@@ -50,7 +45,6 @@ namespace ProjectEye.ViewModels
 
             applyCommand = new Command(new Action<object>(applyCommand_action));
             openurlCommand = new Command(new Action<object>(openurlCommand_action));
-            inkCommand = new Command(new Action<object>(inkCommand_action));
             updateCommand = new Command(new Action<object>(updateCommand_action));
             showWindowCommand = new Command(new Action<object>(showWindowCommand_action));
             addBreackProcessCommand = new Command(new Action<object>(addBreackProcessCommand_action));
@@ -122,17 +116,6 @@ namespace ProjectEye.ViewModels
             //#endif
 
 
-        }
-
-        private void inkCommand_action(object obj)
-        {
-
-            var msg = $"{Application.Current.Resources["Lang_Failed"]}";
-            if (ShortcutHelper.CreateDesktopShortcut())
-            {
-                msg = $"{Application.Current.Resources["Lang_Success"]}";
-            }
-            Modal(msg);
         }
 
         private void openurlCommand_action(object obj)

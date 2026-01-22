@@ -645,13 +645,6 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
             Orientation="Horizontal">
-            <ui:Project1UIButton
-                Width="auto"
-                Height="auto"
-                Padding="10 6"
-                Command="{Binding inkCommand}"
-                Content="{DynamicResource Lang_Createashortcutondesktop}"
-                Style="{DynamicResource basic}" />
 
             <ui:Project1UIButton
                 Width="auto"
