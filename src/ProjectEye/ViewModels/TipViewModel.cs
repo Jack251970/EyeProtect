@@ -99,7 +99,15 @@ namespace ProjectEye.ViewModels
             CreateUI();
             //WindowInstance.Activated += WindowInstance_Activated;
             WindowInstance.KeyUp += WindowInstance_KeyUp;
+            WindowInstance.SizeChanged += WindowInstance_SizeChanged;
             (WindowInstance as Project1UIWindow).OnWShow += TipViewModel_OnWShow;
+        }
+
+        private void WindowInstance_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            // Recreate UI elements when window size changes (e.g., DPI changes)
+            // to ensure elements remain centered
+            CreateUI();
         }
 
         private void TipViewModel_OnWShow(object sender, EventArgs e)
