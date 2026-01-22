@@ -1,43 +1,46 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 
-namespace ProjectEyeBug
+namespace ProjectEye.Views
 {
     /// <summary>
-    /// MainWindow.xaml 的交互逻辑
+    /// ErrorReportWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : Project1.UI.Controls.Project1UIWindow
+    public partial class ErrorReportWindow : Project1.UI.Controls.Project1UIWindow
     {
-        public MainWindow()
+        public ErrorReportWindow()
         {
             InitializeComponent();
         }
 
         private void Project1UIButton_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("https://github.com/Planshit/ProjectEye/releases"));
+            Process.Start(new ProcessStartInfo("https://github.com/Planshit/ProjectEye/releases") { UseShellExecute = true });
         }
 
         private void bugreportbtn_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("https://github.com/Planshit/ProjectEye/issues/new"));
+            Process.Start(new ProcessStartInfo("https://github.com/Planshit/ProjectEye/issues/new") { UseShellExecute = true });
         }
 
         private void Project1UIButton_Click_1(object sender, RoutedEventArgs e)
         {
-            var upexePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+            var exePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "ProjectEye.exe");
-            Process.Start(upexePath);
-            Close();
+            Process.Start(new ProcessStartInfo(exePath) { UseShellExecute = true });
+            Application.Current.Shutdown();
         }
 
         private void Run_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var logPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "Log");
-            Process.Start(logPath);
+            if (System.IO.Directory.Exists(logPath))
+            {
+                Process.Start(new ProcessStartInfo(logPath) { UseShellExecute = true });
+            }
         }
 
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
