@@ -297,10 +297,11 @@ namespace ProjectEye.Core
                     var window = GetWindowByScreen(name, screen.DeviceName);
                     if (window != null)
                     {
-                        window.Left = screen.Bounds.Left;
-                        window.Top = screen.Bounds.Top;
-                        window.Width = screen.Bounds.Width;
-                        window.Height = screen.Bounds.Height;
+                        var size = GetSize(screen);
+                        window.Left = ToDips(screen.Bounds.Left, size.XDPI);
+                        window.Top = ToDips(screen.Bounds.Top, size.YDPI);
+                        window.Width = size.Width;
+                        window.Height = size.Height;
                     }
                     else
                     {
