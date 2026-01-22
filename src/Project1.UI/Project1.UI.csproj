@@ -13,4 +13,8 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Resource Include="Assets\**\*.ttf" />
+  </ItemGroup>
+
 </Project>
