@@ -14,7 +14,6 @@ namespace ProjectEye.ViewModels
         public Command applyCommand { get; set; }
         public Command openurlCommand { get; set; }
         public Command soundTestCommand { get; set; }
-        public Command updateCommand { get; set; }
         public Command showWindowCommand { get; set; }
         public Command addBreackProcessCommand { get; set; }
         public Command removeBreackProcessCommand { get; set; }
@@ -45,7 +44,6 @@ namespace ProjectEye.ViewModels
 
             applyCommand = new Command(new Action<object>(applyCommand_action));
             openurlCommand = new Command(new Action<object>(openurlCommand_action));
-            updateCommand = new Command(new Action<object>(updateCommand_action));
             showWindowCommand = new Command(new Action<object>(showWindowCommand_action));
             addBreackProcessCommand = new Command(new Action<object>(addBreackProcessCommand_action));
             removeBreackProcessCommand = new Command(new Action<object>(removeBreackProcessCommand_action));
@@ -99,23 +97,6 @@ namespace ProjectEye.ViewModels
             WindowManager.CreateWindowInScreen(obj.ToString());
 
             WindowManager.Show(obj.ToString());
-        }
-
-        private void updateCommand_action(object obj)
-        {
-            WindowManager.CreateWindowInScreen("UpdateWindow");
-            WindowManager.Show("UpdateWindow");
-
-            //            string savePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-            //                "Update",
-            //                "Download",
-            //                "ProjectEye.zip");
-            //            string outPath = AppDomain.CurrentDomain.BaseDirectory;
-            //#if DEBUG
-            //            Model.Version = "1.0.3";
-            //#endif
-
-
         }
 
         private void openurlCommand_action(object obj)
