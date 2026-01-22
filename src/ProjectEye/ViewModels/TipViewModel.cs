@@ -39,8 +39,6 @@ namespace ProjectEye.ViewModels
         private readonly PreAlertService preAlert;
         private readonly ThemeService theme;
 
-        private Size lastWindowSize = Size.Empty;
-
         public event ViewModelEventHandler ChangedEvent;
 
         public TipViewModel(RestService reset,
@@ -111,8 +109,6 @@ namespace ProjectEye.ViewModels
             // This prevents unnecessary work during minor adjustments or multiple rapid events
             if (e.PreviousSize != e.NewSize && !e.NewSize.IsEmpty)
             {
-                // Store the new size
-                lastWindowSize = e.NewSize;
                 // Recreate UI elements to ensure they remain centered with the new window dimensions
                 CreateUI();
             }
