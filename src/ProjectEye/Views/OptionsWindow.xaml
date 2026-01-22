@@ -44,40 +44,6 @@
             <TabItem Header="{DynamicResource Lang_General}">
                 <ScrollViewer>
                     <StackPanel Margin="10">
-
-                        <!--<Grid Margin="0,10,0,0">-->
-                        <!--<Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="10*"/>
-                                <ColumnDefinition Width="80"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="30"/>
-                                <RowDefinition Height="30"/>
-                            </Grid.RowDefinitions>-->
-                        <!--  提醒间隔  -->
-                        <!--<StackPanel>
-                                <TextBlock
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                   Margin="0,0,10,0"
-                                   VerticalAlignment="Center" Text="{DynamicResource Lang_Notificationinterval}"></TextBlock>
-
-                                <Slider
-                                Grid.Row="0"
-                                VerticalAlignment="Center"
-                                Grid.Column="1" Maximum="420" Minimum="1" SmallChange="1" Value="{Binding Model.Data.General.WarnTime}" />
-                                <TextBlock
-                                Grid.Row="0"
-                                   Grid.Column="2"
-                                   HorizontalAlignment="Right"
-                                Margin="10,0,0,0"
-                                   VerticalAlignment="Center">
-                                <Run Text="{Binding Model.Data.General.WarnTime}"/>
-                                <Run Text="{DynamicResource Lang_Minutes}"/>
-                                </TextBlock>
-                            </StackPanel>-->
-
                         <Slider
                             Grid.Row="0"
                             Grid.Column="1"
@@ -89,9 +55,6 @@
                             Tag="{DynamicResource Lang_Notificationinterval}"
                             ToolTip="{DynamicResource Lang_Minutes}"
                             Value="{Binding Model.Data.General.WarnTime}" />
-
-
-                        <!--<StackPanel>-->
 
                         <!--  休息时长  -->
                         <Slider
@@ -105,26 +68,6 @@
                             Tag="{DynamicResource Lang_Breaktimelength}"
                             ToolTip="{DynamicResource Lang_Seconds}"
                             Value="{Binding Model.Data.General.RestTime}" />
-                        <!--<TextBlock
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                   Margin="0,0,10,0"
-                                   VerticalAlignment="Center" Text="{DynamicResource Lang_Breaktimelength}"></TextBlock>
-                                <Slider
-                                Grid.Row="1"
-                                VerticalAlignment="Center"
-                                Grid.Column="1" Maximum="300" Minimum="1" SmallChange="1" Value="{Binding Model.Data.General.RestTime}" />
-                                <TextBlock
-                                Grid.Row="1"
-                                   Grid.Column="2"
-                                   HorizontalAlignment="Right"
-                                Margin="10,0,0,0"
-                                   VerticalAlignment="Center">
-                                <Run Text="{Binding Model.Data.General.RestTime}"/>
-                                <Run Text="{DynamicResource Lang_Seconds}"/>
-                                </TextBlock>
-                            </StackPanel>
-                        </Grid>-->
                         <ui:Toggle
                             Margin="0 20 0 0"
                             Cursor="Hand"
@@ -150,8 +93,6 @@
                                 <RowDefinition Height="40" />
                                 <RowDefinition Height="40" />
                                 <RowDefinition Height="40" />
-                                <RowDefinition Height="40" />
-
                             </Grid.RowDefinitions>
                             <!--  语言  -->
                             <TextBlock
@@ -202,8 +143,6 @@
                                 SelectedItem="{Binding Model.Data.Style.TipWindowAnimation}"
                                 SelectedValue="{Binding Model.Data.Style.TipWindowAnimation.ID}"
                                 SelectedValuePath="ID" />
-
-
                         </Grid>
 
                         <ui:Toggle
@@ -283,10 +222,6 @@
                                             SmallChange="1"
                                             ToolTip="{DynamicResource Lang_Seconds}"
                                             Value="{Binding Model.Data.Style.PreAlertTime}" />
-                                        <!--<TextBlock Grid.Column="2" Margin="10,0,0,0">
-                                            <Run Text="{Binding Model.Data.Style.PreAlertTime}"/>
-                                            <Run Text="{DynamicResource Lang_Seconds}"/>
-                                        </TextBlock>-->
                                     </Grid>
                                 </Grid>
                                 <Grid Margin="0 10 0 0">
@@ -394,12 +329,9 @@
                                             Text="{DynamicResource Lang_Variablesdescription}"
                                             TextWrapping="Wrap" />
                                     </StackPanel>
-
-
                                 </Grid>
                             </StackPanel>
                         </Grid>
-
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
@@ -567,8 +499,6 @@
                                                 <EasingDoubleKeyFrame KeyTime="0:0:.4" Value="1" />
 
                                             </DoubleAnimationUsingKeyFrames>
-                                            <!--<DoubleAnimation  Duration="0:0:.3" To="1.5" Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)" AutoReverse="True"/>
-                                            <DoubleAnimation Duration="0:0:.3" To="1.5" Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)" AutoReverse="True"/>-->
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </EventTrigger>
@@ -587,35 +517,6 @@
                         <TextBlock Margin="0 10 0 0" TextWrapping="Wrap"><Run Text="{DynamicResource Lang_Version}" /> <Hyperlink Command="{Binding openurlCommand}" CommandParameter="{Binding Model.VersionLink}">
                                 <Run Text="{Binding Model.Version}" />
                             </Hyperlink></TextBlock>
-
-                        <!--<Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="40"/>
-                                <RowDefinition Height="40"/>
-                                <RowDefinition Height="40"/>
-                                <RowDefinition Height="40"/>
-                            </Grid.RowDefinitions>
-                            <TextBlock
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Text="{DynamicResource Lang_Help}"
-                                Margin="0,0,10,0"
-                                VerticalAlignment="Center"
-                                />
-                            <TextBlock
-                                Grid.Row="0"
-                                Grid.Column="1"
-                                TextWrapping="WrapWithOverflow"
-                                VerticalAlignment="Center"
-                                Foreground="#4f6bed"
-                                Cursor="Hand"
-                                Text="https://littlepanda.gitbook.io/project-eye"
-                                />
-                        </Grid>-->
                         <TextBlock Margin="0 10 0 0" TextWrapping="Wrap">
                             <Hyperlink Command="{Binding openWindowCommand}" CommandParameter="ContributorsWindow">
                                 <Run Text="{DynamicResource Lang_Contributors}" />
@@ -630,10 +531,6 @@
                         <TextBlock Margin="0 10 0 0" TextWrapping="Wrap">
                             <Run Text="{DynamicResource Lang_Feedback}" /> <Hyperlink Command="{Binding openurlCommand}" CommandParameter="https://github.com/Planshit/ProjectEye/issues">https://github.com/Planshit/ProjectEye/issues</Hyperlink>
                         </TextBlock>
-                        <!--<TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
-                         <Run Text="{DynamicResource Lang_Developers}"/> <Hyperlink  Command="{Binding openurlCommand}"
-                                      CommandParameter="http://thelittlepandaisbehind.com">http://thelittlepandaisbehind.com</Hyperlink>
-                        </TextBlock>-->
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
@@ -654,7 +551,5 @@
                 Content="{DynamicResource Lang_Apply}"
                 Icon="Null" />
         </StackPanel>
-
-
     </Grid>
 </ui:Project1UIWindow>
