@@ -282,31 +282,26 @@ namespace ProjectEye.Core
 
         #region 在所有显示器中刷新一个窗口
         /// <summary>
-        /// 在所有显示器中刷新一个窗口，如果在某个显示器中没有实例则会创建。跳过主显示器。
+        /// 在所有显示器中刷新一个窗口，如果在某个显示器中没有实例则会创建。
         /// </summary>
         /// <param name="name"></param>
         public static void UpdateAllScreensWindow(string name, bool isMaximized)
         {
             var screens = System.Windows.Forms.Screen.AllScreens;
-            var mainScreen = System.Windows.Forms.Screen.PrimaryScreen;
             foreach (var screen in screens)
             {
-                //跳过主显示器
-                if (mainScreen != screen)
+                var window = GetWindowByScreen(name, screen.DeviceName);
+                if (window != null)
                 {
-                    var window = GetWindowByScreen(name, screen.DeviceName);
-                    if (window != null)
-                    {
-                        var size = GetSize(screen);
-                        window.Left = ToDips(screen.Bounds.Left, size.XDPI);
-                        window.Top = ToDips(screen.Bounds.Top, size.YDPI);
-                        window.Width = size.Width;
-                        window.Height = size.Height;
-                    }
-                    else
-                    {
-                        CreateWindowInScreen(name, screen, isMaximized);
-                    }
+                    var size = GetSize(screen);
+                    window.Left = ToDips(screen.Bounds.Left, size.XDPI);
+                    window.Top = ToDips(screen.Bounds.Top, size.YDPI);
+                    window.Width = size.Width;
+                    window.Height = size.Height;
+                }
+                else
+                {
+                    CreateWindowInScreen(name, screen, isMaximized);
                 }
             }
         }

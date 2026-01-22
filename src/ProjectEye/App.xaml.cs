@@ -77,10 +77,12 @@ namespace ProjectEye
             LogHelper.Error(e.Exception.ToString());
             //MessageBox.Show(errorMsg, "错误提示，程序即将退出", MessageBoxButton.OK, MessageBoxImage.Error);
             e.Handled = true;
+            
+            // Show error report window instead of launching external process
+            var errorWindow = new Views.ErrorReportWindow();
+            errorWindow.ShowDialog();
+            
             Shutdown();
-            var exePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                "ProjectEyeBug.exe");
-            ProcessHelper.Run(exePath, new string[] { "" });
         }
 
         #region 获取当前程序是否已运行
