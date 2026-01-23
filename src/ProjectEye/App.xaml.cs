@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using ProjectEye.Core;
 using ProjectEye.Core.Service;
@@ -69,6 +70,15 @@ namespace ProjectEye
                 serviceCollection.Initialize();
                 OnServiceInitialized?.Invoke();
             }
+
+            // 检查开机自启错误
+            AutoStartup();
+        }
+
+        [Conditional("RELEASE")]
+        private static void AutoStartup()
+        {
+            _ = StartupHelper.CheckStartup();
         }
 
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)

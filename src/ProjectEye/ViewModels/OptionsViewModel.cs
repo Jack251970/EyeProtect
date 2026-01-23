@@ -31,16 +31,17 @@ namespace ProjectEye.ViewModels
             this.config = config;
             this.mainService = mainService;
             this.theme = theme;
-            Model = new OptionsModel();
-            Model.Data = config.options;
-            Model.Themes = systemResources.Themes;
-            Model.Animations = systemResources.Animations;
-            Model.PreAlertActions = systemResources.PreAlertActions;
-            Model.Languages = systemResources.Languages;
+            Model = new OptionsModel
+            {
+                Data = config.options,
+                Themes = systemResources.Themes,
+                Animations = systemResources.Animations,
+                PreAlertActions = systemResources.PreAlertActions,
+                Languages = systemResources.Languages
+            };
 
             var version = Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.');
             Model.Version = version[0] + "." + version[1] + "." + version[2];
-
 
             applyCommand = new Command(new Action<object>(applyCommand_action));
             openurlCommand = new Command(new Action<object>(openurlCommand_action));
@@ -112,7 +113,7 @@ namespace ProjectEye.ViewModels
             {
                 msg = $"{Application.Current.Resources["Lang_Optionupdated"]}";
                 //处理开机启动
-                if (!ShortcutHelper.SetStartup(config.options.General.Startup))
+                if (!StartupHelper.SetStartup(config.options.General.Startup))
                 {
                     msg = $"{Application.Current.Resources["Lang_Optionupdated"]}";
                 }
