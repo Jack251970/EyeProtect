@@ -7,7 +7,7 @@ namespace ProjectEye.Core;
 /// <summary>
 /// Helper for startup register and unregister.
 /// For MSIX package, you need to add extension: uap5:StartupTask.
-/// Codes are edited from: <see href="https://github.com/microsoft/terminal"> and <see href="https://github.com/seerge/g-helper">.
+/// Code inspired by: <see href="https://github.com/microsoft/terminal"/> and <see href="https://github.com/seerge/g-helper"/>.
 /// </summary>
 public class StartupHelper
 {
