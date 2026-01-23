@@ -112,8 +112,11 @@ public class StartupHelper
                     {
                         if (keyName.Equals(NonMsixRegistryKey, StringComparison.CurrentCultureIgnoreCase))
                         {
-                            var value = (byte[])path.GetValue(keyName)!;
-                            if (!(value.SequenceEqual(ApprovalValue1) || value.SequenceEqual(ApprovalValue2)))
+                            if (path.GetValue(keyName) is not byte[] value)
+                            {
+                                startup = false;
+                            }
+                            else if (!value.SequenceEqual(ApprovalValue1) && !value.SequenceEqual(ApprovalValue2))
                             {
                                 startup = false;
                             }
