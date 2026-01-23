@@ -71,11 +71,11 @@ public class StartupHelper
             var path = root.OpenSubKey(RegistryPath, true);
             if (path == null)
             {
-                var key2 = root.CreateSubKey("SOFTWARE");
-                var key3 = key2.CreateSubKey("Microsoft");
-                var key4 = key3.CreateSubKey("Windows");
-                var key5 = key4.CreateSubKey("CurrentVersion");
-                var key6 = key5.CreateSubKey("Run");
+                using var key2 = root.CreateSubKey("SOFTWARE");
+                using var key3 = key2.CreateSubKey("Microsoft");
+                using var key4 = key3.CreateSubKey("Windows");
+                using var key5 = key4.CreateSubKey("CurrentVersion");
+                using var key6 = key5.CreateSubKey("Run");
                 path = key6;
             }
             var keyNames = path.GetValueNames();
