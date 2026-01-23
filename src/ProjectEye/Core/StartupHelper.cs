@@ -27,11 +27,7 @@ public class StartupHelper
     public static bool SetStartup(bool startup, bool currentUser = true)
     {
         var state = GetStartup(currentUser);
-        if (!state && startup)
-        {
-            return SetStartupRegistryKey(startup, currentUser);
-        }
-        else if (state && !startup)
+        if (state != startup)
         {
             return SetStartupRegistryKey(startup, currentUser);
         }
