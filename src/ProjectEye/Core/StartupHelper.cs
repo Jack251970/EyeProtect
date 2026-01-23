@@ -84,8 +84,8 @@ public class StartupHelper
                     // check if the startup register value is valid and fix it
                     if (startup)
                     {
-                        var value = path.GetValue(keyName)!.ToString()!;
-                        if (!value.Contains(@appPath, StringComparison.CurrentCultureIgnoreCase))
+                        var value = path.GetValue(keyName)?.ToString();
+                        if (string.IsNullOrEmpty(value) || !value.Contains(@appPath, StringComparison.CurrentCultureIgnoreCase))
                         {
                             path.SetValue(NonMsixRegistryKey, $@"""{@appPath}"" {NonMsixStartupTag}");
                             path.Close();
