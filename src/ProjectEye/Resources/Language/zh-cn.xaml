@@ -42,10 +42,6 @@
     <sys:String x:Key="Lang_Dark">深色</sys:String>
     <sys:String x:Key="Lang_Showbuttonsinfullscreennotification">全屏提示时显示操作按钮</sys:String>
     <sys:String x:Key="Lang_Enablemousepassthroughduringfullscreennotification">全屏提示时鼠标可穿透操作</sys:String>
-    <sys:String x:Key="Lang_Enableanimation">启用动画效果</sys:String>
-    <sys:String x:Key="Lang_Fullscreennotificationanimation">全屏提示窗口动画</sys:String>
-    <sys:String x:Key="Lang_Zoomfrombottom-rightcorner">从右下角缩放</sys:String>
-    <sys:String x:Key="Lang_Fadeinandfadeout">渐出渐隐</sys:String>
     <sys:String x:Key="Lang_Fullscreennotificationappearance">全屏提示界面</sys:String>
     <sys:String x:Key="Lang_Customize">自定义</sys:String>
     <sys:String x:Key="Lang_Earlypopupforbreaktime">休息预提醒弹窗</sys:String>
@@ -147,7 +143,6 @@
     <sys:String x:Key="Lang_Emptytheinput">清空输入</sys:String>
     <sys:String x:Key="Lang_Selectfolder">选择文件夹</sys:String>
     <sys:String x:Key="Lang_Selectfile">选择文件</sys:String>
-    <sys:String x:Key="Lang_None">无</sys:String>
     <sys:String x:Key="Lang_StatisticsWeekHoursTip">本周 {b} 小时，上周 {a} 小时 {diffvalue}</sys:String>
     <sys:String x:Key="Lang_StatisticsXhours">{value} 小时</sys:String>
     <sys:String x:Key="Lang_StatisticsWeekMinutesTip">本周 {b} 分钟，上周 {a} 分钟 {diffvalue}</sys:String>

@@ -92,7 +92,6 @@ namespace ProjectEye.Core.Service
 
             options.Style = new StyleModel();
             options.Style.TipContent = "You have been using your eyes for {t} minutes. Take a break! Please focus your attention at least 6 meters away for 20 seconds!";
-            options.Style.TipWindowAnimation = systemResources.Animations[0];
             options.Style.Language = systemResources.Languages[0];
 
             options.Behavior = new BehaviorModel();
