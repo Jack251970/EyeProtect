@@ -35,7 +35,6 @@ namespace ProjectEye.ViewModels
         private readonly SoundService sound;
         private readonly ConfigService config;
         private readonly MainService main;
-        private readonly KeyboardShortcutsService keyboardShortcuts;
         private readonly PreAlertService preAlert;
         private readonly ThemeService theme;
 
@@ -46,7 +45,6 @@ namespace ProjectEye.ViewModels
             ConfigService config,
             MainService main,
             App app,
-            KeyboardShortcutsService keyboardShortcuts,
             PreAlertService preAlert,
             ThemeService theme)
         {
@@ -63,7 +61,6 @@ namespace ProjectEye.ViewModels
             busyCommand = new Command(new Action<object>(busyCommand_action));
 
             this.main = main;
-            this.keyboardShortcuts = keyboardShortcuts;
             this.preAlert = preAlert;
             this.theme = theme;
             theme.OnChangedTheme += Theme_OnChangedTheme;
@@ -98,7 +95,6 @@ namespace ProjectEye.ViewModels
         {
             CreateUI();
             //WindowInstance.Activated += WindowInstance_Activated;
-            WindowInstance.KeyUp += WindowInstance_KeyUp;
             WindowInstance.SizeChanged += WindowInstance_SizeChanged;
             (WindowInstance as Project1UIWindow).OnWShow += TipViewModel_OnWShow;
         }
@@ -122,12 +118,6 @@ namespace ProjectEye.ViewModels
                 WindowInstance.Focus();
             }
             HandleAutoAction();
-        }
-
-        private void WindowInstance_KeyUp(object sender, KeyEventArgs e)
-        {
-            //处理执行快捷键命令
-            keyboardShortcuts.Execute(e);
         }
 
         private void WindowInstance_Activated(object sender, EventArgs e)
@@ -386,15 +376,6 @@ namespace ProjectEye.ViewModels
         //加载配置
         private void LoadConfig()
         {
-            //创建快捷键命令
-            if (!string.IsNullOrEmpty(config.options.KeyboardShortcuts.Reset))
-            {
-                keyboardShortcuts.Set(config.options.KeyboardShortcuts.Reset, resetCommand);
-            }
-            if (!string.IsNullOrEmpty(config.options.KeyboardShortcuts.NoReset))
-            {
-                keyboardShortcuts.Set(config.options.KeyboardShortcuts.NoReset, busyCommand);
-            }
             //动画开关
             IsAnimation = config.options.Style.IsAnimation;
 

@@ -53,8 +53,6 @@
     <sys:String x:Key="Lang_Earlypopupforbreaktime">Early popup for break time</sys:String>
     <sys:String x:Key="Lang_Popupleadtime">Popup lead time</sys:String>
     <sys:String x:Key="Lang_Defaultactionafterthepopup">Default action after the popup</sys:String>
-    <sys:String x:Key="Lang_Startthebreak">Start the break</sys:String>
-    <sys:String x:Key="Lang_Skipthebreak">Skip the break</sys:String>
     <sys:String x:Key="Lang_Popupsound">Popup sound</sys:String>
     <sys:String x:Key="Lang_Icon">Icon</sys:String>
     <sys:String x:Key="Lang_Title">Title</sys:String>
@@ -63,9 +61,6 @@
     <sys:String x:Key="Lang_Breaktimeisstartingsoon">Break time is starting soon</sys:String>
     <sys:String x:Key="Lang_Areyouready">Are your ready?</sys:String>
     <sys:String x:Key="Lang_Variablesdescription">Variables: {t}-countdown,{twt}-today's total work time,{trt}-today's total break time,{tsc}-today's skip count</sys:String>
-
-    <sys:String x:Key="Lang_Hotkeys">Hotkeys</sys:String>
-    <sys:String x:Key="Lang_Pleasepressakey">Please press a key</sys:String>
 
 
     <sys:String x:Key="Lang_Behaviors">Behaviors</sys:String>

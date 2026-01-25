@@ -54,8 +54,6 @@
     <sys:String x:Key="Lang_Earlypopupforbreaktime">休息預提醒彈跳視窗</sys:String>
     <sys:String x:Key="Lang_Popupleadtime">預提醒提前時間</sys:String>
     <sys:String x:Key="Lang_Defaultactionafterthepopup">預提醒彈跳視窗的預設動作</sys:String>
-    <sys:String x:Key="Lang_Startthebreak">進入休息</sys:String>
-    <sys:String x:Key="Lang_Skipthebreak">跳過休息</sys:String>
     <sys:String x:Key="Lang_Popupsound">預提醒提示音</sys:String>
     <sys:String x:Key="Lang_Icon">圖示</sys:String>
     <sys:String x:Key="Lang_Title">主標題</sys:String>
@@ -64,10 +62,6 @@
     <sys:String x:Key="Lang_Breaktimeisstartingsoon">即將休息</sys:String>
     <sys:String x:Key="Lang_Areyouready">準備好了嗎？</sys:String>
     <sys:String x:Key="Lang_Variablesdescription">變量：{t}休息剩餘秒數，{twt}今日用眼總時長，{trt}今日休息總時長，{tsc}今日跳過次數</sys:String>
-
-
-    <sys:String x:Key="Lang_Hotkeys">快捷鍵</sys:String>
-    <sys:String x:Key="Lang_Pleasepressakey">請按下按鍵</sys:String>
 
 
     <sys:String x:Key="Lang_Behaviors">行為</sys:String>

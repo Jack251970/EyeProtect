@@ -60,8 +60,6 @@ namespace ProjectEye
                 serviceCollection.Add<RestService>();
                 //声音
                 serviceCollection.Add<SoundService>();
-                //快捷键
-                serviceCollection.Add<KeyboardShortcutsService>();
                 //预提醒
                 serviceCollection.Add<PreAlertService>();
 
