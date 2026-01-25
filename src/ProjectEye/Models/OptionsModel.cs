@@ -6,8 +6,8 @@ namespace ProjectEye.Models
 {
     public class OptionsModel : UINotifyPropertyChanged
     {
-        private ProjectEye.Core.Models.Options.OptionsModel data_;
-        public ProjectEye.Core.Models.Options.OptionsModel Data
+        private Core.Models.Options.OptionsModel data_;
+        public Core.Models.Options.OptionsModel Data
         {
             get => data_;
             set
@@ -84,7 +84,6 @@ namespace ProjectEye.Models
                     Data.Style.IsThruTipWindow = !value;
                 }
                 OnPropertyChanged();
-
             }
         }
     }
