@@ -8,7 +8,7 @@ namespace ProjectEye.Models
     public partial class OptionsModel : ObservableObject
     {
         [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(IsBreakProgressList), nameof(BreakProgressListVisibility))]
+        [NotifyPropertyChangedFor(nameof(BreakProgressListVisibility))]
         private Core.Models.Options.OptionsModel data;
 
         [ObservableProperty]
@@ -28,7 +28,7 @@ namespace ProjectEye.Models
                 {
                     Data.Behavior.IsBreakProgressList = value;
                     OnPropertyChanged(nameof(IsBreakProgressList));
-                    OnPropertyChanged(nameof(PreAlertConfigVisibility));
+                    OnPropertyChanged(nameof(BreakProgressListVisibility));
                 }
             }
         }
@@ -62,9 +62,5 @@ namespace ProjectEye.Models
                 }
             }
         }
-        
-        // This property is used to maintain compatibility but couldn't be found in the original file
-        // It's referenced in IsBreakProgressList but might be missing from the original
-        public Visibility PreAlertConfigVisibility => Visibility.Visible;
     }
 }
