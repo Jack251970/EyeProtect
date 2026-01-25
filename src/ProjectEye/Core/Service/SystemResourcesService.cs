@@ -6,28 +6,13 @@ namespace ProjectEye.Core.Service
 {
     public class SystemResourcesService : IService
     {
-        public List<ThemeModel> Themes { get; set; }
         public List<AnimationModel> Animations { get; set; }
         public List<ComboxModel> Languages { get; set; }
 
         public void Init()
         {
-            Themes = new List<ThemeModel>();
             Animations = new List<AnimationModel>();
             Languages = new List<ComboxModel>();
-
-            Themes.Add(new ThemeModel()
-            {
-                DisplayName = $"{Application.Current.Resources["Lang_Light"]}",
-                ThemeName = "Blue",
-                ThemeColor = "#4F6BED"
-            });
-            Themes.Add(new ThemeModel()
-            {
-                DisplayName = $"{Application.Current.Resources["Lang_Dark"]}",
-                ThemeName = "Dark",
-                ThemeColor = "#4F6BED"
-            });
 
             //预置动画
             Animations.Add(new AnimationModel()

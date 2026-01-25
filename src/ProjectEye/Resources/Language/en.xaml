@@ -36,7 +36,6 @@
 
     <sys:String x:Key="Lang_Display">Display</sys:String>
     <sys:String x:Key="Lang_Language">Language</sys:String>
-    <sys:String x:Key="Lang_Theme">Theme</sys:String>
     <sys:String x:Key="Lang_Default">Default</sys:String>
     <sys:String x:Key="Lang_Light">Light</sys:String>
     <sys:String x:Key="Lang_Dark">Dark</sys:String>

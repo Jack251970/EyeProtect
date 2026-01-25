@@ -4,10 +4,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Project1.UI.Controls;
+using iNKORE.UI.WPF.Modern;
 using Project1.UI.Controls.Models;
 using Project1.UI.Cores;
 using ProjectEye.Core;
@@ -83,7 +82,7 @@ namespace ProjectEye.ViewModels
             }
         }
 
-        private void Theme_OnChangedTheme(string OldThemeName, string NewThemeName)
+        private void Theme_OnChangedTheme(ApplicationTheme oldThemeName, ApplicationTheme newThemeName)
         {
             CreateUI();
         }
@@ -160,7 +159,7 @@ namespace ProjectEye.ViewModels
         private void CreateUI()
         {
             var container = new Grid();
-            var data = theme.GetCreateDefaultTipWindowUI(config.options.Style.Theme.ThemeName, ScreenName);
+            var data = theme.GetCreateDefaultTipWindowUI(ScreenName);
             var containerBG = new Border();
             containerBG.Width = Double.NaN;
             containerBG.Height = Double.NaN;

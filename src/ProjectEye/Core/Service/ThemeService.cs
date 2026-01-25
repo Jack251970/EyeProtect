@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Windows.Media;
+using iNKORE.UI.WPF.Modern;
 using Project1.UI.Controls.Models;
 using Project1.UI.Cores;
 using ProjectEye.Models.UI;
@@ -13,9 +11,7 @@ namespace ProjectEye.Core.Service
     {
         private readonly ConfigService config;
         private readonly SystemResourcesService systemResources;
-
-
-        public delegate void ThemeChangedEventHandler(string OldThemeName, string NewThemeName);
+        public delegate void ThemeChangedEventHandler(ApplicationTheme OldTheme, ApplicationTheme NewTheme);
         /// <summary>
         /// 当切换主题时发生
         /// </summary>
@@ -29,29 +25,30 @@ namespace ProjectEye.Core.Service
         public void Init()
         {
             // iNKORE.UI.WPF.Modern will follow system theme by default (ApplicationTheme = null)
-            // No manual theme setting needed
+            ThemeManager.Current.ActualApplicationThemeChanged += Current_ActualApplicationThemeChanged;
         }
-        
-        /// <summary>
-        /// 设置主题 - Deprecated: Now follows system theme
-        /// </summary>
-        /// <param name="themeName"></param>
-        public void SetTheme(string themeName)
+
+        private void Current_ActualApplicationThemeChanged(ThemeManager sender, object args)
         {
-            // Theme setting removed - application now follows system theme
-            // iNKORE.UI.WPF.Modern.ThemeManager.Current.ApplicationTheme is null by default
+            if (sender.ActualApplicationTheme == ApplicationTheme.Dark)
+            {
+                OnChangedTheme?.Invoke(ApplicationTheme.Light, ApplicationTheme.Dark);
+            }
+            else if (sender.ActualApplicationTheme == ApplicationTheme.Light)
+            {
+                OnChangedTheme?.Invoke(ApplicationTheme.Dark, ApplicationTheme.Light);
+            }
         }
 
         /// <summary>
         /// 创建默认的提示界面布局UI
         /// </summary>
-        /// <param name="themeName">主题名</param>
         /// <param name="screenName">屏幕名称</param>
         /// <returns></returns>
-        public UIDesignModel GetCreateDefaultTipWindowUI(
-            string themeName,
-            string screenName)
+        public UIDesignModel GetCreateDefaultTipWindowUI(string screenName)
         {
+            var isDarkTheme = ThemeManager.Current.ActualApplicationTheme == ApplicationTheme.Dark;
+
             screenName = screenName.Replace("\\", "");
 
             var screen = System.Windows.Forms.Screen.PrimaryScreen;
@@ -84,7 +81,7 @@ namespace ProjectEye.Core.Service
             tipimage.Width = 272;
             tipimage.Opacity = 1;
             tipimage.Height = 187;
-            tipimage.Image = $"pack://application:,,,/ProjectEye;component/Resources/Themes/{themeName}/Images/tipImage.png";
+            tipimage.Image = $"pack://application:,,,/ProjectEye;component/Resources/Images/{(isDarkTheme ? "Dark" : "Light")}/Images/tipImage.png";
             tipimage.X = screenSize.Width / 2 - tipimage.Width / 2;
             tipimage.Y = screenSize.Height * .24;
 
@@ -92,7 +89,6 @@ namespace ProjectEye.Core.Service
             tipText.Type = Project1.UI.Controls.Enums.DesignItemType.Text;
             tipText.Text = config.options.Style.TipContent ?? "You have been using your eyes for {t} minutes. Take a break! Please focus your attention at least 6 meters away for 20 seconds!";
             tipText.Opacity = 1;
-            tipText.TextColor = Project1UIColor.Get("#45435b");
             tipText.Width = 400;
             tipText.Height = 120;
             tipText.X = screenSize.Width / 2 - tipText.Width / 2;
@@ -104,7 +100,7 @@ namespace ProjectEye.Core.Service
             restBtn.Width = 110;
             restBtn.Height = 45;
             restBtn.FontSize = 14;
-            restBtn.Text = "好的";
+            restBtn.Text = "Yes";
             restBtn.Opacity = 1;
             restBtn.Command = "rest";
 
@@ -116,7 +112,7 @@ namespace ProjectEye.Core.Service
             breakBtn.Width = 110;
             breakBtn.Height = 45;
             breakBtn.FontSize = 14;
-            breakBtn.Text = "暂时不";
+            breakBtn.Text = "No";
             breakBtn.Style = "basic";
             breakBtn.Command = "break";
             breakBtn.Opacity = 1;
@@ -128,30 +124,17 @@ namespace ProjectEye.Core.Service
             countDownText.FontSize = 50;
             countDownText.IsTextBold = true;
             countDownText.Type = Project1.UI.Controls.Enums.DesignItemType.Text;
-            countDownText.TextColor = Brushes.Black;
             countDownText.Opacity = 1;
             countDownText.Width = 100;
             countDownText.Height = 60;
             countDownText.X = screenSize.Width / 2 - countDownText.Width / 2;
             countDownText.Y = restBtn.Y + restBtn.Height;
 
-
-
-            if (themeName == "Dark")
-            {
-                //深色主题的样式
-
-                data.ContainerAttr.Background = Project1UIColor.Get("#1A1B1C");
-                tipText.TextColor = Project1UIColor.Get("#D9D9D9");
-                countDownText.TextColor = Project1UIColor.Get("#D9D9D9");
-
-            }
             elements.Add(tipimage);
             elements.Add(tipText);
             elements.Add(restBtn);
             elements.Add(breakBtn);
             elements.Add(countDownText);
-
 
             data.Elements = elements;
 

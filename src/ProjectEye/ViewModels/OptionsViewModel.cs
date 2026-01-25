@@ -34,7 +34,6 @@ namespace ProjectEye.ViewModels
             Model = new OptionsModel
             {
                 Data = config.options,
-                Themes = systemResources.Themes,
                 Animations = systemResources.Animations,
                 Languages = systemResources.Languages
             };
@@ -120,8 +119,6 @@ namespace ProjectEye.ViewModels
                 {
                     msg = $"{Application.Current.Resources["Lang_Optionupdated"]}";
                 }
-                //处理主题切换
-                theme.SetTheme(config.options.Style.Theme.ThemeName);
             }
             Modal(msg);
         }

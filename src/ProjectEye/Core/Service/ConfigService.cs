@@ -91,7 +91,6 @@ namespace ProjectEye.Core.Service
             options.General.WarnTime = 20;
 
             options.Style = new StyleModel();
-            options.Style.Theme = systemResources.Themes[0];
             options.Style.TipContent = "You have been using your eyes for {t} minutes. Take a break! Please focus your attention at least 6 meters away for 20 seconds!";
             options.Style.TipWindowAnimation = systemResources.Animations[0];
             options.Style.Language = systemResources.Languages[0];
