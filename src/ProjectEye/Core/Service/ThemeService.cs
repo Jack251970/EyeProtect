@@ -114,7 +114,7 @@ namespace ProjectEye.Core.Service
             tipText.Opacity = 1;
             tipText.TextColor = Project1UIColor.Get("#45435b");
             tipText.Width = 400;
-            tipText.Height = 50;
+            tipText.Height = 120;
             tipText.X = screenSize.Width / 2 - tipText.Width / 2;
             tipText.Y = tipimage.Y + tipimage.Height + tipText.Height + 10;
             tipText.FontSize = 20;
