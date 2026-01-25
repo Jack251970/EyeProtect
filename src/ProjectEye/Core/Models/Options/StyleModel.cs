@@ -34,6 +34,6 @@ namespace ProjectEye.Core.Models.Options
         /// <summary>
         /// 语言
         /// </summary>
-        public ComboxModel Language { get; set; } = new ComboxModel() { DisplayName = "简体中文", Value = "zh-cn" };
+        public ComboxModel Language { get; set; } = new ComboxModel() { DisplayName = "English", Value = "en" };
     }
 }

@@ -57,13 +57,13 @@ namespace ProjectEye.Core.Service
             //语言
             Languages.Add(new ComboxModel()
             {
-                DisplayName = "简体中文",
-                Value = "zh-cn"
+                DisplayName = "English",
+                Value = "en"
             });
             Languages.Add(new ComboxModel()
             {
-                DisplayName = "English",
-                Value = "en"
+                DisplayName = "简体中文",
+                Value = "zh-cn"
             });
             Languages.Add(new ComboxModel()
             {
