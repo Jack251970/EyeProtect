@@ -17,7 +17,7 @@ namespace ProjectEye.Core.Service
         /// 用眼计时器
         /// </summary>
         private DispatcherTimer work_timer;
-        private System.Diagnostics.Stopwatch workTimerStopwatch;
+        private Stopwatch workTimerStopwatch;
         /// <summary>
         /// 离开检测计时器
         /// </summary>
@@ -169,15 +169,25 @@ namespace ProjectEye.Core.Service
 
         private void HandleLanguageChanged()
         {
-            var language = new ResourceDictionary { Source = new Uri($"/ProjectEye;component/Resources/Language/{config.options.Style.Language.Value}.xaml", UriKind.RelativeOrAbsolute) };
-
-            var mds = System.Windows.Application.Current.Resources.MergedDictionaries;
-            var loadedLanguage = mds.Where(m => m.Source != null && m.Source.OriginalString.Contains("Language")).FirstOrDefault();
-            if (loadedLanguage != null)
+            // Remove all languages except en.xaml which is loaded by default
+            var mds = Application.Current.Resources.MergedDictionaries;
+            var loadedLanguages = mds.Where(m => m.Source != null && m.Source.OriginalString.Contains("Language"));
+            var languagesToRemove = loadedLanguages.ToList();
+            foreach (var m in languagesToRemove)
             {
-                mds.Remove(loadedLanguage);
+                if (!m.Source.OriginalString.EndsWith("en.xaml"))
+                {
+                    mds.Remove(m);
+                }
             }
-            mds.Add(language);
+
+            // Load selected language if it is not default language en.xaml
+            if (config.options.Style.Language.Value != "en")
+            {
+                var language = new ResourceDictionary { Source = new Uri($"/ProjectEye;component/Resources/Language/{config.options.Style.Language.Value}.xaml", UriKind.RelativeOrAbsolute) };
+                mds.Add(language);
+            }
+
             systemResources.Init();
             OnLoadedLanguage?.Invoke(this, 0);
         }
