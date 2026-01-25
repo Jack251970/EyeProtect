@@ -42,10 +42,6 @@ namespace ProjectEye.Core.Service
         /// 日期更改计时重置标记
         /// </summary>
         private bool isDateTimerReset;
-        /// <summary>
-        /// 预提醒操作
-        /// </summary>
-        private PreAlertAction preAlertAction;
         #region Service
         private readonly ScreenService screen;
         private readonly ConfigService config;
@@ -429,22 +425,14 @@ namespace ProjectEye.Core.Service
         /// </summary>
         private void ShowTipWindow()
         {
-            if (config.options.Style.IsPreAlert && preAlertAction == PreAlertAction.Break)
+            if (IsBreakReset())
             {
-                //预提醒设置跳过
                 ReStartWorkTimerWatch();
             }
             else
             {
-                if (IsBreakReset())
-                {
-                    ReStartWorkTimerWatch();
-                }
-                else
-                {
-                    busy_timer.Start();
-                    WindowManager.Show("TipWindow");
-                }
+                busy_timer.Start();
+                WindowManager.Show("TipWindow");
             }
         }
         #endregion
@@ -529,13 +517,6 @@ namespace ProjectEye.Core.Service
             return false;
         }
 
-        #endregion
-
-        #region 设置预提醒状态
-        public void SetPreAlertAction(PreAlertAction preAlertAction)
-        {
-            this.preAlertAction = preAlertAction;
-        }
         #endregion
 
         #region 是否跳过本次休息
