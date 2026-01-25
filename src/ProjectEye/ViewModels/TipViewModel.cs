@@ -51,8 +51,8 @@ namespace ProjectEye.ViewModels
         private void Reset(object obj)
         {
             main.StopBusyListener();
-            CountDownVisibility = System.Windows.Visibility.Visible;
-            TakeButtonVisibility = System.Windows.Visibility.Hidden;
+            CountDownVisibility = Visibility.Visible;
+            TakeButtonVisibility = Visibility.Hidden;
             reset.Start();
         }
 

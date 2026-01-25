@@ -81,7 +81,7 @@
                 FontSize="50"
                 FontWeight="Bold"
                 Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"
-                Text="{Binding COUNTDOWN}"
+                Text="{Binding Countdown}"
                 Visibility="{Binding CountDownVisibility}" />
         </Grid>
     </Grid>
