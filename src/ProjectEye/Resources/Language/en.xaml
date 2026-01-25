@@ -40,8 +40,6 @@
     <sys:String x:Key="Lang_Default">Default</sys:String>
     <sys:String x:Key="Lang_Light">Light</sys:String>
     <sys:String x:Key="Lang_Dark">Dark</sys:String>
-    <sys:String x:Key="Lang_Switchtodarkthemeautomatically">Switch to dark theme automatically</sys:String>
-    <sys:String x:Key="Lang_Specifythetime">Specify the time</sys:String>
     <sys:String x:Key="Lang_Showbuttonsinfullscreennotification">Show buttons in fullscreen notification</sys:String>
     <sys:String x:Key="Lang_Enablemousepassthroughduringfullscreennotification">Enable mouse passthrough during fullscreen notification</sys:String>
     <sys:String x:Key="Lang_Enableanimation">Enable animation</sys:String>

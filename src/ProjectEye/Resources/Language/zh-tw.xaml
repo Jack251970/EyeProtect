@@ -41,8 +41,6 @@
     <sys:String x:Key="Lang_Default">預設</sys:String>
     <sys:String x:Key="Lang_Light">淺色</sys:String>
     <sys:String x:Key="Lang_Dark">深色</sys:String>
-    <sys:String x:Key="Lang_Switchtodarkthemeautomatically">自動切換深色主題</sys:String>
-    <sys:String x:Key="Lang_Specifythetime">指定時間範圍</sys:String>
     <sys:String x:Key="Lang_Showbuttonsinfullscreennotification">全螢幕提示時顯示操作按鈕</sys:String>
     <sys:String x:Key="Lang_Enablemousepassthroughduringfullscreennotification">全螢幕提示時鼠標可穿透操作</sys:String>
     <sys:String x:Key="Lang_Enableanimation">啟用動畫效果</sys:String>

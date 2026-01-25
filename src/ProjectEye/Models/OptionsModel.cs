@@ -82,19 +82,6 @@ namespace ProjectEye.Models
             }
         }
 
-        public Visibility AutoDarkConfigVisibility => IsAutoDark ? Visibility.Visible : Visibility.Collapsed;
-
-        public bool IsAutoDark
-        {
-            get => Data.Style.IsAutoDarkMode;
-            set
-            {
-                Data.Style.IsAutoDarkMode = value;
-                OnPropertyChanged();
-                OnPropertyChanged("AutoDarkConfigVisibility");
-            }
-        }
-
         ///// <summary>
         ///// 预提醒选项是否可用
         ///// </summary>

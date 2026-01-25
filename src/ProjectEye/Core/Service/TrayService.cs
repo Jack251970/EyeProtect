@@ -208,7 +208,6 @@ namespace ProjectEye.Core.Service
 
         private void notifyIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            theme.HandleDarkMode();
             MouseClickTrayIcon?.Invoke(sender, e);
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {

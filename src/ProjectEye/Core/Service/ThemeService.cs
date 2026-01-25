@@ -40,8 +40,6 @@ namespace ProjectEye.Core.Service
             Project1.UI.Cores.UIDefaultSetting.DefaultThemeName = themeName;
 
             Project1.UI.Cores.UIDefaultSetting.DefaultThemePath = "/ProjectEye;component/Resources/Themes/";
-
-            HandleDarkMode();
         }
         /// <summary>
         /// 设置主题
@@ -61,67 +59,6 @@ namespace ProjectEye.Core.Service
                 theme.ApplyTheme();
 
                 OnChangedTheme?.Invoke(oldName, themeName);
-            }
-        }
-
-        public void HandleDarkMode()
-        {
-            var darkModeThemeName = "Dark";
-            if (config.options.Style.IsAutoDarkMode)
-            {
-                var darkTheme = systemResources.Themes.Where(m => m.ThemeName == darkModeThemeName).FirstOrDefault();
-                if (darkTheme == null)
-                {
-                    return;
-                }
-                var startTime = new DateTime(
-                    DateTime.Now.Year,
-                    DateTime.Now.Month,
-                    DateTime.Now.Day,
-                    config.options.Style.AutoDarkStartH,
-                   config.options.Style.AutoDarkStartM,
-                    0);
-                var endTime = new DateTime(
-                    DateTime.Now.Year,
-                    DateTime.Now.Month,
-                    DateTime.Now.Day,
-                    config.options.Style.AutoDarkEndH,
-                   config.options.Style.AutoDarkEndM,
-                    0);
-
-                var isOpen = false;
-
-                if (config.options.Style.AutoDarkStartH <= config.options.Style.AutoDarkEndH)
-                {
-                    isOpen = DateTime.Now >= startTime && DateTime.Now <= endTime;
-                }
-                else
-                {
-                    isOpen = DateTime.Now >= startTime || DateTime.Now <= endTime;
-                }
-                if (isOpen)
-                {
-                    if (config.options.Style.Theme != darkTheme)
-                    {
-                        Debug.WriteLine("dark mode open!");
-                        config.options.Style.Theme = darkTheme;
-
-                        SetTheme(darkModeThemeName);
-
-                    }
-                }
-                else
-                {
-                    var defualtTheme = systemResources.Themes[0];
-                    if (config.options.Style.Theme != defualtTheme)
-                    {
-                        Debug.WriteLine("dark mode close!");
-                        config.options.Style.Theme = defualtTheme;
-
-                        SetTheme(defualtTheme.ThemeName);
-
-                    }
-                }
             }
         }
 
