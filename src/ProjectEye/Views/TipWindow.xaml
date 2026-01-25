@@ -6,7 +6,6 @@
     xmlns:local="clr-namespace:ProjectEye.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
-    xmlns:gif="http://wpfanimatedgif.codeplex.com"
     Title="TipWindow"
     Width="100"
     Height="100"
@@ -21,65 +20,62 @@
     WindowStyle="None"
     mc:Ignorable="d">
     <Grid>
-        <Border
-            Opacity="{Binding ContainerOpacity}"
-            Background="{Binding ContainerBackground}">
-        </Border>
-        
-        <Grid VerticalAlignment="Center" Width="400">
+        <Border Background="{Binding ContainerBackground}" Opacity="{Binding ContainerOpacity}" />
+
+        <Grid Width="400" VerticalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            
-            <!-- Eye protection image -->
+
+            <!--  Eye protection image  -->
             <Image
                 Grid.Row="0"
                 Width="272"
                 Height="187"
-                Margin="0,20,0,10"
+                Margin="0 20 0 10"
                 HorizontalAlignment="Center"
-                gif:ImageBehavior.AnimatedSource="{Binding TipImageSource}"
+                Source="{Binding TipImageSource}"
                 Stretch="UniformToFill" />
-            
-            <!-- Tip message text -->
+
+            <!--  Tip message text  -->
             <TextBlock
                 Grid.Row="1"
-                Margin="0,10,0,0"
+                Margin="0 10 0 0"
                 HorizontalAlignment="Center"
                 FontSize="20"
-                TextWrapping="Wrap"
+                Text="{Binding TipContent}"
                 TextAlignment="Center"
-                Text="{Binding TipContent}" />
-            
-            <!-- Action buttons -->
+                TextWrapping="Wrap" />
+
+            <!--  Action buttons  -->
             <StackPanel
                 Grid.Row="2"
-                Margin="0,20,0,0"
+                Margin="0 20 0 0"
                 HorizontalAlignment="Center"
                 Orientation="Horizontal"
                 Visibility="{Binding TakeButtonVisibility}">
                 <Button
                     Width="110"
                     Height="45"
-                    FontSize="14"
                     Command="{Binding resetCommand}"
-                    Content="{DynamicResource Lang_Yes}" />
+                    Content="{DynamicResource Lang_Yes}"
+                    FontSize="14" />
                 <Button
                     Width="110"
                     Height="45"
-                    Margin="10,0,0,0"
-                    FontSize="14"
+                    Margin="10 0 0 0"
                     Command="{Binding busyCommand}"
-                    Content="{DynamicResource Lang_No}" />
+                    Content="{DynamicResource Lang_No}"
+                    FontSize="14" />
             </StackPanel>
-            
-            <!-- Countdown display -->
+
+            <!--  Countdown display  -->
             <TextBlock
                 Grid.Row="3"
-                Margin="0,10,0,20"
+                Margin="0 10 0 20"
                 HorizontalAlignment="Center"
                 FontSize="50"
                 FontWeight="Bold"

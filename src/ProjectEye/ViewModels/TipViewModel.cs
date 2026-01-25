@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using iNKORE.UI.WPF.Modern;
 using ProjectEye.Core;
 using ProjectEye.Core.Service;
 using ProjectEye.Models;
-using ProjectEye.Models.Enums;
-using WpfAnimatedGif;
 
 namespace ProjectEye.ViewModels
 {
@@ -33,7 +27,6 @@ namespace ProjectEye.ViewModels
         private readonly SoundService sound;
         private readonly ConfigService config;
         private readonly MainService main;
-        private readonly ThemeService theme;
 
         public event ViewModelEventHandler ChangedEvent;
 
@@ -57,12 +50,10 @@ namespace ProjectEye.ViewModels
             busyCommand = new Command(new Action<object>(busyCommand_action));
 
             this.main = main;
-            this.theme = theme;
             theme.OnChangedTheme += Theme_OnChangedTheme;
             ChangedEvent += TipViewModel_ChangedEvent;
             main.OnHandleTimeout += Main_OnHandleTimeout;
             LoadConfig();
-
         }
 
         private void Main_OnHandleTimeout(object service, int msg)
