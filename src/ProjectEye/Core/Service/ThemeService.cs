@@ -50,19 +50,22 @@ namespace ProjectEye.Core.Service
             if (oldName != themeName)
             {
                 // Map theme names to iNKORE ApplicationTheme
+                // Both "Light" and "Default" map to Light theme
+                // "Dark" maps to Dark theme
+                // Unknown themes default to Light
+                iNKORE.UI.WPF.Modern.ApplicationTheme newTheme;
+                
                 if (themeName == "Dark")
                 {
-                    iNKORE.UI.WPF.Modern.ThemeManager.Current.ApplicationTheme = iNKORE.UI.WPF.Modern.ApplicationTheme.Dark;
-                }
-                else if (themeName == "Light" || themeName == "Default")
-                {
-                    iNKORE.UI.WPF.Modern.ThemeManager.Current.ApplicationTheme = iNKORE.UI.WPF.Modern.ApplicationTheme.Light;
+                    newTheme = iNKORE.UI.WPF.Modern.ApplicationTheme.Dark;
                 }
                 else
                 {
-                    // For other themes, default to Light
-                    iNKORE.UI.WPF.Modern.ThemeManager.Current.ApplicationTheme = iNKORE.UI.WPF.Modern.ApplicationTheme.Light;
+                    // Light, Default, or any other theme
+                    newTheme = iNKORE.UI.WPF.Modern.ApplicationTheme.Light;
                 }
+                
+                iNKORE.UI.WPF.Modern.ThemeManager.Current.ApplicationTheme = newTheme;
 
                 OnChangedTheme?.Invoke(oldName, themeName);
             }

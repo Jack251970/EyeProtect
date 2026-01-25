@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:ProjectEye.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
-    xmlns:controls="clr-namespace:Project1.UI.Controls;assembly=Project1.UI"
+    xmlns:chartcontrols="clr-namespace:Project1.UI.Controls;assembly=Project1.UI"
     Title="视力测试Beta"
     Width="900"
     Height="550"
@@ -108,7 +108,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="以往的数据">
-                <controls:Project1UIChart
+                <chartcontrols:Project1UIChart
                     Margin="10"
                     Data="{Binding Mode=TwoWay, Path=EyesData}"
                     Label="分"
