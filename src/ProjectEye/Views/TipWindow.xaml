@@ -18,5 +18,4 @@
     Topmost="True"
     Visibility="Hidden"
     WindowStyle="None"
-    mc:Ignorable="d">
-</Window>
+    mc:Ignorable="d" />
