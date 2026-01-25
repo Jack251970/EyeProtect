@@ -1,107 +1,35 @@
 ﻿using System.Windows;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ProjectEye.Models
 {
-    public class EyesTestModel : UINotifyPropertyChanged
+    public partial class EyesTestModel : ObservableObject
     {
-        private int Score_ = 0;
-        public int Score
-        {
-            get => Score_;
+        [ObservableProperty]
+        private int score = 0;
 
-            set
-            {
-                Score_ = value;
-                OnPropertyChanged();
-            }
-        }
-        private string ScoreInfo_ = "";
-        public string ScoreInfo
-        {
-            get => ScoreInfo_;
+        [ObservableProperty]
+        private string scoreInfo = "";
 
-            set
-            {
-                ScoreInfo_ = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty]
+        private int index = 1;
 
-        private int Index_ = 1;
-        public int Index
-        {
-            get => Index_;
+        [ObservableProperty]
+        private double fontSize;
 
-            set
-            {
-                Index_ = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty]
+        private Visibility infoVisibility = Visibility.Visible;
 
-        private double FontSize_;
-        public double FontSize
-        {
-            get => FontSize_;
+        [ObservableProperty]
+        private Visibility testVisibility = Visibility.Hidden;
 
-            set
-            {
-                FontSize_ = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty]
+        private Visibility scoreVisibility = Visibility.Hidden;
 
-        private Visibility InfoVisibility_ = Visibility.Visible;
-        public Visibility InfoVisibility
-        {
-            get => InfoVisibility_;
-            set
-            {
-                InfoVisibility_ = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty]
+        private double[] eyesData;
 
-        private Visibility TestVisibility_ = Visibility.Hidden;
-        public Visibility TestVisibility
-        {
-            get => TestVisibility_;
-            set
-            {
-                TestVisibility_ = value;
-                OnPropertyChanged();
-            }
-        }
-        private Visibility ScoreVisibility_ = Visibility.Hidden;
-        public Visibility ScoreVisibility
-        {
-            get => ScoreVisibility_;
-            set
-            {
-                ScoreVisibility_ = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public double[] EyesData_;
-        public double[] EyesData
-        {
-            get => EyesData_;
-            set
-            {
-                EyesData_ = value;
-                OnPropertyChanged();
-            }
-        }
-        public string[] Labels_;
-        public string[] Labels
-        {
-            get => Labels_;
-            set
-            {
-                Labels_ = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty]
+        private string[] labels;
     }
 }

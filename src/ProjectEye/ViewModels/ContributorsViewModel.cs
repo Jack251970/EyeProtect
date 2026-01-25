@@ -1,24 +1,15 @@
 ﻿using System;
 using System.Diagnostics;
+using CommunityToolkit.Mvvm.Input;
 
 namespace ProjectEye.ViewModels
 {
-    public class ContributorsViewModel
+    public partial class ContributorsViewModel
     {
-
-        public Command openurlCommand { get; set; }
-
-        public ContributorsViewModel()
-        {
-
-            openurlCommand = new Command(new Action<object>(openurlCommand_action));
-        }
-
-
-        private void openurlCommand_action(object obj)
+        [RelayCommand]
+        private void Openurl(object obj)
         {
             Process.Start(new ProcessStartInfo(obj.ToString()));
         }
-
     }
 }

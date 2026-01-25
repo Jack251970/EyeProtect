@@ -164,7 +164,7 @@
                                     MinHeight="23"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Center"
-                                    Command="{Binding addBreackProcessCommand}"
+                                    Command="{Binding AddBreackProcessCommand}"
                                     CommandParameter="{Binding ElementName=breakProcessTextbox, Path=Text}"
                                     Content="{DynamicResource Lang_Add}" />
                             </Grid>
@@ -178,7 +178,7 @@
 
                                 <ListView.ContextMenu>
                                     <ContextMenu>
-                                        <MenuItem Command="{Binding removeBreackProcessCommand}" Header="{DynamicResource Lang_Remove}" />
+                                        <MenuItem Command="{Binding RemoveBreackProcessCommand}" Header="{DynamicResource Lang_Remove}" />
                                     </ContextMenu>
                                 </ListView.ContextMenu>
 
@@ -257,22 +257,22 @@
                             Opacity=".5"
                             Text="{DynamicResource Lang_Aprogramwhichprotectsyoureyesbehindthescenes}"
                             TextWrapping="Wrap" />
-                        <TextBlock Margin="0 8 0 0" TextWrapping="Wrap"><Run Text="{DynamicResource Lang_Version}" /> <Hyperlink Command="{Binding openurlCommand}" CommandParameter="{Binding Model.VersionLink}">
+                        <TextBlock Margin="0 8 0 0" TextWrapping="Wrap"><Run Text="{DynamicResource Lang_Version}" /> <Hyperlink Command="{Binding OpenurlCommand}" CommandParameter="{Binding Model.VersionLink}">
                                 <Run Text="{Binding Model.Version}" />
                             </Hyperlink></TextBlock>
                         <TextBlock Margin="0 8 0 0" TextWrapping="Wrap">
-                            <Hyperlink Command="{Binding openWindowCommand}" CommandParameter="ContributorsWindow">
+                            <Hyperlink Command="{Binding OpenWindowCommand}" CommandParameter="ContributorsWindow">
                                 <Run Text="{DynamicResource Lang_Contributors}" />
                             </Hyperlink>
                         </TextBlock>
                         <TextBlock Margin="0 8 0 0" TextWrapping="Wrap">
-                            <Run Text="{DynamicResource Lang_Help}" /> <Hyperlink Command="{Binding openurlCommand}" CommandParameter="https://littlepanda.gitbook.io/project-eye/">https://littlepanda.gitbook.io/project-eye</Hyperlink>
+                            <Run Text="{DynamicResource Lang_Help}" /> <Hyperlink Command="{Binding OpenurlCommand}" CommandParameter="https://littlepanda.gitbook.io/project-eye/">https://littlepanda.gitbook.io/project-eye</Hyperlink>
                         </TextBlock>
                         <TextBlock Margin="0 8 0 0" TextWrapping="Wrap">
-                            <Run Text="{DynamicResource Lang_Source}" /> <Hyperlink Command="{Binding openurlCommand}" CommandParameter="https://github.com/Planshit/ProjectEye">https://github.com/Planshit/ProjectEye</Hyperlink>
+                            <Run Text="{DynamicResource Lang_Source}" /> <Hyperlink Command="{Binding OpenurlCommand}" CommandParameter="https://github.com/Planshit/ProjectEye">https://github.com/Planshit/ProjectEye</Hyperlink>
                         </TextBlock>
                         <TextBlock Margin="0 8 0 0" TextWrapping="Wrap">
-                            <Run Text="{DynamicResource Lang_Feedback}" /> <Hyperlink Command="{Binding openurlCommand}" CommandParameter="https://github.com/Planshit/ProjectEye/issues">https://github.com/Planshit/ProjectEye/issues</Hyperlink>
+                            <Run Text="{DynamicResource Lang_Feedback}" /> <Hyperlink Command="{Binding OpenurlCommand}" CommandParameter="https://github.com/Planshit/ProjectEye/issues">https://github.com/Planshit/ProjectEye/issues</Hyperlink>
                         </TextBlock>
                     </StackPanel>
                 </ScrollViewer>
@@ -290,7 +290,7 @@
                 MinWidth="80"
                 Margin="10 0 0 0"
                 Padding="10 6"
-                Command="{Binding applyCommand}"
+                Command="{Binding ApplyCommand}"
                 Content="{DynamicResource Lang_Apply}" />
         </StackPanel>
     </Grid>
