@@ -1,11 +1,11 @@
-﻿using Project1.UI.Controls;
+﻿using System.Windows;
 
 namespace ProjectEye.Views
 {
     /// <summary>
     /// ContributorsWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class ContributorsWindow : Project1UIWindow
+    public partial class ContributorsWindow : Window
     {
         public ContributorsWindow()
         {

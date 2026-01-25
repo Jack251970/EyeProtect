@@ -1,22 +1,23 @@
-﻿<ui:Project1UIWindow
+﻿<Window
     x:Class="ProjectEye.Views.ErrorReportWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:ProjectEye.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ui="clr-namespace:Project1.UI.Controls;assembly=Project1.UI"
+    xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
     Title="程序崩溃 Error   : ("
     Width="420"
     Height="460"
+    ui:WindowHelper.UseModernWindowStyle="True"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
-    <ui:Project1UIWindow.Resources>
+    <Window.Resources>
         <Style TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{DynamicResource FontBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
         </Style>
-    </ui:Project1UIWindow.Resources>
+    </Window.Resources>
     <Grid>
         <Image
             Margin="20"
@@ -99,14 +100,13 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
             Orientation="Horizontal">
-            <ui:Project1UIButton
+            <Button
                 Width="auto"
                 Height="auto"
                 Padding="15,8"
                 Click="Project1UIButton_Click"
-                Content="查看版本列表"
-                Style="{DynamicResource basic}" />
-            <ui:Project1UIButton
+                Content="查看版本列表" />
+            <Button
                 Width="auto"
                 Height="auto"
                 Margin="10,0,0,0"
@@ -115,4 +115,4 @@
                 Content="重新启动软件" />
         </StackPanel>
     </Grid>
-</ui:Project1UIWindow>
+</Window>

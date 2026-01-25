@@ -8,7 +8,7 @@ namespace ProjectEye.Views
     /// <summary>
     /// ErrorReportWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class ErrorReportWindow : Project1.UI.Controls.Project1UIWindow
+    public partial class ErrorReportWindow : Window
     {
         public ErrorReportWindow()
         {
