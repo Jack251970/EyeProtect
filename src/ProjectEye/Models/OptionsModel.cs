@@ -30,7 +30,6 @@ namespace ProjectEye.Models
 
         public string VersionLink => "https://github.com/Planshit/ProjectEye/releases/tag/" + Version;
         public string SelectedItem { get; set; }
-        public List<AnimationModel> Animations { get; set; }
         public List<ComboxModel> Languages { get; set; }
 
         public bool IsBreakProgressList

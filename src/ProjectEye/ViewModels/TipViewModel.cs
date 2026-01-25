@@ -201,12 +201,6 @@ namespace ProjectEye.ViewModels
         //加载配置
         private void LoadConfig()
         {
-            //动画开关
-            IsAnimation = config.options.Style.IsAnimation;
-
-            //动画类型
-            WindowAnimationType = config.options.Style.TipWindowAnimation.AnimationType;
-
             //鼠标穿透
             IsThruWindow = config.options.Style.IsThruTipWindow;
             

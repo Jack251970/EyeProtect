@@ -68,10 +68,6 @@
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="40" />
-                                <RowDefinition Height="40" />
-                            </Grid.RowDefinitions>
                             <!--  语言  -->
                             <TextBlock
                                 Grid.Column="0"
@@ -86,24 +82,6 @@
                                 SelectedItem="{Binding Model.Data.Style.Language}"
                                 SelectedValue="{Binding Model.Data.Style.Language.Value}"
                                 SelectedValuePath="Value" />
-
-                            <!--  全屏提示窗口动画  -->
-                            <TextBlock
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Margin="0 0 10 0"
-                                VerticalAlignment="Center"
-                                Text="{DynamicResource Lang_Fullscreennotificationanimation}" />
-                            <ComboBox
-                                Name="cb"
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                VerticalAlignment="Center"
-                                DisplayMemberPath="DisplayName"
-                                ItemsSource="{Binding Model.Animations}"
-                                SelectedItem="{Binding Model.Data.Style.TipWindowAnimation}"
-                                SelectedValue="{Binding Model.Data.Style.TipWindowAnimation.ID}"
-                                SelectedValuePath="ID" />
                         </Grid>
 
                         <ui:ToggleSwitch
@@ -115,10 +93,6 @@
                             Header="{DynamicResource Lang_Enablemousepassthroughduringfullscreennotification}"
                             IsEnabled="{Binding Model.IsThruTipWindowEnabled}"
                             IsOn="{Binding Model.Data.Style.IsThruTipWindow, Mode=TwoWay}" />
-                        <ui:ToggleSwitch
-                            Margin="0 8 0 0"
-                            Header="{DynamicResource Lang_Enableanimation}"
-                            IsOn="{Binding Model.Data.Style.IsAnimation, Mode=TwoWay}" />
 
                         <!--  提示内容  -->
                         <Grid Margin="0 8 0 0">

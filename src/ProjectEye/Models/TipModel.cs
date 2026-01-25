@@ -1,24 +1,9 @@
 ﻿using System.Windows;
-using ProjectEye.Core.Models.Options;
 
 namespace ProjectEye.Models
 {
     public class TipModel : UINotifyPropertyChanged
     {
-        private bool IsAnimation_;
-        /// <summary>
-        /// 是否启用动画
-        /// </summary>
-        public bool IsAnimation
-        {
-            get => IsAnimation_;
-            set
-            {
-                IsAnimation_ = value;
-                OnPropertyChanged();
-            }
-        }
-
         private string TipContent_;
         /// <summary>
         /// 提醒文本
@@ -201,20 +186,6 @@ namespace ProjectEye.Models
             set
             {
                 TSC_ = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private AnimationType WindowAnimationType_;
-        /// <summary>
-        /// 窗口动画类型
-        /// </summary>
-        public AnimationType WindowAnimationType
-        {
-            get => WindowAnimationType_;
-            set
-            {
-                WindowAnimationType_ = value;
                 OnPropertyChanged();
             }
         }

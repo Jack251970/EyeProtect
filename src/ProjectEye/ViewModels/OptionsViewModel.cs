@@ -34,7 +34,6 @@ namespace ProjectEye.ViewModels
             Model = new OptionsModel
             {
                 Data = config.options,
-                Animations = systemResources.Animations,
                 Languages = systemResources.Languages
             };
 

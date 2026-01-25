@@ -41,10 +41,6 @@
     <sys:String x:Key="Lang_Dark">Dark</sys:String>
     <sys:String x:Key="Lang_Showbuttonsinfullscreennotification">Show buttons in fullscreen notification</sys:String>
     <sys:String x:Key="Lang_Enablemousepassthroughduringfullscreennotification">Enable mouse passthrough during fullscreen notification</sys:String>
-    <sys:String x:Key="Lang_Enableanimation">Enable animation</sys:String>
-    <sys:String x:Key="Lang_Fullscreennotificationanimation">Fullscreen notification animation</sys:String>
-    <sys:String x:Key="Lang_Zoomfrombottom-rightcorner">Zoom from bottom-right corner</sys:String>
-    <sys:String x:Key="Lang_Fadeinandfadeout">Fade in and fade out</sys:String>
     <sys:String x:Key="Lang_Fullscreennotificationappearance">Fullscreen notification appearance</sys:String>
     <sys:String x:Key="Lang_Customize">Customize</sys:String>
     <sys:String x:Key="Lang_Earlypopupforbreaktime">Early popup for break time</sys:String>
@@ -142,7 +138,6 @@
     <sys:String x:Key="Lang_Emptytheinput">Empty the input</sys:String>
     <sys:String x:Key="Lang_Selectfolder">Select folder</sys:String>
     <sys:String x:Key="Lang_Selectfile">Select file</sys:String>
-    <sys:String x:Key="Lang_None">None</sys:String>
     <sys:String x:Key="Lang_StatisticsWeekHoursTip">This week {b} h,last week {a} h {diffvalue}</sys:String>
     <sys:String x:Key="Lang_StatisticsXhours">{value} h</sys:String>
     <sys:String x:Key="Lang_StatisticsWeekMinutesTip">This week {b} m,last week {a} m {diffvalue}</sys:String>
