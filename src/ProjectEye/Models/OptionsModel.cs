@@ -31,21 +31,8 @@ namespace ProjectEye.Models
         public string VersionLink => "https://github.com/Planshit/ProjectEye/releases/tag/" + Version;
         public string SelectedItem { get; set; }
         public List<ThemeModel> Themes { get; set; }
-        public List<ComboxModel> PreAlertActions { get; set; }
         public List<AnimationModel> Animations { get; set; }
         public List<ComboxModel> Languages { get; set; }
-
-        public bool IsPreAlert
-        {
-            get => Data.Style.IsPreAlert;
-            set
-            {
-                Data.Style.IsPreAlert = value;
-                OnPropertyChanged();
-                OnPropertyChanged("PreAlertConfigVisibility");
-            }
-        }
-        public Visibility PreAlertConfigVisibility => Data.Style.IsPreAlert ? Visibility.Visible : Visibility.Collapsed;
 
         public bool IsBreakProgressList
         {
@@ -82,16 +69,6 @@ namespace ProjectEye.Models
             }
         }
 
-        ///// <summary>
-        ///// 预提醒选项是否可用
-        ///// </summary>
-        //public bool IsPreTipEnabled
-        //{
-        //    get
-        //    {
-        //        return Data.Style.IsTipAsk;
-        //    }
-        //}
         /// <summary>
         /// 鼠标穿透是否可用
         /// </summary>
@@ -102,10 +79,6 @@ namespace ProjectEye.Models
             set
             {
                 Data.Style.IsTipAsk = value;
-                //if (!value && Data.Style.IsPreAlert)
-                //{
-                //    Data.Style.IsPreAlert = value;
-                //}
                 if (value && Data.Style.IsThruTipWindow)
                 {
                     Data.Style.IsThruTipWindow = !value;

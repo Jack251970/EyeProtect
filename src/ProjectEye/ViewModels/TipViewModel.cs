@@ -35,7 +35,6 @@ namespace ProjectEye.ViewModels
         private readonly SoundService sound;
         private readonly ConfigService config;
         private readonly MainService main;
-        private readonly PreAlertService preAlert;
         private readonly ThemeService theme;
 
         public event ViewModelEventHandler ChangedEvent;
@@ -45,7 +44,6 @@ namespace ProjectEye.ViewModels
             ConfigService config,
             MainService main,
             App app,
-            PreAlertService preAlert,
             ThemeService theme)
         {
             this.reset = reset;
@@ -61,7 +59,6 @@ namespace ProjectEye.ViewModels
             busyCommand = new Command(new Action<object>(busyCommand_action));
 
             this.main = main;
-            this.preAlert = preAlert;
             this.theme = theme;
             theme.OnChangedTheme += Theme_OnChangedTheme;
             ChangedEvent += TipViewModel_ChangedEvent;
@@ -459,16 +456,6 @@ namespace ProjectEye.ViewModels
                 //进入休息
                 resetCommand_action(null);
                 return;
-            }
-            //预提醒
-            if (config.options.Style.IsPreAlert)
-            {
-                if (preAlert.PreAlertAction == PreAlertAction.Goto)
-                {
-                    //进入休息
-                    resetCommand_action(null);
-                    return;
-                }
             }
             //禁用跳过休息
             if (config.options.Behavior.IsDisabledSkip)

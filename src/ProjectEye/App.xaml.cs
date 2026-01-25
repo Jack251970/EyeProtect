@@ -60,8 +60,6 @@ namespace ProjectEye
                 serviceCollection.Add<RestService>();
                 //声音
                 serviceCollection.Add<SoundService>();
-                //预提醒
-                serviceCollection.Add<PreAlertService>();
 
                 WindowManager.serviceCollection = serviceCollection;
                 //初始化所有服务

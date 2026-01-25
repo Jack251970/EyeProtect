@@ -36,7 +36,6 @@ namespace ProjectEye.ViewModels
                 Data = config.options,
                 Themes = systemResources.Themes,
                 Animations = systemResources.Animations,
-                PreAlertActions = systemResources.PreAlertActions,
                 Languages = systemResources.Languages
             };
 

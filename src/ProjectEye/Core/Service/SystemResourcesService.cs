@@ -7,14 +7,12 @@ namespace ProjectEye.Core.Service
     public class SystemResourcesService : IService
     {
         public List<ThemeModel> Themes { get; set; }
-        public List<ComboxModel> PreAlertActions { get; set; }
         public List<AnimationModel> Animations { get; set; }
         public List<ComboxModel> Languages { get; set; }
 
         public void Init()
         {
             Themes = new List<ThemeModel>();
-            PreAlertActions = new List<ComboxModel>();
             Animations = new List<AnimationModel>();
             Languages = new List<ComboxModel>();
 
@@ -31,16 +29,6 @@ namespace ProjectEye.Core.Service
                 ThemeColor = "#4F6BED"
             });
 
-            PreAlertActions.Add(new ComboxModel()
-            {
-                DisplayName = $"{Application.Current.Resources["Lang_Startthebreak"]}",
-                Value = "1"
-            });
-            PreAlertActions.Add(new ComboxModel()
-            {
-                DisplayName = $"{Application.Current.Resources["Lang_Skipthebreak"]}",
-                Value = "2"
-            });
             //预置动画
             Animations.Add(new AnimationModel()
             {
