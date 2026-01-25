@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Project1.UI.Controls.Models;
 
 namespace ProjectEye.Models.UI
 {

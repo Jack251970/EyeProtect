@@ -37,7 +37,6 @@
 
     <sys:String x:Key="Lang_Display">顯示</sys:String>
     <sys:String x:Key="Lang_Language">語言</sys:String>
-    <sys:String x:Key="Lang_Theme">主題</sys:String>
     <sys:String x:Key="Lang_Default">預設</sys:String>
     <sys:String x:Key="Lang_Light">淺色</sys:String>
     <sys:String x:Key="Lang_Dark">深色</sys:String>
@@ -190,6 +189,8 @@
     <sys:String x:Key="Lang_Breakingtime">休息時間</sys:String>
     <sys:String x:Key="Lang_Great">太棒了</sys:String>
     <sys:String x:Key="Lang_Yes">好的</sys:String>
+    <sys:String x:Key="Lang_StartRest">開始休息</sys:String>
+    <sys:String x:Key="Lang_RestLater">稍後休息</sys:String>
     <sys:String x:Key="Lang_Time">時間</sys:String>
     <sys:String x:Key="Lang_Remainingtime">剩餘時間</sys:String>
 

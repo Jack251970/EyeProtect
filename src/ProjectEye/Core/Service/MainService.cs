@@ -172,7 +172,7 @@ namespace ProjectEye.Core.Service
             var language = new ResourceDictionary { Source = new Uri($"/ProjectEye;component/Resources/Language/{config.options.Style.Language.Value}.xaml", UriKind.RelativeOrAbsolute) };
 
             var mds = System.Windows.Application.Current.Resources.MergedDictionaries;
-            var loadedLanguage = mds.Where(m => m.Source.OriginalString.Contains("Language")).FirstOrDefault();
+            var loadedLanguage = mds.Where(m => m.Source != null && m.Source.OriginalString.Contains("Language")).FirstOrDefault();
             if (loadedLanguage != null)
             {
                 mds.Remove(loadedLanguage);

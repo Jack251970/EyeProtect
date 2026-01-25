@@ -220,8 +220,8 @@ namespace ProjectEye.Core
             var screens = System.Windows.Forms.Screen.AllScreens;
             foreach (var screen in screens)
             {
-                var window = GetWindowByScreen(name, screen.DeviceName) as Project1.UI.Controls.Project1UIWindow;
-                window?.WShow();
+                var window = GetWindowByScreen(name, screen.DeviceName);
+                window?.Show();
             }
         }
         #endregion
@@ -261,9 +261,7 @@ namespace ProjectEye.Core
 
             foreach (var window in windows)
             {
-                //window.Hide();
-                var pw = window as Project1.UI.Controls.Project1UIWindow;
-                pw.WHide();
+                window.Hide();
             }
             return windows.Length;
         }

@@ -1,43 +1,24 @@
-﻿<ui:Project1UIWindow
+﻿<Window
     x:Class="ProjectEye.Views.OptionsWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:ProjectEye.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ui="clr-namespace:Project1.UI.Controls;assembly=Project1.UI"
+    xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
     Title="{DynamicResource Lang_Settings}"
-    Width="580"
+    Width="600"
     Height="400"
+    ui:WindowHelper.UseModernWindowStyle="True"
     Icon="/ProjectEye;component/Resources/sunglasses.ico"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
-    <ui:Project1UIWindow.Resources>
+    <Window.Resources>
         <Style TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{DynamicResource FontBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
         </Style>
-    </ui:Project1UIWindow.Resources>
-    <ui:Project1UIWindow.ExtElement>
-        <ui:Project1UIModal Show="{Binding Model.ShowModal, Mode=TwoWay}">
-            <Border
-                Margin="10"
-                Padding="10 15"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Background="{DynamicResource WindowBackground}"
-                CornerRadius="2">
-                <Border.Effect>
-                    <DropShadowEffect
-                        BlurRadius="5"
-                        Opacity="0.3"
-                        ShadowDepth="0" />
-                </Border.Effect>
-
-                <TextBlock Text="{Binding Model.ModalText}" />
-            </Border>
-        </ui:Project1UIModal>
-    </ui:Project1UIWindow.ExtElement>
+    </Window.Resources>
     <Grid Margin="5">
 
         <TabControl Margin="0 0 0 50">
@@ -49,10 +30,10 @@
                             Grid.Column="1"
                             Margin="0 0 0 0"
                             VerticalAlignment="Center"
+                            ui:ControlHelper.Header="{DynamicResource Lang_Notificationinterval}"
                             Maximum="420"
                             Minimum="1"
                             SmallChange="1"
-                            Tag="{DynamicResource Lang_Notificationinterval}"
                             ToolTip="{DynamicResource Lang_Minutes}"
                             Value="{Binding Model.Data.General.WarnTime}" />
 
@@ -60,24 +41,22 @@
                         <Slider
                             Grid.Row="1"
                             Grid.Column="1"
-                            Margin="0 20 0 0"
+                            Margin="0 8 0 0"
                             VerticalAlignment="Center"
+                            ui:ControlHelper.Header="{DynamicResource Lang_Breaktimelength}"
                             Maximum="300"
                             Minimum="1"
                             SmallChange="1"
-                            Tag="{DynamicResource Lang_Breaktimelength}"
                             ToolTip="{DynamicResource Lang_Seconds}"
                             Value="{Binding Model.Data.General.RestTime}" />
-                        <ui:Toggle
-                            Margin="0 20 0 0"
-                            Cursor="Hand"
-                            IsChecked="{Binding Model.Data.General.Startup}"
-                            Text="{DynamicResource Lang_Autostartatboot}" />
-                        <ui:Toggle
-                            Margin="0 20 0 0"
-                            Cursor="Hand"
-                            IsChecked="{Binding Model.Data.General.Sound}"
-                            Text="{DynamicResource Lang_Soundforbreakend}" />
+                        <ui:ToggleSwitch
+                            Margin="0 8 0 0"
+                            Header="{DynamicResource Lang_Autostartatboot}"
+                            IsOn="{Binding Model.Data.General.Startup}" />
+                        <ui:ToggleSwitch
+                            Margin="0 8 0 0"
+                            Header="{DynamicResource Lang_Soundforbreakend}"
+                            IsOn="{Binding Model.Data.General.Sound}" />
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
@@ -90,7 +69,6 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="40" />
                                 <RowDefinition Height="40" />
                                 <RowDefinition Height="40" />
                             </Grid.RowDefinitions>
@@ -109,33 +87,16 @@
                                 SelectedValue="{Binding Model.Data.Style.Language.Value}"
                                 SelectedValuePath="Value" />
 
-                            <!--  主题  -->
-                            <TextBlock
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Margin="0 0 10 0"
-                                VerticalAlignment="Center"
-                                Text="{DynamicResource Lang_Theme}" />
-                            <ComboBox
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                VerticalAlignment="Center"
-                                DisplayMemberPath="DisplayName"
-                                ItemsSource="{Binding Model.Themes}"
-                                SelectedItem="{Binding Model.Data.Style.Theme}"
-                                SelectedValue="{Binding Model.Data.Style.Theme.ThemeName}"
-                                SelectedValuePath="ThemeName" />
-
                             <!--  全屏提示窗口动画  -->
                             <TextBlock
-                                Grid.Row="2"
+                                Grid.Row="1"
                                 Grid.Column="0"
                                 Margin="0 0 10 0"
                                 VerticalAlignment="Center"
                                 Text="{DynamicResource Lang_Fullscreennotificationanimation}" />
                             <ComboBox
                                 Name="cb"
-                                Grid.Row="2"
+                                Grid.Row="1"
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
                                 DisplayMemberPath="DisplayName"
@@ -145,25 +106,22 @@
                                 SelectedValuePath="ID" />
                         </Grid>
 
-                        <ui:Toggle
-                            Margin="0 20 0 0"
-                            Cursor="Hand"
-                            IsChecked="{Binding Model.IsTipAsk, Mode=TwoWay}"
-                            Text="{DynamicResource Lang_Showbuttonsinfullscreennotification}" />
-                        <ui:Toggle
-                            Margin="0 20 0 0"
-                            Cursor="Hand"
-                            IsChecked="{Binding Model.Data.Style.IsThruTipWindow, Mode=TwoWay}"
+                        <ui:ToggleSwitch
+                            Margin="0 8 0 0"
+                            Header="{DynamicResource Lang_Showbuttonsinfullscreennotification}"
+                            IsOn="{Binding Model.IsTipAsk, Mode=TwoWay}" />
+                        <ui:ToggleSwitch
+                            Margin="0 8 0 0"
+                            Header="{DynamicResource Lang_Enablemousepassthroughduringfullscreennotification}"
                             IsEnabled="{Binding Model.IsThruTipWindowEnabled}"
-                            Text="{DynamicResource Lang_Enablemousepassthroughduringfullscreennotification}" />
-                        <ui:Toggle
-                            Margin="0 20 0 0"
-                            Cursor="Hand"
-                            IsChecked="{Binding Model.Data.Style.IsAnimation, Mode=TwoWay}"
-                            Text="{DynamicResource Lang_Enableanimation}" />
+                            IsOn="{Binding Model.Data.Style.IsThruTipWindow, Mode=TwoWay}" />
+                        <ui:ToggleSwitch
+                            Margin="0 8 0 0"
+                            Header="{DynamicResource Lang_Enableanimation}"
+                            IsOn="{Binding Model.Data.Style.IsAnimation, Mode=TwoWay}" />
 
                         <!--  提示内容  -->
-                        <Grid Margin="0 20 0 0">
+                        <Grid Margin="0 8 0 0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="60" />
                                 <ColumnDefinition Width="*" />
@@ -174,14 +132,13 @@
                                 VerticalAlignment="Top"
                                 Text="{DynamicResource Lang_Content}" />
                             <StackPanel Grid.Column="1">
-                                <ui:Project1UIInput
+                                <TextBox
                                     Width="auto"
-                                    Height="40"
+                                    Height="Auto"
                                     VerticalContentAlignment="Top"
                                     AcceptsReturn="True"
                                     Text="{Binding Model.Data.Style.TipContent, Mode=TwoWay}"
-                                    TextWrapping="Wrap"
-                                    Type="Text" />
+                                    TextWrapping="Wrap" />
                                 <TextBlock
                                     Margin="0 10 0 0"
                                     Foreground="#FF838383"
@@ -195,27 +152,23 @@
             <TabItem Header="{DynamicResource Lang_Behaviors}">
                 <ScrollViewer>
                     <StackPanel Margin="10">
-                        <ui:Toggle
-                            Margin="0 20 0 0"
-                            Cursor="Hand"
-                            IsChecked="{Binding Model.Data.Behavior.IsHandleTimeoutRest}"
-                            Text="{DynamicResource Lang_HandleTimeoutAutoRest}" />
-                        <ui:Toggle
-                            Margin="0 20 0 0"
-                            Cursor="Hand"
-                            IsChecked="{Binding Model.Data.Behavior.IsDisabledSkip}"
-                            Text="{DynamicResource Lang_Breakscannotbeskipped}" />
-                        <ui:Toggle
-                            Margin="0 20 0 0"
-                            Cursor="Hand"
-                            IsChecked="{Binding Model.Data.Behavior.IsFullScreenBreak}"
-                            Text="{DynamicResource Lang_Donotdisturbwhenrunningfullscreenapplications}" />
-                        <ui:Toggle
-                            Margin="0 20 0 0"
-                            Cursor="Hand"
-                            IsChecked="{Binding Model.IsBreakProgressList, Mode=TwoWay}"
-                            Text="{DynamicResource Lang_Donotdisturbwhenfollowingprocessesarerunning}" />
-                        <Grid Margin="0 20 0 0" Visibility="{Binding Model.BreakProgressListVisibility}">
+                        <ui:ToggleSwitch
+                            Margin="0 8 0 0"
+                            Header="{DynamicResource Lang_HandleTimeoutAutoRest}"
+                            IsOn="{Binding Model.Data.Behavior.IsHandleTimeoutRest}" />
+                        <ui:ToggleSwitch
+                            Margin="0 8 0 0"
+                            Header="{DynamicResource Lang_Breakscannotbeskipped}"
+                            IsOn="{Binding Model.Data.Behavior.IsDisabledSkip}" />
+                        <ui:ToggleSwitch
+                            Margin="0 8 0 0"
+                            Header="{DynamicResource Lang_Donotdisturbwhenrunningfullscreenapplications}"
+                            IsOn="{Binding Model.Data.Behavior.IsFullScreenBreak}" />
+                        <ui:ToggleSwitch
+                            Margin="0 8 0 0"
+                            Header="{DynamicResource Lang_Donotdisturbwhenfollowingprocessesarerunning}"
+                            IsOn="{Binding Model.IsBreakProgressList, Mode=TwoWay}" />
+                        <Grid Margin="0 8 0 0" Visibility="{Binding Model.BreakProgressListVisibility}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30" />
                                 <RowDefinition Height="150" />
@@ -225,14 +178,13 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="100" />
                                 </Grid.ColumnDefinitions>
-                                <ui:Project1UIInput
+                                <TextBox
                                     Name="breakProcessTextbox"
                                     Width="auto"
                                     MinHeight="23"
                                     VerticalContentAlignment="Center"
-                                    Placeholder="{DynamicResource Lang_Processname}"
-                                    Type="Text" />
-                                <ui:Project1UIButton
+                                    ui:ControlHelper.PlaceholderText="{DynamicResource Lang_Processname}" />
+                                <Button
                                     Grid.Column="1"
                                     MinWidth="85"
                                     MinHeight="23"
@@ -240,8 +192,7 @@
                                     VerticalAlignment="Center"
                                     Command="{Binding addBreackProcessCommand}"
                                     CommandParameter="{Binding ElementName=breakProcessTextbox, Path=Text}"
-                                    Content="{DynamicResource Lang_Add}"
-                                    Style="{DynamicResource basic}" />
+                                    Content="{DynamicResource Lang_Add}" />
                             </Grid>
                             <ListView
                                 Name="breakProcessListView"
@@ -295,7 +246,7 @@
                     <StackPanel Margin="10">
                         <Image
                             Height="30"
-                            Margin="0 10 0 0"
+                            Margin="0 8 0 0"
                             HorizontalAlignment="Left"
                             RenderTransformOrigin="0.5,0.5"
                             Source="/ProjectEye;component/Resources/sunglasses.ico">
@@ -323,30 +274,30 @@
                             </Image.Triggers>
                         </Image>
                         <TextBlock
-                            Margin="0 10 0 0"
+                            Margin="0 8 0 0"
                             FontWeight="Bold"
                             Text="Project Eye"
                             TextWrapping="Wrap" />
                         <TextBlock
-                            Margin="0 10 0 0"
+                            Margin="0 8 0 0"
                             Opacity=".5"
                             Text="{DynamicResource Lang_Aprogramwhichprotectsyoureyesbehindthescenes}"
                             TextWrapping="Wrap" />
-                        <TextBlock Margin="0 10 0 0" TextWrapping="Wrap"><Run Text="{DynamicResource Lang_Version}" /> <Hyperlink Command="{Binding openurlCommand}" CommandParameter="{Binding Model.VersionLink}">
+                        <TextBlock Margin="0 8 0 0" TextWrapping="Wrap"><Run Text="{DynamicResource Lang_Version}" /> <Hyperlink Command="{Binding openurlCommand}" CommandParameter="{Binding Model.VersionLink}">
                                 <Run Text="{Binding Model.Version}" />
                             </Hyperlink></TextBlock>
-                        <TextBlock Margin="0 10 0 0" TextWrapping="Wrap">
+                        <TextBlock Margin="0 8 0 0" TextWrapping="Wrap">
                             <Hyperlink Command="{Binding openWindowCommand}" CommandParameter="ContributorsWindow">
                                 <Run Text="{DynamicResource Lang_Contributors}" />
                             </Hyperlink>
                         </TextBlock>
-                        <TextBlock Margin="0 10 0 0" TextWrapping="Wrap">
+                        <TextBlock Margin="0 8 0 0" TextWrapping="Wrap">
                             <Run Text="{DynamicResource Lang_Help}" /> <Hyperlink Command="{Binding openurlCommand}" CommandParameter="https://littlepanda.gitbook.io/project-eye/">https://littlepanda.gitbook.io/project-eye</Hyperlink>
                         </TextBlock>
-                        <TextBlock Margin="0 10 0 0" TextWrapping="Wrap">
+                        <TextBlock Margin="0 8 0 0" TextWrapping="Wrap">
                             <Run Text="{DynamicResource Lang_Source}" /> <Hyperlink Command="{Binding openurlCommand}" CommandParameter="https://github.com/Planshit/ProjectEye">https://github.com/Planshit/ProjectEye</Hyperlink>
                         </TextBlock>
-                        <TextBlock Margin="0 10 0 0" TextWrapping="Wrap">
+                        <TextBlock Margin="0 8 0 0" TextWrapping="Wrap">
                             <Run Text="{DynamicResource Lang_Feedback}" /> <Hyperlink Command="{Binding openurlCommand}" CommandParameter="https://github.com/Planshit/ProjectEye/issues">https://github.com/Planshit/ProjectEye/issues</Hyperlink>
                         </TextBlock>
                     </StackPanel>
@@ -359,15 +310,14 @@
             VerticalAlignment="Bottom"
             Orientation="Horizontal">
 
-            <ui:Project1UIButton
+            <Button
                 Width="auto"
                 Height="auto"
                 MinWidth="80"
                 Margin="10 0 0 0"
                 Padding="10 6"
                 Command="{Binding applyCommand}"
-                Content="{DynamicResource Lang_Apply}"
-                Icon="Null" />
+                Content="{DynamicResource Lang_Apply}" />
         </StackPanel>
     </Grid>
-</ui:Project1UIWindow>
+</Window>

@@ -6,10 +6,6 @@ namespace ProjectEye.Core.Models.Options
     public class StyleModel
     {
         /// <summary>
-        /// 主题
-        /// </summary>
-        public ThemeModel Theme { get; set; }
-        /// <summary>
         /// 提醒内容
         /// </summary>
         public string TipContent { get; set; }

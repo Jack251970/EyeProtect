@@ -1,11 +1,11 @@
-﻿using Project1.UI.Controls;
+﻿using System.Windows;
 
 namespace ProjectEye.Views
 {
     /// <summary>
     /// OptionsWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class OptionsWindow : Project1UIWindow
+    public partial class OptionsWindow : Window
     {
         public OptionsWindow()
         {

@@ -2,12 +2,14 @@
     x:Class="ProjectEye.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:ProjectEye">
-    <!--<Application.Resources>
+    xmlns:local="clr-namespace:ProjectEye"
+    xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern">
+    <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/Language/zh.xaml" />
+                <ui:ThemeResources />
+                <ui:XamlControlsResources />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </Application.Resources>-->
+    </Application.Resources>
 </Application>

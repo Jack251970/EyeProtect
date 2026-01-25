@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using iNKORE.UI.WPF.Modern;
 using ProjectEye.Core.Models.Options;
 
 namespace ProjectEye.Core.Service
@@ -75,7 +76,7 @@ namespace ProjectEye.Core.Service
         }
 
         //主题更改时
-        private void Theme_OnChangedTheme(string OldThemeName, string NewThemeName)
+        private void Theme_OnChangedTheme(ApplicationTheme oldTheme, ApplicationTheme newTheme)
         {
             CreateTrayMenu();
         }

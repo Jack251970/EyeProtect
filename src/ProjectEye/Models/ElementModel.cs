@@ -1,7 +1,7 @@
 ﻿using System.Windows.Media;
-using Project1.UI.Controls.Enums;
+using ProjectEye.Models.Enums;
 
-namespace Project1.UI.Controls.Models
+namespace ProjectEye.Models
 {
     /// <summary>
     /// 元素模型

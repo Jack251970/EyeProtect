@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Project1.UI.Controls;
-using Project1.UI.Controls.Models;
-using Project1.UI.Cores;
+using iNKORE.UI.WPF.Modern;
 using ProjectEye.Core;
 using ProjectEye.Core.Service;
 using ProjectEye.Models;
-using WpfAnimatedGif;
 
 namespace ProjectEye.ViewModels
 {
@@ -35,7 +27,6 @@ namespace ProjectEye.ViewModels
         private readonly SoundService sound;
         private readonly ConfigService config;
         private readonly MainService main;
-        private readonly ThemeService theme;
 
         public event ViewModelEventHandler ChangedEvent;
 
@@ -59,12 +50,10 @@ namespace ProjectEye.ViewModels
             busyCommand = new Command(new Action<object>(busyCommand_action));
 
             this.main = main;
-            this.theme = theme;
             theme.OnChangedTheme += Theme_OnChangedTheme;
             ChangedEvent += TipViewModel_ChangedEvent;
             main.OnHandleTimeout += Main_OnHandleTimeout;
             LoadConfig();
-
         }
 
         private void Main_OnHandleTimeout(object service, int msg)
@@ -83,28 +72,32 @@ namespace ProjectEye.ViewModels
             }
         }
 
-        private void Theme_OnChangedTheme(string OldThemeName, string NewThemeName)
+        private void Theme_OnChangedTheme(ApplicationTheme oldThemeName, ApplicationTheme newThemeName)
         {
-            CreateUI();
+            UpdateUIData();
         }
 
         private void TipViewModel_ChangedEvent()
         {
-            CreateUI();
-            //WindowInstance.Activated += WindowInstance_Activated;
+            UpdateUIData();
             WindowInstance.SizeChanged += WindowInstance_SizeChanged;
-            (WindowInstance as Project1UIWindow).OnWShow += TipViewModel_OnWShow;
+            // Subscribe to IsVisibleChanged to handle window show/hide events
+            WindowInstance.IsVisibleChanged += WindowInstance_IsVisibleChanged;
+        }
+
+        private void WindowInstance_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            // When window becomes visible, trigger the OnWShow logic
+            if (WindowInstance.IsVisible)
+            {
+                TipViewModel_OnWShow(sender, EventArgs.Empty);
+            }
         }
 
         private void WindowInstance_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            // Only recreate UI if the window size actually changed
-            // This prevents unnecessary work during minor adjustments or multiple rapid events
-            if (e.PreviousSize != e.NewSize && !e.NewSize.IsEmpty)
-            {
-                // Recreate UI elements to ensure they remain centered with the new window dimensions
-                CreateUI();
-            }
+            // No need to recreate UI anymore since it's defined in XAML
+            // Size changes are handled automatically by layout system
         }
 
         private void TipViewModel_OnWShow(object sender, EventArgs e)
@@ -156,217 +149,52 @@ namespace ProjectEye.ViewModels
                 LogHelper.Error("UpdateVariable Fail,Exception message:" + ex.Message);
             }
         }
-        private void CreateUI()
+        private void UpdateUIData()
         {
-            var container = new Grid();
-            var data = theme.GetCreateDefaultTipWindowUI(config.options.Style.Theme.ThemeName, ScreenName);
-            var containerBG = new Border();
-            containerBG.Width = Double.NaN;
-            containerBG.Height = Double.NaN;
-            containerBG.SetValue(Grid.ZIndexProperty, -1);
-            containerBG.Background = data.ContainerAttr.Background;
-            containerBG.Opacity = data.ContainerAttr.Opacity;
-            container.Children.Add(containerBG);
-            foreach (var element in data.Elements)
+            var isDarkTheme = ThemeManager.Current.ActualApplicationTheme == ApplicationTheme.Dark;
+            
+            // Set container background and opacity based on theme
+            ContainerBackground = isDarkTheme ? new SolidColorBrush(Color.FromRgb(0x1A, 0x1B, 0x1C)) : Brushes.White;
+            ContainerOpacity = 0.98;
+            
+            // Set tip image based on theme
+            var imagePath = $"pack://application:,,,/ProjectEye;component/Resources/Images/{(isDarkTheme ? "Dark" : "Light")}/tipImage.png";
+            try
             {
-                var ttf = new TranslateTransform()
-                {
-                    X = element.X,
-                    Y = element.Y
-                };
-                switch (element.Type)
-                {
-                    case Project1.UI.Controls.Enums.DesignItemType.Text:
-                        var textElement = CreateTextElemenet(element);
-                        textElement.RenderTransform = ttf;
-                        container.Children.Add(textElement);
-                        break;
-                    case Project1.UI.Controls.Enums.DesignItemType.Button:
-                        var buttonElement = CreateButtonElement(element);
-                        buttonElement.RenderTransform = ttf;
-                        container.Children.Add(buttonElement);
-                        break;
-                    case Project1.UI.Controls.Enums.DesignItemType.Image:
-                        var imageElement = new Image();
-                        imageElement.HorizontalAlignment = HorizontalAlignment.Left;
-                        imageElement.VerticalAlignment = VerticalAlignment.Top;
-                        imageElement.RenderTransform = ttf;
-                        imageElement.Width = element.Width;
-                        imageElement.Height = element.Height;
-                        imageElement.Opacity = element.Opacity;
-                        imageElement.Stretch = Stretch.UniformToFill;
-
-
-                        try
-                        {
-                            var image = new BitmapImage();
-                            image.BeginInit();
-                            image.UriSource = new Uri(element.Image, UriKind.RelativeOrAbsolute);
-                            image.EndInit();
-                            ImageBehavior.SetAnimatedSource(imageElement, image);
-                        }
-                        catch
-                        {
-                            imageElement.Source = BitmapImager.Load("pack://application:,,,/Project1.UI;component/Assets/Images/sunglasses.png");
-
-                        }
-
-                        //var imageElement = new Image();
-                        //imageElement.HorizontalAlignment = HorizontalAlignment.Left;
-                        //imageElement.VerticalAlignment = VerticalAlignment.Top;
-                        //imageElement.RenderTransform = ttf;
-                        //imageElement.Width = element.Width;
-                        //imageElement.Height = element.Height;
-                        //imageElement.Opacity = element.Opacity;
-                        //imageElement.Stretch = Stretch.Fill;
-                        //try
-                        //{
-                        //    //imageElement.Source = new BitmapImage(new Uri(element.Image, UriKind.RelativeOrAbsolute));
-                        //    imageElement.Source = BitmapImager.Load(element.Image);
-
-                        //}
-                        //catch
-                        //{
-                        //    imageElement.Source = BitmapImager.Load("pack://application:,,,/Project1.UI;component/Assets/Images/sunglasses.png");
-                        //    //imageElement.Source = new BitmapImage(new Uri("pack://application:,,,/Project1.UI;component/Assets/Images/sunglasses.png", UriKind.RelativeOrAbsolute));
-                        //}
-                        container.Children.Add(imageElement);
-                        break;
-                }
+                var image = new BitmapImage();
+                image.BeginInit();
+                image.UriSource = new Uri(imagePath, UriKind.RelativeOrAbsolute);
+                image.EndInit();
+                TipImageSource = image;
             }
-
-
-
-            WindowInstance.Content = container;
+            catch
+            {
+                TipImageSource = BitmapImager.Load("pack://application:,,,/ProjectEye;component/Resources/Images/sunglasses.png");
+            }
+            
+            // Set tip content with variable replacement
+            var tipText = config.options.Style.TipContent ?? "You have been using your eyes for {t} minutes. Take a break! Please focus your attention at least 6 meters away for 20 seconds!";
+            TipContent = ReplaceVariables(tipText);
         }
-
-        private Project1UIButton CreateButtonElement(ElementModel element)
+        
+        private string ReplaceVariables(string text)
         {
-            var button = new Project1UIButton();
-            button.HorizontalAlignment = HorizontalAlignment.Left;
-            button.VerticalAlignment = VerticalAlignment.Top;
-            button.Width = element.Width;
-            button.Height = element.Height;
-            button.FontSize = element.FontSize;
-            button.Opacity = element.Opacity;
-            button.FontWeight = element.IsTextBold ? FontWeights.Bold : FontWeights.Normal;
-            if (element.Style != null)
-            {
-                var res = WindowInstance.TryFindResource(element.Style);
-                if (res != null)
-                {
-                    button.Style = res as Style;
-                }
-                else
-                {
-                    res = WindowInstance.TryFindResource("default");
-                    if (res != null)
-                    {
-                        button.Style = res as Style;
-                    }
-                }
-            }
-
-            button.Content = element.Text;
-            var binding = new Binding();
-            binding.Source = this;
-            binding.Mode = BindingMode.OneWay;
-            binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            binding.Path = new PropertyPath("TakeButtonVisibility");
-
-            switch (element.Command)
-            {
-                case "rest":
-                    button.Command = resetCommand;
-                    BindingOperations.SetBinding(button, Button.VisibilityProperty, binding);
-                    break;
-                case "break":
-                    button.Command = busyCommand;
-                    BindingOperations.SetBinding(button, Button.VisibilityProperty, binding);
-                    break;
-            }
-
-            return button;
-        }
-        private TextBlock CreateTextElemenet(ElementModel element)
-        {
-            var textBlock = new TextBlock();
-            textBlock.HorizontalAlignment = HorizontalAlignment.Left;
-            textBlock.VerticalAlignment = VerticalAlignment.Top;
-            textBlock.Width = element.Width;
-            textBlock.Height = element.Height;
-            textBlock.Opacity = element.Opacity;
-            textBlock.FontSize = element.FontSize;
-            textBlock.FontWeight = element.IsTextBold ? FontWeights.Bold : FontWeights.Normal;
-            textBlock.Foreground = element.TextColor;
-            textBlock.TextWrapping = TextWrapping.Wrap;
-            var textAlignment = TextAlignment.Left;
-            switch (element.TextAlignment)
-            {
-                case 0:
-                    textAlignment = TextAlignment.Left;
-                    break;
-                case 1:
-                    textAlignment = TextAlignment.Center;
-                    break;
-                case 2:
-                    textAlignment = TextAlignment.Right;
-                    break;
-            }
-            textBlock.TextAlignment = textAlignment;
-            if (!Regex.IsMatch(element.Text, @"\{(.*?)\}"))
-            {
-                textBlock.Text = element.Text;
-            }
-            else
-            {
-                if (Regex.IsMatch(element.Text, @"\{countdown\}"))
-                {
-                    //带有倒计时变量
-                    BindingOperations.SetBinding(textBlock, TextBlock.VisibilityProperty, new Binding()
-                    {
-                        Source = this,
-                        Path = new PropertyPath("CountDownVisibility"),
-                        Mode = BindingMode.OneWay,
-                        UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-                    });
-                }
-                //带有变量的文本
-                var ms = Regex.Matches(element.Text, @"\{(.*?)\}");
-                var startIndex = 0;
-                for (var i = 0; i < ms.Count; i++)
-                {
-                    var item = ms[i];
-                    var text = string.Empty;
-                    if (startIndex != item.Index)
-                    {
-                        text = element.Text[startIndex..item.Index];
-                    }
-                    startIndex = startIndex + text.Length + item.Value.Length;
-                    if (text != string.Empty)
-                    {
-                        textBlock.Inlines.Add(text);
-                    }
-                    var variable = new Run();
-                    var matchVariable = item.Value.Replace("{", "").Replace("}", "");
-                    BindingOperations.SetBinding(variable, Run.TextProperty, new Binding()
-                    {
-                        Source = this,
-                        Path = new PropertyPath(matchVariable.ToUpper()),
-                        Mode = BindingMode.OneWay,
-                        UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-
-                    });
-                    textBlock.Inlines.Add(variable);
-                    if (i == ms.Count - 1)
-                    {
-                        //最后一个
-                        textBlock.Inlines.Add(element.Text[startIndex..]);
-                    }
-                }
-
-            }
-            return textBlock;
+            if (string.IsNullOrEmpty(text))
+                return text;
+                
+            text = text.Replace("{t}", T);
+            text = text.Replace("{time}", TIME);
+            text = text.Replace("{y}", Y);
+            text = text.Replace("{m}", M);
+            text = text.Replace("{d}", D);
+            text = text.Replace("{h}", H);
+            text = text.Replace("{minutes}", MINUTES);
+            text = text.Replace("{twt}", TWT);
+            text = text.Replace("{trt}", TRT);
+            text = text.Replace("{tsc}", TSC);
+            text = text.Replace("{countdown}", COUNTDOWN.ToString());
+            
+            return text;
         }
 
 
@@ -381,7 +209,12 @@ namespace ProjectEye.ViewModels
 
             //鼠标穿透
             IsThruWindow = config.options.Style.IsThruTipWindow;
-
+            
+            // Update UI data when config changes
+            if (WindowInstance != null)
+            {
+                UpdateUIData();
+            }
         }
 
         //配置文件被修改时

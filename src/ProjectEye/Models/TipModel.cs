@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using static Project1.UI.Controls.Project1UIWindow;
+using ProjectEye.Core.Models.Options;
 
 namespace ProjectEye.Models
 {
@@ -229,6 +229,48 @@ namespace ProjectEye.Models
             set
             {
                 IsThruWindow_ = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private System.Windows.Media.ImageSource TipImageSource_;
+        /// <summary>
+        /// 提示图片源
+        /// </summary>
+        public System.Windows.Media.ImageSource TipImageSource
+        {
+            get => TipImageSource_;
+            set
+            {
+                TipImageSource_ = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private System.Windows.Media.Brush ContainerBackground_;
+        /// <summary>
+        /// 容器背景
+        /// </summary>
+        public System.Windows.Media.Brush ContainerBackground
+        {
+            get => ContainerBackground_;
+            set
+            {
+                ContainerBackground_ = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private double ContainerOpacity_ = 0.98;
+        /// <summary>
+        /// 容器透明度
+        /// </summary>
+        public double ContainerOpacity
+        {
+            get => ContainerOpacity_;
+            set
+            {
+                ContainerOpacity_ = value;
                 OnPropertyChanged();
             }
         }

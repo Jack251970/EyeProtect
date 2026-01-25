@@ -1,4 +1,4 @@
-﻿namespace Project1.UI.Controls.Enums
+﻿namespace ProjectEye.Models.Enums
 {
     /// <summary>
     /// 设计元素类型
