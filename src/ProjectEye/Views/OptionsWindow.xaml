@@ -30,10 +30,10 @@
                             Grid.Column="1"
                             Margin="0 0 0 0"
                             VerticalAlignment="Center"
+                            ui:ControlHelper.Header="{DynamicResource Lang_Notificationinterval}"
                             Maximum="420"
                             Minimum="1"
                             SmallChange="1"
-                            Tag="{DynamicResource Lang_Notificationinterval}"
                             ToolTip="{DynamicResource Lang_Minutes}"
                             Value="{Binding Model.Data.General.WarnTime}" />
 
@@ -43,20 +43,20 @@
                             Grid.Column="1"
                             Margin="0 20 0 0"
                             VerticalAlignment="Center"
+                            ui:ControlHelper.Header="{DynamicResource Lang_Breaktimelength}"
                             Maximum="300"
                             Minimum="1"
                             SmallChange="1"
-                            Tag="{DynamicResource Lang_Breaktimelength}"
                             ToolTip="{DynamicResource Lang_Seconds}"
                             Value="{Binding Model.Data.General.RestTime}" />
                         <ui:ToggleSwitch
                             Margin="0 20 0 0"
-                            IsOn="{Binding Model.Data.General.Startup}"
-                            Header="{DynamicResource Lang_Autostartatboot}" />
+                            Header="{DynamicResource Lang_Autostartatboot}"
+                            IsOn="{Binding Model.Data.General.Startup}" />
                         <ui:ToggleSwitch
                             Margin="0 20 0 0"
-                            IsOn="{Binding Model.Data.General.Sound}"
-                            Header="{DynamicResource Lang_Soundforbreakend}" />
+                            Header="{DynamicResource Lang_Soundforbreakend}"
+                            IsOn="{Binding Model.Data.General.Sound}" />
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
@@ -108,17 +108,17 @@
 
                         <ui:ToggleSwitch
                             Margin="0 20 0 0"
-                            IsOn="{Binding Model.IsTipAsk, Mode=TwoWay}"
-                            Header="{DynamicResource Lang_Showbuttonsinfullscreennotification}" />
+                            Header="{DynamicResource Lang_Showbuttonsinfullscreennotification}"
+                            IsOn="{Binding Model.IsTipAsk, Mode=TwoWay}" />
                         <ui:ToggleSwitch
                             Margin="0 20 0 0"
-                            IsOn="{Binding Model.Data.Style.IsThruTipWindow, Mode=TwoWay}"
+                            Header="{DynamicResource Lang_Enablemousepassthroughduringfullscreennotification}"
                             IsEnabled="{Binding Model.IsThruTipWindowEnabled}"
-                            Header="{DynamicResource Lang_Enablemousepassthroughduringfullscreennotification}" />
+                            IsOn="{Binding Model.Data.Style.IsThruTipWindow, Mode=TwoWay}" />
                         <ui:ToggleSwitch
                             Margin="0 20 0 0"
-                            IsOn="{Binding Model.Data.Style.IsAnimation, Mode=TwoWay}"
-                            Header="{DynamicResource Lang_Enableanimation}" />
+                            Header="{DynamicResource Lang_Enableanimation}"
+                            IsOn="{Binding Model.Data.Style.IsAnimation, Mode=TwoWay}" />
 
                         <!--  提示内容  -->
                         <Grid Margin="0 20 0 0">
@@ -134,7 +134,7 @@
                             <StackPanel Grid.Column="1">
                                 <TextBox
                                     Width="auto"
-                                    Height="40"
+                                    Height="Auto"
                                     VerticalContentAlignment="Top"
                                     AcceptsReturn="True"
                                     Text="{Binding Model.Data.Style.TipContent, Mode=TwoWay}"
@@ -154,20 +154,20 @@
                     <StackPanel Margin="10">
                         <ui:ToggleSwitch
                             Margin="0 20 0 0"
-                            IsOn="{Binding Model.Data.Behavior.IsHandleTimeoutRest}"
-                            Header="{DynamicResource Lang_HandleTimeoutAutoRest}" />
+                            Header="{DynamicResource Lang_HandleTimeoutAutoRest}"
+                            IsOn="{Binding Model.Data.Behavior.IsHandleTimeoutRest}" />
                         <ui:ToggleSwitch
                             Margin="0 20 0 0"
-                            IsOn="{Binding Model.Data.Behavior.IsDisabledSkip}"
-                            Header="{DynamicResource Lang_Breakscannotbeskipped}" />
+                            Header="{DynamicResource Lang_Breakscannotbeskipped}"
+                            IsOn="{Binding Model.Data.Behavior.IsDisabledSkip}" />
                         <ui:ToggleSwitch
                             Margin="0 20 0 0"
-                            IsOn="{Binding Model.Data.Behavior.IsFullScreenBreak}"
-                            Header="{DynamicResource Lang_Donotdisturbwhenrunningfullscreenapplications}" />
+                            Header="{DynamicResource Lang_Donotdisturbwhenrunningfullscreenapplications}"
+                            IsOn="{Binding Model.Data.Behavior.IsFullScreenBreak}" />
                         <ui:ToggleSwitch
                             Margin="0 20 0 0"
-                            IsOn="{Binding Model.IsBreakProgressList, Mode=TwoWay}"
-                            Header="{DynamicResource Lang_Donotdisturbwhenfollowingprocessesarerunning}" />
+                            Header="{DynamicResource Lang_Donotdisturbwhenfollowingprocessesarerunning}"
+                            IsOn="{Binding Model.IsBreakProgressList, Mode=TwoWay}" />
                         <Grid Margin="0 20 0 0" Visibility="{Binding Model.BreakProgressListVisibility}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30" />
