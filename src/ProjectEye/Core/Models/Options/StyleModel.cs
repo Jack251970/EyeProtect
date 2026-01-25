@@ -52,28 +52,6 @@ namespace ProjectEye.Core.Models.Options
         public bool IsPreAlertSound { get; set; } = true;
 
         /// <summary>
-        /// 是否启用自动切换深色主题
-        /// </summary>
-        public bool IsAutoDarkMode { get; set; } = false;
-        /// <summary>
-        /// 自动切换深色主题开始时
-        /// </summary>
-        public int AutoDarkStartH { get; set; } = 18;
-        /// <summary>
-        /// 自动切换深色主题开始分
-        /// </summary>
-        public int AutoDarkStartM { get; set; } = 0;
-        /// <summary>
-        /// 自动切换深色主题结束时
-        /// </summary>
-        public int AutoDarkEndH { get; set; } = 6;
-        /// <summary>
-        /// 自动切换深色主题结束分
-        /// </summary>
-        public int AutoDarkEndM { get; set; } = 0;
-
-
-        /// <summary>
         /// 动画效果
         /// </summary>
         public bool IsAnimation { get; set; } = false;

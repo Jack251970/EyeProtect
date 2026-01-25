@@ -84,7 +84,7 @@
             <TabItem Header="{DynamicResource Lang_Display}">
                 <ScrollViewer>
                     <StackPanel Margin="10">
-                        <Grid Margin="0 10 0 0">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition Width="*" />
@@ -146,52 +146,29 @@
                         </Grid>
 
                         <ui:Toggle
-                            Margin="0 10 0 0"
-                            Cursor="Hand"
-                            IsChecked="{Binding Model.IsAutoDark}"
-                            Text="{DynamicResource Lang_Switchtodarkthemeautomatically}" />
-                        <Grid Margin="0 10 0 0" Visibility="{Binding Model.AutoDarkConfigVisibility}">
-                            <!--  自动切换深色模式配置  -->
-                            <StackPanel Margin="30 0 0 0">
-                                <TextBlock Text="{DynamicResource Lang_Specifythetime}" />
-                                <StackPanel Margin="0 5 0 0" Orientation="Horizontal">
-                                    <ui:TimeBox Hour="{Binding Model.Data.Style.AutoDarkStartH, Mode=TwoWay}" Minutes="{Binding Model.Data.Style.AutoDarkStartM, Mode=TwoWay}" />
-                                    <TextBlock
-                                        Margin="5 0"
-                                        VerticalAlignment="Center"
-                                        Text=" " />
-                                    <ui:TimeBox Hour="{Binding Model.Data.Style.AutoDarkEndH, Mode=TwoWay}" Minutes="{Binding Model.Data.Style.AutoDarkEndM, Mode=TwoWay}" />
-                                </StackPanel>
-                            </StackPanel>
-                        </Grid>
-
-                        <ui:Toggle
                             Margin="0 20 0 0"
                             Cursor="Hand"
                             IsChecked="{Binding Model.IsTipAsk, Mode=TwoWay}"
                             Text="{DynamicResource Lang_Showbuttonsinfullscreennotification}" />
                         <ui:Toggle
-                            Margin="0 10 0 0"
+                            Margin="0 20 0 0"
                             Cursor="Hand"
                             IsChecked="{Binding Model.Data.Style.IsThruTipWindow, Mode=TwoWay}"
                             IsEnabled="{Binding Model.IsThruTipWindowEnabled}"
                             Text="{DynamicResource Lang_Enablemousepassthroughduringfullscreennotification}" />
-
                         <ui:Toggle
                             Margin="0 20 0 0"
                             Cursor="Hand"
                             IsChecked="{Binding Model.Data.Style.IsAnimation, Mode=TwoWay}"
                             Text="{DynamicResource Lang_Enableanimation}" />
-
-
                         <ui:Toggle
                             Margin="0 20 0 0"
                             Cursor="Hand"
                             IsChecked="{Binding Model.IsPreAlert}"
                             Text="{DynamicResource Lang_Earlypopupforbreaktime}" />
-                        <Grid Margin="0 10 0 0" Visibility="{Binding Model.PreAlertConfigVisibility}">
+                        <Grid Margin="0 20 0 0" Visibility="{Binding Model.PreAlertConfigVisibility}">
                             <!--  预提醒配置  -->
-                            <StackPanel Margin="30 0 0 0">
+                            <StackPanel Margin="20 0 0 0">
                                 <!--  预提醒提示音  -->
                                 <CheckBox
                                     Margin="0 0 0 0"
@@ -199,31 +176,17 @@
                                     Cursor="Hand"
                                     IsChecked="{Binding Model.Data.Style.IsPreAlertSound}" />
                                 <!--  预提醒提前时间  -->
-                                <Grid Margin="0 10 0 0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        Grid.Column="0"
-                                        Margin="0 0 10 0"
-                                        VerticalAlignment="Top"
-                                        Text="{DynamicResource Lang_Popupleadtime}" />
-
-                                    <Grid Grid.Column="1">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <Slider
-                                            Grid.Column="0"
-                                            Maximum="60"
-                                            Minimum="3"
-                                            SmallChange="1"
-                                            ToolTip="{DynamicResource Lang_Seconds}"
-                                            Value="{Binding Model.Data.Style.PreAlertTime}" />
-                                    </Grid>
-                                </Grid>
+                                <Slider
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Margin="0 10 0 0"
+                                    VerticalAlignment="Center"
+                                    Maximum="420"
+                                    Minimum="1"
+                                    SmallChange="1"
+                                    Tag="{DynamicResource Lang_Popupleadtime}"
+                                    ToolTip="{DynamicResource Lang_Seconds}"
+                                    Value="{Binding Model.Data.Style.PreAlertTime}" />
                                 <Grid Margin="0 10 0 0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto" />
@@ -241,8 +204,6 @@
                                         SelectedItem="{Binding Model.Data.Style.PreAlertAction}"
                                         SelectedValue="{Binding Model.Data.Style.PreAlertAction.Value}"
                                         SelectedValuePath="Value" />
-
-
                                 </Grid>
                                 <!--  预提醒的弹窗内容配置  -->
                                 <Grid Margin="0 10 0 0">
@@ -344,7 +305,7 @@
                             IsChecked="{Binding Model.Data.Behavior.IsHandleTimeoutRest}"
                             Text="{DynamicResource Lang_HandleTimeoutAutoRest}" />
                         <ui:Toggle
-                            Margin="0 10 0 0"
+                            Margin="0 20 0 0"
                             Cursor="Hand"
                             IsChecked="{Binding Model.Data.Behavior.IsDisabledSkip}"
                             Text="{DynamicResource Lang_Breakscannotbeskipped}" />
@@ -358,7 +319,7 @@
                             Cursor="Hand"
                             IsChecked="{Binding Model.IsBreakProgressList, Mode=TwoWay}"
                             Text="{DynamicResource Lang_Donotdisturbwhenfollowingprocessesarerunning}" />
-                        <Grid Margin="0 10 0 0" Visibility="{Binding Model.BreakProgressListVisibility}">
+                        <Grid Margin="0 20 0 0" Visibility="{Binding Model.BreakProgressListVisibility}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30" />
                                 <RowDefinition Height="150" />

@@ -36,13 +36,11 @@
     <sys:String x:Key="Lang_Soundforworksend">工作结束提示音</sys:String>
 
     <sys:String x:Key="Lang_Display">显示</sys:String>
-    <sys:String x:Key="Lang_Language">语言（Language）</sys:String>
+    <sys:String x:Key="Lang_Language">语言</sys:String>
     <sys:String x:Key="Lang_Theme">主题</sys:String>
     <sys:String x:Key="Lang_Default">默认</sys:String>
     <sys:String x:Key="Lang_Light">浅色</sys:String>
     <sys:String x:Key="Lang_Dark">深色</sys:String>
-    <sys:String x:Key="Lang_Switchtodarkthemeautomatically">自动切换深色主题</sys:String>
-    <sys:String x:Key="Lang_Specifythetime">指定时间范围</sys:String>
     <sys:String x:Key="Lang_Showbuttonsinfullscreennotification">全屏提示时显示操作按钮</sys:String>
     <sys:String x:Key="Lang_Enablemousepassthroughduringfullscreennotification">全屏提示时鼠标可穿透操作</sys:String>
     <sys:String x:Key="Lang_Enableanimation">启用动画效果</sys:String>

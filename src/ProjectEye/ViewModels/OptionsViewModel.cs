@@ -108,7 +108,6 @@ namespace ProjectEye.ViewModels
         private void applyCommand_action(object obj)
         {
             var msg = "更新失败！请尝试重启程序或删除配置文件Config.xml！";
-            theme.HandleDarkMode();
             if (config.Save())
             {
                 msg = $"{Application.Current.Resources["Lang_Optionupdated"]}";
