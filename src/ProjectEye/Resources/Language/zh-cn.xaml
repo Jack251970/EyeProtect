@@ -36,7 +36,7 @@
     <sys:String x:Key="Lang_Soundforworksend">工作结束提示音</sys:String>
 
     <sys:String x:Key="Lang_Display">显示</sys:String>
-    <sys:String x:Key="Lang_Language">语言（Language）</sys:String>
+    <sys:String x:Key="Lang_Language">语言</sys:String>
     <sys:String x:Key="Lang_Theme">主题</sys:String>
     <sys:String x:Key="Lang_Default">默认</sys:String>
     <sys:String x:Key="Lang_Light">浅色</sys:String>
