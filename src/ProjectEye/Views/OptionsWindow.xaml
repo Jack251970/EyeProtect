@@ -260,10 +260,10 @@
                                 <ListView.View>
                                     <GridView>
                                         <GridView.Columns>
-                                            <GridViewColumn Width="{Binding ElementName=breakProcessListView, Path=ActualWidth}">
+                                            <GridViewColumn Width="{Binding RelativeSource={RelativeSource AncestorType=ListView}, Path=ActualWidth}">
                                                 <GridViewColumn.Header>
                                                     <TextBlock
-                                                        Width="{Binding ElementName=breakProcessListView, Path=ActualWidth}"
+                                                        Width="{Binding RelativeSource={RelativeSource AncestorType=ListView}, Path=ActualWidth}"
                                                         HorizontalAlignment="Left"
                                                         Text="{DynamicResource Lang_Processname}" />
                                                 </GridViewColumn.Header>
@@ -271,7 +271,7 @@
                                                     <DataTemplate>
                                                         <Grid Width="auto">
                                                             <TextBlock
-                                                                Width="{Binding ElementName=breakProcessListView, Path=ActualWidth}"
+                                                                Width="{Binding RelativeSource={RelativeSource AncestorType=ListView}, Path=ActualWidth}"
                                                                 HorizontalAlignment="Left"
                                                                 Text="{Binding}" />
                                                         </Grid>
