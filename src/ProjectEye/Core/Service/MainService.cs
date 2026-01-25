@@ -547,9 +547,6 @@ namespace ProjectEye.Core.Service
         {
             if (!config.options.General.Noreset)
             {
-                //深色主题切换判断
-                theme.HandleDarkMode();
-
                 //0.全屏跳过判断
                 if (config.options.Behavior.IsFullScreenBreak)
                 {
