@@ -47,12 +47,12 @@
                 </TextBlock>
             </Border>
             <TextBlock
-                Margin="0,15,0,0"
+                Margin="0 15 0 0"
                 FontSize="16"
                 FontWeight="Bold"
                 Text="解决方案" />
             <Border
-                Margin="0,10,0,0"
+                Margin="0 10 0 0"
                 Padding="10"
                 CornerRadius="6">
                 <Border.Background>
@@ -75,12 +75,12 @@
                 </StackPanel>
             </Border>
             <TextBlock
-                Margin="0,15,0,0"
+                Margin="0 15 0 0"
                 FontSize="16"
                 FontWeight="Bold"
                 Text="取得联系" />
             <Border
-                Margin="0,10,0,0"
+                Margin="0 10 0 0"
                 Padding="10"
                 CornerRadius="6"
                 Cursor="Hand"
@@ -103,14 +103,14 @@
             <Button
                 Width="auto"
                 Height="auto"
-                Padding="15,8"
+                Padding="15 8"
                 Click="Project1UIButton_Click"
                 Content="查看版本列表" />
             <Button
                 Width="auto"
                 Height="auto"
-                Margin="10,0,0,0"
-                Padding="15,8"
+                Margin="10 0 0 0"
+                Padding="15 8"
                 Click="Project1UIButton_Click_1"
                 Content="重新启动软件" />
         </StackPanel>

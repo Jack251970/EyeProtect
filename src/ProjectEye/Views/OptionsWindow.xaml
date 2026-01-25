@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
     Title="{DynamicResource Lang_Settings}"
-    Width="580"
+    Width="600"
     Height="400"
     ui:WindowHelper.UseModernWindowStyle="True"
     Icon="/ProjectEye;component/Resources/sunglasses.ico"
@@ -41,7 +41,7 @@
                         <Slider
                             Grid.Row="1"
                             Grid.Column="1"
-                            Margin="0 20 0 0"
+                            Margin="0 8 0 0"
                             VerticalAlignment="Center"
                             ui:ControlHelper.Header="{DynamicResource Lang_Breaktimelength}"
                             Maximum="300"
@@ -50,11 +50,11 @@
                             ToolTip="{DynamicResource Lang_Seconds}"
                             Value="{Binding Model.Data.General.RestTime}" />
                         <ui:ToggleSwitch
-                            Margin="0 20 0 0"
+                            Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Autostartatboot}"
                             IsOn="{Binding Model.Data.General.Startup}" />
                         <ui:ToggleSwitch
-                            Margin="0 20 0 0"
+                            Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Soundforbreakend}"
                             IsOn="{Binding Model.Data.General.Sound}" />
                     </StackPanel>
@@ -107,21 +107,21 @@
                         </Grid>
 
                         <ui:ToggleSwitch
-                            Margin="0 20 0 0"
+                            Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Showbuttonsinfullscreennotification}"
                             IsOn="{Binding Model.IsTipAsk, Mode=TwoWay}" />
                         <ui:ToggleSwitch
-                            Margin="0 20 0 0"
+                            Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Enablemousepassthroughduringfullscreennotification}"
                             IsEnabled="{Binding Model.IsThruTipWindowEnabled}"
                             IsOn="{Binding Model.Data.Style.IsThruTipWindow, Mode=TwoWay}" />
                         <ui:ToggleSwitch
-                            Margin="0 20 0 0"
+                            Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Enableanimation}"
                             IsOn="{Binding Model.Data.Style.IsAnimation, Mode=TwoWay}" />
 
                         <!--  提示内容  -->
-                        <Grid Margin="0 20 0 0">
+                        <Grid Margin="0 8 0 0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="60" />
                                 <ColumnDefinition Width="*" />
@@ -153,22 +153,22 @@
                 <ScrollViewer>
                     <StackPanel Margin="10">
                         <ui:ToggleSwitch
-                            Margin="0 20 0 0"
+                            Margin="0 8 0 0"
                             Header="{DynamicResource Lang_HandleTimeoutAutoRest}"
                             IsOn="{Binding Model.Data.Behavior.IsHandleTimeoutRest}" />
                         <ui:ToggleSwitch
-                            Margin="0 20 0 0"
+                            Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Breakscannotbeskipped}"
                             IsOn="{Binding Model.Data.Behavior.IsDisabledSkip}" />
                         <ui:ToggleSwitch
-                            Margin="0 20 0 0"
+                            Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Donotdisturbwhenrunningfullscreenapplications}"
                             IsOn="{Binding Model.Data.Behavior.IsFullScreenBreak}" />
                         <ui:ToggleSwitch
-                            Margin="0 20 0 0"
+                            Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Donotdisturbwhenfollowingprocessesarerunning}"
                             IsOn="{Binding Model.IsBreakProgressList, Mode=TwoWay}" />
-                        <Grid Margin="0 20 0 0" Visibility="{Binding Model.BreakProgressListVisibility}">
+                        <Grid Margin="0 8 0 0" Visibility="{Binding Model.BreakProgressListVisibility}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30" />
                                 <RowDefinition Height="150" />
@@ -246,7 +246,7 @@
                     <StackPanel Margin="10">
                         <Image
                             Height="30"
-                            Margin="0 10 0 0"
+                            Margin="0 8 0 0"
                             HorizontalAlignment="Left"
                             RenderTransformOrigin="0.5,0.5"
                             Source="/ProjectEye;component/Resources/sunglasses.ico">
@@ -274,30 +274,30 @@
                             </Image.Triggers>
                         </Image>
                         <TextBlock
-                            Margin="0 10 0 0"
+                            Margin="0 8 0 0"
                             FontWeight="Bold"
                             Text="Project Eye"
                             TextWrapping="Wrap" />
                         <TextBlock
-                            Margin="0 10 0 0"
+                            Margin="0 8 0 0"
                             Opacity=".5"
                             Text="{DynamicResource Lang_Aprogramwhichprotectsyoureyesbehindthescenes}"
                             TextWrapping="Wrap" />
-                        <TextBlock Margin="0 10 0 0" TextWrapping="Wrap"><Run Text="{DynamicResource Lang_Version}" /> <Hyperlink Command="{Binding openurlCommand}" CommandParameter="{Binding Model.VersionLink}">
+                        <TextBlock Margin="0 8 0 0" TextWrapping="Wrap"><Run Text="{DynamicResource Lang_Version}" /> <Hyperlink Command="{Binding openurlCommand}" CommandParameter="{Binding Model.VersionLink}">
                                 <Run Text="{Binding Model.Version}" />
                             </Hyperlink></TextBlock>
-                        <TextBlock Margin="0 10 0 0" TextWrapping="Wrap">
+                        <TextBlock Margin="0 8 0 0" TextWrapping="Wrap">
                             <Hyperlink Command="{Binding openWindowCommand}" CommandParameter="ContributorsWindow">
                                 <Run Text="{DynamicResource Lang_Contributors}" />
                             </Hyperlink>
                         </TextBlock>
-                        <TextBlock Margin="0 10 0 0" TextWrapping="Wrap">
+                        <TextBlock Margin="0 8 0 0" TextWrapping="Wrap">
                             <Run Text="{DynamicResource Lang_Help}" /> <Hyperlink Command="{Binding openurlCommand}" CommandParameter="https://littlepanda.gitbook.io/project-eye/">https://littlepanda.gitbook.io/project-eye</Hyperlink>
                         </TextBlock>
-                        <TextBlock Margin="0 10 0 0" TextWrapping="Wrap">
+                        <TextBlock Margin="0 8 0 0" TextWrapping="Wrap">
                             <Run Text="{DynamicResource Lang_Source}" /> <Hyperlink Command="{Binding openurlCommand}" CommandParameter="https://github.com/Planshit/ProjectEye">https://github.com/Planshit/ProjectEye</Hyperlink>
                         </TextBlock>
-                        <TextBlock Margin="0 10 0 0" TextWrapping="Wrap">
+                        <TextBlock Margin="0 8 0 0" TextWrapping="Wrap">
                             <Run Text="{DynamicResource Lang_Feedback}" /> <Hyperlink Command="{Binding openurlCommand}" CommandParameter="https://github.com/Planshit/ProjectEye/issues">https://github.com/Planshit/ProjectEye/issues</Hyperlink>
                         </TextBlock>
                     </StackPanel>
