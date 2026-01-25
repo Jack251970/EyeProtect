@@ -1,87 +1,65 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
+using CommunityToolkit.Mvvm.ComponentModel;
 using ProjectEye.Core.Models.Options;
 
 namespace ProjectEye.Models
 {
-    public class OptionsModel : UINotifyPropertyChanged
+    public partial class OptionsModel : ObservableObject
     {
-        private Core.Models.Options.OptionsModel data_;
-        public Core.Models.Options.OptionsModel Data
-        {
-            get => data_;
-            set
-            {
-                data_ = value;
-                OnPropertyChanged("Data");
-            }
-        }
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(BreakProgressListVisibility))]
+        private Core.Models.Options.OptionsModel data;
 
-        private string version_;
-        public string Version
-        {
-            get => version_;
-            set
-            {
-                version_ = value;
-                OnPropertyChanged("Version");
-            }
-        }
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(VersionLink))]
+        private string version;
 
-        public string VersionLink => "https://github.com/Planshit/ProjectEye/releases/tag/" + Version;
+        public string VersionLink => "https://github.com/Jack251970/EyeProtect/releases/tag/" + Version;
         public string SelectedItem { get; set; }
         public List<ComboxModel> Languages { get; set; }
 
         public bool IsBreakProgressList
         {
-            get => Data.Behavior.IsBreakProgressList;
+            get => Data?.Behavior.IsBreakProgressList ?? false;
             set
             {
-                Data.Behavior.IsBreakProgressList = value;
-                OnPropertyChanged();
-                OnPropertyChanged("PreAlertConfigVisibility");
+                if (Data != null)
+                {
+                    Data.Behavior.IsBreakProgressList = value;
+                    OnPropertyChanged(nameof(IsBreakProgressList));
+                    OnPropertyChanged(nameof(BreakProgressListVisibility));
+                }
             }
         }
-        public Visibility BreakProgressListVisibility => Data.Behavior.IsBreakProgressList ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility BreakProgressListVisibility => (Data?.Behavior.IsBreakProgressList ?? false) ? Visibility.Visible : Visibility.Collapsed;
 
+        [ObservableProperty]
+        private bool showModal = false;
         //是否显示模态弹窗
-        private bool ShowModal_ = false;
-        public bool ShowModal
-        {
-            get => ShowModal_;
-            set
-            {
-                ShowModal_ = value;
-                OnPropertyChanged();
-            }
-        }
+
+        [ObservableProperty]
+        private string modalText = "设置已更新";
         //模态弹窗文本
-        private string ModalText_ = "设置已更新";
-        public string ModalText
-        {
-            get => ModalText_;
-            set
-            {
-                ModalText_ = value;
-                OnPropertyChanged();
-            }
-        }
 
         /// <summary>
         /// 鼠标穿透是否可用
         /// </summary>
-        public bool IsThruTipWindowEnabled => !Data.Style.IsTipAsk;
+        public bool IsThruTipWindowEnabled => !(Data?.Style.IsTipAsk ?? false);
         public bool IsTipAsk
         {
-            get => Data.Style.IsTipAsk;
+            get => Data?.Style.IsTipAsk ?? false;
             set
             {
-                Data.Style.IsTipAsk = value;
-                if (value && Data.Style.IsThruTipWindow)
+                if (Data != null)
                 {
-                    Data.Style.IsThruTipWindow = !value;
+                    Data.Style.IsTipAsk = value;
+                    if (value && Data.Style.IsThruTipWindow)
+                    {
+                        Data.Style.IsThruTipWindow = !value;
+                    }
+                    OnPropertyChanged(nameof(IsTipAsk));
                 }
-                OnPropertyChanged();
             }
         }
     }

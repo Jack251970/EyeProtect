@@ -2,22 +2,16 @@
 using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
+using CommunityToolkit.Mvvm.Input;
 using ProjectEye.Core;
 using ProjectEye.Core.Service;
 using ProjectEye.Models;
 
 namespace ProjectEye.ViewModels
 {
-    public class OptionsViewModel
+    public partial class OptionsViewModel
     {
         public OptionsModel Model { get; set; }
-        public Command applyCommand { get; set; }
-        public Command openurlCommand { get; set; }
-        public Command soundTestCommand { get; set; }
-        public Command showWindowCommand { get; set; }
-        public Command addBreackProcessCommand { get; set; }
-        public Command removeBreackProcessCommand { get; set; }
-        public Command openWindowCommand { get; set; }
 
         private readonly ConfigService config;
         private readonly MainService mainService;
@@ -39,20 +33,14 @@ namespace ProjectEye.ViewModels
 
             var version = Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.');
             Model.Version = version[0] + "." + version[1] + "." + version[2];
-
-            applyCommand = new Command(new Action<object>(applyCommand_action));
-            openurlCommand = new Command(new Action<object>(openurlCommand_action));
-            showWindowCommand = new Command(new Action<object>(showWindowCommand_action));
-            addBreackProcessCommand = new Command(new Action<object>(addBreackProcessCommand_action));
-            removeBreackProcessCommand = new Command(new Action<object>(removeBreackProcessCommand_action));
-            openWindowCommand = new Command(new Action<object>(openWindowCommand_action));
         }
 
         /// <summary>
         /// 打开窗口命令
         /// </summary>
         /// <param name="obj"></param>
-        private void openWindowCommand_action(object obj)
+        [RelayCommand]
+        private void OpenWindow(object obj)
         {
             var window = obj.ToString();
             WindowManager.CreateWindowInScreen(window);
@@ -63,7 +51,8 @@ namespace ProjectEye.ViewModels
         /// 移除进程命令
         /// </summary>
         /// <param name="obj"></param>
-        private void removeBreackProcessCommand_action(object obj)
+        [RelayCommand]
+        private void RemoveBreackProcess(object obj)
         {
             Model.Data.Behavior.BreakProgressList.Remove(Model.SelectedItem);
         }
@@ -72,7 +61,8 @@ namespace ProjectEye.ViewModels
         /// 添加跳过进程命令
         /// </summary>
         /// <param name="obj"></param>
-        private void addBreackProcessCommand_action(object obj)
+        [RelayCommand]
+        private void AddBreackProcess(object obj)
         {
             var process = obj.ToString();
             if (process == string.Empty)
@@ -89,7 +79,8 @@ namespace ProjectEye.ViewModels
             }
         }
 
-        private void showWindowCommand_action(object obj)
+        [RelayCommand]
+        private void ShowWindow(object obj)
         {
 
             WindowManager.CreateWindowInScreen(obj.ToString());
@@ -97,12 +88,8 @@ namespace ProjectEye.ViewModels
             WindowManager.Show(obj.ToString());
         }
 
-        private void openurlCommand_action(object obj)
-        {
-            Process.Start(new ProcessStartInfo(obj.ToString()));
-        }
-
-        private void applyCommand_action(object obj)
+        [RelayCommand]
+        private void Apply(object obj)
         {
             var msg = "更新失败！请尝试重启程序或删除配置文件Config.xml！";
             if (config.Save())

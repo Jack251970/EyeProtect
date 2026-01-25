@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
@@ -17,12 +17,12 @@ namespace ProjectEye.Views
 
         private void Project1UIButton_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("https://github.com/Planshit/ProjectEye/releases") { UseShellExecute = true });
+            Process.Start(new ProcessStartInfo("https://github.com/Jack251970/EyeProtect/releases") { UseShellExecute = true });
         }
 
         private void bugreportbtn_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("https://github.com/Planshit/ProjectEye/issues/new") { UseShellExecute = true });
+            Process.Start(new ProcessStartInfo("https://github.com/Jack251970/EyeProtect/issues/new") { UseShellExecute = true });
         }
 
         private void Project1UIButton_Click_1(object sender, RoutedEventArgs e)

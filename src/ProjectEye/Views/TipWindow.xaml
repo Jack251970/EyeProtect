@@ -61,14 +61,14 @@
                 <Button
                     Width="110"
                     Height="45"
-                    Command="{Binding resetCommand}"
+                    Command="{Binding ResetCommand}"
                     Content="{DynamicResource Lang_StartRest}"
                     FontSize="14" />
                 <Button
                     Width="110"
                     Height="45"
                     Margin="10 0 0 0"
-                    Command="{Binding busyCommand}"
+                    Command="{Binding BusyCommand}"
                     Content="{DynamicResource Lang_RestLater}"
                     FontSize="14" />
             </StackPanel>
@@ -81,7 +81,7 @@
                 FontSize="50"
                 FontWeight="Bold"
                 Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"
-                Text="{Binding COUNTDOWN}"
+                Text="{Binding Countdown}"
                 Visibility="{Binding CountDownVisibility}" />
         </Grid>
     </Grid>

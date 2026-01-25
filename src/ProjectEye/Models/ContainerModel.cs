@@ -1,28 +1,14 @@
 ﻿using System.Windows.Media;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ProjectEye.Models
 {
-    public class ContainerModel : UINotifyPropertyChanged
+    public partial class ContainerModel : ObservableObject
     {
-        private double Opacity_;
-        public double Opacity
-        {
-            get => Opacity_;
-            set
-            {
-                Opacity_ = value;
-                OnPropertyChanged();
-            }
-        }
-        private Brush Background_;
-        public Brush Background
-        {
-            get => Background_;
-            set
-            {
-                Background_ = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty]
+        private double opacity;
+
+        [ObservableProperty]
+        private Brush background;
     }
 }
