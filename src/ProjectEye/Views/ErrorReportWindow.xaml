@@ -6,18 +6,13 @@
     xmlns:local="clr-namespace:ProjectEye.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
-    Title="程序崩溃 Error   : ("
+    Title="Eye Protect Crash"
     Width="420"
     Height="460"
     ui:WindowHelper.UseModernWindowStyle="True"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
-    <Window.Resources>
-        <Style TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
-        </Style>
-    </Window.Resources>
     <Grid>
         <Image
             Margin="20"
@@ -33,24 +28,24 @@
                     <SolidColorBrush Opacity=".4" Color="#ccc" />
                 </Border.Background>
                 <TextBlock FontSize="14" TextWrapping="WrapWithOverflow">
-                    <Run Text="非常抱歉！程序发生了一个不可预料的错误，详细的错误报告已经保存到根目录下的" />
+                    <Run Text="Sorry! An unexpected error occurred in the program. The detailed error report has been saved to the root directory" />
                     <Run
                         Cursor="Hand"
                         Foreground="#007acc"
                         MouseDown="Run_MouseDown"
-                        Text="Log文件夹" />
-                    <Run Text="中，如果方便请将它" /> <Run
+                        Text="Log Folder" />
+                    <Run Text=". Please provide" /> <Run
                         Cursor="Hand"
                         Foreground="#007acc"
                         MouseDown="bugreportbtn_Click"
-                        Text="反馈" /><Run Text=" 给我们处理，非常感谢。" />
+                        Text="feedback" /><Run Text=" if possible. Many thanks!" />
                 </TextBlock>
             </Border>
             <TextBlock
                 Margin="0 15 0 0"
                 FontSize="16"
                 FontWeight="Bold"
-                Text="解决方案" />
+                Text="Solution" />
             <Border
                 Margin="0 10 0 0"
                 Padding="10"
@@ -61,15 +56,15 @@
                 <StackPanel>
                     <TextBlock
                         FontSize="14"
-                        Text="1. 尝试重新启动软件;"
+                        Text="1. Restart application;"
                         TextWrapping="WrapWithOverflow" />
                     <TextBlock
                         FontSize="14"
-                        Text="2. 查看是否有可更新的版本;"
+                        Text="2. Check if there is an updatable version;"
                         TextWrapping="WrapWithOverflow" />
                     <TextBlock
                         FontSize="14"
-                        Text="3. 下载其他旧版本使用;"
+                        Text="3. Download other old versions for use;"
                         TextWrapping="WrapWithOverflow" />
 
                 </StackPanel>
@@ -78,7 +73,7 @@
                 Margin="0 15 0 0"
                 FontSize="16"
                 FontWeight="Bold"
-                Text="取得联系" />
+                Text="Contact" />
             <Border
                 Margin="0 10 0 0"
                 Padding="10"
@@ -90,29 +85,9 @@
                 </Border.Background>
                 <TextBlock
                     FontSize="14"
-                    Foreground="#007acc"
-                    Text="邮箱：heis@thelittlepandaisbehind.com"
+                    Text="Email: jack1160210343@gmail.com"
                     TextWrapping="WrapWithOverflow" />
             </Border>
-        </StackPanel>
-        <StackPanel
-            Margin="10"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Bottom"
-            Orientation="Horizontal">
-            <Button
-                Width="auto"
-                Height="auto"
-                Padding="15 8"
-                Click="Project1UIButton_Click"
-                Content="查看版本列表" />
-            <Button
-                Width="auto"
-                Height="auto"
-                Margin="10 0 0 0"
-                Padding="15 8"
-                Click="Project1UIButton_Click_1"
-                Content="重新启动软件" />
         </StackPanel>
     </Grid>
 </Window>

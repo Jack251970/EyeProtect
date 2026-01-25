@@ -15,22 +15,9 @@ namespace ProjectEye.Views
             InitializeComponent();
         }
 
-        private void Project1UIButton_Click(object sender, RoutedEventArgs e)
-        {
-            Process.Start(new ProcessStartInfo("https://github.com/Jack251970/EyeProtect/releases") { UseShellExecute = true });
-        }
-
         private void bugreportbtn_Click(object sender, RoutedEventArgs e)
         {
             Process.Start(new ProcessStartInfo("https://github.com/Jack251970/EyeProtect/issues/new") { UseShellExecute = true });
-        }
-
-        private void Project1UIButton_Click_1(object sender, RoutedEventArgs e)
-        {
-            var exePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                "ProjectEye.exe");
-            Process.Start(new ProcessStartInfo(exePath) { UseShellExecute = true });
-            Application.Current.Shutdown();
         }
 
         private void Run_MouseDown(object sender, MouseButtonEventArgs e)
@@ -41,12 +28,6 @@ namespace ProjectEye.Views
             {
                 Process.Start(new ProcessStartInfo(logPath) { UseShellExecute = true });
             }
-        }
-
-        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Clipboard.SetText("heis@thelittlepandaisbehind.com");
-            MessageBox.Show("邮箱已复制");
         }
     }
 }
