@@ -18,4 +18,8 @@
     <Resource Include="Assets\**\*.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="iNKORE.UI.WPF.Modern" Version="0.9.28.5" />
+  </ItemGroup>
+
 </Project>

@@ -22,6 +22,9 @@ namespace ProjectEye
         public App()
         {
             serviceCollection = new ServiceCollection();
+            
+            // Initialize iNKORE.UI.WPF.Modern theme manager
+            iNKORE.UI.WPF.Modern.ThemeManager.Current.ApplicationTheme = null; // Follow system theme by default
         }
         protected override void OnStartup(StartupEventArgs e)
         {
