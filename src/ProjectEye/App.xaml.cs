@@ -15,17 +15,17 @@ namespace ProjectEye
         private readonly ServiceCollection serviceCollection;
         private System.Threading.Mutex mutex;
         public delegate void AppEventHandler();
+
         /// <summary>
         /// 服务初始化完成时发生
         /// </summary>
         public event AppEventHandler OnServiceInitialized;
+
         public App()
         {
             serviceCollection = new ServiceCollection();
-            
-            // Initialize iNKORE.UI.WPF.Modern theme manager
-            iNKORE.UI.WPF.Modern.ThemeManager.Current.ApplicationTheme = null; // Follow system theme by default
         }
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -111,6 +111,5 @@ namespace ProjectEye
             return false;
         }
         #endregion
-
     }
 }
