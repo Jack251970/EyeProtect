@@ -28,47 +28,18 @@ namespace ProjectEye.Core.Service
         }
         public void Init()
         {
-            var themeName = config.options.Style.Theme.ThemeName;
-            if (systemResources.Themes.Where(m => m.ThemeName == themeName).Count() == 0)
-            {
-                themeName = systemResources.Themes[0].ThemeName;
-                config.options.Style.Theme = systemResources.Themes[0];
-                //config.Save();
-            }
-            
-            // Set iNKORE theme based on theme name
-            SetTheme(themeName);
+            // iNKORE.UI.WPF.Modern will follow system theme by default (ApplicationTheme = null)
+            // No manual theme setting needed
         }
+        
         /// <summary>
-        /// 设置主题
+        /// 设置主题 - Deprecated: Now follows system theme
         /// </summary>
         /// <param name="themeName"></param>
         public void SetTheme(string themeName)
         {
-            var oldName = config.options.Style.Theme.ThemeName;
-            
-            if (oldName != themeName)
-            {
-                // Map theme names to iNKORE ApplicationTheme
-                // Both "Light" and "Default" map to Light theme
-                // "Dark" maps to Dark theme
-                // Unknown themes default to Light
-                iNKORE.UI.WPF.Modern.ApplicationTheme newTheme;
-                
-                if (themeName == "Dark")
-                {
-                    newTheme = iNKORE.UI.WPF.Modern.ApplicationTheme.Dark;
-                }
-                else
-                {
-                    // Light, Default, or any other theme
-                    newTheme = iNKORE.UI.WPF.Modern.ApplicationTheme.Light;
-                }
-                
-                iNKORE.UI.WPF.Modern.ThemeManager.Current.ApplicationTheme = newTheme;
-
-                OnChangedTheme?.Invoke(oldName, themeName);
-            }
+            // Theme setting removed - application now follows system theme
+            // iNKORE.UI.WPF.Modern.ThemeManager.Current.ApplicationTheme is null by default
         }
 
         /// <summary>
