@@ -151,14 +151,14 @@ namespace ProjectEye.ViewModels
         }
         private void UpdateUIData()
         {
-            var isDarkTheme = iNKORE.UI.WPF.Modern.ThemeManager.Current.ActualApplicationTheme == ApplicationTheme.Dark;
+            var isDarkTheme = ThemeManager.Current.ActualApplicationTheme == ApplicationTheme.Dark;
             
             // Set container background and opacity based on theme
             ContainerBackground = isDarkTheme ? new SolidColorBrush(Color.FromRgb(0x1A, 0x1B, 0x1C)) : Brushes.White;
             ContainerOpacity = 0.98;
             
             // Set tip image based on theme
-            var imagePath = $"pack://application:,,,/ProjectEye;component/Resources/Images/{(isDarkTheme ? "Dark" : "Light")}/Images/tipImage.png";
+            var imagePath = $"pack://application:,,,/ProjectEye;component/Resources/Images/{(isDarkTheme ? "Dark" : "Light")}/tipImage.png";
             try
             {
                 var image = new BitmapImage();

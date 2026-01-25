@@ -79,7 +79,7 @@ namespace ProjectEye.Core.Service
             tipimage.Width = 272;
             tipimage.Opacity = 1;
             tipimage.Height = 187;
-            tipimage.Image = $"pack://application:,,,/ProjectEye;component/Resources/Images/{(isDarkTheme ? "Dark" : "Light")}/Images/tipImage.png";
+            tipimage.Image = $"pack://application:,,,/ProjectEye;component/Resources/Images/{(isDarkTheme ? "Dark" : "Light")}/tipImage.png";
             tipimage.X = screenSize.Width / 2 - tipimage.Width / 2;
             tipimage.Y = screenSize.Height * .24;
 
