@@ -46,6 +46,7 @@
                 Margin="0 10 0 0"
                 HorizontalAlignment="Center"
                 FontSize="20"
+                Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"
                 Text="{Binding TipContent}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
@@ -61,14 +62,14 @@
                     Width="110"
                     Height="45"
                     Command="{Binding resetCommand}"
-                    Content="{DynamicResource Lang_Yes}"
+                    Content="{DynamicResource Lang_StartRest}"
                     FontSize="14" />
                 <Button
                     Width="110"
                     Height="45"
                     Margin="10 0 0 0"
                     Command="{Binding busyCommand}"
-                    Content="{DynamicResource Lang_No}"
+                    Content="{DynamicResource Lang_RestLater}"
                     FontSize="14" />
             </StackPanel>
 

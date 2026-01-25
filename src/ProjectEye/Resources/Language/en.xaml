@@ -185,7 +185,8 @@
     <sys:String x:Key="Lang_Breakingtime">Rest time</sys:String>
     <sys:String x:Key="Lang_Great">Great</sys:String>
     <sys:String x:Key="Lang_Yes">Yes</sys:String>
-    <sys:String x:Key="Lang_No">No</sys:String>
+    <sys:String x:Key="Lang_StartRest">Start rest</sys:String>
+    <sys:String x:Key="Lang_RestLater">Rest later</sys:String>
     <sys:String x:Key="Lang_Time">Time</sys:String>
     <sys:String x:Key="Lang_Remainingtime">Remaining time</sys:String>
     <sys:String x:Key="Lang_ExportMonthData">Export month data</sys:String>

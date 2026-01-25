@@ -190,7 +190,8 @@
     <sys:String x:Key="Lang_Breakingtime">休息时间</sys:String>
     <sys:String x:Key="Lang_Great">太棒了</sys:String>
     <sys:String x:Key="Lang_Yes">好的</sys:String>
-    <sys:String x:Key="Lang_No">不</sys:String>
+    <sys:String x:Key="Lang_StartRest">开始休息</sys:String>
+    <sys:String x:Key="Lang_RestLater">稍后休息</sys:String>
     <sys:String x:Key="Lang_Time">时间</sys:String>
     <sys:String x:Key="Lang_Remainingtime">剩余时间</sys:String>
 
