@@ -161,11 +161,11 @@
                             Cursor="Hand"
                             IsChecked="{Binding Model.Data.Style.IsAnimation, Mode=TwoWay}"
                             Text="{DynamicResource Lang_Enableanimation}" />
-                        
+
                         <!--  提示内容  -->
-                        <Grid Margin="0 10 0 0">
+                        <Grid Margin="0 20 0 0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="60" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <TextBlock
@@ -183,6 +183,7 @@
                                     TextWrapping="Wrap"
                                     Type="Text" />
                                 <TextBlock
+                                    Margin="0 10 0 0"
                                     Foreground="#FF838383"
                                     Text="{DynamicResource Lang_Variablesdescription}"
                                     TextWrapping="Wrap" />
