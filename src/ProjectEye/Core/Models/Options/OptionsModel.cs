@@ -14,10 +14,6 @@ namespace ProjectEye.Core.Models.Options
         /// </summary>
         public StyleModel Style { get; set; }
         /// <summary>
-        /// 快捷键
-        /// </summary>
-        public KeyboardShortcutModel KeyboardShortcuts { get; set; }
-        /// <summary>
         /// 行为
         /// </summary>
         public BehaviorModel Behavior { get; set; }

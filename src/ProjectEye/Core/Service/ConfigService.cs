@@ -96,8 +96,6 @@ namespace ProjectEye.Core.Service
             options.Style.TipWindowAnimation = systemResources.Animations[0];
             options.Style.Language = systemResources.Languages[0];
 
-            options.KeyboardShortcuts = new KeyboardShortcutModel();
-
             options.Behavior = new BehaviorModel();
 
             SaveOldOptions();
