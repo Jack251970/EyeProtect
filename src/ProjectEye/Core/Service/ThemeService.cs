@@ -2,8 +2,8 @@
 using System.Windows;
 using System.Windows.Media;
 using iNKORE.UI.WPF.Modern;
-using Project1.UI.Controls.Models;
-using Project1.UI.Cores;
+using ProjectEye.Models;
+using ProjectEye.Models.Enums;
 using ProjectEye.Models.UI;
 
 namespace ProjectEye.Core.Service
@@ -11,17 +11,14 @@ namespace ProjectEye.Core.Service
     public class ThemeService : IService
     {
         private readonly ConfigService config;
-        private readonly SystemResourcesService systemResources;
         public delegate void ThemeChangedEventHandler(ApplicationTheme OldTheme, ApplicationTheme NewTheme);
         /// <summary>
         /// 当切换主题时发生
         /// </summary>
         public event ThemeChangedEventHandler OnChangedTheme;
-        public ThemeService(ConfigService config,
-            SystemResourcesService systemResources)
+        public ThemeService(ConfigService config)
         {
             this.config = config;
-            this.systemResources = systemResources;
         }
         public void Init()
         {
@@ -78,7 +75,7 @@ namespace ProjectEye.Core.Service
 
             var elements = new List<ElementModel>();
             var tipimage = new ElementModel();
-            tipimage.Type = Project1.UI.Controls.Enums.DesignItemType.Image;
+            tipimage.Type = DesignItemType.Image;
             tipimage.Width = 272;
             tipimage.Opacity = 1;
             tipimage.Height = 187;
@@ -87,7 +84,7 @@ namespace ProjectEye.Core.Service
             tipimage.Y = screenSize.Height * .24;
 
             var tipText = new ElementModel();
-            tipText.Type = Project1.UI.Controls.Enums.DesignItemType.Text;
+            tipText.Type = DesignItemType.Text;
             tipText.Text = config.options.Style.TipContent ?? "You have been using your eyes for {t} minutes. Take a break! Please focus your attention at least 6 meters away for 20 seconds!";
             tipText.Opacity = 1;
             tipText.Width = 400;
@@ -97,7 +94,7 @@ namespace ProjectEye.Core.Service
             tipText.FontSize = 20;
 
             var restBtn = new ElementModel();
-            restBtn.Type = Project1.UI.Controls.Enums.DesignItemType.Button;
+            restBtn.Type = DesignItemType.Button;
             restBtn.Width = 110;
             restBtn.Height = 45;
             restBtn.FontSize = 14;
@@ -109,7 +106,7 @@ namespace ProjectEye.Core.Service
             restBtn.Y = tipText.Y + tipText.Height + 20;
 
             var breakBtn = new ElementModel();
-            breakBtn.Type = Project1.UI.Controls.Enums.DesignItemType.Button;
+            breakBtn.Type = DesignItemType.Button;
             breakBtn.Width = 110;
             breakBtn.Height = 45;
             breakBtn.FontSize = 14;
@@ -124,7 +121,7 @@ namespace ProjectEye.Core.Service
             countDownText.Text = "{countdown}";
             countDownText.FontSize = 50;
             countDownText.IsTextBold = true;
-            countDownText.Type = Project1.UI.Controls.Enums.DesignItemType.Text;
+            countDownText.Type = DesignItemType.Text;
             countDownText.Opacity = 1;
             countDownText.Width = 100;
             countDownText.Height = 60;

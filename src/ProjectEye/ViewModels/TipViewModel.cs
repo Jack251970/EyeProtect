@@ -7,11 +7,10 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using iNKORE.UI.WPF.Modern;
-using Project1.UI.Controls.Models;
-using Project1.UI.Cores;
 using ProjectEye.Core;
 using ProjectEye.Core.Service;
 using ProjectEye.Models;
+using ProjectEye.Models.Enums;
 using WpfAnimatedGif;
 
 namespace ProjectEye.ViewModels
@@ -176,17 +175,17 @@ namespace ProjectEye.ViewModels
                 };
                 switch (element.Type)
                 {
-                    case Project1.UI.Controls.Enums.DesignItemType.Text:
+                    case DesignItemType.Text:
                         var textElement = CreateTextElemenet(element);
                         textElement.RenderTransform = ttf;
                         container.Children.Add(textElement);
                         break;
-                    case Project1.UI.Controls.Enums.DesignItemType.Button:
+                    case DesignItemType.Button:
                         var buttonElement = CreateButtonElement(element);
                         buttonElement.RenderTransform = ttf;
                         container.Children.Add(buttonElement);
                         break;
-                    case Project1.UI.Controls.Enums.DesignItemType.Image:
+                    case DesignItemType.Image:
                         var imageElement = new Image();
                         imageElement.HorizontalAlignment = HorizontalAlignment.Left;
                         imageElement.VerticalAlignment = VerticalAlignment.Top;
@@ -195,7 +194,6 @@ namespace ProjectEye.ViewModels
                         imageElement.Height = element.Height;
                         imageElement.Opacity = element.Opacity;
                         imageElement.Stretch = Stretch.UniformToFill;
-
 
                         try
                         {
@@ -207,7 +205,7 @@ namespace ProjectEye.ViewModels
                         }
                         catch
                         {
-                            imageElement.Source = BitmapImager.Load("pack://application:,,,/Project1.UI;component/Assets/Images/sunglasses.png");
+                            imageElement.Source = BitmapImager.Load("pack://application:,,,/ProjectEye;component/Resources/Images/sunglasses.png");
 
                         }
 

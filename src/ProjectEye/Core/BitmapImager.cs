@@ -3,7 +3,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
-namespace Project1.UI.Cores
+namespace ProjectEye.Core
 {
     public static class BitmapImager
     {

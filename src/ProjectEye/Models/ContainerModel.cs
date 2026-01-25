@@ -1,7 +1,6 @@
 ﻿using System.Windows.Media;
-using Project1.UI.Cores;
 
-namespace Project1.UI.Controls.Models
+namespace ProjectEye.Models
 {
     public class ContainerModel : UINotifyPropertyChanged
     {
