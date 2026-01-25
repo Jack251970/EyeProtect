@@ -15,7 +15,7 @@ namespace ProjectEye.Models
         [NotifyPropertyChangedFor(nameof(VersionLink))]
         private string version;
 
-        public string VersionLink => "https://github.com/Planshit/ProjectEye/releases/tag/" + Version;
+        public string VersionLink => "https://github.com/Jack251970/EyeProtect/releases/tag/" + Version;
         public string SelectedItem { get; set; }
         public List<ComboxModel> Languages { get; set; }
 
