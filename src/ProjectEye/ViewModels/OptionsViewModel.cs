@@ -89,12 +89,6 @@ namespace ProjectEye.ViewModels
         }
 
         [RelayCommand]
-        private void Openurl(object obj)
-        {
-            Process.Start(new ProcessStartInfo(obj.ToString()));
-        }
-
-        [RelayCommand]
         private void Apply(object obj)
         {
             var msg = "更新失败！请尝试重启程序或删除配置文件Config.xml！";

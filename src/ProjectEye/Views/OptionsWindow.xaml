@@ -257,23 +257,57 @@
                             Opacity=".5"
                             Text="{DynamicResource Lang_Aprogramwhichprotectsyoureyesbehindthescenes}"
                             TextWrapping="Wrap" />
-                        <TextBlock Margin="0 8 0 0" TextWrapping="Wrap"><Run Text="{DynamicResource Lang_Version}" /> <Hyperlink Command="{Binding OpenurlCommand}" CommandParameter="{Binding Model.VersionLink}">
-                                <Run Text="{Binding Model.Version}" />
-                            </Hyperlink></TextBlock>
-                        <TextBlock Margin="0 8 0 0" TextWrapping="Wrap">
-                            <Hyperlink Command="{Binding OpenWindowCommand}" CommandParameter="ContributorsWindow">
-                                <Run Text="{DynamicResource Lang_Contributors}" />
-                            </Hyperlink>
-                        </TextBlock>
-                        <TextBlock Margin="0 8 0 0" TextWrapping="Wrap">
-                            <Run Text="{DynamicResource Lang_Help}" /> <Hyperlink Command="{Binding OpenurlCommand}" CommandParameter="https://littlepanda.gitbook.io/project-eye/">https://littlepanda.gitbook.io/project-eye</Hyperlink>
-                        </TextBlock>
-                        <TextBlock Margin="0 8 0 0" TextWrapping="Wrap">
-                            <Run Text="{DynamicResource Lang_Source}" /> <Hyperlink Command="{Binding OpenurlCommand}" CommandParameter="https://github.com/Planshit/ProjectEye">https://github.com/Planshit/ProjectEye</Hyperlink>
-                        </TextBlock>
-                        <TextBlock Margin="0 8 0 0" TextWrapping="Wrap">
-                            <Run Text="{DynamicResource Lang_Feedback}" /> <Hyperlink Command="{Binding OpenurlCommand}" CommandParameter="https://github.com/Planshit/ProjectEye/issues">https://github.com/Planshit/ProjectEye/issues</Hyperlink>
-                        </TextBlock>
+                        <StackPanel Margin="0 8 0 0" Orientation="Horizontal">
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Text="{DynamicResource Lang_Version}"
+                                TextWrapping="Wrap" />
+                            <ui:HyperlinkButton
+                                Margin="8 0 0 0"
+                                VerticalAlignment="Center"
+                                Content="{Binding Model.Version}"
+                                NavigateUri="{Binding Model.VersionLink}" />
+                            <ui:HyperlinkButton
+                                Command="{Binding OpenWindowCommand}"
+                                CommandParameter="ContributorsWindow"
+                                Content="{DynamicResource Lang_Contributors}" />
+                        </StackPanel>
+
+                        <StackPanel Margin="0 8 0 0" Orientation="Horizontal">
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Text="{DynamicResource Lang_Help}"
+                                TextWrapping="Wrap" />
+                            <ui:HyperlinkButton
+                                Margin="8 0 0 0"
+                                VerticalAlignment="Center"
+                                Content="https://github.com/Jack251970/EyeProtect/wiki"
+                                NavigateUri="https://github.com/Jack251970/EyeProtect/wiki" />
+                        </StackPanel>
+
+                        <StackPanel Margin="0 8 0 0" Orientation="Horizontal">
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Text="{DynamicResource Lang_Source}"
+                                TextWrapping="Wrap" />
+                            <ui:HyperlinkButton
+                                Margin="8 0 0 0"
+                                VerticalAlignment="Center"
+                                Content="https://github.com/Jack251970/EyeProtect"
+                                NavigateUri="https://github.com/Jack251970/EyeProtect" />
+                        </StackPanel>
+
+                        <StackPanel Margin="0 8 0 0" Orientation="Horizontal">
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Text="{DynamicResource Lang_Feedback}"
+                                TextWrapping="Wrap" />
+                            <ui:HyperlinkButton
+                                Margin="8 0 0 0"
+                                VerticalAlignment="Center"
+                                Content="https://github.com/Jack251970/EyeProtect/issues"
+                                NavigateUri="https://github.com/Jack251970/EyeProtect/issues" />
+                        </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
