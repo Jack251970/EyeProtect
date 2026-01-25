@@ -110,7 +110,7 @@ namespace ProjectEye.Core.Service
 
             var tipText = new ElementModel();
             tipText.Type = Project1.UI.Controls.Enums.DesignItemType.Text;
-            tipText.Text = "You have been using your eyes for {t} minutes. Take a break! Please focus your attention at least 6 meters away for 20 seconds!";
+            tipText.Text = config.options.Style.TipContent ?? "You have been using your eyes for {t} minutes. Take a break! Please focus your attention at least 6 meters away for 20 seconds!";
             tipText.Opacity = 1;
             tipText.TextColor = Project1UIColor.Get("#45435b");
             tipText.Width = 400;

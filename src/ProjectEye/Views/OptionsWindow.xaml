@@ -161,6 +161,33 @@
                             Cursor="Hand"
                             IsChecked="{Binding Model.Data.Style.IsAnimation, Mode=TwoWay}"
                             Text="{DynamicResource Lang_Enableanimation}" />
+                        
+                        <!--  提示内容  -->
+                        <Grid Margin="0 10 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                Grid.Column="0"
+                                Margin="0 0 10 0"
+                                VerticalAlignment="Top"
+                                Text="{DynamicResource Lang_Content}" />
+                            <StackPanel Grid.Column="1">
+                                <ui:Project1UIInput
+                                    Width="auto"
+                                    Height="40"
+                                    VerticalContentAlignment="Top"
+                                    AcceptsReturn="True"
+                                    Text="{Binding Model.Data.Style.TipContent}"
+                                    TextWrapping="Wrap"
+                                    Type="Text" />
+                                <TextBlock
+                                    Foreground="#FF838383"
+                                    Text="{DynamicResource Lang_Variablesdescription}"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Grid>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
