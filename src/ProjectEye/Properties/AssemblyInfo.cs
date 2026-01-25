@@ -5,12 +5,12 @@ using System.Windows;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("Project Eye")]
-[assembly: AssemblyDescription("基于20-20-20规则的用眼提示程序")]
+[assembly: AssemblyTitle("Eye Protect")]
+[assembly: AssemblyDescription("Protect your eyes with a rest reminder based on the 20-20-20 rule")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Plan shit")]
-[assembly: AssemblyProduct("Project Eye")]
-[assembly: AssemblyCopyright("Copyright ©  2019 Plan shit")]
+[assembly: AssemblyCompany("Jack251970")]
+[assembly: AssemblyProduct("Eye Protect")]
+[assembly: AssemblyCopyright("Copyright © 2026 Jack251970")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

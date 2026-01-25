@@ -80,6 +80,7 @@
                 HorizontalAlignment="Center"
                 FontSize="50"
                 FontWeight="Bold"
+                Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"
                 Text="{Binding COUNTDOWN}"
                 Visibility="{Binding CountDownVisibility}" />
         </Grid>
