@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Media;
 using iNKORE.UI.WPF.Modern;
 using Project1.UI.Controls.Models;
@@ -100,7 +101,7 @@ namespace ProjectEye.Core.Service
             restBtn.Width = 110;
             restBtn.Height = 45;
             restBtn.FontSize = 14;
-            restBtn.Text = "Yes";
+            restBtn.Text = $"{Application.Current.Resources["Lang_Yes"]}";
             restBtn.Opacity = 1;
             restBtn.Command = "rest";
 
@@ -112,7 +113,7 @@ namespace ProjectEye.Core.Service
             breakBtn.Width = 110;
             breakBtn.Height = 45;
             breakBtn.FontSize = 14;
-            breakBtn.Text = "No";
+            breakBtn.Text = $"{Application.Current.Resources["Lang_No"]}";
             breakBtn.Style = "basic";
             breakBtn.Command = "break";
             breakBtn.Opacity = 1;
