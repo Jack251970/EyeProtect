@@ -13,7 +13,6 @@ namespace ProjectEye.Core.Service
     {
         private readonly ConfigService config;
         private readonly SystemResourcesService systemResources;
-        private readonly Theme theme;
 
 
         public delegate void ThemeChangedEventHandler(string OldThemeName, string NewThemeName);
@@ -26,7 +25,6 @@ namespace ProjectEye.Core.Service
         {
             this.config = config;
             this.systemResources = systemResources;
-            theme = new Theme();
         }
         public void Init()
         {
@@ -37,9 +35,9 @@ namespace ProjectEye.Core.Service
                 config.options.Style.Theme = systemResources.Themes[0];
                 //config.Save();
             }
-            Project1.UI.Cores.UIDefaultSetting.DefaultThemeName = themeName;
-
-            Project1.UI.Cores.UIDefaultSetting.DefaultThemePath = "/ProjectEye;component/Resources/Themes/";
+            
+            // Set iNKORE theme based on theme name
+            SetTheme(themeName);
         }
         /// <summary>
         /// 设置主题
@@ -47,16 +45,24 @@ namespace ProjectEye.Core.Service
         /// <param name="themeName"></param>
         public void SetTheme(string themeName)
         {
-
-            if (Project1.UI.Cores.UIDefaultSetting.DefaultThemeName != themeName)
+            var oldName = config.options.Style.Theme.ThemeName;
+            
+            if (oldName != themeName)
             {
-                var oldName = Project1.UI.Cores.UIDefaultSetting.DefaultThemeName;
-
-                Project1.UI.Cores.UIDefaultSetting.DefaultThemeName = themeName;
-
-                Project1.UI.Cores.UIDefaultSetting.DefaultThemePath = "/ProjectEye;component/Resources/Themes/";
-
-                theme.ApplyTheme();
+                // Map theme names to iNKORE ApplicationTheme
+                if (themeName == "Dark")
+                {
+                    iNKORE.UI.WPF.Modern.ThemeManager.Current.ApplicationTheme = iNKORE.UI.WPF.Modern.ApplicationTheme.Dark;
+                }
+                else if (themeName == "Light" || themeName == "Default")
+                {
+                    iNKORE.UI.WPF.Modern.ThemeManager.Current.ApplicationTheme = iNKORE.UI.WPF.Modern.ApplicationTheme.Light;
+                }
+                else
+                {
+                    // For other themes, default to Light
+                    iNKORE.UI.WPF.Modern.ThemeManager.Current.ApplicationTheme = iNKORE.UI.WPF.Modern.ApplicationTheme.Light;
+                }
 
                 OnChangedTheme?.Invoke(oldName, themeName);
             }
