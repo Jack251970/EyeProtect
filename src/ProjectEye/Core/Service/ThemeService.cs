@@ -116,7 +116,7 @@ namespace ProjectEye.Core.Service
             tipText.Width = 400;
             tipText.Height = 120;
             tipText.X = screenSize.Width / 2 - tipText.Width / 2;
-            tipText.Y = tipimage.Y + tipimage.Height + tipText.Height + 10;
+            tipText.Y = tipimage.Y + tipimage.Height + 10;
             tipText.FontSize = 20;
 
             var restBtn = new ElementModel();
