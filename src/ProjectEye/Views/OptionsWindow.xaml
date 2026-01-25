@@ -179,7 +179,7 @@
                                     Height="40"
                                     VerticalContentAlignment="Top"
                                     AcceptsReturn="True"
-                                    Text="{Binding Model.Data.Style.TipContent}"
+                                    Text="{Binding Model.Data.Style.TipContent, Mode=TwoWay}"
                                     TextWrapping="Wrap"
                                     Type="Text" />
                                 <TextBlock
