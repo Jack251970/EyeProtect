@@ -33,25 +33,25 @@ namespace ProjectEye.Core.Service
             Animations.Add(new AnimationModel()
             {
                 ID = 0,
-                AnimationType = Project1.UI.Controls.Project1UIWindow.AnimationType.None,
+                AnimationType = AnimationType.None,
                 DisplayName = $"{Application.Current.Resources["Lang_None"]}"
             });
             Animations.Add(new AnimationModel()
             {
                 ID = 1,
-                AnimationType = Project1.UI.Controls.Project1UIWindow.AnimationType.RightBottomScale,
+                AnimationType = AnimationType.RightBottomScale,
                 DisplayName = $"{Application.Current.Resources["Lang_Zoomfrombottom-rightcorner"]}"
             });
             Animations.Add(new AnimationModel()
             {
                 ID = 2,
-                AnimationType = Project1.UI.Controls.Project1UIWindow.AnimationType.Opacity,
+                AnimationType = AnimationType.Opacity,
                 DisplayName = $"{Application.Current.Resources["Lang_Fadeinandfadeout"]}"
             });
             Animations.Add(new AnimationModel()
             {
                 ID = 3,
-                AnimationType = Project1.UI.Controls.Project1UIWindow.AnimationType.Cool,
+                AnimationType = AnimationType.Cool,
                 DisplayName = $"Cool"
             });
             //语言

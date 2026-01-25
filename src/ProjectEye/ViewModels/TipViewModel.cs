@@ -93,7 +93,8 @@ namespace ProjectEye.ViewModels
             CreateUI();
             //WindowInstance.Activated += WindowInstance_Activated;
             WindowInstance.SizeChanged += WindowInstance_SizeChanged;
-            (WindowInstance as Project1UIWindow).OnWShow += TipViewModel_OnWShow;
+            // Note: OnWShow event no longer available in standard Window
+            // Animation and window show behavior is now handled by iNKORE framework
         }
 
         private void WindowInstance_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -240,9 +241,9 @@ namespace ProjectEye.ViewModels
             WindowInstance.Content = container;
         }
 
-        private Project1UIButton CreateButtonElement(ElementModel element)
+        private Button CreateButtonElement(ElementModel element)
         {
-            var button = new Project1UIButton();
+            var button = new Button();
             button.HorizontalAlignment = HorizontalAlignment.Left;
             button.VerticalAlignment = VerticalAlignment.Top;
             button.Width = element.Width;

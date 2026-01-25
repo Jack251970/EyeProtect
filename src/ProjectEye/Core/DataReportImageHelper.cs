@@ -124,11 +124,11 @@ namespace ProjectEye.Core
                 Source = Project1.UI.Cores.BitmapImager.Load("pack://application:,,,/ProjectEye;component/Resources/desktop-computer.ico")
             });
             chartTitle.Children.Add(chartTitleText);
-            //对比上个月
-            var compare = new Project1.UI.Controls.CompareView();
-            compare.DataA = lastMonthlyWork;
-            compare.DataB = monthlyWork;
-            compare.Margin = new Thickness(0, 0, 0, 20);
+            //对比上个月 - CompareView removed in migration to iNKORE
+            // var compare = new Project1.UI.Controls.CompareView();
+            // compare.DataA = lastMonthlyWork;
+            // compare.DataB = monthlyWork;
+            // compare.Margin = new Thickness(0, 0, 0, 20);
             //图表
             //var chart = new Project1.UI.Controls.ChartControl.Chart();
             chart.Data = chartData;
@@ -140,7 +140,7 @@ namespace ProjectEye.Core
             containerBorder.Child = chart;
 
             panel.Children.Add(chartTitle);
-            panel.Children.Add(compare);
+            // panel.Children.Add(compare); // CompareView removed in migration to iNKORE
             panel.Children.Add(containerBorder);
         }
         private void WriteFile(int width, int height)

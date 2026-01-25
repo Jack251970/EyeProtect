@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using static Project1.UI.Controls.Project1UIWindow;
+using ProjectEye.Core.Models.Options;
 
 namespace ProjectEye.Models
 {
