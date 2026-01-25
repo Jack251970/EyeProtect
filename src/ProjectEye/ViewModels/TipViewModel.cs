@@ -233,15 +233,15 @@ namespace ProjectEye.ViewModels
         private void Init()
         {
             COUNTDOWN = 20;
-            CountDownVisibility = System.Windows.Visibility.Hidden;
-            TakeButtonVisibility = System.Windows.Visibility.Visible;
+            CountDownVisibility = Visibility.Hidden;
+            TakeButtonVisibility = Visibility.Visible;
         }
 
         private void resetCommand_action(object obj)
         {
             main.StopBusyListener();
-            CountDownVisibility = System.Windows.Visibility.Visible;
-            TakeButtonVisibility = System.Windows.Visibility.Hidden;
+            CountDownVisibility = Visibility.Visible;
+            TakeButtonVisibility = Visibility.Hidden;
             reset.Start();
         }
         private void busyCommand_action(object obj)
@@ -253,24 +253,7 @@ namespace ProjectEye.ViewModels
         private void timeChanged(object sender, int timed)
         {
             COUNTDOWN = timed;
-
         }
-
-        ///// <summary>
-        ///// 窗口监听
-        ///// </summary>
-        //private void WindowsListener()
-        //{
-        //    var windows = WindowManager.GetWindows("TipWindow");
-        //    foreach (var window in windows)
-        //    {
-        //        window.Activated += Window_Activated;
-        //        window.KeyDown += Window_KeyDown;
-        //    }
-        //}
-
-
-
 
         /// <summary>
         /// 处理自动操作
@@ -291,7 +274,6 @@ namespace ProjectEye.ViewModels
                 resetCommand_action(null);
                 return;
             }
-
         }
 
         public void OnChanged()
