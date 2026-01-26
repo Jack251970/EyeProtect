@@ -66,12 +66,17 @@ namespace ProjectEye.ViewModels
                 // Combine all apps
                 _allApps = tasks.SelectMany(t => t.Result).ToList();
 
-                // Initial display - show all apps
+                // Initial display - show all apps and trigger icon loading
                 await System.Windows.Application.Current.Dispatcher.InvokeAsync(() =>
                 {
                     FilteredAppList.Clear();
                     foreach (var app in _allApps.OrderBy(a => a.DisplayName))
                     {
+                        // Trigger icon loading for each app
+                        if (app.AppIcon.Task == null)
+                        {
+                            app.AppIcon.Reset();
+                        }
                         FilteredAppList.Add(app);
                     }
                     IsLoading = false;
@@ -112,6 +117,11 @@ namespace ProjectEye.ViewModels
                         FilteredAppList.Clear();
                         foreach (var app in filteredAppList.OrderBy(a => a.DisplayName))
                         {
+                            // Trigger icon loading for each app
+                            if (app.AppIcon.Task == null)
+                            {
+                                app.AppIcon.Reset();
+                            }
                             FilteredAppList.Add(app);
                         }
                     }
