@@ -1,9 +1,7 @@
-﻿using System.Xml.Serialization;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ProjectEye.Models.Settings
 {
-    [XmlRootAttribute("Style")]
     public partial class StyleModel : ObservableObject
     {
         /// <summary>

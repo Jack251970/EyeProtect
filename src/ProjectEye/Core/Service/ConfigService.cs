@@ -12,7 +12,8 @@ namespace ProjectEye.Core.Service
     public class ConfigService : IService
     {
         private readonly string configPath;
-        private readonly XmlExtensions xmlExtensions;
+        private readonly string oldConfigPath;
+        private readonly JsonExtensions jsonExtensions;
         private readonly SystemResourcesService systemResources;
         //存放文件夹
         private readonly string dir = "Data";
@@ -30,15 +31,24 @@ namespace ProjectEye.Core.Service
             this.systemResources = systemResources;
             configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 dir,
+                "config.json");
+            oldConfigPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                dir,
                 "config.xml");
-            xmlExtensions = new XmlExtensions(configPath);
+            jsonExtensions = new JsonExtensions(configPath);
             oldOptions_ = new OptionsModel();
         }
         public void Init()
         {
+            // Try to migrate from old XML config if it exists
+            if (!File.Exists(configPath) && File.Exists(oldConfigPath))
+            {
+                MigrateFromXml();
+            }
+            
             if (File.Exists(configPath))
             {
-                var obj = xmlExtensions.ToModel(typeof(OptionsModel));
+                var obj = jsonExtensions.ToModel(typeof(OptionsModel));
                 if (obj != null)
                 {
                     options = obj as OptionsModel;
@@ -57,13 +67,35 @@ namespace ProjectEye.Core.Service
             //每次启动都把不提醒重置
             options.General.Noreset = false;
         }
+        
+        private void MigrateFromXml()
+        {
+            try
+            {
+                var xmlExtensions = new XmlExtensions(oldConfigPath);
+                var obj = xmlExtensions.ToModel(typeof(OptionsModel));
+                if (obj != null)
+                {
+                    options = obj as OptionsModel;
+                    // Save as JSON
+                    jsonExtensions.Save(options);
+                    // Optionally delete old XML file
+                    // File.Delete(oldConfigPath);
+                }
+            }
+            catch (Exception e)
+            {
+                LogHelper.Warning($"Failed to migrate from XML config: {e}");
+            }
+        }
+        
         public bool Save()
         {
             if (options != null)
             {
                 OnChanged();
                 SaveOldOptions();
-                return xmlExtensions.Save(options);
+                return jsonExtensions.Save(options);
             }
             return false;
         }
@@ -107,7 +139,7 @@ namespace ProjectEye.Core.Service
 
             SaveOldOptions();
 
-            xmlExtensions.Save(options);
+            jsonExtensions.Save(options);
         }
 
         private void CheckOptions()

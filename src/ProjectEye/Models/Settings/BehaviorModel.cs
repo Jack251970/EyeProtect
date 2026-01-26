@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Xml.Serialization;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ProjectEye.Models.Settings
@@ -7,7 +6,6 @@ namespace ProjectEye.Models.Settings
     /// <summary>
     /// 行为模型
     /// </summary>
-    [XmlRootAttribute("Behavior")]
     public partial class BehaviorModel : ObservableObject
     {
         /// <summary>

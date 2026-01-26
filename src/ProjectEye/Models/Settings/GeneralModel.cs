@@ -1,12 +1,10 @@
-﻿using System.Xml.Serialization;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ProjectEye.Models.Settings
 {
     /// <summary>
     /// 通用设置模型
     /// </summary>
-    [XmlRootAttribute("General")]
     public partial class GeneralModel : ObservableObject
     {
         /// <summary>
