@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
 using Microsoft.Win32;
-using ProjectEye.Core.Models.Options;
+using ProjectEye.Models.Settings;
 
 namespace ProjectEye.Core.Service
 {

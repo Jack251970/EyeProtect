@@ -1,4 +1,4 @@
-﻿namespace ProjectEye.Core.Enums
+﻿namespace ProjectEye.Models.Enums
 {
     public enum SoundType
     {

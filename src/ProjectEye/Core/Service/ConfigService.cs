@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using Newtonsoft.Json;
-using ProjectEye.Core.Models.Options;
+using ProjectEye.Models.Settings;
 
 namespace ProjectEye.Core.Service
 {
@@ -81,8 +81,10 @@ namespace ProjectEye.Core.Service
         /// </summary>
         private void CreateDefaultConfig()
         {
-            options = new OptionsModel();
-            options.General = new GeneralModel();
+            options = new OptionsModel
+            {
+                General = new GeneralModel()
+            };
             options.General.Data = false;
             options.General.Noreset = false;
             options.General.Sound = true;
@@ -90,10 +92,11 @@ namespace ProjectEye.Core.Service
             options.General.LeaveListener = true;
             options.General.WarnTime = 20;
 
-            options.Style = new StyleModel();
-            options.Style.TipContent = "You have been using your eyes for {t} minutes. Take a break! Please focus your attention at least 6 meters away for 20 seconds!";
-            options.Style.Language = systemResources.Languages[0];
-
+            options.Style = new StyleModel
+            {
+                TipContent = "You have been using your eyes for {t} minutes. Take a break! Please focus your attention at least 6 meters away for 20 seconds!",
+                Language = systemResources.Languages[0]
+            };
             options.Behavior = new BehaviorModel();
 
             SaveOldOptions();
@@ -140,6 +143,5 @@ namespace ProjectEye.Core.Service
             }
             Changed?.Invoke(oldOptions_, null);
         }
-
     }
 }

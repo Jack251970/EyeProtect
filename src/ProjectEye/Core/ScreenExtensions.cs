@@ -22,7 +22,7 @@ namespace ProjectEye.Core
             if (osVersionInfo.MajorVersion != 10)
             {
                 var m =
-PresentationSource.FromVisual(Application.Current.MainWindow).CompositionTarget.TransformToDevice;
+                PresentationSource.FromVisual(Application.Current.MainWindow).CompositionTarget.TransformToDevice;
                 dpi.x = (uint)m.M11 * 96; // notice it's divided by 96 already
                 dpi.y = (uint)m.M22 * 96; // notice it's divided by 96 already
 

@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace ProjectEye.Core.Models.Options
+namespace ProjectEye.Models.Settings
 {
     [XmlRootAttribute("ComboxModel")]
     public class ComboxModel
