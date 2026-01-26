@@ -71,15 +71,9 @@ namespace ProjectEye.ViewModels
         {
             if (Model.Data != null)
             {
-                if (Model.Data.General != null)
-                {
-                    Model.Data.General.PropertyChanged -= OnGeneralPropertyChanged;
-                }
+                Model.Data.General?.PropertyChanged -= OnGeneralPropertyChanged;
 
-                if (Model.Data.Style != null)
-                {
-                    Model.Data.Style.PropertyChanged -= OnStylePropertyChanged;
-                }
+                Model.Data.Style?.PropertyChanged -= OnStylePropertyChanged;
 
                 if (Model.Data.Behavior != null)
                 {
