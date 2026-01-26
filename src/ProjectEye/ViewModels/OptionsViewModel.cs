@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using ProjectEye.Core;
 using ProjectEye.Core.Service;
 using ProjectEye.Models;
+using ProjectEye.Views;
 
 namespace ProjectEye.ViewModels
 {
@@ -64,7 +65,7 @@ namespace ProjectEye.ViewModels
         private void AddBreackProcess(object obj)
         {
             // Show AppSelectionDialog and select an application
-            var dialog = new Views.AppSelectionWindow
+            var dialog = new AppSelectionWindow
             {
                 Owner = Application.Current.MainWindow
             };
@@ -93,9 +94,7 @@ namespace ProjectEye.ViewModels
         [RelayCommand]
         private void ShowWindow(object obj)
         {
-
             WindowManager.CreateWindowInScreen(obj.ToString());
-
             WindowManager.Show(obj.ToString());
         }
 
