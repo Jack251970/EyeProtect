@@ -8,7 +8,6 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using Microsoft.Graphics.Canvas;
 using ProjectEye.Models.AppInfo;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -22,7 +21,7 @@ internal static class IconHelper
 
     internal static async Task<ImageSource> GetIconFromFileOrFolderAsync(string? filePath, uint size = DefaultIconSize)
     {
-        return await Application.Current.Dispatcher.InvokeAsync(
+        return null;/*await Application.Current.Dispatcher.InvokeAsync(
             async () =>
             {
                 try
@@ -76,14 +75,14 @@ internal static class IconHelper
                 {
                     return null;
                 }
-            });
+            });*/
     }
 
     public static async Task<ImageSource> CreateGridIconAsync(
         IReadOnlyList<AppInfo> selectedItems,
         int selectedSize)
     {
-        try
+        /*try
         {
             selectedItems = selectedItems.Take(selectedSize * selectedSize).ToList();
 
@@ -196,14 +195,15 @@ internal static class IconHelper
         {
             Debug.WriteLine($"Grid icon creation error: {ex.Message}");
             return null;
-        }
+        }*/
+        return null;
     }
 
     private static async Task<CanvasBitmap> ToCanvasBitmapAsync(
         this ImageSource imageSource,
         CanvasDevice device)
     {
-        if (imageSource == null)
+        /*if (imageSource == null)
         {
             return null;
         }
@@ -230,6 +230,7 @@ internal static class IconHelper
         {
             Debug.WriteLine($"Error converting ImageSource to CanvasBitmap: {ex.Message}");
             return null;
-        }
+        }*/
+        return null;
     }
 }

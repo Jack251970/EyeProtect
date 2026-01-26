@@ -102,7 +102,7 @@ internal sealed class UwpAppInfo : AppInfo, IEquatable<UwpAppInfo>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     private async Task<ImageSource> GetUwpAppIconAsync()
     {
-        return await Application.Current.Dispatcher.InvokeAsync(
+        return null;/*await Application.Current.Dispatcher.InvokeAsync(
             async () =>
             {
                 try
@@ -137,6 +137,6 @@ internal sealed class UwpAppInfo : AppInfo, IEquatable<UwpAppInfo>
                     // Failed to extract UWP app icon for: {Path}", PackageFullName
                     return null;
                 }
-            });
+            });*/
     }
 }
