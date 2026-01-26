@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Media;
+using System.Runtime.InteropServices.WindowsRuntime;
 using ProjectEye.Core;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
+using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using Windows.Management.Deployment;
 using Windows.Storage.Streams;
@@ -105,41 +106,61 @@ public sealed class UwpAppInfo : AppInfo, IEquatable<UwpAppInfo>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     private async Task<ImageSource> GetUwpAppIconAsync()
     {
-        return null;/*await Application.Current.Dispatcher.InvokeAsync(
-            async () =>
+        try
+        {
+            if (Package is null)
             {
-                try
-                {
-                    RandomAccessStreamReference appIcon
-                        = Package.GetLogoAsRandomAccessStreamReference(
-                            new Windows.Foundation.Size(
-                                IconHelper.DefaultIconSize * 2,
-                                IconHelper.DefaultIconSize * 2));
+                return null;
+            }
 
-                    using IRandomAccessStreamWithContentType appIconStream = await appIcon.OpenReadAsync();
+            RandomAccessStreamReference appIcon
+                = Package.GetLogoAsRandomAccessStreamReference(
+                    new Size(
+                        IconHelper.DefaultIconSize * 2,
+                        IconHelper.DefaultIconSize * 2));
 
-                    BitmapDecoder decoder = await BitmapDecoder.CreateAsync(appIconStream);
+            if (appIcon is null)
+            {
+                return null;
+            }
 
-                    using SoftwareBitmap softwareBitmap
-                        = await decoder.GetSoftwareBitmapAsync(
-                            BitmapPixelFormat.Bgra8,
-                            BitmapAlphaMode.Premultiplied);
+            using IRandomAccessStreamWithContentType appIconStream = await appIcon.OpenReadAsync();
 
-                    // Create WriteableBitmap instead of BitmapImage
-                    var writeableBitmap = new Microsoft.UI.Xaml.Media.Imaging.WriteableBitmap(
-                        softwareBitmap.PixelWidth,
-                        softwareBitmap.PixelHeight);
+            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(appIconStream);
 
-                    // Copy pixel data from SoftwareBitmap to WriteableBitmap
-                    softwareBitmap.CopyToBuffer(writeableBitmap.PixelBuffer);
+            using SoftwareBitmap softwareBitmap
+                = await decoder.GetSoftwareBitmapAsync(
+                    BitmapPixelFormat.Bgra8,
+                    BitmapAlphaMode.Premultiplied);
 
-                    return writeableBitmap;
-                }
-                catch (Exception)
-                {
-                    // Failed to extract UWP app icon for: {Path}", PackageFullName
-                    return null;
-                }
-            });*/
+            int width = softwareBitmap.PixelWidth;
+            int height = softwareBitmap.PixelHeight;
+            int stride = width * 4;
+            byte[] pixels = new byte[height * stride];
+
+            softwareBitmap.CopyToBuffer(pixels.AsBuffer());
+
+            System.Windows.Media.Imaging.BitmapSource bitmapSource = System.Windows.Media.Imaging.BitmapSource.Create(
+                width,
+                height,
+                96,
+                96,
+                PixelFormats.Bgra32,
+                null,
+                pixels,
+                stride);
+
+            if (bitmapSource.CanFreeze)
+            {
+                bitmapSource.Freeze();
+            }
+
+            return bitmapSource;
+        }
+        catch (Exception)
+        {
+            // Failed to extract UWP app icon for the specified package.
+            return null;
+        }
     }
 }
