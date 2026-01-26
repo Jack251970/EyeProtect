@@ -18,10 +18,6 @@ namespace ProjectEye.Models
         public string VersionLink => "https://github.com/Jack251970/EyeProtect/releases/tag/" + Version;
         public string SelectedItem { get; set; }
         public List<ComboxModel> Languages { get; set; }
-        public List<ApplicationInfo> AvailableApplications { get; set; }
-        
-        [ObservableProperty]
-        private ApplicationInfo selectedApplication;
 
         public bool IsBreakProgressList
         {
