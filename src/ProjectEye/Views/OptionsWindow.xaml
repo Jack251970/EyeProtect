@@ -11,6 +11,7 @@
     Width="600"
     Height="400"
     d:DataContext="{d:DesignInstance vm:OptionsViewModel}"
+    d:Height="1000"
     ui:WindowHelper.UseModernWindowStyle="True"
     Icon="/ProjectEye;component/Resources/sunglasses.ico"
     ResizeMode="NoResize"
@@ -157,33 +158,6 @@
                             OffContent="{DynamicResource Lang_Off}"
                             OnContent="{DynamicResource Lang_On}" />
                         <Grid Margin="0 8 0 0" Visibility="{Binding Model.BreakProgressListVisibility}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="30" />
-                                <RowDefinition Height="150" />
-                            </Grid.RowDefinitions>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="100" />
-                                </Grid.ColumnDefinitions>
-                                <ComboBox
-                                    Name="applicationComboBox"
-                                    Width="auto"
-                                    MinHeight="23"
-                                    VerticalContentAlignment="Center"
-                                    DisplayMemberPath="DisplayName"
-                                    ItemsSource="{Binding Model.AvailableApplications}"
-                                    SelectedItem="{Binding Model.SelectedApplication, Mode=TwoWay}"
-                                    ui:ControlHelper.PlaceholderText="{DynamicResource Lang_Selectapplication}" />
-                                <Button
-                                    Grid.Column="1"
-                                    MinWidth="85"
-                                    MinHeight="23"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    Command="{Binding AddBreackProcessCommand}"
-                                    Content="{DynamicResource Lang_Add}" />
-                            </Grid>
                             <ListView
                                 Name="breakProcessListView"
                                 Grid.Row="1"
@@ -194,6 +168,7 @@
 
                                 <ListView.ContextMenu>
                                     <ContextMenu>
+                                        <MenuItem Command="{Binding AddBreackProcessCommand}" Header="{DynamicResource Lang_Add}" />
                                         <MenuItem Command="{Binding RemoveBreackProcessCommand}" Header="{DynamicResource Lang_Remove}" />
                                     </ContextMenu>
                                 </ListView.ContextMenu>
@@ -219,9 +194,7 @@
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
-
                                         </GridView.Columns>
-
                                     </GridView>
                                 </ListView.View>
                             </ListView>

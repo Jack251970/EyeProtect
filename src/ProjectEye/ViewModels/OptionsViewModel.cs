@@ -62,19 +62,15 @@ namespace ProjectEye.ViewModels
         [RelayCommand]
         private void AddBreackProcess(object obj)
         {
-            if (Model.SelectedItem == null)
-            {
-                Modal($"{Application.Current.Resources["Lang_Pleaseselectanapplication"]}");
-                return;
-            }
+            var addedApp = null; // TODO: Show a dialog here
 
-            if (Model.Data.Behavior.BreakProgressList.Contains(Model.SelectedItem))
+            if (Model.Data.Behavior.BreakProgressList.Contains(addedApp))
             {
                 Modal($"{Application.Current.Resources["Lang_Applicationexists"]}");
             }
             else
             {
-                Model.Data.Behavior.BreakProgressList.Add(Model.SelectedItem);
+                Model.Data.Behavior.BreakProgressList.Add(addedApp);
                 Model.SelectedItem = null; // Clear selection after adding
             }
         }
