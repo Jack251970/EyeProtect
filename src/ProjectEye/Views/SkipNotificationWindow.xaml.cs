@@ -1,6 +1,8 @@
 using System;
 using System.Windows;
 using System.Windows.Media.Animation;
+using ProjectEye.Core;
+using ProjectEye.Models;
 
 namespace ProjectEye.Views
 {
@@ -32,7 +34,36 @@ namespace ProjectEye.Views
         /// </summary>
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            // Position at top-right corner with some margin
+            // Try to get the screen this window is associated with from the view model
+            if (DataContext is ViewModels.SkipNotificationViewModel viewModel && !string.IsNullOrEmpty(viewModel.ScreenName))
+            {
+                // Find the monitor info for this screen
+                var monitors = MonitorInfo.GetDisplayMonitors();
+                MonitorInfo targetMonitor = null;
+                
+                foreach (var monitor in monitors)
+                {
+                    if (monitor.Name.Replace("\\", "") == viewModel.ScreenName)
+                    {
+                        targetMonitor = monitor;
+                        break;
+                    }
+                }
+                
+                if (targetMonitor != null)
+                {
+                    // Position at top-right corner of the specific monitor with margins
+                    var size = WindowManager.GetSize(targetMonitor);
+                    var screenLeft = WindowManager.ToDips(targetMonitor.Bounds.Left, size.XDPI);
+                    var screenTop = WindowManager.ToDips(targetMonitor.Bounds.Top, size.YDPI);
+                    
+                    Left = screenLeft + size.Width - Width - 20; // 20px margin from right
+                    Top = screenTop + 20; // 20px margin from top
+                    return;
+                }
+            }
+            
+            // Fallback: Position at top-right corner of primary work area
             var workArea = SystemParameters.WorkArea;
             Left = workArea.Right - Width - 20; // 20px margin from right
             Top = workArea.Top + 20; // 20px margin from top
