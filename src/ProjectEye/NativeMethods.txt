@@ -1,4 +1,9 @@
-﻿GetSystemMetrics
+ShellLink
+IShellLinkW
+IPersistFile
+PWSTR
+
+GetSystemMetrics
 EnumDisplayMonitors
 MonitorFromWindow
 GetMonitorInfo
@@ -13,3 +18,8 @@ IsZoomed
 GetWindowTextLength
 GetWindowText
 GetClassName
+
+SHCreateItemFromParsingName
+IShellItem
+IShellItemImageFactory
+DeleteObject

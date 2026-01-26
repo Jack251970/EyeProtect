@@ -60,9 +60,15 @@
     <sys:String x:Key="Lang_Behaviors">行為</sys:String>
     <sys:String x:Key="Lang_Donotdisturbwhenrunningfullscreenapplications">運行全螢幕應用軟體時不要打擾我</sys:String>
     <sys:String x:Key="Lang_Donotdisturbwhenfollowingprocessesarerunning">以下進程運行時不要打擾我</sys:String>
+    <sys:String x:Key="Lang_Donotdisturbwhenfollowingapplicationsarerunning">以下應用運行時不要打擾我</sys:String>
     <sys:String x:Key="Lang_Pleaseentertheprocessname">請輸入進程名稱</sys:String>
+    <sys:String x:Key="Lang_Pleaseselectanapplication">請選擇應用</sys:String>
+    <sys:String x:Key="Lang_Invalidapplication">無效的應用</sys:String>
+    <sys:String x:Key="Lang_Applicationexists">應用已存在，請勿重複新增</sys:String>
     <sys:String x:Key="Lang_Add">新增</sys:String>
     <sys:String x:Key="Lang_Processname">進程名稱</sys:String>
+    <sys:String x:Key="Lang_Applicationname">應用名稱</sys:String>
+    <sys:String x:Key="Lang_Selectapplication">選擇應用</sys:String>
     <sys:String x:Key="Lang_Breakscannotbeskipped">禁止跳過休息</sys:String>
 
 

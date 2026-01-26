@@ -1,0 +1,102 @@
+<Window
+    x:Class="ProjectEye.Views.AppSelectionWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:ProjectEye.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+    xmlns:vm="clr-namespace:ProjectEye.ViewModels"
+    Title="{DynamicResource Lang_Selectapplication}"
+    Width="500"
+    Height="600"
+    d:DataContext="{d:DesignInstance vm:AppSelectionViewModel}"
+    ui:WindowHelper.UseModernWindowStyle="True"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterOwner"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+        </Style>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!--  Search Box  -->
+        <TextBox
+            Grid.Row="0"
+            Margin="0 0 0 10"
+            ui:ControlHelper.PlaceholderText="Search applications..."
+            Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <!--  App List  -->
+        <Grid Grid.Row="1">
+            <!--  Loading Indicator  -->
+            <ui:ProgressRing
+                Width="50"
+                Height="50"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsActive="{Binding IsLoading}"
+                Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+            <!--  App List  -->
+            <ListView
+                x:Name="AppListBox"
+                ItemsSource="{Binding FilteredAppList}"
+                MouseDoubleClick="AppListBox_MouseDoubleClick"
+                SelectedItem="{Binding SelectedApp, Mode=TwoWay}"
+                Visibility="{Binding IsNotLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <!--<ColumnDefinition Width="Auto" />-->
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--  App Icon  -->
+                            <!--<Image
+                                Grid.Column="0"
+                                Width="32"
+                                Height="32"
+                                Margin="0 0 10 0"
+                                Source="{Binding AppIcon.Result}" />-->
+
+                            <!--  App Name  -->
+                            <TextBlock
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                Text="{Binding DisplayName}"
+                                TextTrimming="CharacterEllipsis" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+
+        <!--  Buttons  -->
+        <StackPanel
+            Grid.Row="2"
+            Margin="0 10 0 0"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                Width="100"
+                Margin="0 0 10 0"
+                Click="SelectButton_Click"
+                Content="{DynamicResource Lang_Add}"
+                IsEnabled="{Binding IsAppSelected}" />
+            <Button
+                Width="100"
+                Click="CancelButton_Click"
+                Content="{DynamicResource Lang_Close}" />
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Linq;
 using System.Reflection;
 using System.Windows;
 using CommunityToolkit.Mvvm.Input;
 using ProjectEye.Core;
 using ProjectEye.Core.Service;
 using ProjectEye.Models;
+using ProjectEye.Views;
 
 namespace ProjectEye.ViewModels
 {
@@ -64,34 +64,44 @@ namespace ProjectEye.ViewModels
         [RelayCommand]
         private void AddBreackProcess(object obj)
         {
-            var process = obj.ToString();
-            if (process == string.Empty)
+            // Show AppSelectionDialog and select an application
+            var dialog = new AppSelectionWindow
             {
-                Modal($"{Application.Current.Resources["Lang_Pleaseentertheprocessname"]}");
-            }
-            else if (Model.Data.Behavior.BreakProgressList.Contains(process))
+                Owner = Application.Current.MainWindow
+            };
+            
+            var result = dialog.ShowDialog();
+            if (result == true && dialog.ViewModel.SelectedApp != null)
             {
-                Modal("进程已存在，请勿重复添加");
-            }
-            else
-            {
-                Model.Data.Behavior.BreakProgressList.Add(process);
+                var addedApp = dialog.ViewModel.SelectedApp;
+                
+                // Check if app already exists in the list
+                var existingApp = Model.Data.Behavior.BreakProgressList.FirstOrDefault(a => 
+                    a.DefaultDisplayName == addedApp.DefaultDisplayName);
+                
+                if (existingApp != null)
+                {
+                    Modal($"{Application.Current.Resources["Lang_Applicationexists"]}");
+                }
+                else
+                {
+                    Model.Data.Behavior.BreakProgressList.Add(addedApp);
+                    Model.SelectedItem = null; // Clear selection after adding
+                }
             }
         }
 
         [RelayCommand]
         private void ShowWindow(object obj)
         {
-
             WindowManager.CreateWindowInScreen(obj.ToString());
-
             WindowManager.Show(obj.ToString());
         }
 
         [RelayCommand]
         private void Apply(object obj)
         {
-            var msg = "更新失败！请尝试重启程序或删除配置文件Config.xml！";
+            var msg = "Failed to update! Please restart application or delete config.xml under Data folder!";
             if (config.Save())
             {
                 msg = $"{Application.Current.Resources["Lang_Optionupdated"]}";
