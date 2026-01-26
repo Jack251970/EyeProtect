@@ -24,5 +24,14 @@ namespace ProjectEye.Views
             }
             Closed -= OnClosed;
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Subscribe to property changes for auto-save
+            if (DataContext is OptionsViewModel viewModel)
+            {
+                viewModel.SubscribeToPropertyChanges();
+            }
+        }
     }
 }

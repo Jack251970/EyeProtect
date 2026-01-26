@@ -15,6 +15,7 @@
     d:Height="500"
     ui:WindowHelper.UseModernWindowStyle="True"
     Icon="/ProjectEye;component/Resources/sunglasses.ico"
+    Loaded="Window_Loaded"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">

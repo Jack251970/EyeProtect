@@ -35,15 +35,12 @@ namespace ProjectEye.ViewModels
 
             var version = Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.');
             Model.Version = version[0] + "." + version[1] + "." + version[2];
-
-            // Subscribe to property changes for auto-save
-            SubscribeToPropertyChanges();
         }
 
         /// <summary>
         /// Subscribe to property changes on the settings models for auto-save
         /// </summary>
-        private void SubscribeToPropertyChanges()
+        public void SubscribeToPropertyChanges()
         {
             if (Model.Data != null)
             {
