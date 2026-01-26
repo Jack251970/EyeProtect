@@ -195,4 +195,7 @@
     <sys:String x:Key="Lang_Learnmore">了解更多</sys:String>
     <sys:String x:Key="Lang_HandleTimeoutAutoRest">超时未选择时进入休息状态</sys:String>
 
+    <sys:String x:Key="Lang_On">开</sys:String>
+    <sys:String x:Key="Lang_Off">关</sys:String>
+
 </ResourceDictionary>
