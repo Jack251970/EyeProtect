@@ -101,10 +101,7 @@ namespace ProjectEye.ViewModels
             {
                 UpdateVariable();
                 UpdateUIData();
-                if (!config.options.Style.IsThruTipWindow)
-                {
-                    WindowInstance.Focus();
-                }
+                WindowInstance.Focus();
                 HandleAutoAction();
             }
         }
@@ -192,9 +189,6 @@ namespace ProjectEye.ViewModels
         //加载配置
         private void LoadConfig()
         {
-            //鼠标穿透
-            IsThruWindow = config.options.Style.IsThruTipWindow;
-            
             // Update UI data when config changes
             if (WindowInstance != null)
             {
@@ -239,13 +233,6 @@ namespace ProjectEye.ViewModels
         /// </summary>
         private void HandleAutoAction()
         {
-            //询问
-            if (!config.options.Style.IsTipAsk)
-            {
-                //进入休息
-                Reset(null);
-                return;
-            }
             //禁用跳过休息
             if (config.options.Behavior.IsDisabledSkip)
             {

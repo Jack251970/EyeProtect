@@ -36,31 +36,8 @@ namespace ProjectEye.Models
 
         [ObservableProperty]
         private bool showModal = false;
-        //是否显示模态弹窗
 
         [ObservableProperty]
         private string modalText = "设置已更新";
-        //模态弹窗文本
-
-        /// <summary>
-        /// 鼠标穿透是否可用
-        /// </summary>
-        public bool IsThruTipWindowEnabled => !(Data?.Style.IsTipAsk ?? false);
-        public bool IsTipAsk
-        {
-            get => Data?.Style.IsTipAsk ?? false;
-            set
-            {
-                if (Data != null)
-                {
-                    Data.Style.IsTipAsk = value;
-                    if (value && Data.Style.IsThruTipWindow)
-                    {
-                        Data.Style.IsThruTipWindow = !value;
-                    }
-                    OnPropertyChanged(nameof(IsTipAsk));
-                }
-            }
-        }
     }
 }
