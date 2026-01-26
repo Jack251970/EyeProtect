@@ -1,4 +1,7 @@
 ﻿using System.Windows;
+using System.Windows.Interop;
+using System;
+using System.Runtime.InteropServices;
 
 namespace ProjectEye.Views
 {
@@ -7,9 +10,72 @@ namespace ProjectEye.Views
     /// </summary>
     public partial class TipWindow : Window
     {
+        private const int GWL_EXSTYLE = -20;
+        private const int WS_EX_TRANSPARENT = 0x00000020;
+
+        [DllImport("user32.dll")]
+        private static extern int GetWindowLong(IntPtr hwnd, int index);
+
+        [DllImport("user32.dll")]
+        private static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
+
         public TipWindow()
         {
             InitializeComponent();
+            Loaded += TipWindow_Loaded;
+        }
+
+        private void TipWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Subscribe to DataContext changes to handle IsThruWindow property
+            DataContextChanged += TipWindow_DataContextChanged;
+            UpdateWindowTransparency();
+        }
+
+        private void TipWindow_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            // When DataContext changes, re-subscribe to property changes
+            if (e.OldValue is ViewModels.TipViewModel oldViewModel)
+            {
+                oldViewModel.PropertyChanged -= ViewModel_PropertyChanged;
+            }
+
+            if (e.NewValue is ViewModels.TipViewModel newViewModel)
+            {
+                newViewModel.PropertyChanged += ViewModel_PropertyChanged;
+                UpdateWindowTransparency();
+            }
+        }
+
+        private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(ViewModels.TipViewModel.IsThruWindow))
+            {
+                UpdateWindowTransparency();
+            }
+        }
+
+        private void UpdateWindowTransparency()
+        {
+            if (DataContext is ViewModels.TipViewModel viewModel)
+            {
+                var hwnd = new WindowInteropHelper(this).Handle;
+                if (hwnd != IntPtr.Zero)
+                {
+                    var extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
+
+                    if (viewModel.IsThruWindow)
+                    {
+                        // Enable mouse passthrough
+                        SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT);
+                    }
+                    else
+                    {
+                        // Disable mouse passthrough
+                        SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle & ~WS_EX_TRANSPARENT);
+                    }
+                }
+            }
         }
     }
 }
