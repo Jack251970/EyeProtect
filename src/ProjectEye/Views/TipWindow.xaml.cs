@@ -13,11 +13,14 @@ namespace ProjectEye.Views
         private const int GWL_EXSTYLE = -20;
         private const int WS_EX_TRANSPARENT = 0x00000020;
 
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", SetLastError = true)]
         private static extern int GetWindowLong(IntPtr hwnd, int index);
 
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", SetLastError = true)]
         private static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
+
+        [DllImport("kernel32.dll")]
+        private static extern uint GetLastError();
 
         public TipWindow()
         {
@@ -79,17 +82,48 @@ namespace ProjectEye.Views
                     return;
                 }
 
-                var extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
+                try
+                {
+                    // Clear last error before the API call
+                    System.Runtime.InteropServices.Marshal.SetLastPInvokeError(0);
+                    var extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
+                    
+                    // Check if GetWindowLong failed
+                    var error = GetLastError();
+                    if (extendedStyle == 0 && error != 0)
+                    {
+                        // GetWindowLong failed, log and return
+                        System.Diagnostics.Debug.WriteLine($"GetWindowLong failed with error code: {error}");
+                        return;
+                    }
 
-                if (viewModel.IsThruWindow)
-                {
-                    // Enable mouse passthrough
-                    SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT);
+                    int newStyle;
+                    if (viewModel.IsThruWindow)
+                    {
+                        // Enable mouse passthrough
+                        newStyle = extendedStyle | WS_EX_TRANSPARENT;
+                    }
+                    else
+                    {
+                        // Disable mouse passthrough
+                        newStyle = extendedStyle & ~WS_EX_TRANSPARENT;
+                    }
+
+                    // Clear last error before the API call
+                    System.Runtime.InteropServices.Marshal.SetLastPInvokeError(0);
+                    SetWindowLong(hwnd, GWL_EXSTYLE, newStyle);
+                    
+                    // Check if SetWindowLong failed
+                    error = GetLastError();
+                    if (error != 0)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"SetWindowLong failed with error code: {error}");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    // Disable mouse passthrough
-                    SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle & ~WS_EX_TRANSPARENT);
+                    // Log any exceptions during window style modification
+                    System.Diagnostics.Debug.WriteLine($"Error updating window transparency: {ex.Message}");
                 }
             }
         }
