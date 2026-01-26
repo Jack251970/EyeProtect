@@ -7,9 +7,8 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using Microsoft.Graphics.Canvas;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
 using ProjectEye.Models.AppInfo;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -60,7 +59,7 @@ internal static class IconHelper
                     using (thumbnail)
                     {
                         // Create WriteableBitmap from thumbnail
-                        var writeableBitmap = new WriteableBitmap(
+                        var writeableBitmap = new Microsoft.UI.Xaml.Media.Imaging.WriteableBitmap(
                             (int)thumbnail.OriginalWidth,
                             (int)thumbnail.OriginalHeight);
 
@@ -110,7 +109,7 @@ internal static class IconHelper
             using (CanvasDrawingSession drawingSession = renderTarget.CreateDrawingSession())
             {
                 // Clear to transparent
-                drawingSession.Clear(Windows.UI.Color.Transparent);
+                drawingSession.Clear(Microsoft.UI.Colors.Transparent);
 
                 // Composite icons
                 for (int i = 0; i < selectedItems.Count; i++)
@@ -184,7 +183,7 @@ internal static class IconHelper
             memoryStream.Seek(0);
 
             // Load directly into BitmapImage from memory
-            var gridIcon = new BitmapImage();
+            var gridIcon = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage();
             await gridIcon.SetSourceAsync(memoryStream);
 
             return gridIcon;
@@ -212,7 +211,7 @@ internal static class IconHelper
         try
         {
             // Handle WriteableBitmap (now the primary path)
-            if (imageSource is WriteableBitmap writeableBitmap)
+            if (imageSource is Microsoft.UI.Xaml.Media.Imaging.WriteableBitmap writeableBitmap)
             {
                 byte[] pixels = writeableBitmap.PixelBuffer.ToArray();
                 var canvasBitmap = CanvasBitmap.CreateFromBytes(

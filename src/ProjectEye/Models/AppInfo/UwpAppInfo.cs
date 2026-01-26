@@ -123,7 +123,7 @@ internal sealed class UwpAppInfo : AppInfo, IEquatable<UwpAppInfo>
                             BitmapAlphaMode.Premultiplied);
 
                     // Create WriteableBitmap instead of BitmapImage
-                    var writeableBitmap = new WriteableBitmap(
+                    var writeableBitmap = new Microsoft.UI.Xaml.Media.Imaging.WriteableBitmap(
                         softwareBitmap.PixelWidth,
                         softwareBitmap.PixelHeight);
 
@@ -132,7 +132,7 @@ internal sealed class UwpAppInfo : AppInfo, IEquatable<UwpAppInfo>
 
                     return writeableBitmap;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     // Failed to extract UWP app icon for: {Path}", PackageFullName
                     return null;

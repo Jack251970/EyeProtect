@@ -24,7 +24,7 @@ internal class UwpAppHelper
             packageCatalog.PackageUpdating += OnPackageChanged;
             packageCatalog.PackageStatusChanged += OnPackageStatusChanged;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             // Error while subscribing to package catalog events
         }
@@ -94,7 +94,7 @@ internal class UwpAppHelper
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Error while getting Microsoft Store apps
             }

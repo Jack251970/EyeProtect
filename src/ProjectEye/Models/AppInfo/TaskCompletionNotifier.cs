@@ -10,7 +10,7 @@ namespace ProjectEye.Models.AppInfo;
 /// Watches a task and raises property-changed notifications when the task completes.
 /// </summary>
 /// <typeparam name="TResult">The type of the result of the task.</typeparam>
-public sealed class TaskCompletionNotifier<TResult> : INotifyPropertyChanged
+public sealed partial class TaskCompletionNotifier<TResult> : INotifyPropertyChanged
 {
     private readonly Func<Task<TResult>> _taskFactory;
     private readonly Func<ValueTask<TResult>?> _valueTaskFactory;
