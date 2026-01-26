@@ -16,6 +16,6 @@ namespace ProjectEye.Models.Settings
         /// 提醒内容
         /// </summary>
         [ObservableProperty]
-        private string tipContent;
+        private string tipContent = string.Empty;
     }
 }
