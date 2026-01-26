@@ -71,11 +71,15 @@
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Autostartatboot}"
-                            IsOn="{Binding Model.Data.General.Startup}" />
+                            IsOn="{Binding Model.Data.General.Startup}"
+                            OffContent="{DynamicResource Lang_Off}"
+                            OnContent="{DynamicResource Lang_On}" />
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Soundforbreakend}"
-                            IsOn="{Binding Model.Data.General.Sound}" />
+                            IsOn="{Binding Model.Data.General.Sound}"
+                            OffContent="{DynamicResource Lang_Off}"
+                            OnContent="{DynamicResource Lang_On}" />
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
@@ -85,12 +89,16 @@
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Showbuttonsinfullscreennotification}"
-                            IsOn="{Binding Model.IsTipAsk, Mode=TwoWay}" />
+                            IsOn="{Binding Model.IsTipAsk, Mode=TwoWay}"
+                            OffContent="{DynamicResource Lang_Off}"
+                            OnContent="{DynamicResource Lang_On}" />
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Enablemousepassthroughduringfullscreennotification}"
                             IsEnabled="{Binding Model.IsThruTipWindowEnabled}"
-                            IsOn="{Binding Model.Data.Style.IsThruTipWindow, Mode=TwoWay}" />
+                            IsOn="{Binding Model.Data.Style.IsThruTipWindow, Mode=TwoWay}"
+                            OffContent="{DynamicResource Lang_Off}"
+                            OnContent="{DynamicResource Lang_On}" />
 
                         <!--  提示内容  -->
                         <Grid Margin="0 8 0 0">
@@ -127,19 +135,27 @@
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
                             Header="{DynamicResource Lang_HandleTimeoutAutoRest}"
-                            IsOn="{Binding Model.Data.Behavior.IsHandleTimeoutRest}" />
+                            IsOn="{Binding Model.Data.Behavior.IsHandleTimeoutRest}"
+                            OffContent="{DynamicResource Lang_Off}"
+                            OnContent="{DynamicResource Lang_On}" />
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Breakscannotbeskipped}"
-                            IsOn="{Binding Model.Data.Behavior.IsDisabledSkip}" />
+                            IsOn="{Binding Model.Data.Behavior.IsDisabledSkip}"
+                            OffContent="{DynamicResource Lang_Off}"
+                            OnContent="{DynamicResource Lang_On}" />
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Donotdisturbwhenrunningfullscreenapplications}"
-                            IsOn="{Binding Model.Data.Behavior.IsFullScreenBreak}" />
+                            IsOn="{Binding Model.Data.Behavior.IsFullScreenBreak}"
+                            OffContent="{DynamicResource Lang_Off}"
+                            OnContent="{DynamicResource Lang_On}" />
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Donotdisturbwhenfollowingapplicationsarerunning}"
-                            IsOn="{Binding Model.IsBreakProgressList, Mode=TwoWay}" />
+                            IsOn="{Binding Model.IsBreakProgressList, Mode=TwoWay}"
+                            OffContent="{DynamicResource Lang_Off}"
+                            OnContent="{DynamicResource Lang_On}" />
                         <Grid Margin="0 8 0 0" Visibility="{Binding Model.BreakProgressListVisibility}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30" />
