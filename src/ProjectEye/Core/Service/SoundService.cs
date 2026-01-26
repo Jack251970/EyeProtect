@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Media;
 using System.Windows;
-using ProjectEye.Core.Enums;
+using ProjectEye.Models.Enums;
 
 namespace ProjectEye.Core.Service
 {
