@@ -12,7 +12,7 @@
     Width="600"
     Height="400"
     d:DataContext="{d:DesignInstance vm:OptionsViewModel}"
-    d:Height="1000"
+    d:Height="500"
     ui:WindowHelper.UseModernWindowStyle="True"
     Icon="/ProjectEye;component/Resources/sunglasses.ico"
     ResizeMode="NoResize"
@@ -121,7 +121,7 @@
                                     TextWrapping="Wrap" />
                                 <TextBlock
                                     Margin="0 10 0 0"
-                                    Foreground="#FF838383"
+                                    Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
                                     Text="{DynamicResource Lang_Variablesdescription}"
                                     TextWrapping="Wrap" />
                             </StackPanel>
@@ -158,9 +158,12 @@
                             OffContent="{DynamicResource Lang_Off}"
                             OnContent="{DynamicResource Lang_On}" />
                         <Grid Margin="0 8 0 0" Visibility="{Binding Model.BreakProgressListVisibility}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="150" />
+                                <RowDefinition Height="30" />
+                            </Grid.RowDefinitions>
                             <ListView
                                 Name="breakProcessListView"
-                                Grid.Row="1"
                                 Margin="0 10 0 0"
                                 ItemsSource="{Binding Model.Data.Behavior.BreakProgressList, Mode=TwoWay}"
                                 SelectedItem="{Binding Model.SelectedItem}"
@@ -168,7 +171,6 @@
 
                                 <ListView.ContextMenu>
                                     <ContextMenu>
-                                        <MenuItem Command="{Binding AddBreackProcessCommand}" Header="{DynamicResource Lang_Add}" />
                                         <MenuItem Command="{Binding RemoveBreackProcessCommand}" Header="{DynamicResource Lang_Remove}" />
                                     </ContextMenu>
                                 </ListView.ContextMenu>
@@ -198,8 +200,32 @@
                                     </GridView>
                                 </ListView.View>
                             </ListView>
-                        </Grid>
 
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <Button
+                                    Grid.Column="1"
+                                    MinWidth="85"
+                                    MinHeight="23"
+                                    Margin="0 0 8 0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Command="{Binding RemoveBreackProcessCommand}"
+                                    Content="{DynamicResource Lang_Delete}" />
+                                <Button
+                                    Grid.Column="2"
+                                    MinWidth="85"
+                                    MinHeight="23"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Command="{Binding AddBreackProcessCommand}"
+                                    Content="{DynamicResource Lang_Add}" />
+                            </Grid>
+                        </Grid>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
