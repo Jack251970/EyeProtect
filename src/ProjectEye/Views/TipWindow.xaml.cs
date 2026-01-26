@@ -9,8 +9,8 @@ namespace ProjectEye.Views
     /// </summary>
     public partial class TipWindow : Window
     {
-        private const double FadeInDuration = 0.3; // seconds
-        private const double FadeOutDuration = 0.2; // seconds
+        private const double FadeInDuration = 0.9; // seconds
+        private const double FadeOutDuration = 0.6; // seconds
         private bool isAnimating = false;
         
         public TipWindow()
@@ -36,7 +36,7 @@ namespace ProjectEye.Views
         /// <summary>
         /// Check if system animations are enabled
         /// </summary>
-        private bool IsSystemAnimationEnabled()
+        private static bool IsSystemAnimationEnabled()
         {
             // Check if Windows has animations enabled
             return SystemParameters.MenuAnimation;
