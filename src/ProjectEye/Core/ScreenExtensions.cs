@@ -1,56 +1,28 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using System.Windows;
+﻿using ProjectEye.Models;
+using Windows.Win32;
+using Windows.Win32.Graphics.Gdi;
+using Windows.Win32.UI.HiDpi;
 
 namespace ProjectEye.Core
 {
     public static class ScreenExtensions
     {
-        public struct Dpi
+        public readonly struct Dpi
         {
-            public uint x { get; set; }
-            public uint y { get; set; }
-
-        }
-        public static Dpi GetDpi(this System.Windows.Forms.Screen screen, DpiType dpiType)
-        {
-            var dpi = new Dpi();
-            var pnt = new System.Drawing.Point(screen.Bounds.Left + 1, screen.Bounds.Top + 1);
-            var mon = MonitorFromPoint(pnt, 2/*MONITOR_DEFAULTTONEAREST*/);
-
-            Win32APIHelper.RtlGetVersion(out var osVersionInfo);
-            if (osVersionInfo.MajorVersion != 10)
-            {
-                var m =
-                PresentationSource.FromVisual(Application.Current.MainWindow).CompositionTarget.TransformToDevice;
-                dpi.x = (uint)m.M11 * 96; // notice it's divided by 96 already
-                dpi.y = (uint)m.M22 * 96; // notice it's divided by 96 already
-
-            }
-            else
-            {
-                GetDpiForMonitor(mon, dpiType, out var dpiX, out var dpiY);
-                dpi.x = dpiX;
-                dpi.y = dpiY;
-            }
-            return dpi;
-
+            public uint x { get; init; }
+            public uint y { get; init; }
         }
 
-        //https://msdn.microsoft.com/en-us/library/windows/desktop/dd145062(v=vs.85).aspx
-        [DllImport("User32.dll")]
-        private static extern IntPtr MonitorFromPoint([In] System.Drawing.Point pt, [In] uint dwFlags);
-
-        //https://msdn.microsoft.com/en-us/library/windows/desktop/dn280510(v=vs.85).aspx
-        [DllImport("Shcore.dll")]
-        private static extern IntPtr GetDpiForMonitor([In] IntPtr hmonitor, [In] DpiType dpiType, [Out] out uint dpiX, [Out] out uint dpiY);
-    }
-
-    //https://msdn.microsoft.com/en-us/library/windows/desktop/dn280511(v=vs.85).aspx
-    public enum DpiType
-    {
-        Effective = 0,
-        Angular = 1,
-        Raw = 2,
+        internal static Dpi GetDpi(this MonitorInfo screen, MONITOR_DPI_TYPE dpiType)
+        {
+            var pnt = new System.Drawing.Point((int)screen.Bounds.Left + 1, (int)screen.Bounds.Top + 1);
+            var mon = PInvoke.MonitorFromPoint(pnt, MONITOR_FROM_FLAGS.MONITOR_DEFAULTTONEAREST);
+            PInvoke.GetDpiForMonitor(mon, dpiType, out var dpiX, out var dpiY);
+            return new Dpi
+            {
+                x = dpiX,
+                y = dpiY
+            };
+        }
     }
 }

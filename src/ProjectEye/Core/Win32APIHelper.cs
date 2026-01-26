@@ -1,71 +1,12 @@
 ﻿using System;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows;
+using Windows.Win32;
+using Windows.Win32.Foundation;
 
 namespace ProjectEye.Core
 {
     public class Win32APIHelper
     {
-        /// <summary>
-        /// 获取鼠标坐标
-        /// </summary>
-        /// <param name="lpPoint"></param>
-        /// <returns></returns>
-        [DllImport("user32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetCursorPos(out Point lpPoint);
-
-        #region 窗口类
-        /// <summary>
-        /// 获取窗口标题
-        /// </summary>
-        /// <param name="hWnd"></param>
-        /// <param name="lpString"></param>
-        /// <param name="nMaxCount"></param>
-        /// <returns></returns>
-        [DllImport("user32", SetLastError = true)]
-        public static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
-        /// <summary>
-        /// 获取窗口类名
-        /// </summary>
-        /// <param name="hWnd"></param>
-        /// <param name="lpString"></param>
-        /// <param name="nMaxCount"></param>
-        /// <returns></returns>
-        [DllImport("user32.dll")]
-        public static extern int GetClassName(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
-        /// <summary>
-        /// 获取当前焦点窗口句柄
-        /// </summary>
-        /// <returns></returns>
-        [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
-        public static extern IntPtr GetForegroundWindow();
-        /// <summary>
-        /// 窗口是否最大化
-        /// </summary>
-        /// <param name="hWnd"></param>
-        /// <returns></returns>
-        [DllImport("user32.dll")]
-        public static extern bool IsZoomed(IntPtr hWnd);
-        /// <summary>
-        /// 获取窗口位置
-        /// </summary>
-        /// <param name="hWnd"></param>
-        /// <param name="lpRect"></param>
-        /// <returns></returns>
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetWindowRect(IntPtr hWnd, ref RECT lpRect);
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct RECT
-        {
-            public int Left;                             //最左坐标
-            public int Top;                             //最上坐标
-            public int Right;                           //最右坐标
-            public int Bottom;                        //最下坐标
-        }
         /// <summary>
         /// 窗口信息结构
         /// </summary>
@@ -96,6 +37,7 @@ namespace ProjectEye.Core
             /// </summary>
             public bool IsZoomed;
         }
+
         /// <summary>
         /// 获取当前焦点窗口信息
         /// </summary>
@@ -104,21 +46,16 @@ namespace ProjectEye.Core
         {
             var result = new WindowInfo();
             //获取当前焦点窗口句柄
-            var intPtr = GetForegroundWindow();
+            var hwnd = PInvoke.GetForegroundWindow();
             //获取窗口大小
-            var rect = new RECT();
-            GetWindowRect(intPtr, ref rect);
-            result.IsZoomed = IsZoomed(intPtr);
-            result.Width = rect.Right - rect.Left;
-            result.Height = rect.Bottom - rect.Top;
+            PInvoke.GetWindowRect(hwnd, out var rect);
+            result.IsZoomed = PInvoke.IsZoomed(hwnd);
+            result.Width = rect.Width;
+            result.Height = rect.Height;
             //获取窗口标题
-            var title = new StringBuilder(256);
-            GetWindowText(intPtr, title, title.Capacity);
-            result.Title = title.ToString();
+            result.Title = GetWindowTitle(hwnd);
             //获取窗口类名
-            var className = new StringBuilder(256);
-            GetClassName(intPtr, className, className.Capacity);
-            result.ClassName = className.ToString();
+            result.ClassName = GetClassName(hwnd);
             //判断全屏
             result.IsFullScreen = false;
             if (!result.IsZoomed)
@@ -127,7 +64,7 @@ namespace ProjectEye.Core
                 result.IsFullScreen = result.Width >= SystemParameters.PrimaryScreenWidth && result.Height >= SystemParameters.PrimaryScreenHeight;
             }
             //浏览器全屏判断
-            if (result.ClassName.ToLower().IndexOf("chrome_widgetwin") != -1)
+            if (result.ClassName.Contains("chrome_widgetwin", StringComparison.CurrentCultureIgnoreCase))
             {
                 //chrome浏览器比较特殊，全屏模式不能被识别，需要另外计算
                 result.IsFullScreen = result.Width >= SystemParameters.PrimaryScreenWidth && result.Height >= SystemParameters.PrimaryScreenHeight;
@@ -135,27 +72,32 @@ namespace ProjectEye.Core
             }
             return result;
         }
-        #endregion
 
-        #region 获取系统信息
-        [DllImport("ntdll.dll", SetLastError = true)]
-        internal static extern uint RtlGetVersion(out OsVersionInfo versionInformation);
-
-        [StructLayout(LayoutKind.Sequential)]
-        internal struct OsVersionInfo
+        private static unsafe string GetWindowTitle(HWND hwnd)
         {
-            private readonly uint OsVersionInfoSize;
+            var capacity = PInvoke.GetWindowTextLength(hwnd) + 1;
+            int length;
+            Span<char> buffer = capacity < 1024 ? stackalloc char[capacity] : new char[capacity];
+            fixed (char* pBuffer = buffer)
+            {
+                // If the window has no title bar or text, if the title bar is empty,
+                // or if the window or control handle is invalid, the return value is zero.
+                length = PInvoke.GetWindowText(hwnd, pBuffer, capacity);
+            }
 
-            internal readonly uint MajorVersion;
-            internal readonly uint MinorVersion;
-
-            private readonly uint BuildNumber;
-
-            private readonly uint PlatformId;
-
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
-            private readonly string CSDVersion;
+            return buffer[..length].ToString();
         }
-        #endregion
+
+        private static unsafe string GetClassName(HWND hwnd)
+        {
+            fixed (char* buf = new char[256])
+            {
+                return PInvoke.GetClassName(hwnd, buf, 256) switch
+                {
+                    0 => string.Empty,
+                    _ => new string(buf),
+                };
+            }
+        }
     }
 }

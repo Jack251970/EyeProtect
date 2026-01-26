@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Threading;
 using Microsoft.Win32;
 using ProjectEye.Models.Settings;
+using Windows.Win32;
 
 namespace ProjectEye.Core.Service
 {
@@ -489,7 +490,7 @@ namespace ProjectEye.Core.Service
         /// </summary>
         private void SaveCursorPos()
         {
-            Win32APIHelper.GetCursorPos(out var point);
+            PInvoke.GetCursorPos(out var point);
             cache["CursorPos"] = point.ToString();
         }
         #endregion
@@ -501,7 +502,7 @@ namespace ProjectEye.Core.Service
         /// <returns></returns>
         private bool IsCursorPosChanged()
         {
-            Win32APIHelper.GetCursorPos(out var point);
+            PInvoke.GetCursorPos(out var point);
             var beforePos = cache["CursorPos"];
             if (beforePos == null)
             {
