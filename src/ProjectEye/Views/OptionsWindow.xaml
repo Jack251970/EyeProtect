@@ -27,10 +27,28 @@
             <TabItem Header="{DynamicResource Lang_General}">
                 <ScrollViewer>
                     <StackPanel Margin="10">
+                        <!--  语言  -->
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Grid.Column="0"
+                                Margin="0 0 10 0"
+                                VerticalAlignment="Center"
+                                Text="{DynamicResource Lang_Language}" />
+                            <ComboBox
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                DisplayMemberPath="DisplayName"
+                                ItemsSource="{Binding Model.Languages}"
+                                SelectedItem="{Binding Model.Data.Style.Language}"
+                                SelectedValue="{Binding Model.Data.Style.Language.Value}"
+                                SelectedValuePath="Value" />
+                        </StackPanel>
+
+                        <!--  时长  -->
                         <Slider
                             Grid.Row="0"
                             Grid.Column="1"
-                            Margin="0 0 0 0"
+                            Margin="0 8 0 0"
                             VerticalAlignment="Center"
                             ui:ControlHelper.Header="{DynamicResource Lang_Notificationinterval}"
                             Maximum="420"
@@ -38,8 +56,6 @@
                             SmallChange="1"
                             ToolTip="{DynamicResource Lang_Minutes}"
                             Value="{Binding Model.Data.General.WarnTime}" />
-
-                        <!--  休息时长  -->
                         <Slider
                             Grid.Row="1"
                             Grid.Column="1"
@@ -51,6 +67,7 @@
                             SmallChange="1"
                             ToolTip="{DynamicResource Lang_Seconds}"
                             Value="{Binding Model.Data.General.RestTime}" />
+
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Autostartatboot}"
@@ -65,27 +82,6 @@
             <TabItem Header="{DynamicResource Lang_Display}">
                 <ScrollViewer>
                     <StackPanel Margin="10">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <!--  语言  -->
-                            <TextBlock
-                                Grid.Column="0"
-                                Margin="0 0 10 0"
-                                VerticalAlignment="Center"
-                                Text="{DynamicResource Lang_Language}" />
-                            <ComboBox
-                                Grid.Column="1"
-                                VerticalAlignment="Center"
-                                DisplayMemberPath="DisplayName"
-                                ItemsSource="{Binding Model.Languages}"
-                                SelectedItem="{Binding Model.Data.Style.Language}"
-                                SelectedValue="{Binding Model.Data.Style.Language.Value}"
-                                SelectedValuePath="Value" />
-                        </Grid>
-
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Showbuttonsinfullscreennotification}"
