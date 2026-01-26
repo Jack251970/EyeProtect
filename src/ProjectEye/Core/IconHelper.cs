@@ -19,7 +19,7 @@ internal static class IconHelper
 {
     internal const uint DefaultIconSize = 64;
 
-    internal static async Task<ImageSource> GetIconFromFileOrFolderAsync(string? filePath, uint size = DefaultIconSize)
+    internal static async Task<ImageSource> GetIconFromFileOrFolderAsync(string filePath, uint size = DefaultIconSize)
     {
         return null;/*await Application.Current.Dispatcher.InvokeAsync(
             async () =>
