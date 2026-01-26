@@ -81,6 +81,7 @@ namespace ProjectEye.Core.Service
             var optionsStr = JsonConvert.SerializeObject(options, settings);
             oldOptions_ = JsonConvert.DeserializeObject<OptionsModel>(optionsStr, settings);
         }
+
         /// <summary>
         /// 创建默认配置文件
         /// </summary>
@@ -108,12 +109,14 @@ namespace ProjectEye.Core.Service
 
             xmlExtensions.Save(options);
         }
+
         private void CheckOptions()
         {
             CheckOptions(options);
             CheckOptions(options.Style);
             SaveOldOptions();
         }
+
         private void CheckOptions(object obj)
         {
             var properties = obj.GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);

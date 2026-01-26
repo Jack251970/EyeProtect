@@ -30,7 +30,7 @@ public abstract partial class AppInfo : IJsonOnDeserialized, IEquatable<AppInfo>
     protected AppInfo() { }
 
     [JsonIgnore]
-    internal TaskCompletionNotifier<ImageSource> AppIcon { get; set; }
+    public TaskCompletionNotifier<ImageSource> AppIcon { get; set; }
         = new(() => Task.FromResult<ImageSource>(null), runTaskImmediately: false);
 
     public virtual void OnDeserialized()

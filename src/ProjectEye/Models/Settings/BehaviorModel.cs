@@ -13,18 +13,22 @@ namespace ProjectEye.Models.Settings
         /// 全屏时跳过休息
         /// </summary>
         public bool IsFullScreenBreak { get; set; } = false;
+
         /// <summary>
         /// 是否启用进程跳过功能
         /// </summary>
         public bool IsBreakProgressList { get; set; } = false;
+
         /// <summary>
         /// 跳过进程名单
         /// </summary>
         public ObservableCollection<AppInfo.AppInfo> BreakProgressList { get; set; } = [];
+
         /// <summary>
         /// 是否禁用跳过休息（为true时将不允许跳过而是直接进入休息
         /// </summary>
         public bool IsDisabledSkip { get; set; } = false;
+
         /// <summary>
         /// 超时未选择时进入休息状态
         /// </summary>
