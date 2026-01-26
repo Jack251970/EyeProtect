@@ -91,7 +91,6 @@ namespace ProjectEye.ViewModels
         private void TipViewModel_ChangedEvent()
         {
             UpdateUIData();
-            WindowInstance.SizeChanged += WindowInstance_SizeChanged;
             // Subscribe to IsVisibleChanged to handle window show/hide events
             WindowInstance.IsVisibleChanged += WindowInstance_IsVisibleChanged;
         }
@@ -101,33 +100,14 @@ namespace ProjectEye.ViewModels
             // When window becomes visible, trigger the OnWShow logic
             if (WindowInstance.IsVisible)
             {
-                TipViewModel_OnWShow(sender, EventArgs.Empty);
+                UpdateVariable();
+                UpdateUIData();
+                if (!config.options.Style.IsThruTipWindow)
+                {
+                    WindowInstance.Focus();
+                }
+                HandleAutoAction();
             }
-        }
-
-        private void WindowInstance_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            // No need to recreate UI anymore since it's defined in XAML
-            // Size changes are handled automatically by layout system
-        }
-
-        private void TipViewModel_OnWShow(object sender, EventArgs e)
-        {
-            UpdateVariable();
-            UpdateUIData();
-            if (!config.options.Style.IsThruTipWindow)
-            {
-                WindowInstance.Focus();
-            }
-            HandleAutoAction();
-        }
-
-        private void WindowInstance_Activated(object sender, EventArgs e)
-        {
-            //UpdateVariable();
-            //var window = sender as Window;
-            //window.Focus();
-            //HandleAutoAction();
         }
 
         private void UpdateVariable()
