@@ -6,16 +6,19 @@ using ProjectEye.Core;
 
 namespace ProjectEye.Models.AppInfo;
 
-internal sealed partial class ShortcutAppInfo : AppInfo, IEquatable<ShortcutAppInfo>
+public sealed partial class ShortcutAppInfo : AppInfo, IEquatable<ShortcutAppInfo>
 {
     [JsonPropertyName("shortcut_file_path")]
-    public required string ShortcutFilePath { get; init; }
+    public string ShortcutFilePath { get; set; }
 
     [JsonPropertyName("icon_path")]
-    public required string IconPath { get; init; }
+    public string IconPath { get; set; }
 
     [JsonPropertyName("target_path")]
-    public required string TargetPath { get; init; }
+    public string TargetPath { get; set; }
+
+    // Parameterless constructor for XML serialization
+    public ShortcutAppInfo() { }
 
     public override bool Equals(object obj)
     {

@@ -73,8 +73,13 @@ namespace ProjectEye.Core.Service
         /// </summary>
         public void SaveOldOptions()
         {
-            var optionsStr = JsonConvert.SerializeObject(options);
-            oldOptions_ = JsonConvert.DeserializeObject<OptionsModel>(optionsStr);
+            var settings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects
+            };
+            var optionsStr = JsonConvert.SerializeObject(options, settings);
+            oldOptions_ = JsonConvert.DeserializeObject<OptionsModel>(optionsStr, settings);
         }
         /// <summary>
         /// 创建默认配置文件

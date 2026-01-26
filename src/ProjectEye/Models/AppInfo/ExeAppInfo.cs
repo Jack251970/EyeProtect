@@ -6,10 +6,13 @@ using ProjectEye.Core;
 
 namespace ProjectEye.Models.AppInfo;
 
-internal sealed partial class ExeAppInfo : AppInfo, IJsonOnDeserialized, IEquatable<ExeAppInfo>
+public sealed partial class ExeAppInfo : AppInfo, IJsonOnDeserialized, IEquatable<ExeAppInfo>
 {
     [JsonPropertyName("exe_file_path")]
-    public required string ExeFilePath { get; init; }
+    public string ExeFilePath { get; set; }
+
+    // Parameterless constructor for XML serialization
+    public ExeAppInfo() { }
 
     public override bool Equals(object obj)
     {

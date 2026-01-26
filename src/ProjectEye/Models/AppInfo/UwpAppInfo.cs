@@ -13,13 +13,16 @@ using Windows.Storage.Streams;
 
 namespace ProjectEye.Models.AppInfo;
 
-internal sealed class UwpAppInfo : AppInfo, IEquatable<UwpAppInfo>
+public sealed class UwpAppInfo : AppInfo, IEquatable<UwpAppInfo>
 {
     [JsonPropertyName("app_user_model_id")]
-    public required string AppUserModelId { get; init; }
+    public string AppUserModelId { get; set; }
 
     [JsonPropertyName("package_family_name")]
-    public required string PackageFullName { get; init; }
+    public string PackageFullName { get; set; }
+
+    // Parameterless constructor for XML serialization
+    public UwpAppInfo() { }
 
     [JsonIgnore]
     internal Package Package { get; set; }
