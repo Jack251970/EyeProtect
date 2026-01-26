@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 using CommunityToolkit.Mvvm.Input;
@@ -9,13 +11,15 @@ using ProjectEye.Views;
 
 namespace ProjectEye.ViewModels
 {
-    public partial class OptionsViewModel
+    public partial class OptionsViewModel : IDisposable
     {
         public OptionsModel Model { get; set; }
 
         private readonly ConfigService config;
         private readonly MainService mainService;
         private readonly ThemeService theme;
+        private bool _disposed = false;
+
         public OptionsViewModel(ConfigService config,
             MainService mainService,
             SystemResourcesService systemResources,
@@ -48,24 +52,69 @@ namespace ProjectEye.ViewModels
                 // Subscribe to General settings changes
                 if (Model.Data.General != null)
                 {
-                    Model.Data.General.PropertyChanged += (s, e) => OnSettingChanged(e.PropertyName);
+                    Model.Data.General.PropertyChanged += OnGeneralPropertyChanged;
                 }
 
                 // Subscribe to Style settings changes
                 if (Model.Data.Style != null)
                 {
-                    Model.Data.Style.PropertyChanged += (s, e) => OnSettingChanged(e.PropertyName);
+                    Model.Data.Style.PropertyChanged += OnStylePropertyChanged;
                 }
 
                 // Subscribe to Behavior settings changes
                 if (Model.Data.Behavior != null)
                 {
-                    Model.Data.Behavior.PropertyChanged += (s, e) => OnSettingChanged(e.PropertyName);
+                    Model.Data.Behavior.PropertyChanged += OnBehaviorPropertyChanged;
                     
                     // Subscribe to collection changes for BreakProgressList
-                    Model.Data.Behavior.BreakProgressList.CollectionChanged += (s, e) => OnSettingChanged("BreakProgressList");
+                    Model.Data.Behavior.BreakProgressList.CollectionChanged += OnBreakProgressListChanged;
                 }
             }
+        }
+
+        /// <summary>
+        /// Unsubscribe from property changes
+        /// </summary>
+        private void UnsubscribeFromPropertyChanges()
+        {
+            if (Model.Data != null)
+            {
+                if (Model.Data.General != null)
+                {
+                    Model.Data.General.PropertyChanged -= OnGeneralPropertyChanged;
+                }
+
+                if (Model.Data.Style != null)
+                {
+                    Model.Data.Style.PropertyChanged -= OnStylePropertyChanged;
+                }
+
+                if (Model.Data.Behavior != null)
+                {
+                    Model.Data.Behavior.PropertyChanged -= OnBehaviorPropertyChanged;
+                    Model.Data.Behavior.BreakProgressList.CollectionChanged -= OnBreakProgressListChanged;
+                }
+            }
+        }
+
+        private void OnGeneralPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnSettingChanged(e.PropertyName);
+        }
+
+        private void OnStylePropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnSettingChanged(e.PropertyName);
+        }
+
+        private void OnBehaviorPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnSettingChanged(e.PropertyName);
+        }
+
+        private void OnBreakProgressListChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            OnSettingChanged("BreakProgressList");
         }
 
         /// <summary>
@@ -74,6 +123,11 @@ namespace ProjectEye.ViewModels
         /// <param name="propertyName">The name of the property that changed</param>
         private void OnSettingChanged(string propertyName)
         {
+            if (_disposed)
+            {
+                return;
+            }
+
             // Save the configuration
             config.Save();
 
@@ -155,6 +209,18 @@ namespace ProjectEye.ViewModels
         {
             Model.ModalText = text;
             Model.ShowModal = true;
+        }
+
+        /// <summary>
+        /// Dispose method to clean up event subscriptions
+        /// </summary>
+        public void Dispose()
+        {
+            if (!_disposed)
+            {
+                UnsubscribeFromPropertyChanges();
+                _disposed = true;
+            }
         }
     }
 }
