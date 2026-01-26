@@ -43,6 +43,10 @@ namespace ProjectEye.Core.Service
         /// 日期更改计时重置标记
         /// </summary>
         private bool isDateTimerReset;
+        /// <summary>
+        /// 是否从保存状态恢复的标记
+        /// </summary>
+        private bool isRestoredFromSave;
         #region Service
         private readonly ScreenService screen;
         private readonly ConfigService config;
@@ -372,20 +376,15 @@ namespace ProjectEye.Core.Service
 
                 if (newRemainingSeconds > 0)
                 {
-                    // Timer should continue with adjusted remaining time
-                    var elapsedBeforeExit = work_timer.Interval.TotalSeconds - config.options.General.RemainingSeconds;
-                    var totalElapsed = elapsedBeforeExit + elapsedSinceExit;
+                    // Adjust timer interval to the remaining time
+                    // This way the timer will tick after the correct remaining duration
+                    work_timer.Interval = TimeSpan.FromSeconds(newRemainingSeconds);
+                    isRestoredFromSave = true;
                     
-                    // Set the stopwatch to the total elapsed time
-                    workTimerStopwatch.Start();
-                    // Manually set elapsed time by using Reflection
-                    var elapsedField = typeof(Stopwatch).GetField("_elapsed", 
-                        System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                    if (elapsedField != null)
-                    {
-                        elapsedField.SetValue(workTimerStopwatch, TimeSpan.FromSeconds(totalElapsed));
-                    }
-                    workTimerStopwatch.Stop();
+                    // Note: The stopwatch will be restarted (set to 0) in DoStart()
+                    // GetRestCountdownMinutes() will still work correctly because:
+                    // work_timer.Interval.TotalMinutes - workTimerStopwatch.Elapsed.TotalMinutes
+                    // = newRemainingSeconds/60 - 0 = newRemainingSeconds/60 (which is correct)
                 }
                 
                 // Clear the saved state
@@ -463,20 +462,7 @@ namespace ProjectEye.Core.Service
             {
                 //休息提醒
                 work_timer.Start();
-                // Only restart stopwatch if it's not already running (to preserve restored state)
-                if (!workTimerStopwatch.IsRunning)
-                {
-                    // Check if stopwatch has elapsed time from restoration
-                    if (workTimerStopwatch.Elapsed.TotalSeconds == 0)
-                    {
-                        workTimerStopwatch.Restart();
-                    }
-                    else
-                    {
-                        // Continue from restored state
-                        workTimerStopwatch.Start();
-                    }
-                }
+                workTimerStopwatch.Restart();
             }
             //离开监听
             leave_timer.Start();
@@ -543,6 +529,13 @@ namespace ProjectEye.Core.Service
         #region 用眼到达设定时间 Event
         private void timer_Tick(object sender, EventArgs e)
         {
+            // If we restored from saved state, reset the interval to the configured value
+            if (isRestoredFromSave)
+            {
+                work_timer.Interval = new TimeSpan(0, config.options.General.WarnTime, 0);
+                isRestoredFromSave = false;
+            }
+            
             ShowTipWindow();
             OnReset?.Invoke(this, 0);
         }
