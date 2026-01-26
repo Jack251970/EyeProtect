@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
 using Microsoft.Win32;
-using ProjectEye.Models.Settings;
 using ProjectEye.Models.AppInfo;
 using Windows.Win32;
 
@@ -197,13 +195,6 @@ namespace ProjectEye.Core.Service
 
         private void Config_Changed(object sender, EventArgs e)
         {
-            var oldOptions = sender as OptionsModel;
-            if (oldOptions.Style.IsThruTipWindow != config.options.Style.IsThruTipWindow)
-            {
-                //鼠标穿透被打开
-                CreateTipWindows();
-                Debug.WriteLine("鼠标穿透更改，重新创建窗口");
-            }
             HandleLanguageChanged();
         }
         private void OnPowerModeChanged(object sender, PowerModeChangedEventArgs e)

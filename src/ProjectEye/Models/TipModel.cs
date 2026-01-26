@@ -5,112 +5,106 @@ namespace ProjectEye.Models
 {
     public partial class TipModel : ObservableObject
     {
-        [ObservableProperty]
-        private string tipContent;
         /// <summary>
         /// 提醒文本
         /// </summary>
-
         [ObservableProperty]
-        private int countdown = 20;
+        private string tipContent;
+
         /// <summary>
         /// 倒计时
         /// </summary>
-
         [ObservableProperty]
-        private Visibility countDownVisibility = Visibility.Hidden;
+        private int countdown = 20;
+
         /// <summary>
         /// 倒计时文本可视状态
         /// </summary>
-
         [ObservableProperty]
-        private Visibility takeButtonVisibility = Visibility.Visible;
+        private Visibility countDownVisibility = Visibility.Hidden;
+
         /// <summary>
         /// 休息按钮可视状态
         /// </summary>
-
         [ObservableProperty]
-        private string t;
+        private Visibility takeButtonVisibility = Visibility.Visible;
+
         /// <summary>
         /// 提醒间隔（分钟）
         /// </summary>
-
         [ObservableProperty]
-        private string time;
+        private string t;
+
         /// <summary>
         /// 当前时间
         /// </summary>
-
         [ObservableProperty]
-        private string y;
+        private string time;
+
         /// <summary>
         /// 当前时间年
         /// </summary>
-
         [ObservableProperty]
-        private string m;
+        private string y;
+
         /// <summary>
         /// 当前时间月
         /// </summary>
-
         [ObservableProperty]
-        private string d;
+        private string m;
+
         /// <summary>
         /// 当前时间日
         /// </summary>
-
         [ObservableProperty]
-        private string h;
+        private string d;
+
         /// <summary>
         /// 当前时间小时
         /// </summary>
-
         [ObservableProperty]
-        private string minutes;
+        private string h;
+
         /// <summary>
         /// 当前时间：分
         /// </summary>
-
         [ObservableProperty]
-        private string twt;
+        private string minutes;
+
         /// <summary>
         /// 今日用眼总时长
         /// </summary>
-
         [ObservableProperty]
-        private string trt;
+        private string twt;
+
         /// <summary>
         /// 今日休息总时长
         /// </summary>
-
         [ObservableProperty]
-        private string tsc;
+        private string trt;
+
         /// <summary>
         /// 今日跳过次数
         /// </summary>
-
         [ObservableProperty]
-        private bool isThruWindow;
-        /// <summary>
-        /// 是否启用窗口鼠标穿透
-        /// </summary>
+        private string tsc;
 
-        [ObservableProperty]
-        private System.Windows.Media.ImageSource tipImageSource;
         /// <summary>
         /// 提示图片源
         /// </summary>
-
         [ObservableProperty]
-        private System.Windows.Media.Brush containerBackground;
+        private System.Windows.Media.ImageSource tipImageSource;
+
         /// <summary>
         /// 容器背景
         /// </summary>
-
         [ObservableProperty]
-        private double containerOpacity = 0.98;
+        private System.Windows.Media.Brush containerBackground;
+
         /// <summary>
         /// 容器透明度
         /// </summary>
+        [ObservableProperty]
+        private double containerOpacity = 0.98;
     }
 }

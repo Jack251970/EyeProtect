@@ -86,20 +86,6 @@
             <TabItem Header="{DynamicResource Lang_Display}">
                 <ScrollViewer>
                     <StackPanel Margin="10">
-                        <ui:ToggleSwitch
-                            Margin="0 8 0 0"
-                            Header="{DynamicResource Lang_Showbuttonsinfullscreennotification}"
-                            IsOn="{Binding Model.IsTipAsk, Mode=TwoWay}"
-                            OffContent="{DynamicResource Lang_Off}"
-                            OnContent="{DynamicResource Lang_On}" />
-                        <ui:ToggleSwitch
-                            Margin="0 8 0 0"
-                            Header="{DynamicResource Lang_Enablemousepassthroughduringfullscreennotification}"
-                            IsEnabled="{Binding Model.IsThruTipWindowEnabled}"
-                            IsOn="{Binding Model.Data.Style.IsThruTipWindow, Mode=TwoWay}"
-                            OffContent="{DynamicResource Lang_Off}"
-                            OnContent="{DynamicResource Lang_On}" />
-
                         <!--  提示内容  -->
                         <Grid Margin="0 8 0 0">
                             <Grid.ColumnDefinitions>
