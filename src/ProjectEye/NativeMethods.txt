@@ -1,0 +1,4 @@
+ShellLink
+IShellLinkW
+IPersistFile
+PWSTR
