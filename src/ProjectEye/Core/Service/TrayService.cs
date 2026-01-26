@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using iNKORE.UI.WPF.Modern;
-using ProjectEye.Core.Models.Options;
 
 namespace ProjectEye.Core.Service
 {

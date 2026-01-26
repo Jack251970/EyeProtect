@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
-using ProjectEye.Core.Models.Options;
+using ProjectEye.Models.Settings;
 
 namespace ProjectEye.Models
 {
@@ -9,7 +9,7 @@ namespace ProjectEye.Models
     {
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(BreakProgressListVisibility))]
-        private Core.Models.Options.OptionsModel data;
+        private Settings.OptionsModel data;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(VersionLink))]

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace ProjectEye.Core.Models
+namespace ProjectEye.Models
 {
     public class WindowModel
     {
@@ -12,6 +12,5 @@ namespace ProjectEye.Core.Models
         /// 所在屏幕（驱动名称）
         /// </summary>
         public string screen { get; set; }
-
     }
 }

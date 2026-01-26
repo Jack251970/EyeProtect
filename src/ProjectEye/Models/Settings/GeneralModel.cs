@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace ProjectEye.Core.Models.Options
+namespace ProjectEye.Models.Settings
 {
     /// <summary>
     /// 通用设置模型
