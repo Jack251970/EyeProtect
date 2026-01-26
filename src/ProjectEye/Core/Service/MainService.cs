@@ -523,7 +523,16 @@ namespace ProjectEye.Core.Service
             {
                 //隐藏时继续计时
                 work_timer.Start();
-                workTimerStopwatch.Restart();
+                // Only restart if no offset exists (fresh start)
+                if (cache["TimerOffset"] == null)
+                {
+                    workTimerStopwatch.Restart();
+                }
+                else
+                {
+                    // Continue with offset, just start the stopwatch
+                    workTimerStopwatch.Start();
+                }
             }
         }
         #endregion
