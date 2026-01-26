@@ -1,4 +1,4 @@
-# Project Eye
+# Eye Protect
 
 一个基于 `20-20-20` 规则的用眼休息提醒软件（Windows），帮助你保持健康的工作状态，追踪每天的用眼情况。
 
@@ -19,24 +19,27 @@
 - 全屏状态（全屏游戏、全屏看视频）免打扰功能；
 - 进程跳过白名单设置功能，在运行白名单中的程序时不弹出提醒；
 - 多个扩展显示器支持；
-- 数据统计，用眼时长、休息时长、跳过次数；
-- 离开监听，当检测到用户离开电脑时停止计时直到回来；
-- 所见即所得地自定义（设计）全屏提示窗口；
-- 番茄时钟功能；
+- 离开监听，当检测到用户离开电脑时停止计时直到回来
 
 *部分功能需要自行在选项中开启才生效。*
 
+## 本地编译
+
+```
+dotnet publish src\ProjectEye\ProjectEye.csproj -p:PublishProfile=Net10.0-Win64.pubxml
+```
+
 ## 下载安装
 
-你可以在这里 [Releases](https://github.com/Planshit/ProjectEye/releases) 下载所有发布版本编译好的EXE文件压缩包，一般是ProjectEye.zip，解压后直接双击ProjectEye.exe即可运行，无需安装。
+你可以在这里 [Releases](https://github.com/Jack251970/EyeProtect/releases) 下载所有发布版本编译好的EXE文件，直接双击ProjectEye.exe即可运行，无需安装。
 
-成功启动后你将在右下角的状态栏中看到 😎 图标，右键显示菜单，双击启动或关闭番茄时钟模式。
+成功启动后你将在右下角的状态栏中看到 😎 图标，右键显示菜单。
 
 ## 运行环境
 
-OS: Windows7/10/11
+OS: Windows10/11
 
-Runtime: [.NET 9.0](https://dotnet.microsoft.com/download/dotnet/9.0) 
+Runtime: [.NET 10.0](https://dotnet.microsoft.com/download/dotnet/10.0) 
 
 ## 其他
 
