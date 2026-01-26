@@ -159,8 +159,8 @@
                             OnContent="{DynamicResource Lang_On}" />
                         <Grid Margin="0 8 0 0" Visibility="{Binding Model.BreakProgressListVisibility}">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="150" />
-                                <RowDefinition Height="30" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
                             <ListView
                                 Name="breakProcessListView"
@@ -177,20 +177,14 @@
                                 <ListView.View>
                                     <GridView>
                                         <GridView.Columns>
-                                            <GridViewColumn Width="{Binding ElementName=breakProcessListView, Path=ActualWidth}">
+                                            <GridViewColumn>
                                                 <GridViewColumn.Header>
-                                                    <TextBlock
-                                                        Width="{Binding ElementName=breakProcessListView, Path=ActualWidth}"
-                                                        HorizontalAlignment="Left"
-                                                        Text="{DynamicResource Lang_Applicationname}" />
+                                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Lang_Applicationname}" />
                                                 </GridViewColumn.Header>
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <Grid Width="auto">
-                                                            <TextBlock
-                                                                Width="{Binding ElementName=breakProcessListView, Path=ActualWidth}"
-                                                                HorizontalAlignment="Left"
-                                                                Text="{Binding}" />
+                                                            <TextBlock HorizontalAlignment="Left" Text="{Binding DisplayName}" />
                                                         </Grid>
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
