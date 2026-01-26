@@ -51,6 +51,11 @@ namespace ProjectEye.Core.Service
         private readonly SystemResourcesService systemResources;
         #endregion
 
+        #region Constants
+        private const string TIMER_OFFSET_CACHE_KEY = "TimerOffset";
+        private const double SECONDS_PER_MINUTE = 60.0;
+        #endregion
+
         #region win32
         //[DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         //public static extern IntPtr GetForegroundWindow();
@@ -266,15 +271,11 @@ namespace ProjectEye.Core.Service
         #region 获取下一次休息剩余分钟数
         public double GetRestCountdownMinutes()
         {
-            double offset = 0;
-            if (cache["TimerOffset"] != null)
-            {
-                offset = Convert.ToDouble(cache["TimerOffset"]);
-            }
+            double offset = GetTimerOffset();
             
             // Calculate remaining time based on the full interval (WarnTime)
             var fullIntervalMinutes = config.options.General.WarnTime;
-            var elapsedMinutes = (workTimerStopwatch.Elapsed.TotalSeconds + offset) / 60.0;
+            var elapsedMinutes = (workTimerStopwatch.Elapsed.TotalSeconds + offset) / SECONDS_PER_MINUTE;
             
             return fullIntervalMinutes - elapsedMinutes;
         }
@@ -379,15 +380,11 @@ namespace ProjectEye.Core.Service
                 if (!config.options.General.Noreset)
                 {
                     // Calculate current elapsed time
-                    double offset = 0;
-                    if (cache["TimerOffset"] != null)
-                    {
-                        offset = Convert.ToDouble(cache["TimerOffset"]);
-                    }
+                    double offset = GetTimerOffset();
                     double currentElapsed = workTimerStopwatch.Elapsed.TotalSeconds + offset;
                     
                     // Set new interval
-                    var newIntervalSeconds = minutes * 60;
+                    var newIntervalSeconds = minutes * SECONDS_PER_MINUTE;
                     
                     // If elapsed time is less than new interval, continue timing
                     if (workTimerStopwatch.IsRunning && currentElapsed < newIntervalSeconds)
@@ -401,7 +398,7 @@ namespace ProjectEye.Core.Service
                         work_timer.Start();
                         
                         // Update timer offset for accurate countdown display
-                        cache["TimerOffset"] = currentElapsed;
+                        cache[TIMER_OFFSET_CACHE_KEY] = currentElapsed;
                         
                         return true;
                     }
@@ -435,7 +432,7 @@ namespace ProjectEye.Core.Service
                 // Clear saved timer state when resetting
                 config.options.General.ElapsedSeconds = 0;
                 config.options.General.LastTimerStart = null;
-                cache["TimerOffset"] = null;
+                cache[TIMER_OFFSET_CACHE_KEY] = null;
                 
                 DoStop();
                 DoStart();
@@ -455,7 +452,7 @@ namespace ProjectEye.Core.Service
                 work_timer.Start();
                 
                 // Check if we need to restore timer offset
-                if (cache["TimerOffset"] != null)
+                if (cache[TIMER_OFFSET_CACHE_KEY] != null)
                 {
                     // Timer offset exists, just start the stopwatch
                     workTimerStopwatch.Start();
@@ -524,7 +521,7 @@ namespace ProjectEye.Core.Service
                 //隐藏时继续计时
                 work_timer.Start();
                 // Only restart if no offset exists (fresh start)
-                if (cache["TimerOffset"] == null)
+                if (cache[TIMER_OFFSET_CACHE_KEY] == null)
                 {
                     workTimerStopwatch.Restart();
                 }
@@ -541,7 +538,7 @@ namespace ProjectEye.Core.Service
         private void timer_Tick(object sender, EventArgs e)
         {
             // Clear timer offset and restore full interval after it fires
-            cache["TimerOffset"] = null;
+            cache[TIMER_OFFSET_CACHE_KEY] = null;
             var fullInterval = TimeSpan.FromMinutes(config.options.General.WarnTime);
             if (work_timer.Interval != fullInterval)
             {
@@ -660,7 +657,7 @@ namespace ProjectEye.Core.Service
             // Clear saved timer state when resetting after rest
             config.options.General.ElapsedSeconds = 0;
             config.options.General.LastTimerStart = null;
-            cache["TimerOffset"] = null;
+            cache[TIMER_OFFSET_CACHE_KEY] = null;
             
             workTimerStopwatch.Restart();
         }
@@ -757,11 +754,7 @@ namespace ProjectEye.Core.Service
             if (workTimerStopwatch.IsRunning)
             {
                 // Calculate total elapsed time including any existing offset
-                double offset = 0;
-                if (cache["TimerOffset"] != null)
-                {
-                    offset = Convert.ToDouble(cache["TimerOffset"]);
-                }
+                double offset = GetTimerOffset();
                 
                 // Save the total elapsed time (stopwatch + offset)
                 config.options.General.ElapsedSeconds = workTimerStopwatch.Elapsed.TotalSeconds + offset;
@@ -789,7 +782,7 @@ namespace ProjectEye.Core.Service
                 if (totalElapsed < work_timer.Interval.TotalSeconds)
                 {
                     // Store the initial offset for display and calculation purposes
-                    cache["TimerOffset"] = totalElapsed;
+                    cache[TIMER_OFFSET_CACHE_KEY] = totalElapsed;
                     
                     // Adjust the timer interval to fire at the correct remaining time
                     var remainingSeconds = work_timer.Interval.TotalSeconds - totalElapsed;
@@ -802,6 +795,21 @@ namespace ProjectEye.Core.Service
                     config.options.General.LastTimerStart = null;
                 }
             }
+        }
+        #endregion
+
+        #region 获取计时器偏移量
+        /// <summary>
+        /// 获取当前计时器偏移量（用于恢复计时状态）
+        /// </summary>
+        /// <returns>计时器偏移量（秒）</returns>
+        private double GetTimerOffset()
+        {
+            if (cache[TIMER_OFFSET_CACHE_KEY] != null)
+            {
+                return Convert.ToDouble(cache[TIMER_OFFSET_CACHE_KEY]);
+            }
+            return 0;
         }
         #endregion
         #endregion
