@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ProjectEye.Models.AppInfo;
@@ -30,41 +26,20 @@ internal static class IconHelper
                     return null;
                 }
 
-                // Extract icon from executable
-                Icon icon = Icon.ExtractAssociatedIcon(filePath);
-                if (icon == null)
+                // Use WindowsThumbnailProvider for better icon extraction
+                BitmapSource thumbnail = WindowsThumbnailProvider.GetThumbnail(
+                    filePath,
+                    (int)size,
+                    (int)size,
+                    ThumbnailOptions.IconOnly | ThumbnailOptions.BiggerSizeOk);
+
+                // Freeze for cross-thread access
+                if (thumbnail != null && thumbnail.CanFreeze)
                 {
-                    return null;
+                    thumbnail.Freeze();
                 }
 
-                // Convert Icon to BitmapSource
-                using (icon)
-                {
-                    Bitmap bitmap = icon.ToBitmap();
-                    IntPtr hBitmap = bitmap.GetHbitmap();
-
-                    try
-                    {
-                        ImageSource imageSource = Imaging.CreateBitmapSourceFromHBitmap(
-                            hBitmap,
-                            IntPtr.Zero,
-                            Int32Rect.Empty,
-                            BitmapSizeOptions.FromEmptyOptions());
-
-                        // Freeze for cross-thread access
-                        if (imageSource.CanFreeze)
-                        {
-                            imageSource.Freeze();
-                        }
-
-                        return imageSource;
-                    }
-                    finally
-                    {
-                        DeleteObject(hBitmap);
-                        bitmap.Dispose();
-                    }
-                }
+                return thumbnail;
             }
             catch (Exception ex)
             {
@@ -73,9 +48,6 @@ internal static class IconHelper
             }
         });
     }
-
-    [DllImport("gdi32.dll", SetLastError = true)]
-    private static extern bool DeleteObject(IntPtr hObject);
 
     public static async Task<ImageSource> CreateGridIconAsync(
         IReadOnlyList<AppInfo> selectedItems,

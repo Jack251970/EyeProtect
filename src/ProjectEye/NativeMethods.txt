@@ -3,7 +3,7 @@ IShellLinkW
 IPersistFile
 PWSTR
 
-﻿GetSystemMetrics
+GetSystemMetrics
 EnumDisplayMonitors
 MonitorFromWindow
 GetMonitorInfo
@@ -18,3 +18,8 @@ IsZoomed
 GetWindowTextLength
 GetWindowText
 GetClassName
+
+SHCreateItemFromParsingName
+IShellItem
+IShellItemImageFactory
+DeleteObject
