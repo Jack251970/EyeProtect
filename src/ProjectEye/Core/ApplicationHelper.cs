@@ -156,13 +156,20 @@ namespace ProjectEye.Core
             var installLocation = subKey.GetValue("InstallLocation")?.ToString();
             if (!string.IsNullOrWhiteSpace(installLocation))
             {
-                var exeFiles = Directory.Exists(installLocation) 
-                    ? Directory.GetFiles(installLocation, "*.exe", SearchOption.TopDirectoryOnly)
-                    : Array.Empty<string>();
-                
-                if (exeFiles.Length > 0)
+                try
                 {
-                    return Path.GetFileNameWithoutExtension(exeFiles[0]);
+                    var exeFiles = Directory.Exists(installLocation) 
+                        ? Directory.GetFiles(installLocation, "*.exe", SearchOption.TopDirectoryOnly)
+                        : Array.Empty<string>();
+                    
+                    if (exeFiles.Length > 0)
+                    {
+                        return Path.GetFileNameWithoutExtension(exeFiles[0]);
+                    }
+                }
+                catch
+                {
+                    // Skip if directory can't be accessed
                 }
             }
 
@@ -209,13 +216,20 @@ namespace ProjectEye.Core
                             var processName = process.ProcessName;
 
                             // Try to get file description as a better name
-                            if (!string.IsNullOrWhiteSpace(process.MainModule?.FileName))
+                            try
                             {
-                                var versionInfo = FileVersionInfo.GetVersionInfo(process.MainModule.FileName);
-                                if (!string.IsNullOrWhiteSpace(versionInfo.FileDescription))
+                                if (!string.IsNullOrWhiteSpace(process.MainModule?.FileName))
                                 {
-                                    displayName = versionInfo.FileDescription;
+                                    var versionInfo = FileVersionInfo.GetVersionInfo(process.MainModule.FileName);
+                                    if (!string.IsNullOrWhiteSpace(versionInfo.FileDescription))
+                                    {
+                                        displayName = versionInfo.FileDescription;
+                                    }
                                 }
+                            }
+                            catch
+                            {
+                                // Skip if version info can't be accessed, use MainWindowTitle
                             }
 
                             apps.Add(new ApplicationInfo
