@@ -158,6 +158,9 @@ namespace ProjectEye.Core.Service
 
             UpdateDateTimer();
 
+            // Restore timer state if app was recently closed
+            RestoreTimerState();
+
             Start();
 
             config.Changed += Config_Changed;
@@ -325,9 +328,71 @@ namespace ProjectEye.Core.Service
         /// </summary>
         public void Exit()
         {
+            // Save timer state before exit
+            SaveTimerState();
+            
             screen.Dispose();
             DoStop();
             WindowManager.Close("TipWindow");
+        }
+        #endregion
+
+        #region 保存计时器状态
+        /// <summary>
+        /// 保存计时器状态到配置文件
+        /// </summary>
+        private void SaveTimerState()
+        {
+            if (work_timer.IsEnabled && !config.options.General.Noreset)
+            {
+                // Save current timestamp
+                config.options.General.LastExitTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                // Calculate and save remaining seconds
+                var remainingTime = work_timer.Interval.TotalSeconds - workTimerStopwatch.Elapsed.TotalSeconds;
+                config.options.General.RemainingSeconds = remainingTime > 0 ? remainingTime : 0;
+                config.Save();
+            }
+        }
+        #endregion
+
+        #region 恢复计时器状态
+        /// <summary>
+        /// 从配置文件恢复计时器状态
+        /// </summary>
+        private void RestoreTimerState()
+        {
+            if (config.options.General.LastExitTimestamp > 0 && config.options.General.RemainingSeconds > 0)
+            {
+                var lastExitTime = DateTimeOffset.FromUnixTimeSeconds(config.options.General.LastExitTimestamp);
+                var currentTime = DateTimeOffset.UtcNow;
+                var elapsedSinceExit = (currentTime - lastExitTime).TotalSeconds;
+
+                // Calculate new remaining time
+                var newRemainingSeconds = config.options.General.RemainingSeconds - elapsedSinceExit;
+
+                if (newRemainingSeconds > 0)
+                {
+                    // Timer should continue with adjusted remaining time
+                    var elapsedBeforeExit = work_timer.Interval.TotalSeconds - config.options.General.RemainingSeconds;
+                    var totalElapsed = elapsedBeforeExit + elapsedSinceExit;
+                    
+                    // Set the stopwatch to the total elapsed time
+                    workTimerStopwatch.Start();
+                    // Manually set elapsed time by using Reflection
+                    var elapsedField = typeof(Stopwatch).GetField("_elapsed", 
+                        System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                    if (elapsedField != null)
+                    {
+                        elapsedField.SetValue(workTimerStopwatch, TimeSpan.FromSeconds(totalElapsed));
+                    }
+                    workTimerStopwatch.Stop();
+                }
+                
+                // Clear the saved state
+                config.options.General.LastExitTimestamp = 0;
+                config.options.General.RemainingSeconds = 0;
+                config.Save();
+            }
         }
         #endregion
 
@@ -398,7 +463,20 @@ namespace ProjectEye.Core.Service
             {
                 //休息提醒
                 work_timer.Start();
-                workTimerStopwatch.Restart();
+                // Only restart stopwatch if it's not already running (to preserve restored state)
+                if (!workTimerStopwatch.IsRunning)
+                {
+                    // Check if stopwatch has elapsed time from restoration
+                    if (workTimerStopwatch.Elapsed.TotalSeconds == 0)
+                    {
+                        workTimerStopwatch.Restart();
+                    }
+                    else
+                    {
+                        // Continue from restored state
+                        workTimerStopwatch.Start();
+                    }
+                }
             }
             //离开监听
             leave_timer.Start();

@@ -48,5 +48,17 @@ namespace ProjectEye.Models.Settings
         /// </summary>
         [ObservableProperty]
         private int restTime = 20;
+
+        /// <summary>
+        /// 上次退出时间戳（用于恢复计时器）
+        /// </summary>
+        [ObservableProperty]
+        private long lastExitTimestamp = 0;
+
+        /// <summary>
+        /// 上次退出时剩余秒数（用于恢复计时器）
+        /// </summary>
+        [ObservableProperty]
+        private double remainingSeconds = 0;
     }
 }
