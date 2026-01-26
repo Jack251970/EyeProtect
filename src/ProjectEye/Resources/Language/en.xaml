@@ -197,5 +197,8 @@
 
     <sys:String x:Key="Lang_On">On</sys:String>
     <sys:String x:Key="Lang_Off">Off</sys:String>
+    <sys:String x:Key="Lang_SkipNotification_BreakSkipped">Break notification skipped</sys:String>
+    <sys:String x:Key="Lang_SkipNotification_ReasonFullscreen">A fullscreen application is running</sys:String>
+    <sys:String x:Key="Lang_SkipNotification_ReasonIgnoredApp">An ignored application is running</sys:String>
 
 </ResourceDictionary>

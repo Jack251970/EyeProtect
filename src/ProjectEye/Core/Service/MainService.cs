@@ -429,14 +429,58 @@ namespace ProjectEye.Core.Service
         /// </summary>
         private void ShowTipWindow()
         {
-            if (IsBreakReset())
+            string skipReason;
+            if (IsBreakReset(out skipReason))
             {
                 ReStartWorkTimerWatch();
+                
+                // Show skip notification if there's a valid reason
+                if (!string.IsNullOrEmpty(skipReason))
+                {
+                    ShowSkipNotification(skipReason);
+                }
             }
             else
             {
                 busy_timer.Start();
                 WindowManager.Show("TipWindow");
+            }
+        }
+        #endregion
+
+        #region 显示跳过提示窗口
+        /// <summary>
+        /// 显示跳过提示窗口
+        /// </summary>
+        /// <param name="reason">跳过原因：fullscreen 或 ignoredapp</param>
+        private void ShowSkipNotification(string reason)
+        {
+            // Create windows if they don't exist
+            var skipWindows = WindowManager.GetWindows("SkipNotificationWindow");
+            if (skipWindows == null)
+            {
+                CreateSkipNotificationWindows();
+                skipWindows = WindowManager.GetWindows("SkipNotificationWindow");
+            }
+
+            // Set notification content for each window
+            if (skipWindows != null)
+            {
+                foreach (var window in skipWindows)
+                {
+                    if (window.DataContext is ViewModels.SkipNotificationViewModel viewModel)
+                    {
+                        var message = Application.Current.TryFindResource("Lang_SkipNotification_BreakSkipped") as string ?? "Break notification skipped";
+                        var reasonText = reason == "fullscreen" 
+                            ? (Application.Current.TryFindResource("Lang_SkipNotification_ReasonFullscreen") as string ?? "A fullscreen application is running")
+                            : (Application.Current.TryFindResource("Lang_SkipNotification_ReasonIgnoredApp") as string ?? "An ignored application is running");
+                        
+                        viewModel.SetNotificationContent(message, reasonText);
+                    }
+                }
+                
+                // Show the notification
+                WindowManager.Show("SkipNotificationWindow");
             }
         }
         #endregion
@@ -530,6 +574,19 @@ namespace ProjectEye.Core.Service
         /// <returns>true跳过，false不跳过</returns>
         public bool IsBreakReset()
         {
+            string reason;
+            return IsBreakReset(out reason);
+        }
+
+        /// <summary>
+        /// 是否跳过本次休息
+        /// </summary>
+        /// <param name="reason">跳过原因</param>
+        /// <returns>true跳过，false不跳过</returns>
+        public bool IsBreakReset(out string reason)
+        {
+            reason = null;
+
             if (!config.options.General.Noreset)
             {
                 //0.全屏跳过判断
@@ -538,6 +595,7 @@ namespace ProjectEye.Core.Service
                     var info = Win32APIHelper.GetFocusWindowInfo();
                     if (info.IsFullScreen)
                     {
+                        reason = "fullscreen";
                         return true;
                     }
                 }
@@ -554,6 +612,7 @@ namespace ProjectEye.Core.Service
                             {
                                 if (MatchesProcess(appInfo, process))
                                 {
+                                    reason = "ignoredapp";
                                     return true;
                                 }
                             }
@@ -593,6 +652,19 @@ namespace ProjectEye.Core.Service
             {
                 window.IsVisibleChanged += new DependencyPropertyChangedEventHandler(isVisibleChanged);
             }
+        }
+        #endregion
+
+        #region 创建跳过提示窗口
+        /// <summary>
+        /// 创建跳过提示窗口
+        /// </summary>
+        public void CreateSkipNotificationWindows()
+        {
+            //关闭
+            WindowManager.Close("SkipNotificationWindow");
+            //在所有屏幕上创建跳过提示窗口（非全屏）
+            var skipWindows = WindowManager.GetCreateWindow("SkipNotificationWindow", false);
         }
         #endregion
 

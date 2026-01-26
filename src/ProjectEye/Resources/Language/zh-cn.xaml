@@ -203,5 +203,8 @@
 
     <sys:String x:Key="Lang_On">开</sys:String>
     <sys:String x:Key="Lang_Off">关</sys:String>
+    <sys:String x:Key="Lang_SkipNotification_BreakSkipped">休息提醒已跳过</sys:String>
+    <sys:String x:Key="Lang_SkipNotification_ReasonFullscreen">正在运行全屏应用程序</sys:String>
+    <sys:String x:Key="Lang_SkipNotification_ReasonIgnoredApp">正在运行已忽略的应用程序</sys:String>
 
 </ResourceDictionary>
