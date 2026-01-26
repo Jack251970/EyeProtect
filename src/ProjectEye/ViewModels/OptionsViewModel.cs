@@ -33,6 +33,59 @@ namespace ProjectEye.ViewModels
 
             var version = Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.');
             Model.Version = version[0] + "." + version[1] + "." + version[2];
+
+            // Subscribe to property changes for auto-save
+            SubscribeToPropertyChanges();
+        }
+
+        /// <summary>
+        /// Subscribe to property changes on the settings models for auto-save
+        /// </summary>
+        private void SubscribeToPropertyChanges()
+        {
+            if (Model.Data != null)
+            {
+                // Subscribe to General settings changes
+                if (Model.Data.General != null)
+                {
+                    Model.Data.General.PropertyChanged += (s, e) => OnSettingChanged(e.PropertyName);
+                }
+
+                // Subscribe to Style settings changes
+                if (Model.Data.Style != null)
+                {
+                    Model.Data.Style.PropertyChanged += (s, e) => OnSettingChanged(e.PropertyName);
+                }
+
+                // Subscribe to Behavior settings changes
+                if (Model.Data.Behavior != null)
+                {
+                    Model.Data.Behavior.PropertyChanged += (s, e) => OnSettingChanged(e.PropertyName);
+                    
+                    // Subscribe to collection changes for BreakProgressList
+                    Model.Data.Behavior.BreakProgressList.CollectionChanged += (s, e) => OnSettingChanged("BreakProgressList");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handle setting changes and auto-save
+        /// </summary>
+        /// <param name="propertyName">The name of the property that changed</param>
+        private void OnSettingChanged(string propertyName)
+        {
+            // Save the configuration
+            config.Save();
+
+            // Handle specific property changes
+            if (propertyName == nameof(Model.Data.General.Startup))
+            {
+                StartupHelper.SetStartup(config.options.General.Startup);
+            }
+            else if (propertyName == nameof(Model.Data.General.WarnTime))
+            {
+                mainService.SetWarnTime(config.options.General.WarnTime);
+            }
         }
 
         /// <summary>
@@ -96,27 +149,6 @@ namespace ProjectEye.ViewModels
         {
             WindowManager.CreateWindowInScreen(obj.ToString());
             WindowManager.Show(obj.ToString());
-        }
-
-        [RelayCommand]
-        private void Apply(object obj)
-        {
-            var msg = "Failed to update! Please restart application or delete config.xml under Data folder!";
-            if (config.Save())
-            {
-                msg = $"{Application.Current.Resources["Lang_Optionupdated"]}";
-                //处理开机启动
-                if (!StartupHelper.SetStartup(config.options.General.Startup))
-                {
-                    msg = $"{Application.Current.Resources["Lang_Optionupdated"]}";
-                }
-                //处理休息间隔调整
-                if (mainService.SetWarnTime(config.options.General.WarnTime))
-                {
-                    msg = $"{Application.Current.Resources["Lang_Optionupdated"]}";
-                }
-            }
-            Modal(msg);
         }
 
         private void Modal(string text)

@@ -23,7 +23,7 @@
     </Window.Resources>
 
     <Grid Margin="5">
-        <TabControl Margin="0 0 0 50">
+        <TabControl>
             <TabItem Header="{DynamicResource Lang_General}">
                 <ScrollViewer>
                     <StackPanel Margin="10">
@@ -306,20 +306,5 @@
                 </ScrollViewer>
             </TabItem>
         </TabControl>
-        <StackPanel
-            Margin="10"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Bottom"
-            Orientation="Horizontal">
-
-            <Button
-                Width="auto"
-                Height="auto"
-                MinWidth="80"
-                Margin="10 0 0 0"
-                Padding="10 6"
-                Command="{Binding ApplyCommand}"
-                Content="{DynamicResource Lang_Apply}" />
-        </StackPanel>
     </Grid>
 </Window>
