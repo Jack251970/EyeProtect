@@ -106,6 +106,8 @@ public sealed class UwpAppInfo : AppInfo, IEquatable<UwpAppInfo>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     private async Task<ImageSource> GetUwpAppIconAsync()
     {
+        if (!_loadIcon) return null;
+
         try
         {
             if (Package is null)

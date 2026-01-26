@@ -42,7 +42,7 @@ public sealed partial class ShortcutAppInfo : AppInfo, IEquatable<ShortcutAppInf
             : TargetPath;
         if (string.IsNullOrEmpty(OverrideAppIconPath) && !string.IsNullOrWhiteSpace(iconPath) && File.Exists(iconPath))
         {
-            AppIcon = new TaskCompletionNotifier<ImageSource>(() => IconHelper.GetIconFromFileOrFolderAsync(iconPath), runTaskImmediately: false);
+            if (_loadIcon) AppIcon = new TaskCompletionNotifier<ImageSource>(() => IconHelper.GetIconFromFileOrFolderAsync(iconPath), runTaskImmediately: false);
         }
         else
         {

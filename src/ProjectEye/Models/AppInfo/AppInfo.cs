@@ -29,13 +29,15 @@ public abstract partial class AppInfo : IJsonOnDeserialized, IEquatable<AppInfo>
     // Parameterless constructor for serialization
     protected AppInfo() { }
 
+    protected bool _loadIcon = false;
+
     [JsonIgnore]
     public TaskCompletionNotifier<ImageSource> AppIcon { get; set; }
         = new(() => Task.FromResult<ImageSource>(null), runTaskImmediately: false);
 
     public virtual void OnDeserialized()
     {
-        AppIcon = new TaskCompletionNotifier<ImageSource>(() => IconHelper.GetIconFromFileOrFolderAsync(OverrideAppIconPath), runTaskImmediately: false);
+        if (_loadIcon) AppIcon = new TaskCompletionNotifier<ImageSource>(() => IconHelper.GetIconFromFileOrFolderAsync(OverrideAppIconPath), runTaskImmediately: false);
     }
 
     public abstract AppInfo Clone();

@@ -33,7 +33,7 @@ public sealed partial class ExeAppInfo : AppInfo, IJsonOnDeserialized, IEquatabl
     {
         if (string.IsNullOrEmpty(OverrideAppIconPath) && !string.IsNullOrWhiteSpace(ExeFilePath) && File.Exists(ExeFilePath))
         {
-            AppIcon = new TaskCompletionNotifier<ImageSource>(() => IconHelper.GetIconFromFileOrFolderAsync(ExeFilePath), runTaskImmediately: false);
+            if (_loadIcon) AppIcon = new TaskCompletionNotifier<ImageSource>(() => IconHelper.GetIconFromFileOrFolderAsync(ExeFilePath), runTaskImmediately: false);
         }
         else
         {
