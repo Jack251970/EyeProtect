@@ -33,11 +33,5 @@ namespace ProjectEye.Models
             }
         }
         public Visibility BreakProgressListVisibility => (Data?.Behavior.IsBreakProgressList ?? false) ? Visibility.Visible : Visibility.Collapsed;
-
-        [ObservableProperty]
-        private bool showModal = false;
-
-        [ObservableProperty]
-        private string modalText = "设置已更新";
     }
 }

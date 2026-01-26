@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
@@ -17,18 +18,15 @@ namespace ProjectEye.ViewModels
 
         private readonly ConfigService config;
         private readonly MainService mainService;
-        private readonly ThemeService theme;
         private bool _disposed = false;
 
         public OptionsViewModel(ConfigService config,
             MainService mainService,
             SystemResourcesService systemResources,
-            SoundService sound,
-            ThemeService theme)
+            SoundService sound)
         {
             this.config = config;
             this.mainService = mainService;
-            this.theme = theme;
             Model = new OptionsModel
             {
                 Data = config.options,
@@ -50,16 +48,10 @@ namespace ProjectEye.ViewModels
             if (Model.Data != null)
             {
                 // Subscribe to General settings changes
-                if (Model.Data.General != null)
-                {
-                    Model.Data.General.PropertyChanged += OnGeneralPropertyChanged;
-                }
+                Model.Data.General?.PropertyChanged += OnGeneralPropertyChanged;
 
                 // Subscribe to Style settings changes
-                if (Model.Data.Style != null)
-                {
-                    Model.Data.Style.PropertyChanged += OnStylePropertyChanged;
-                }
+                Model.Data.Style?.PropertyChanged += OnStylePropertyChanged;
 
                 // Subscribe to Behavior settings changes
                 if (Model.Data.Behavior != null)
@@ -112,7 +104,7 @@ namespace ProjectEye.ViewModels
             OnSettingChanged(e.PropertyName);
         }
 
-        private void OnBreakProgressListChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void OnBreakProgressListChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             OnSettingChanged("BreakProgressList");
         }
@@ -186,11 +178,7 @@ namespace ProjectEye.ViewModels
                 var existingApp = Model.Data.Behavior.BreakProgressList.FirstOrDefault(a => 
                     a.DefaultDisplayName == addedApp.DefaultDisplayName);
                 
-                if (existingApp != null)
-                {
-                    Modal($"{Application.Current.Resources["Lang_Applicationexists"]}");
-                }
-                else
+                if (existingApp == null)
                 {
                     Model.Data.Behavior.BreakProgressList.Add(addedApp);
                     Model.SelectedItem = null; // Clear selection after adding
@@ -203,12 +191,6 @@ namespace ProjectEye.ViewModels
         {
             WindowManager.CreateWindowInScreen(obj.ToString());
             WindowManager.Show(obj.ToString());
-        }
-
-        private void Modal(string text)
-        {
-            Model.ModalText = text;
-            Model.ShowModal = true;
         }
 
         /// <summary>

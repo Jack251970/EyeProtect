@@ -55,7 +55,7 @@
                             Minimum="1"
                             SmallChange="1"
                             ToolTip="{DynamicResource Lang_Minutes}"
-                            Value="{Binding Model.Data.General.WarnTime}" />
+                            Value="{Binding Model.Data.General.WarnTime, Mode=TwoWay}" />
                         <Slider
                             Grid.Row="1"
                             Grid.Column="1"
@@ -66,18 +66,18 @@
                             Minimum="1"
                             SmallChange="1"
                             ToolTip="{DynamicResource Lang_Seconds}"
-                            Value="{Binding Model.Data.General.RestTime}" />
+                            Value="{Binding Model.Data.General.RestTime, Mode=TwoWay}" />
 
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Autostartatboot}"
-                            IsOn="{Binding Model.Data.General.Startup}"
+                            IsOn="{Binding Model.Data.General.Startup, Mode=TwoWay}"
                             OffContent="{DynamicResource Lang_Off}"
                             OnContent="{DynamicResource Lang_On}" />
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Soundforbreakend}"
-                            IsOn="{Binding Model.Data.General.Sound}"
+                            IsOn="{Binding Model.Data.General.Sound, Mode=TwoWay}"
                             OffContent="{DynamicResource Lang_Off}"
                             OnContent="{DynamicResource Lang_On}" />
                     </StackPanel>
@@ -121,20 +121,20 @@
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Breakscannotbeskipped}"
-                            IsOn="{Binding Model.Data.Behavior.IsDisabledSkip}"
+                            IsOn="{Binding Model.Data.Behavior.IsDisabledSkip, Mode=TwoWay}"
                             OffContent="{DynamicResource Lang_Off}"
                             OnContent="{DynamicResource Lang_On}" />
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
                             Header="{DynamicResource Lang_HandleTimeoutAutoRest}"
                             IsEnabled="{Binding Model.Data.Behavior.IsDisabledSkip, Converter={StaticResource BoolNegationConverter}}"
-                            IsOn="{Binding Model.Data.Behavior.IsHandleTimeoutRest}"
+                            IsOn="{Binding Model.Data.Behavior.IsHandleTimeoutRest, Mode=TwoWay}"
                             OffContent="{DynamicResource Lang_Off}"
                             OnContent="{DynamicResource Lang_On}" />
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Donotdisturbwhenrunningfullscreenapplications}"
-                            IsOn="{Binding Model.Data.Behavior.IsFullScreenBreak}"
+                            IsOn="{Binding Model.Data.Behavior.IsFullScreenBreak, Mode=TwoWay}"
                             OffContent="{DynamicResource Lang_Off}"
                             OnContent="{DynamicResource Lang_On}" />
                         <ui:ToggleSwitch
@@ -150,8 +150,8 @@
                             </Grid.RowDefinitions>
                             <ListView
                                 Name="breakProcessListView"
-                                ItemsSource="{Binding Model.Data.Behavior.BreakProgressList, Mode=TwoWay}"
-                                SelectedItem="{Binding Model.SelectedItem}"
+                                ItemsSource="{Binding Model.Data.Behavior.BreakProgressList}"
+                                SelectedItem="{Binding Model.SelectedItem, Mode=TwoWay}"
                                 SelectionMode="Single">
 
                                 <ListView.ContextMenu>
