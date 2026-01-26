@@ -5,6 +5,7 @@ using System.Windows;
 using ProjectEye.Core.Service;
 using ProjectEye.Models;
 using ProjectEye.ViewModels;
+using Windows.Win32.UI.HiDpi;
 
 namespace ProjectEye.Core
 {
@@ -13,14 +14,13 @@ namespace ProjectEye.Core
     /// </summary>
     public class WindowManager
     {
-        private static readonly IList<WindowModel> windowList;
-        private static readonly IList<object> viewModelList;
+        private static readonly List<WindowModel> windowList;
+        private static readonly List<object> viewModelList;
         public static ServiceCollection serviceCollection { get; set; }
         static WindowManager()
         {
-            windowList = new List<WindowModel>();
-            viewModelList = new List<object>();
-
+            windowList = [];
+            viewModelList = [];
         }
 
         //window
@@ -66,15 +66,15 @@ namespace ProjectEye.Core
                 }
             }
 
-            var windowModel = new WindowModel();
-            windowModel.window = objWindow;
-            windowModel.screen = screen;
+            var windowModel = new WindowModel
+            {
+                window = objWindow,
+                screen = screen
+            };
 
             windowList.Add(windowModel);
             return objWindow;
         }
-
-
 
         /// <summary>
         /// 在指定显示器上创建一个window（默认在主显示器）
@@ -82,22 +82,13 @@ namespace ProjectEye.Core
         /// <param name="name">窗口类名</param>
         /// <param name="screen">显示器</param>
         /// <returns></returns>
-        public static Window CreateWindowInScreen(string name, System.Windows.Forms.Screen screen = null, bool isMaximized = false, bool newViewModel = false)
+        public static Window CreateWindowInScreen(string name, MonitorInfo screen = null, bool isMaximized = false, bool newViewModel = false)
         {
-
-            //var windowModel = GetWindowModel(name, screen.DeviceName);
-            //if (windowModel != null)
-            //{
-            //    //先销毁再创建
-            //    windowModel.window.Close();
-            //    windowList.Remove(windowModel);
-            //}
             //创建
-
             double left = -999999, top = -999999, width = -999999, height = -999999;
             if (screen == null)
             {
-                screen = System.Windows.Forms.Screen.PrimaryScreen;
+                screen = MonitorInfo.GetPrimaryDisplayMonitor();
             }
             if (isMaximized)
             {
@@ -109,7 +100,7 @@ namespace ProjectEye.Core
                 height = size.Height;
             }
             var window = CreateWindow(name,
-                screen.DeviceName,
+                screen.Name,
                 left,
                 top,
                 width,
@@ -125,8 +116,9 @@ namespace ProjectEye.Core
         /// <returns></returns>
         public static Window[] CreateWindow(string name, bool isMaximized, bool newViewModel = false)
         {
-            var screenCount = System.Windows.Forms.Screen.AllScreens.Length;
-            var screens = System.Windows.Forms.Screen.AllScreens;
+            var allScreens = MonitorInfo.GetDisplayMonitors();
+            var screenCount = allScreens.Count;
+            var screens = allScreens;
             var windows = new Window[screenCount];
 
             for (var index = 0; index < screenCount; index++)
@@ -143,7 +135,7 @@ namespace ProjectEye.Core
                 var left = ToDips(screen.Bounds.Left, size.XDPI);
                 var top = ToDips(screen.Bounds.Top, size.YDPI);
 
-                var window = CreateWindow(name, screen.DeviceName, left, top, width, height, newViewModel);
+                var window = CreateWindow(name, screen.Name, left, top, width, height, newViewModel);
                 windows[index] = window;
 
             }
@@ -217,10 +209,10 @@ namespace ProjectEye.Core
         #region 显示窗口
         public static void Show(string name)
         {
-            var screens = System.Windows.Forms.Screen.AllScreens;
+            var screens = MonitorInfo.GetDisplayMonitors();
             foreach (var screen in screens)
             {
-                var window = GetWindowByScreen(name, screen.DeviceName);
+                var window = GetWindowByScreen(name, screen.Name);
                 window?.Show();
             }
         }
@@ -285,10 +277,10 @@ namespace ProjectEye.Core
         /// <param name="name"></param>
         public static void UpdateAllScreensWindow(string name, bool isMaximized)
         {
-            var screens = System.Windows.Forms.Screen.AllScreens;
+            var screens = MonitorInfo.GetDisplayMonitors();
             foreach (var screen in screens)
             {
-                var window = GetWindowByScreen(name, screen.DeviceName);
+                var window = GetWindowByScreen(name, screen.Name);
                 if (window != null)
                 {
                     var size = GetSize(screen);
@@ -314,15 +306,17 @@ namespace ProjectEye.Core
             public uint YDPI { get; set; }
 
         }
-        public static Size GetSize(System.Windows.Forms.Screen screen)
+        public static Size GetSize(MonitorInfo screen)
         {
             //uint xDpi, yDpi;
-            var dpi = screen.GetDpi(DpiType.Effective);
-            var size = new Size();
-            size.Width = screen.Bounds.Width / (dpi.x / 96.0);
-            size.Height = screen.Bounds.Height / (dpi.y / 96.0);
-            size.XDPI = dpi.x;
-            size.YDPI = dpi.y;
+            var dpi = screen.GetDpi(MONITOR_DPI_TYPE.MDT_EFFECTIVE_DPI);
+            var size = new Size
+            {
+                Width = screen.Bounds.Width / (dpi.x / 96.0),
+                Height = screen.Bounds.Height / (dpi.y / 96.0),
+                XDPI = dpi.x,
+                YDPI = dpi.y
+            };
             return size;
         }
         #endregion
@@ -333,9 +327,9 @@ namespace ProjectEye.Core
             X,
             Y
         }
-        public static double ToDips(System.Windows.Forms.Screen screen, double value, DpiDirection dpiDirection = DpiDirection.X)
+        public static double ToDips(MonitorInfo screen, double value, DpiDirection dpiDirection = DpiDirection.X)
         {
-            var dpi = screen.GetDpi(DpiType.Effective);
+            var dpi = screen.GetDpi(MONITOR_DPI_TYPE.MDT_EFFECTIVE_DPI);
 
             return value / (dpiDirection == DpiDirection.X ? dpi.x : dpi.y / 96.0);
         }
@@ -426,7 +420,5 @@ namespace ProjectEye.Core
             }
         }
         #endregion
-
-
     }
 }

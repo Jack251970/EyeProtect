@@ -1,0 +1,15 @@
+﻿GetSystemMetrics
+EnumDisplayMonitors
+MonitorFromWindow
+GetMonitorInfo
+MONITORINFOEXW
+GetCursorPos
+MonitorFromPoint
+GetDpiForMonitor
+
+GetForegroundWindow
+GetWindowRect
+IsZoomed
+GetWindowTextLength
+GetWindowText
+GetClassName
