@@ -271,7 +271,12 @@ namespace ProjectEye.Core.Service
             {
                 offset = Convert.ToDouble(cache["TimerOffset"]);
             }
-            return work_timer.Interval.TotalMinutes - (workTimerStopwatch.Elapsed.TotalMinutes + offset / 60.0);
+            
+            // Calculate remaining time based on the full interval (WarnTime)
+            var fullIntervalMinutes = config.options.General.WarnTime;
+            var elapsedMinutes = (workTimerStopwatch.Elapsed.TotalSeconds + offset) / 60.0;
+            
+            return fullIntervalMinutes - elapsedMinutes;
         }
         #endregion
 
@@ -371,18 +376,46 @@ namespace ProjectEye.Core.Service
             {
                 Debug.WriteLine(work_timer.Interval.TotalMinutes + "," + minutes);
                 
-                // Save current timer state before changing interval
-                if (workTimerStopwatch.IsRunning && !config.options.General.Noreset)
-                {
-                    SaveTimerState();
-                }
-                
-                work_timer.Interval = new TimeSpan(0, minutes, 0);
                 if (!config.options.General.Noreset)
                 {
-                    // Instead of resetting, continue timing with the new interval
-                    ContinueTimer();
-                    return true;
+                    // Calculate current elapsed time
+                    double offset = 0;
+                    if (cache["TimerOffset"] != null)
+                    {
+                        offset = Convert.ToDouble(cache["TimerOffset"]);
+                    }
+                    double currentElapsed = workTimerStopwatch.Elapsed.TotalSeconds + offset;
+                    
+                    // Set new interval
+                    var newIntervalSeconds = minutes * 60;
+                    
+                    // If elapsed time is less than new interval, continue timing
+                    if (workTimerStopwatch.IsRunning && currentElapsed < newIntervalSeconds)
+                    {
+                        // Calculate remaining time with new interval
+                        var remainingSeconds = newIntervalSeconds - currentElapsed;
+                        
+                        // Stop and restart timer with new remaining time
+                        work_timer.Stop();
+                        work_timer.Interval = TimeSpan.FromSeconds(remainingSeconds);
+                        work_timer.Start();
+                        
+                        // Update timer offset for accurate countdown display
+                        cache["TimerOffset"] = currentElapsed;
+                        
+                        return true;
+                    }
+                    else
+                    {
+                        // Elapsed time exceeds new interval or timer not running, reset
+                        work_timer.Interval = new TimeSpan(0, minutes, 0);
+                        ReStart();
+                        return true;
+                    }
+                }
+                else
+                {
+                    work_timer.Interval = new TimeSpan(0, minutes, 0);
                 }
                 return false;
             }
@@ -406,25 +439,6 @@ namespace ProjectEye.Core.Service
                 
                 DoStop();
                 DoStart();
-                OnReStartTimer?.Invoke(this, 0);
-            }
-        }
-
-        #endregion
-
-        #region 继续计时
-        /// <summary>
-        /// 继续计时（不重置已用时间）
-        /// </summary>
-        private void ContinueTimer()
-        {
-            if (!config.options.General.Noreset)
-            {
-                Debug.WriteLine("继续计时");
-                // Restart the timer without resetting elapsed time
-                work_timer.Stop();
-                work_timer.Start();
-                // Keep the stopwatch running with saved offset
                 OnReStartTimer?.Invoke(this, 0);
             }
         }
@@ -517,6 +531,14 @@ namespace ProjectEye.Core.Service
         #region 用眼到达设定时间 Event
         private void timer_Tick(object sender, EventArgs e)
         {
+            // Clear timer offset and restore full interval after it fires
+            cache["TimerOffset"] = null;
+            var fullInterval = TimeSpan.FromMinutes(config.options.General.WarnTime);
+            if (work_timer.Interval != fullInterval)
+            {
+                work_timer.Interval = fullInterval;
+            }
+            
             ShowTipWindow();
             OnReset?.Invoke(this, 0);
         }
@@ -725,8 +747,15 @@ namespace ProjectEye.Core.Service
         {
             if (workTimerStopwatch.IsRunning)
             {
-                // Save the current elapsed time
-                config.options.General.ElapsedSeconds = workTimerStopwatch.Elapsed.TotalSeconds;
+                // Calculate total elapsed time including any existing offset
+                double offset = 0;
+                if (cache["TimerOffset"] != null)
+                {
+                    offset = Convert.ToDouble(cache["TimerOffset"]);
+                }
+                
+                // Save the total elapsed time (stopwatch + offset)
+                config.options.General.ElapsedSeconds = workTimerStopwatch.Elapsed.TotalSeconds + offset;
                 config.options.General.LastTimerStart = DateTime.Now;
                 config.Save();
             }
@@ -750,16 +779,12 @@ namespace ProjectEye.Core.Service
                 // Check if total elapsed time exceeds the warning interval
                 if (totalElapsed < work_timer.Interval.TotalSeconds)
                 {
-                    // Restore timer state with elapsed time
-                    workTimerStopwatch.Start();
-                    // Fast forward the stopwatch to the elapsed time by adding offset
-                    var elapsedTimeSpan = TimeSpan.FromSeconds(totalElapsed);
-                    // We need to restart and then add the elapsed time
-                    // Since we can't directly set Stopwatch elapsed time, we'll track it separately
-                    // and adjust in the GetRestCountdownMinutes method
-                    
-                    // Store the initial offset
+                    // Store the initial offset for display and calculation purposes
                     cache["TimerOffset"] = totalElapsed;
+                    
+                    // Adjust the timer interval to fire at the correct remaining time
+                    var remainingSeconds = work_timer.Interval.TotalSeconds - totalElapsed;
+                    work_timer.Interval = TimeSpan.FromSeconds(remainingSeconds);
                 }
                 else
                 {
