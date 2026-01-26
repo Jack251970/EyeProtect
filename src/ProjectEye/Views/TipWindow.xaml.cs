@@ -19,9 +19,6 @@ namespace ProjectEye.Views
         [DllImport("user32.dll", SetLastError = true)]
         private static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
 
-        [DllImport("kernel32.dll")]
-        private static extern uint GetLastError();
-
         public TipWindow()
         {
             InitializeComponent();
@@ -84,12 +81,10 @@ namespace ProjectEye.Views
 
                 try
                 {
-                    // Clear last error before the API call
-                    System.Runtime.InteropServices.Marshal.SetLastPInvokeError(0);
                     var extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
                     
                     // Check if GetWindowLong failed
-                    var error = GetLastError();
+                    var error = Marshal.GetLastWin32Error();
                     if (extendedStyle == 0 && error != 0)
                     {
                         // GetWindowLong failed, log and return
@@ -109,12 +104,10 @@ namespace ProjectEye.Views
                         newStyle = extendedStyle & ~WS_EX_TRANSPARENT;
                     }
 
-                    // Clear last error before the API call
-                    System.Runtime.InteropServices.Marshal.SetLastPInvokeError(0);
                     SetWindowLong(hwnd, GWL_EXSTYLE, newStyle);
                     
                     // Check if SetWindowLong failed
-                    error = GetLastError();
+                    error = Marshal.GetLastWin32Error();
                     if (error != 0)
                     {
                         System.Diagnostics.Debug.WriteLine($"SetWindowLong failed with error code: {error}");
