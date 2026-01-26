@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
 using Microsoft.Win32;
 using ProjectEye.Models.Settings;
+using ProjectEye.Models.AppInfo;
 using Windows.Win32;
 
 namespace ProjectEye.Core.Service
@@ -557,9 +559,12 @@ namespace ProjectEye.Core.Service
                     {
                         try
                         {
-                            if (config.options.Behavior.BreakProgressList.Contains(process.ProcessName))
+                            foreach (var appInfo in config.options.Behavior.BreakProgressList)
                             {
-                                return true;
+                                if (MatchesProcess(appInfo, process))
+                                {
+                                    return true;
+                                }
                             }
                         }
                         catch
@@ -617,6 +622,51 @@ namespace ProjectEye.Core.Service
             date_timer.Interval = new TimeSpan(0, 0, diffseconds);
             date_timer.Start();
             isDateTimerReset = false;
+        }
+
+        /// <summary>
+        /// Check if an AppInfo matches a running process
+        /// </summary>
+        private bool MatchesProcess(AppInfo appInfo, Process process)
+        {
+            try
+            {
+                string processPath = null;
+                try
+                {
+                    processPath = process.MainModule?.FileName;
+                }
+                catch
+                {
+                    // Unable to get process path (may be system process or access denied)
+                }
+
+                if (string.IsNullOrEmpty(processPath))
+                {
+                    return false;
+                }
+
+                // Check based on AppInfo type
+                if (appInfo is ExeAppInfo exeApp)
+                {
+                    return string.Equals(processPath, exeApp.ExeFilePath, StringComparison.OrdinalIgnoreCase);
+                }
+                else if (appInfo is ShortcutAppInfo shortcutApp)
+                {
+                    return string.Equals(processPath, shortcutApp.TargetPath, StringComparison.OrdinalIgnoreCase);
+                }
+                else if (appInfo is UwpAppInfo uwpApp)
+                {
+                    // For UWP apps, compare the process name with the package family name
+                    return process.ProcessName.Contains(uwpApp.PackageFullName.Split('_')[0], StringComparison.OrdinalIgnoreCase);
+                }
+
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
         }
         #endregion
     }

@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Linq;
+using System.Reflection;
 using System.Windows;
 using CommunityToolkit.Mvvm.Input;
 using ProjectEye.Core;
@@ -62,16 +63,30 @@ namespace ProjectEye.ViewModels
         [RelayCommand]
         private void AddBreackProcess(object obj)
         {
-            var addedApp = null; // TODO: Show AppSelectionDialog here and select an application
-
-            if (Model.Data.Behavior.BreakProgressList.Contains(addedApp))
+            // Show AppSelectionDialog and select an application
+            var dialog = new Views.AppSelectionWindow
             {
-                Modal($"{Application.Current.Resources["Lang_Applicationexists"]}");
-            }
-            else
+                Owner = Application.Current.MainWindow
+            };
+            
+            var result = dialog.ShowDialog();
+            if (result == true && dialog.ViewModel.SelectedApp != null)
             {
-                Model.Data.Behavior.BreakProgressList.Add(addedApp);
-                Model.SelectedItem = null; // Clear selection after adding
+                var addedApp = dialog.ViewModel.SelectedApp;
+                
+                // Check if app already exists in the list
+                var existingApp = Model.Data.Behavior.BreakProgressList.FirstOrDefault(a => 
+                    a.DefaultDisplayName == addedApp.DefaultDisplayName);
+                
+                if (existingApp != null)
+                {
+                    Modal($"{Application.Current.Resources["Lang_Applicationexists"]}");
+                }
+                else
+                {
+                    Model.Data.Behavior.BreakProgressList.Add(addedApp);
+                    Model.SelectedItem = null; // Clear selection after adding
+                }
             }
         }
 
