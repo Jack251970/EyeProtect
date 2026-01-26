@@ -83,9 +83,10 @@ namespace ProjectEye.Views
                 {
                     var extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
                     
-                    // Check if GetWindowLong failed
+                    // Check if GetWindowLong failed - according to Win32 docs, 
+                    // we should check the error code, not the return value
                     var error = Marshal.GetLastWin32Error();
-                    if (extendedStyle == 0 && error != 0)
+                    if (error != 0)
                     {
                         // GetWindowLong failed, log and return
                         System.Diagnostics.Debug.WriteLine($"GetWindowLong failed with error code: {error}");
