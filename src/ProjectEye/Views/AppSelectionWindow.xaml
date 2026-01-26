@@ -47,13 +47,13 @@
                 Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
             <!--  App List  -->
-            <ListBox
+            <ListView
                 x:Name="AppListBox"
                 ItemsSource="{Binding FilteredAppList}"
                 MouseDoubleClick="AppListBox_MouseDoubleClick"
                 SelectedItem="{Binding SelectedApp, Mode=TwoWay}"
                 Visibility="{Binding IsNotLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <ListBox.ItemTemplate>
+                <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid Margin="5">
                             <Grid.ColumnDefinitions>
@@ -77,8 +77,8 @@
                                 TextTrimming="CharacterEllipsis" />
                         </Grid>
                     </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
 
         <!--  Buttons  -->
