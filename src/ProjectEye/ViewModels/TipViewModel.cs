@@ -26,7 +26,6 @@ namespace ProjectEye.ViewModels
             SoundService sound,
             ConfigService config,
             MainService main,
-            App app,
             ThemeService theme)
         {
             this.reset = reset;

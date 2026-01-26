@@ -13,14 +13,7 @@ namespace ProjectEye.Core.Service
     /// </summary>
     public class SoundService : IService
     {
-        private readonly ConfigService config;
-        private readonly Dictionary<SoundType, SoundPlayer> players;
-        public SoundService(ConfigService config)
-        {
-            players = new Dictionary<SoundType, SoundPlayer>();
-            //player.LoadCompleted += Player_LoadCompleted;
-            this.config = config;
-        }
+        private readonly Dictionary<SoundType, SoundPlayer> players = [];
 
         private void Player_LoadCompleted(object sender, AsyncCompletedEventArgs e)
         {
