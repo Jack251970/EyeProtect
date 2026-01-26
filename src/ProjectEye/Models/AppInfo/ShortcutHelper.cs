@@ -175,8 +175,8 @@ internal static class ShortcutHelper
                     string iconPath = Marshal.PtrToStringUni(iconPathPtr) ?? string.Empty;
                     string title = Path.GetFileNameWithoutExtension(lnkPath);
 
-                    string? normalizedTargetPath = NormalizePath(targetPath);
-                    string? normalizedIconPath = NormalizePath(iconPath);
+                    string normalizedTargetPath = NormalizePath(targetPath);
+                    string normalizedIconPath = NormalizePath(iconPath);
 
                     if (string.IsNullOrEmpty(normalizedTargetPath) && string.IsNullOrEmpty(normalizedIconPath))
                     {
