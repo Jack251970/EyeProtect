@@ -199,11 +199,11 @@ internal static class IconHelper
         return null;
     }
 
-    private static async Task<CanvasBitmap> ToCanvasBitmapAsync(
+    /*private static async Task<CanvasBitmap> ToCanvasBitmapAsync(
         this ImageSource imageSource,
         CanvasDevice device)
     {
-        /*if (imageSource == null)
+        if (imageSource == null)
         {
             return null;
         }
@@ -230,7 +230,6 @@ internal static class IconHelper
         {
             Debug.WriteLine($"Error converting ImageSource to CanvasBitmap: {ex.Message}");
             return null;
-        }*/
-        return null;
-    }
+        }
+    }*/
 }

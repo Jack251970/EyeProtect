@@ -62,7 +62,7 @@ namespace ProjectEye.ViewModels
         [RelayCommand]
         private void AddBreackProcess(object obj)
         {
-            var addedApp = null; // TODO: Show a dialog here
+            var addedApp = null; // TODO: Show AppSelectionDialog here and select an application
 
             if (Model.Data.Behavior.BreakProgressList.Contains(addedApp))
             {
