@@ -164,7 +164,6 @@
                             </Grid.RowDefinitions>
                             <ListView
                                 Name="breakProcessListView"
-                                Margin="0 10 0 0"
                                 ItemsSource="{Binding Model.Data.Behavior.BreakProgressList, Mode=TwoWay}"
                                 SelectedItem="{Binding Model.SelectedItem}"
                                 SelectionMode="Single">
@@ -201,7 +200,7 @@
                                 </ListView.View>
                             </ListView>
 
-                            <Grid Grid.Row="1">
+                            <Grid Grid.Row="1" Margin="0 10 0 0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="auto" />
