@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ProjectEye.Models.Settings
 {
@@ -48,5 +49,17 @@ namespace ProjectEye.Models.Settings
         /// </summary>
         [ObservableProperty]
         private int restTime = 20;
+
+        /// <summary>
+        /// 最后一次启动计时器的时间（用于计算已过时间）
+        /// </summary>
+        [ObservableProperty]
+        private DateTime? lastTimerStart = null;
+
+        /// <summary>
+        /// 计时器已经过的秒数（用于恢复计时器状态）
+        /// </summary>
+        [ObservableProperty]
+        private double elapsedSeconds = 0;
     }
 }

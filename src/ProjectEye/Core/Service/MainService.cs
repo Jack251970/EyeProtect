@@ -158,6 +158,9 @@ namespace ProjectEye.Core.Service
 
             UpdateDateTimer();
 
+            // Restore timer state if available
+            RestoreTimerState();
+
             Start();
 
             config.Changed += Config_Changed;
@@ -263,7 +266,12 @@ namespace ProjectEye.Core.Service
         #region 获取下一次休息剩余分钟数
         public double GetRestCountdownMinutes()
         {
-            return work_timer.Interval.TotalMinutes - workTimerStopwatch.Elapsed.TotalMinutes;
+            double offset = 0;
+            if (cache["TimerOffset"] != null)
+            {
+                offset = Convert.ToDouble(cache["TimerOffset"]);
+            }
+            return work_timer.Interval.TotalMinutes - (workTimerStopwatch.Elapsed.TotalMinutes + offset / 60.0);
         }
         #endregion
 
@@ -325,6 +333,7 @@ namespace ProjectEye.Core.Service
         /// </summary>
         public void Exit()
         {
+            SaveTimerState();
             screen.Dispose();
             DoStop();
             WindowManager.Close("TipWindow");
@@ -361,10 +370,18 @@ namespace ProjectEye.Core.Service
             if (work_timer.Interval.TotalMinutes != minutes)
             {
                 Debug.WriteLine(work_timer.Interval.TotalMinutes + "," + minutes);
+                
+                // Save current timer state before changing interval
+                if (workTimerStopwatch.IsRunning && !config.options.General.Noreset)
+                {
+                    SaveTimerState();
+                }
+                
                 work_timer.Interval = new TimeSpan(0, minutes, 0);
                 if (!config.options.General.Noreset)
                 {
-                    ReStart();
+                    // Instead of resetting, continue timing with the new interval
+                    ContinueTimer();
                     return true;
                 }
                 return false;
@@ -382,8 +399,32 @@ namespace ProjectEye.Core.Service
             if (!config.options.General.Noreset)
             {
                 Debug.WriteLine("重新启动休息计时");
+                // Clear saved timer state when resetting
+                config.options.General.ElapsedSeconds = 0;
+                config.options.General.LastTimerStart = null;
+                cache["TimerOffset"] = null;
+                
                 DoStop();
                 DoStart();
+                OnReStartTimer?.Invoke(this, 0);
+            }
+        }
+
+        #endregion
+
+        #region 继续计时
+        /// <summary>
+        /// 继续计时（不重置已用时间）
+        /// </summary>
+        private void ContinueTimer()
+        {
+            if (!config.options.General.Noreset)
+            {
+                Debug.WriteLine("继续计时");
+                // Restart the timer without resetting elapsed time
+                work_timer.Stop();
+                work_timer.Start();
+                // Keep the stopwatch running with saved offset
                 OnReStartTimer?.Invoke(this, 0);
             }
         }
@@ -398,7 +439,18 @@ namespace ProjectEye.Core.Service
             {
                 //休息提醒
                 work_timer.Start();
-                workTimerStopwatch.Restart();
+                
+                // Check if we need to restore timer offset
+                if (cache["TimerOffset"] != null)
+                {
+                    // Timer offset exists, just start the stopwatch
+                    workTimerStopwatch.Start();
+                }
+                else
+                {
+                    // No offset, restart fresh
+                    workTimerStopwatch.Restart();
+                }
             }
             //离开监听
             leave_timer.Start();
@@ -574,6 +626,11 @@ namespace ProjectEye.Core.Service
         #region 重置测量时间
         public void ReStartWorkTimerWatch()
         {
+            // Clear saved timer state when resetting after rest
+            config.options.General.ElapsedSeconds = 0;
+            config.options.General.LastTimerStart = null;
+            cache["TimerOffset"] = null;
+            
             workTimerStopwatch.Restart();
         }
         #endregion
@@ -659,6 +716,60 @@ namespace ProjectEye.Core.Service
                 return false;
             }
         }
+
+        #region 保存计时器状态
+        /// <summary>
+        /// 保存计时器状态以便稍后恢复
+        /// </summary>
+        private void SaveTimerState()
+        {
+            if (workTimerStopwatch.IsRunning)
+            {
+                // Save the current elapsed time
+                config.options.General.ElapsedSeconds = workTimerStopwatch.Elapsed.TotalSeconds;
+                config.options.General.LastTimerStart = DateTime.Now;
+                config.Save();
+            }
+        }
+        #endregion
+
+        #region 恢复计时器状态
+        /// <summary>
+        /// 恢复之前保存的计时器状态
+        /// </summary>
+        private void RestoreTimerState()
+        {
+            if (config.options.General.LastTimerStart.HasValue && config.options.General.ElapsedSeconds > 0)
+            {
+                var lastStart = config.options.General.LastTimerStart.Value;
+                var timeSinceLastStart = DateTime.Now - lastStart;
+                
+                // Calculate total elapsed time (saved elapsed + time since last start)
+                var totalElapsed = config.options.General.ElapsedSeconds + timeSinceLastStart.TotalSeconds;
+                
+                // Check if total elapsed time exceeds the warning interval
+                if (totalElapsed < work_timer.Interval.TotalSeconds)
+                {
+                    // Restore timer state with elapsed time
+                    workTimerStopwatch.Start();
+                    // Fast forward the stopwatch to the elapsed time by adding offset
+                    var elapsedTimeSpan = TimeSpan.FromSeconds(totalElapsed);
+                    // We need to restart and then add the elapsed time
+                    // Since we can't directly set Stopwatch elapsed time, we'll track it separately
+                    // and adjust in the GetRestCountdownMinutes method
+                    
+                    // Store the initial offset
+                    cache["TimerOffset"] = totalElapsed;
+                }
+                else
+                {
+                    // Elapsed time exceeds interval, reset to avoid immediate notification
+                    config.options.General.ElapsedSeconds = 0;
+                    config.options.General.LastTimerStart = null;
+                }
+            }
+        }
+        #endregion
         #endregion
     }
 }
