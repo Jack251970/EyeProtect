@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows.Media;
-using System.Xml.Serialization;
 using ProjectEye.Core;
 
 namespace ProjectEye.Models.AppInfo;
@@ -11,9 +10,6 @@ namespace ProjectEye.Models.AppInfo;
 [JsonDerivedType(typeof(ExeAppInfo), typeDiscriminator: "exe")]
 [JsonDerivedType(typeof(ShortcutAppInfo), typeDiscriminator: "shortcut")]
 [JsonDerivedType(typeof(UwpAppInfo), typeDiscriminator: "uwp")]
-[XmlInclude(typeof(ExeAppInfo))]
-[XmlInclude(typeof(ShortcutAppInfo))]
-[XmlInclude(typeof(UwpAppInfo))]
 [DebuggerDisplay("{DisplayName}")]
 public abstract partial class AppInfo : IJsonOnDeserialized, IEquatable<AppInfo>
 {

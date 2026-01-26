@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 using CommunityToolkit.Mvvm.Input;
@@ -9,22 +12,21 @@ using ProjectEye.Views;
 
 namespace ProjectEye.ViewModels
 {
-    public partial class OptionsViewModel
+    public partial class OptionsViewModel : IDisposable
     {
         public OptionsModel Model { get; set; }
 
         private readonly ConfigService config;
         private readonly MainService mainService;
-        private readonly ThemeService theme;
+        private bool _disposed = false;
+
         public OptionsViewModel(ConfigService config,
             MainService mainService,
             SystemResourcesService systemResources,
-            SoundService sound,
-            ThemeService theme)
+            SoundService sound)
         {
             this.config = config;
             this.mainService = mainService;
-            this.theme = theme;
             Model = new OptionsModel
             {
                 Data = config.options,
@@ -33,6 +35,94 @@ namespace ProjectEye.ViewModels
 
             var version = Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.');
             Model.Version = version[0] + "." + version[1] + "." + version[2];
+        }
+
+        /// <summary>
+        /// Subscribe to property changes on the settings models for auto-save
+        /// </summary>
+        public void SubscribeToPropertyChanges()
+        {
+            if (Model.Data != null)
+            {
+                // Subscribe to General settings changes
+                Model.Data.General?.PropertyChanged += OnGeneralPropertyChanged;
+
+                // Subscribe to Style settings changes
+                Model.Data.Style?.PropertyChanged += OnStylePropertyChanged;
+
+                // Subscribe to Behavior settings changes
+                if (Model.Data.Behavior != null)
+                {
+                    Model.Data.Behavior.PropertyChanged += OnBehaviorPropertyChanged;
+                    
+                    // Subscribe to collection changes for BreakProgressList
+                    Model.Data.Behavior.BreakProgressList.CollectionChanged += OnBreakProgressListChanged;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Unsubscribe from property changes
+        /// </summary>
+        private void UnsubscribeFromPropertyChanges()
+        {
+            if (Model.Data != null)
+            {
+                Model.Data.General?.PropertyChanged -= OnGeneralPropertyChanged;
+
+                Model.Data.Style?.PropertyChanged -= OnStylePropertyChanged;
+
+                if (Model.Data.Behavior != null)
+                {
+                    Model.Data.Behavior.PropertyChanged -= OnBehaviorPropertyChanged;
+                    Model.Data.Behavior.BreakProgressList.CollectionChanged -= OnBreakProgressListChanged;
+                }
+            }
+        }
+
+        private void OnGeneralPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnSettingChanged(e.PropertyName);
+        }
+
+        private void OnStylePropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnSettingChanged(e.PropertyName);
+        }
+
+        private void OnBehaviorPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnSettingChanged(e.PropertyName);
+        }
+
+        private void OnBreakProgressListChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnSettingChanged("BreakProgressList");
+        }
+
+        /// <summary>
+        /// Handle setting changes and auto-save
+        /// </summary>
+        /// <param name="propertyName">The name of the property that changed</param>
+        private void OnSettingChanged(string propertyName)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            // Save the configuration
+            config.Save();
+
+            // Handle specific property changes
+            if (propertyName == nameof(Model.Data.General.Startup))
+            {
+                StartupHelper.SetStartup(config.options.General.Startup);
+            }
+            else if (propertyName == nameof(Model.Data.General.WarnTime))
+            {
+                mainService.SetWarnTime(config.options.General.WarnTime);
+            }
         }
 
         /// <summary>
@@ -79,11 +169,7 @@ namespace ProjectEye.ViewModels
                 var existingApp = Model.Data.Behavior.BreakProgressList.FirstOrDefault(a => 
                     a.DefaultDisplayName == addedApp.DefaultDisplayName);
                 
-                if (existingApp != null)
-                {
-                    Modal($"{Application.Current.Resources["Lang_Applicationexists"]}");
-                }
-                else
+                if (existingApp == null)
                 {
                     Model.Data.Behavior.BreakProgressList.Add(addedApp);
                     Model.SelectedItem = null; // Clear selection after adding
@@ -98,31 +184,16 @@ namespace ProjectEye.ViewModels
             WindowManager.Show(obj.ToString());
         }
 
-        [RelayCommand]
-        private void Apply(object obj)
+        /// <summary>
+        /// Dispose method to clean up event subscriptions
+        /// </summary>
+        public void Dispose()
         {
-            var msg = "Failed to update! Please restart application or delete config.xml under Data folder!";
-            if (config.Save())
+            if (!_disposed)
             {
-                msg = $"{Application.Current.Resources["Lang_Optionupdated"]}";
-                //处理开机启动
-                if (!StartupHelper.SetStartup(config.options.General.Startup))
-                {
-                    msg = $"{Application.Current.Resources["Lang_Optionupdated"]}";
-                }
-                //处理休息间隔调整
-                if (mainService.SetWarnTime(config.options.General.WarnTime))
-                {
-                    msg = $"{Application.Current.Resources["Lang_Optionupdated"]}";
-                }
+                UnsubscribeFromPropertyChanges();
+                _disposed = true;
             }
-            Modal(msg);
-        }
-
-        private void Modal(string text)
-        {
-            Model.ModalText = text;
-            Model.ShowModal = true;
         }
     }
 }

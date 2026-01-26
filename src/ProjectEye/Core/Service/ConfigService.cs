@@ -12,7 +12,7 @@ namespace ProjectEye.Core.Service
     public class ConfigService : IService
     {
         private readonly string configPath;
-        private readonly XmlExtensions xmlExtensions;
+        private readonly JsonExtensions jsonExtensions;
         private readonly SystemResourcesService systemResources;
         //存放文件夹
         private readonly string dir = "Data";
@@ -30,15 +30,16 @@ namespace ProjectEye.Core.Service
             this.systemResources = systemResources;
             configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 dir,
-                "config.xml");
-            xmlExtensions = new XmlExtensions(configPath);
+                "config.json");
+            jsonExtensions = new JsonExtensions(configPath);
             oldOptions_ = new OptionsModel();
         }
         public void Init()
         {
+            // Try to migrate from old XML config if it exists
             if (File.Exists(configPath))
             {
-                var obj = xmlExtensions.ToModel(typeof(OptionsModel));
+                var obj = jsonExtensions.ToModel(typeof(OptionsModel));
                 if (obj != null)
                 {
                     options = obj as OptionsModel;
@@ -57,13 +58,14 @@ namespace ProjectEye.Core.Service
             //每次启动都把不提醒重置
             options.General.Noreset = false;
         }
+        
         public bool Save()
         {
             if (options != null)
             {
                 OnChanged();
                 SaveOldOptions();
-                return xmlExtensions.Save(options);
+                return jsonExtensions.Save(options);
             }
             return false;
         }
@@ -107,7 +109,7 @@ namespace ProjectEye.Core.Service
 
             SaveOldOptions();
 
-            xmlExtensions.Save(options);
+            jsonExtensions.Save(options);
         }
 
         private void CheckOptions()

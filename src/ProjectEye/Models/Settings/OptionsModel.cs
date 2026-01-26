@@ -1,8 +1,5 @@
-﻿using System.Xml.Serialization;
-
-namespace ProjectEye.Models.Settings
+﻿namespace ProjectEye.Models.Settings
 {
-    [XmlRootAttribute("Options")]
     public class OptionsModel
     {
         /// <summary>
