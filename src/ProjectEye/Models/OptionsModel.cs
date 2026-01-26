@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
+using ProjectEye.Core;
 using ProjectEye.Core.Models.Options;
 
 namespace ProjectEye.Models
@@ -18,6 +19,10 @@ namespace ProjectEye.Models
         public string VersionLink => "https://github.com/Jack251970/EyeProtect/releases/tag/" + Version;
         public string SelectedItem { get; set; }
         public List<ComboxModel> Languages { get; set; }
+        public List<ApplicationInfo> AvailableApplications { get; set; }
+        
+        [ObservableProperty]
+        private ApplicationInfo selectedApplication;
 
         public bool IsBreakProgressList
         {

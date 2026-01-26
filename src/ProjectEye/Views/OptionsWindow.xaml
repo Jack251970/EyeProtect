@@ -138,7 +138,7 @@
                             IsOn="{Binding Model.Data.Behavior.IsFullScreenBreak}" />
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
-                            Header="{DynamicResource Lang_Donotdisturbwhenfollowingprocessesarerunning}"
+                            Header="{DynamicResource Lang_Donotdisturbwhenfollowingapplicationsarerunning}"
                             IsOn="{Binding Model.IsBreakProgressList, Mode=TwoWay}" />
                         <Grid Margin="0 8 0 0" Visibility="{Binding Model.BreakProgressListVisibility}">
                             <Grid.RowDefinitions>
@@ -150,12 +150,15 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="100" />
                                 </Grid.ColumnDefinitions>
-                                <TextBox
-                                    Name="breakProcessTextbox"
+                                <ComboBox
+                                    Name="applicationComboBox"
                                     Width="auto"
                                     MinHeight="23"
                                     VerticalContentAlignment="Center"
-                                    ui:ControlHelper.PlaceholderText="{DynamicResource Lang_Processname}" />
+                                    DisplayMemberPath="DisplayName"
+                                    ItemsSource="{Binding Model.AvailableApplications}"
+                                    SelectedItem="{Binding Model.SelectedApplication, Mode=TwoWay}"
+                                    ui:ControlHelper.PlaceholderText="{DynamicResource Lang_Selectapplication}" />
                                 <Button
                                     Grid.Column="1"
                                     MinWidth="85"
@@ -163,7 +166,6 @@
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Center"
                                     Command="{Binding AddBreackProcessCommand}"
-                                    CommandParameter="{Binding ElementName=breakProcessTextbox, Path=Text}"
                                     Content="{DynamicResource Lang_Add}" />
                             </Grid>
                             <ListView
@@ -188,7 +190,7 @@
                                                     <TextBlock
                                                         Width="{Binding ElementName=breakProcessListView, Path=ActualWidth}"
                                                         HorizontalAlignment="Left"
-                                                        Text="{DynamicResource Lang_Processname}" />
+                                                        Text="{DynamicResource Lang_Applicationname}" />
                                                 </GridViewColumn.Header>
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>

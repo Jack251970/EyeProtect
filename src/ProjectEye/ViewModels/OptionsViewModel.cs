@@ -28,7 +28,8 @@ namespace ProjectEye.ViewModels
             Model = new OptionsModel
             {
                 Data = config.options,
-                Languages = systemResources.Languages
+                Languages = systemResources.Languages,
+                AvailableApplications = ApplicationHelper.GetInstalledApplications()
             };
 
             var version = Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.');
@@ -64,18 +65,25 @@ namespace ProjectEye.ViewModels
         [RelayCommand]
         private void AddBreackProcess(object obj)
         {
-            var process = obj.ToString();
-            if (process == string.Empty)
+            if (Model.SelectedApplication == null)
             {
-                Modal($"{Application.Current.Resources["Lang_Pleaseentertheprocessname"]}");
+                Modal($"{Application.Current.Resources["Lang_Pleaseselectanapplication"]}");
+                return;
             }
-            else if (Model.Data.Behavior.BreakProgressList.Contains(process))
+
+            var processName = Model.SelectedApplication.ProcessName;
+            if (string.IsNullOrWhiteSpace(processName))
             {
-                Modal("进程已存在，请勿重复添加");
+                Modal($"{Application.Current.Resources["Lang_Invalidapplication"]}");
+            }
+            else if (Model.Data.Behavior.BreakProgressList.Contains(processName))
+            {
+                Modal($"{Application.Current.Resources["Lang_Applicationexists"]}");
             }
             else
             {
-                Model.Data.Behavior.BreakProgressList.Add(process);
+                Model.Data.Behavior.BreakProgressList.Add(processName);
+                Model.SelectedApplication = null; // Clear selection after adding
             }
         }
 

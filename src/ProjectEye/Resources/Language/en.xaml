@@ -59,9 +59,15 @@
     <sys:String x:Key="Lang_Behaviors">Behaviors</sys:String>
     <sys:String x:Key="Lang_Donotdisturbwhenrunningfullscreenapplications">Do not disturb when running fullscreen applications</sys:String>
     <sys:String x:Key="Lang_Donotdisturbwhenfollowingprocessesarerunning">Do not disturb when following processes are running</sys:String>
+    <sys:String x:Key="Lang_Donotdisturbwhenfollowingapplicationsarerunning">Do not disturb when following applications are running</sys:String>
     <sys:String x:Key="Lang_Pleaseentertheprocessname">Please enter the process name</sys:String>
+    <sys:String x:Key="Lang_Pleaseselectanapplication">Please select an application</sys:String>
+    <sys:String x:Key="Lang_Invalidapplication">Invalid application</sys:String>
+    <sys:String x:Key="Lang_Applicationexists">Application already exists, please do not add it again</sys:String>
     <sys:String x:Key="Lang_Add">Add</sys:String>
     <sys:String x:Key="Lang_Processname">Process name</sys:String>
+    <sys:String x:Key="Lang_Applicationname">Application name</sys:String>
+    <sys:String x:Key="Lang_Selectapplication">Select an application</sys:String>
     <sys:String x:Key="Lang_Breakscannotbeskipped">Breaks can not be skipped</sys:String>
 
 
