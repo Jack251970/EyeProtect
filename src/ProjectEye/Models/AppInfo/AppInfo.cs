@@ -13,7 +13,7 @@ namespace ProjectEye.Models.AppInfo;
 [JsonDerivedType(typeof(FolderAppInfo), typeDiscriminator: "folder")]
 [JsonDerivedType(typeof(FileAppInfo), typeDiscriminator: "file")]
 [DebuggerDisplay("{DisplayName}")]
-internal abstract partial class AppInfo : IJsonOnDeserialized, IEquatable<AppInfo>
+public abstract partial class AppInfo : IJsonOnDeserialized, IEquatable<AppInfo>
 {
     [JsonPropertyName("default_display_name")]
     public required string DefaultDisplayName { get; init; }

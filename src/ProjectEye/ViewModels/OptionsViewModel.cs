@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Windows;
 using CommunityToolkit.Mvvm.Input;
 using ProjectEye.Core;
@@ -28,8 +26,7 @@ namespace ProjectEye.ViewModels
             Model = new OptionsModel
             {
                 Data = config.options,
-                Languages = systemResources.Languages,
-                AvailableApplications = ApplicationHelper.GetInstalledApplications()
+                Languages = systemResources.Languages
             };
 
             var version = Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.');
@@ -65,25 +62,20 @@ namespace ProjectEye.ViewModels
         [RelayCommand]
         private void AddBreackProcess(object obj)
         {
-            if (Model.SelectedApplication == null)
+            if (Model.SelectedItem == null)
             {
                 Modal($"{Application.Current.Resources["Lang_Pleaseselectanapplication"]}");
                 return;
             }
 
-            var processName = Model.SelectedApplication.ProcessName;
-            if (string.IsNullOrWhiteSpace(processName))
-            {
-                Modal($"{Application.Current.Resources["Lang_Invalidapplication"]}");
-            }
-            else if (Model.Data.Behavior.BreakProgressList.Contains(processName))
+            if (Model.Data.Behavior.BreakProgressList.Contains(Model.SelectedItem))
             {
                 Modal($"{Application.Current.Resources["Lang_Applicationexists"]}");
             }
             else
             {
-                Model.Data.Behavior.BreakProgressList.Add(processName);
-                Model.SelectedApplication = null; // Clear selection after adding
+                Model.Data.Behavior.BreakProgressList.Add(Model.SelectedItem);
+                Model.SelectedItem = null; // Clear selection after adding
             }
         }
 
@@ -99,7 +91,7 @@ namespace ProjectEye.ViewModels
         [RelayCommand]
         private void Apply(object obj)
         {
-            var msg = "更新失败！请尝试重启程序或删除配置文件Config.xml！";
+            var msg = "Failed to update! Please restart application or delete config.xml under Data folder!";
             if (config.Save())
             {
                 msg = $"{Application.Current.Resources["Lang_Optionupdated"]}";

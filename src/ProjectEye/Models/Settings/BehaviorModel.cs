@@ -20,7 +20,7 @@ namespace ProjectEye.Models.Settings
         /// <summary>
         /// 跳过进程名单
         /// </summary>
-        public ObservableCollection<string> BreakProgressList { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<AppInfo.AppInfo> BreakProgressList { get; set; } = [];
         /// <summary>
         /// 是否禁用跳过休息（为true时将不允许跳过而是直接进入休息
         /// </summary>
@@ -29,6 +29,5 @@ namespace ProjectEye.Models.Settings
         /// 超时未选择时进入休息状态
         /// </summary>
         public bool IsHandleTimeoutRest { get; set; } = true;
-
     }
 }
