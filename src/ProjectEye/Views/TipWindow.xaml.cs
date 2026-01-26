@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media.Animation;
-using System.Windows.Threading;
 
 namespace ProjectEye.Views
 {
@@ -20,6 +19,18 @@ namespace ProjectEye.Views
             
             // Subscribe to IsVisibleChanged event to handle fade-in animation
             IsVisibleChanged += OnIsVisibleChanged;
+            
+            // Subscribe to Closed event for cleanup
+            Closed += OnClosed;
+        }
+
+        /// <summary>
+        /// Clean up event handlers when window is closed
+        /// </summary>
+        private void OnClosed(object sender, EventArgs e)
+        {
+            IsVisibleChanged -= OnIsVisibleChanged;
+            Closed -= OnClosed;
         }
 
         /// <summary>
@@ -44,6 +55,9 @@ namespace ProjectEye.Views
 
             if (IsVisible && !isAnimating)
             {
+                // Set initial opacity to 0 for fade-in effect
+                Opacity = 0.0;
+                
                 // Fade in when window becomes visible
                 var fadeIn = new DoubleAnimation
                 {
