@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 using System;
+using System.ComponentModel;
 using System.Drawing;
-using System.Runtime.CompilerServices;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
@@ -20,7 +20,7 @@ namespace ProjectEye.Models
     {
         private const uint WM_UNIQUE_MESSAGE = 2048U;
 
-        private static readonly string TrayIconWindowClassName = $"SystemTrayIconClass_{Guid.NewGuid():B}";
+        private string TrayIconWindowClassName => $"SystemTrayIconClass_{Id:B}";
 
         private readonly uint _taskbarRestartMessageId;
         private readonly WNDPROC _wndProc;
@@ -73,7 +73,7 @@ namespace ProjectEye.Models
         /// </summary>
         public SystemTrayIcon(Icon icon, string tooltip, Guid id, bool isVisible = true)
         {
-            _taskbarRestartMessageId = PInvoke.RegisterWindowMessage((PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in "TaskbarCreated".GetPinnableReference())));
+            _taskbarRestartMessageId = PInvoke.RegisterWindowMessage("TaskbarCreated");
             _wndProc = new(WndProc);
 
             _Icon = icon;
@@ -81,16 +81,34 @@ namespace ProjectEye.Models
             Id = id;
             _IsVisible = isVisible;
 
-            WNDCLASSW wndClass = default;
-            wndClass.style = WNDCLASS_STYLES.CS_DBLCLKS;
-            wndClass.lpfnWndProc = _wndProc;
-            wndClass.hInstance = PInvoke.GetModuleHandle(default(PCWSTR));
-            wndClass.lpszClassName = (PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in TrayIconWindowClassName.GetPinnableReference()));
-            PInvoke.RegisterClass(wndClass);
+            fixed (char* ptr = TrayIconWindowClassName)
+            {
+                WNDCLASSW wndClass = default;
+                wndClass.style = WNDCLASS_STYLES.CS_DBLCLKS;
+                wndClass.lpfnWndProc = _wndProc;
+                wndClass.hInstance = PInvoke.GetModuleHandle(default(PCWSTR));
+                wndClass.lpszClassName = ptr;
+                PInvoke.RegisterClass(wndClass);
 
-            _hWnd = PInvoke.CreateWindowEx(
-                WINDOW_EX_STYLE.WS_EX_LEFT, (PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in TrayIconWindowClassName.GetPinnableReference())),
-                null, WINDOW_STYLE.WS_OVERLAPPED, X: 0, Y: 0, nWidth: 1, nHeight: 1, HWND.Null, HMENU.Null, HINSTANCE.Null, null);
+                _hWnd = PInvoke.CreateWindowEx(
+                    WINDOW_EX_STYLE.WS_EX_LEFT,
+                    TrayIconWindowClassName,
+                    string.Empty,
+                    WINDOW_STYLE.WS_OVERLAPPED,
+                    X: 0,
+                    Y: 0,
+                    nWidth: 1,
+                    nHeight: 1,
+                    HWND.Null,
+                    null,
+                    null,
+                    null);
+
+                if (_hWnd == default)
+                {
+                    throw new Win32Exception("ERR: Message window handle was not a valid pointer.");
+                }
+            }
         }
 
         /// <summary>
