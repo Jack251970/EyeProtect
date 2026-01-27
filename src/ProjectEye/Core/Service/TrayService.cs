@@ -65,7 +65,8 @@ namespace ProjectEye.Core.Service
             backgroundWorker.OnCompleted += BackgroundWorker_OnCompleted;
             var iconUri = new Uri("/ProjectEye;component/Resources/sunglasses.ico", UriKind.RelativeOrAbsolute);
             var info = Application.GetResourceStream(iconUri);
-            notifyIcon = new SystemTrayIcon(new Icon(info.Stream), "Eye Protect", notifyIconGuid, true);
+            using var stream = info.Stream;
+            notifyIcon = new SystemTrayIcon(new Icon(stream), "Eye Protect", notifyIconGuid, true);
         }
 
         private void MainService_OnLoadedLanguage(object service, int msg)
@@ -266,7 +267,6 @@ namespace ProjectEye.Core.Service
             contextMenu.Items.Add(menuItem_Options);
             contextMenu.Items.Add(new Separator());
             contextMenu.Items.Add(menuItem_NoReset);
-            //contextMenu.Items.Add(menuItem_Sound);
             contextMenu.Items.Add(new Separator());
             contextMenu.Items.Add(menuItem_Quit);
         }
@@ -282,7 +282,8 @@ namespace ProjectEye.Core.Service
             {
                 var iconUri = new Uri("/ProjectEye;component/Resources/" + name + ".ico", UriKind.RelativeOrAbsolute);
                 var info = Application.GetResourceStream(iconUri);
-                notifyIcon.Icon = new Icon(info.Stream);
+                using var stream = info.Stream;
+                notifyIcon.Icon = new Icon(stream);
                 if (save)
                 {
                     lastIcon = name;
