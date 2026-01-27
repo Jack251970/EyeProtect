@@ -12,9 +12,6 @@ namespace ProjectEye.Models;
 /// Contains full information about a display monitor.
 /// Inspired from: https://github.com/Jack251970/DesktopWidgets3.
 /// </summary>
-/// <remarks>
-/// Use this class to replace the System.Windows.FormsMonitorInfo class which can cause possible System.PlatformNotSupportedException.
-/// </remarks>
 public class MonitorInfo
 {
     /// <summary>
