@@ -9,41 +9,30 @@ namespace ProjectEye.Core.Service
         /// <summary>
         /// 已创建的实例
         /// </summary>
-        private readonly IList<object> instanceList;
-        public ServiceCollection()
-        {
-            instanceList = new List<object>();
-        }
+        private readonly List<object> instanceList = [];
+
         public void Add<T>() where T : IService
         {
             var type = typeof(T);
             CreateInstance(type);
         }
+
         public void AddInstance(object obj)
         {
             instanceList.Add(obj);
         }
+
         public void Initialize()
         {
             foreach (var instance in instanceList)
             {
-                var method = instance.GetType().GetMethod("Init");
-                method?.Invoke(instance, null);
+                if (instance is IService sevice)
+                {
+                    sevice.Init();
+                }
             }
         }
-        //public void AddViews()
-        //{
-        //    string assemblyName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
-        //    string viewsNameSpace = assemblyName + ".Views";
-        //    var viewTypeList = from t in Assembly.GetExecutingAssembly().GetTypes()
-        //                       where t.IsClass && t.Namespace == viewsNameSpace
-        //                       select t;
-        //    foreach (var viewType in viewTypeList)
-        //    {
 
-        //    }
-        //    //q.ToList().ForEach(t => Debug.WriteLine(t.Name));
-        //}
         /// <summary>
         /// 创建实例
         /// </summary>
@@ -71,6 +60,7 @@ namespace ProjectEye.Core.Service
 
             }
         }
+
         /// <summary>
         /// 获取实例
         /// </summary>
@@ -79,7 +69,7 @@ namespace ProjectEye.Core.Service
         public object GetInstance(string typeFullName)
         {
             var result = instanceList.Where(m => m.GetType().FullName == typeFullName);
-            if (result.Count() > 0)
+            if (result.Any())
             {
                 return result.Single();
             }
