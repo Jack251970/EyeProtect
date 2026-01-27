@@ -21,11 +21,6 @@ namespace ProjectEye.Core.Service
             // Initialize notification service if needed
         }
 
-        public void Uninit()
-        {
-            // Cleanup notification service if needed
-        }
-
         /// <summary>
         /// Show a toast notification for skipped break
         /// </summary>
@@ -46,7 +41,7 @@ namespace ProjectEye.Core.Service
             catch (Exception ex)
             {
                 // Log error but don't crash the app
-                System.Diagnostics.Debug.WriteLine($"Failed to show notification: {ex.Message}");
+                LogHelper.Warning($"Failed to show notification: {ex.Message}");
             }
         }
 

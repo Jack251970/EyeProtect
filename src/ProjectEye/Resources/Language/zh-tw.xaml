@@ -201,7 +201,7 @@
     <sys:String x:Key="Lang_HandleTimeoutAutoRest">超時未選擇時進入休息狀態</sys:String>
 
     <sys:String x:Key="Lang_On">開</sys:String>
-    <sys:String x:Key="Lang_Off">関</sys:String>
+    <sys:String x:Key="Lang_Off">關</sys:String>
 
     <sys:String x:Key="Lang_NotificationTitle">護眼提醒</sys:String>
     <sys:String x:Key="Lang_NotificationBreakSkipped">休息提醒已跳過：{0}</sys:String>
