@@ -202,10 +202,8 @@ namespace ProjectEye.Core.Service
             {
                 return;
             }
-            // 右键单击弹出托盘菜单
+
             contextMenu.IsOpen = true;
-            // 激活主窗口，用于处理关闭托盘菜单
-            Application.Current.MainWindow.Activate();
         }
 
         private void menuItem_Exit_Click(object sender, EventArgs e)
@@ -226,10 +224,6 @@ namespace ProjectEye.Core.Service
         private void CreateTrayMenu()
         {
             contextMenu = new ContextMenu();
-            Application.Current.Deactivated += (e, c) =>
-            {
-                contextMenu.IsOpen = false;
-            };
             // 托盘菜单项
             menuItem_Options = new MenuItem();
             menuItem_Options.Header = Application.Current.Resources["Lang_Settings"];
