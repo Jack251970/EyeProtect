@@ -22,7 +22,6 @@ namespace ProjectEye.Core.Service
         private readonly SystemTrayIcon notifyIcon;
 
         // Service
-        private readonly App app;
         private readonly MainService mainService;
         private readonly ConfigService config;
         private readonly BackgroundWorkerService backgroundWorker;
@@ -50,7 +49,6 @@ namespace ProjectEye.Core.Service
             BackgroundWorkerService backgroundWorker,
             ThemeService theme)
         {
-            this.app = app;
             this.mainService = mainService;
             this.config = config;
             this.backgroundWorker = backgroundWorker;
