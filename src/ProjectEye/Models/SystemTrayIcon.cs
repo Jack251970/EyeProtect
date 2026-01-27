@@ -28,13 +28,13 @@ namespace ProjectEye.Models
 
         private bool _created;
 
-        private string _IconPath;
-        public string IconPath
+        private Icon _Icon = null!;
+        public Icon Icon
         {
-            get => _IconPath;
+            get => _Icon;
             set
             {
-                _IconPath = value;
+                _Icon = value;
                 Show();
             }
         }
@@ -70,12 +70,12 @@ namespace ProjectEye.Models
         /// <summary>
         /// Initializes a new instance of <see cref="SystemTrayIcon"/>.
         /// </summary>
-        public SystemTrayIcon(string iconPath, string tooltip, Guid id, bool isVisible = true)
+        public SystemTrayIcon(Icon icon, string tooltip, Guid id, bool isVisible = true)
         {
             _taskbarRestartMessageId = PInvoke.RegisterWindowMessage((PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in "TaskbarCreated".GetPinnableReference())));
             _wndProc = new(WndProc);
 
-            _IconPath = iconPath;
+            _Icon = icon;
             _Tooltip = tooltip;
             Id = id;
             _IsVisible = isVisible;
@@ -97,15 +97,11 @@ namespace ProjectEye.Models
         /// </summary>
         public void Show()
         {
-            var hIcon = (HICON)(void*)PInvoke.LoadImage(
-              HINSTANCE.Null, (PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in IconPath.GetPinnableReference())),
-              GDI_IMAGE_TYPE.IMAGE_ICON, cx: 0, cy: 0, IMAGE_FLAGS.LR_LOADFROMFILE | IMAGE_FLAGS.LR_DEFAULTSIZE);
-
             NOTIFYICONDATAW data = default;
             data.cbSize = (uint)sizeof(NOTIFYICONDATAW);
             data.hWnd = _hWnd;
             data.uCallbackMessage = WM_UNIQUE_MESSAGE;
-            data.hIcon = hIcon;
+            data.hIcon = (Icon != null) ? new HICON(Icon.Handle) : default;
             data.guidItem = Id;
             data.dwState = IsVisible ? 0U : NOTIFY_ICON_STATE.NIS_HIDDEN;
             data.uFlags = NOTIFY_ICON_DATA_FLAGS.NIF_MESSAGE | NOTIFY_ICON_DATA_FLAGS.NIF_ICON | NOTIFY_ICON_DATA_FLAGS.NIF_TIP | NOTIFY_ICON_DATA_FLAGS.NIF_STATE | NOTIFY_ICON_DATA_FLAGS.NIF_GUID | NOTIFY_ICON_DATA_FLAGS.NIF_SHOWTIP;
