@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using Newtonsoft.Json;
 using ProjectEye.Models.Settings;
@@ -141,7 +140,7 @@ namespace ProjectEye.Core.Service
                     }
                 }
 
-                Debug.WriteLine(string.Format("{0}:{1},", name, value));
+                LogHelper.Debug(string.Format("{0}:{1},", name, value));
             }
         }
 

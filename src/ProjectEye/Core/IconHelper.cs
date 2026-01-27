@@ -43,7 +43,7 @@ internal static class IconHelper
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error loading icon from {filePath}: {ex.Message}");
+                LogHelper.Debug($"Error loading icon from {filePath}: {ex.Message}");
                 return null;
             }
         });

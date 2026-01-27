@@ -94,8 +94,7 @@ namespace ProjectEye.Core.Service
             }
             catch (Exception ec)
             {
-                //Debug.WriteLine(ec);
-                LogHelper.Warning(ec.ToString());
+                LogHelper.Warning($"Failed to load music: {ec}");
                 return false;
             }
         }
