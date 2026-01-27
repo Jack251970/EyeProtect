@@ -159,8 +159,11 @@ namespace ProjectEye.Core.Service
 
         private void menuItem_Options_Click(object sender, EventArgs e)
         {
-            WindowManager.CreateWindowInScreen("OptionsWindow");
-            WindowManager.Show("OptionsWindow");
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                WindowManager.CreateWindowInScreen("OptionsWindow");
+                WindowManager.Show("OptionsWindow");
+            });
         }
 
         private void NotifyIcon_MouseMoved(object sender, MouseEventReceivedEventArgs e)
