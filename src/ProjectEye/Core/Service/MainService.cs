@@ -562,54 +562,6 @@ namespace ProjectEye.Core.Service
 
         #endregion
 
-        #region 是否跳过本次休息
-        /// <summary>
-        /// 是否跳过本次休息
-        /// </summary>
-        /// <returns>true跳过，false不跳过</returns>
-        public bool IsBreakReset()
-        {
-            if (!config.options.General.Noreset)
-            {
-                //0.全屏跳过判断
-                if (config.options.Behavior.IsFullScreenBreak)
-                {
-                    var info = Win32APIHelper.GetFocusWindowInfo();
-                    if (info.IsFullScreen)
-                    {
-                        return true;
-                    }
-                }
-
-                //1.进程跳过判断
-                if (config.options.Behavior.IsBreakProgressList)
-                {
-                    var processes = Process.GetProcesses();
-                    foreach (var process in processes)
-                    {
-                        try
-                        {
-                            foreach (var appInfo in config.options.Behavior.BreakProgressList)
-                            {
-                                if (MatchesProcess(appInfo, process))
-                                {
-                                    return true;
-                                }
-                            }
-                        }
-                        catch
-                        {
-                        }
-                    }
-                }
-
-                return false;
-            }
-
-            return true;
-        }
-        #endregion
-
         #region 重置测量时间
         public void ReStartWorkTimerWatch()
         {
