@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using ProjectEye.Core.Service;
 using ProjectEye.Models;
 using ProjectEye.ViewModels;
@@ -16,7 +17,7 @@ namespace ProjectEye.Core
     {
         private static readonly List<WindowModel> windowList;
         private static readonly List<object> viewModelList;
-        public static ServiceCollection serviceCollection { get; set; }
+        
         static WindowManager()
         {
             windowList = [];
@@ -394,10 +395,9 @@ namespace ProjectEye.Core
             var objs = new object[constructorParametersLength];
             for (var i = 0; i < constructorParametersLength; i++)
             {
-                var typeFullName = constructorParameters[i].ParameterType.FullName;
-                var t = Type.GetType(typeFullName);
-                types[i] = t;
-                objs[i] = serviceCollection.GetInstance(typeFullName);
+                var parameterType = constructorParameters[i].ParameterType;
+                types[i] = parameterType;
+                objs[i] = Ioc.Default.GetService(parameterType);
 
             }
             var ctor = type.GetConstructor(types);
