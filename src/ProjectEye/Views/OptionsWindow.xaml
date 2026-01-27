@@ -203,6 +203,7 @@
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Center"
                                     Command="{Binding AddBreackProcessCommand}"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
                                     Content="{DynamicResource Lang_Add}" />
                             </Grid>
                         </Grid>

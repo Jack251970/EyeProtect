@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
 using CommunityToolkit.Mvvm.Input;
 using ProjectEye.Core;
 using ProjectEye.Core.Service;
@@ -152,12 +153,12 @@ namespace ProjectEye.ViewModels
         /// </summary>
         /// <param name="obj"></param>
         [RelayCommand]
-        private void AddBreackProcess(object obj)
+        private void AddBreackProcess(Button button)
         {
             // Show AppSelectionDialog and select an application
             var dialog = new AppSelectionWindow
             {
-                Owner = Application.Current.MainWindow
+                Owner = Window.GetWindow(button)
             };
             
             var result = dialog.ShowDialog();
