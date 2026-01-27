@@ -462,11 +462,11 @@ namespace ProjectEye.Core.Service
                 // Check processes of all top visible windows
                 foreach (var window in windows)
                 {
-                    if (window.ProcessId == 0)
-                        continue;
-
                     try
                     {
+                        if (window.ProcessId == 0)
+                            continue;
+
                         var process = Process.GetProcessById((int)window.ProcessId);
                         foreach (var appInfo in config.options.Behavior.BreakProgressList)
                         {
