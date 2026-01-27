@@ -93,7 +93,7 @@ namespace ProjectEye
             LogHelper.Info("App Start");
         }
 
-        private void InitializeServices()
+        private static void InitializeServices()
         {
             // Initialize services in registration order
             Ioc.Default.GetService<BackgroundWorkerService>()?.Init();
