@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -100,7 +100,7 @@ public class WindowsThumbnailProvider
             throw new InvalidOperationException("Failed to get IShellItemImageFactory");
         }
 
-        Windows.Win32.Foundation.SIZE size = new Windows.Win32.Foundation.SIZE
+        SIZE size = new SIZE
         {
             cx = width,
             cy = height
@@ -124,7 +124,7 @@ public class WindowsThumbnailProvider
                 // Fallback to IconOnly if files cannot be found
                 imageFactory.GetImage(size, (SIIGBF)ThumbnailOptions.IconOnly, &hBitmap);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 // Handle other exceptions
                 throw new InvalidOperationException("Failed to get thumbnail", ex);
@@ -163,7 +163,7 @@ public class WindowsThumbnailProvider
             {
                 if (line.StartsWith("IconFile=", StringComparison.OrdinalIgnoreCase))
                 {
-                    iconPath = line.Substring("IconFile=".Length).Trim();
+                    iconPath = line["IconFile=".Length..].Trim();
                     break;
                 }
             }
