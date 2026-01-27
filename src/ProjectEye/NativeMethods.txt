@@ -23,7 +23,6 @@ GetShellWindow
 GetDesktopWindow
 EnumWindows
 IsWindowVisible
-GetWindow
 
 SHCreateItemFromParsingName
 IShellItem
