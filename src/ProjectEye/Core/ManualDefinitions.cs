@@ -1,0 +1,37 @@
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
+
+global using static global::Windows.Win32.ManualDefinitions;
+
+using System.Runtime.CompilerServices;
+using Windows.Win32.Foundation;
+
+namespace Windows.Win32
+{
+    internal static class ManualDefinitions
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool SUCCEEDED(HRESULT hr)
+        {
+            return hr >= 0;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool FAILED(HRESULT hr)
+        {
+            return hr < 0;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort LOWORD(nint l)
+        {
+            return unchecked((ushort)(((nuint)(l)) & 0XFFFF));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort HIWORD(nint l)
+        {
+            return ((ushort)((((nuint)(l)) >> 16) & 0XFFFF));
+        }
+    }
+}

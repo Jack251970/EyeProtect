@@ -23,3 +23,16 @@ SHCreateItemFromParsingName
 IShellItem
 IShellItemImageFactory
 DeleteObject
+
+RegisterWindowMessage
+GetModuleHandle
+RegisterClass
+CreateWindowEx
+LoadImage
+Shell_NotifyIcon
+Shell_NotifyIconGetRect
+WM_LBUTTONUP
+WM_RBUTTONUP
+WM_DESTROY
+SetForegroundWindow
+DefWindowProc
