@@ -439,12 +439,17 @@ namespace ProjectEye.Core.Service
             // Check for fullscreen application
             if (config.options.Behavior.IsFullScreenBreak)
             {
-                var info = Win32APIHelper.GetFocusWindowInfo();
-                if (info.IsFullScreen)
+                var windows = Win32APIHelper.GetTopVisibleWindowsInfo();
+                // 如果任何顶层可见窗口是全屏的，则跳过休息提醒
+                // If any top visible window is fullscreen, skip the break reminder
+                foreach (var info in windows)
                 {
-                    notification.ShowFullscreenSkippedNotification();
-                    ReStartWorkTimerWatch();
-                    return;
+                    if (info.IsFullScreen)
+                    {
+                        notification.ShowFullscreenSkippedNotification();
+                        ReStartWorkTimerWatch();
+                        return;
+                    }
                 }
             }
 

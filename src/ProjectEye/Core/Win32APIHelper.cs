@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using ProjectEye.Models;
 using Windows.Win32;
 using Windows.Win32.Foundation;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace ProjectEye.Core
 {
@@ -59,6 +61,141 @@ namespace ProjectEye.Core
             //判断全屏
             result.IsFullScreen = IsWindowFullscreen(hwnd);
             return result;
+        }
+
+        /// <summary>
+        /// 获取所有顶层可见窗口信息（未被其他窗口覆盖）
+        /// Get all top-level visible window information (not covered by other windows)
+        /// </summary>
+        /// <returns></returns>
+        public static List<WindowInfo> GetTopVisibleWindowsInfo()
+        {
+            var windows = new List<WindowInfo>();
+            var visibleWindows = new List<HWND>();
+
+            // 枚举所有顶层窗口
+            // Enumerate all top-level windows
+            unsafe
+            {
+                PInvoke.EnumWindows((hwnd, lParam) =>
+                {
+                    // 只处理可见的窗口
+                    // Only process visible windows
+                    if (PInvoke.IsWindowVisible(hwnd))
+                    {
+                        visibleWindows.Add(hwnd);
+                    }
+                    return true;
+                }, 0);
+            }
+
+            // 对于每个可见窗口，检查它是否被其他窗口覆盖
+            // For each visible window, check if it's covered by other windows
+            foreach (var hwnd in visibleWindows)
+            {
+                if (IsTopMostVisibleWindow(hwnd, visibleWindows))
+                {
+                    var info = GetWindowInfoFromHandle(hwnd);
+                    windows.Add(info);
+                }
+            }
+
+            return windows;
+        }
+
+        /// <summary>
+        /// 从窗口句柄获取窗口信息
+        /// Get window information from handle
+        /// </summary>
+        private static WindowInfo GetWindowInfoFromHandle(HWND hwnd)
+        {
+            var result = new WindowInfo();
+            PInvoke.GetWindowRect(hwnd, out var rect);
+            result.IsZoomed = PInvoke.IsZoomed(hwnd);
+            result.Width = rect.Width;
+            result.Height = rect.Height;
+            result.Title = GetWindowTitle(hwnd);
+            result.ClassName = GetClassName(hwnd);
+            result.IsFullScreen = IsWindowFullscreen(hwnd);
+            return result;
+        }
+
+        /// <summary>
+        /// 检查窗口是否为顶层可见窗口（未被其他窗口完全覆盖）
+        /// Check if window is a top-most visible window (not completely covered by other windows)
+        /// </summary>
+        private static bool IsTopMostVisibleWindow(HWND hwnd, List<HWND> allVisibleWindows)
+        {
+            // 跳过桌面和Shell窗口
+            // Skip desktop and shell windows
+            if (hwnd.Equals(HWND_DESKTOP) || hwnd.Equals(HWND_SHELL))
+            {
+                return false;
+            }
+
+            // 获取窗口类名
+            // Get window class name
+            string windowClass = GetClassName(hwnd);
+
+            // 跳过某些特殊窗口类
+            // Skip certain special window classes
+            if (windowClass is WINDOW_CLASS_PROGMAN or WINDOW_CLASS_WORKERW or WINDOW_CLASS_WINTAB)
+            {
+                return false;
+            }
+
+            // 获取窗口矩形
+            // Get window rectangle
+            PInvoke.GetWindowRect(hwnd, out var rect);
+
+            // 跳过太小的窗口（例如任务栏图标等）
+            // Skip windows that are too small (e.g., taskbar icons)
+            if (rect.Width < 100 || rect.Height < 100)
+            {
+                return false;
+            }
+
+            // 检查是否有其他窗口完全覆盖此窗口
+            // Check if there's another window completely covering this window
+            foreach (var otherHwnd in allVisibleWindows)
+            {
+                if (otherHwnd.Equals(hwnd))
+                    continue;
+
+                // 检查Z-order：获取窗口的下一个窗口
+                // Check Z-order: get the next window
+                var currentWindow = PInvoke.GetWindow(otherHwnd, GET_WINDOW_CMD.GW_HWNDPREV);
+                bool isOtherWindowAbove = false;
+
+                // 遍历Z-order以查找hwnd是否在otherHwnd之下
+                // Traverse Z-order to find if hwnd is below otherHwnd
+                while (currentWindow != HWND.Null)
+                {
+                    if (currentWindow.Equals(hwnd))
+                    {
+                        isOtherWindowAbove = true;
+                        break;
+                    }
+                    currentWindow = PInvoke.GetWindow(currentWindow, GET_WINDOW_CMD.GW_HWNDPREV);
+                }
+
+                if (!isOtherWindowAbove)
+                    continue;
+
+                // 检查otherHwnd是否完全覆盖hwnd
+                // Check if otherHwnd completely covers hwnd
+                PInvoke.GetWindowRect(otherHwnd, out var otherRect);
+
+                if (otherRect.left <= rect.left &&
+                    otherRect.top <= rect.top &&
+                    otherRect.right >= rect.right &&
+                    otherRect.bottom >= rect.bottom)
+                {
+                    return false; // 窗口被完全覆盖 / Window is completely covered
+                }
+            }
+
+            return true;
         }
 
         private static unsafe string GetWindowTitle(HWND hwnd)
