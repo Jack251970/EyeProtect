@@ -51,6 +51,8 @@ namespace ProjectEye
                 serviceCollection.Add<CacheService>();
                 //配置文件
                 serviceCollection.Add<ConfigService>();
+                //通知
+                serviceCollection.Add<NotificationService>();
                 //主题
                 serviceCollection.Add<ThemeService>();
                 //扩展显示器

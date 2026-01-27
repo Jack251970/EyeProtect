@@ -49,6 +49,7 @@ namespace ProjectEye.Core.Service
         private readonly CacheService cache;
         private readonly ThemeService theme;
         private readonly SystemResourcesService systemResources;
+        private readonly NotificationService notification;
         #endregion
 
         #region win32
@@ -98,13 +99,15 @@ namespace ProjectEye.Core.Service
             ConfigService config,
             CacheService cache,
             ThemeService theme,
-            SystemResourcesService systemResources)
+            SystemResourcesService systemResources,
+            NotificationService notification)
         {
             this.screen = screen;
             this.config = config;
             this.cache = cache;
             this.theme = theme;
             this.systemResources = systemResources;
+            this.notification = notification;
 
             app.Exit += new ExitEventHandler(app_Exit);
             SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(OnPowerModeChanged);
@@ -429,15 +432,51 @@ namespace ProjectEye.Core.Service
         /// </summary>
         private void ShowTipWindow()
         {
-            if (IsBreakReset())
+            if (config.options.General.Noreset)
             {
                 ReStartWorkTimerWatch();
+                return;
             }
-            else
+
+            // Check for fullscreen application
+            if (config.options.Behavior.IsFullScreenBreak)
             {
-                busy_timer.Start();
-                WindowManager.Show("TipWindow");
+                var info = Win32APIHelper.GetFocusWindowInfo();
+                if (info.IsFullScreen)
+                {
+                    notification.ShowFullscreenSkippedNotification();
+                    ReStartWorkTimerWatch();
+                    return;
+                }
             }
+
+            // Check for ignored applications
+            if (config.options.Behavior.IsBreakProgressList)
+            {
+                var processes = Process.GetProcesses();
+                foreach (var process in processes)
+                {
+                    try
+                    {
+                        foreach (var appInfo in config.options.Behavior.BreakProgressList)
+                        {
+                            if (MatchesProcess(appInfo, process))
+                            {
+                                notification.ShowIgnoredAppSkippedNotification();
+                                ReStartWorkTimerWatch();
+                                return;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+
+            // No skip conditions met, show the normal tip window
+            busy_timer.Start();
+            WindowManager.Show("TipWindow");
         }
         #endregion
 
@@ -521,54 +560,6 @@ namespace ProjectEye.Core.Service
             return false;
         }
 
-        #endregion
-
-        #region 是否跳过本次休息
-        /// <summary>
-        /// 是否跳过本次休息
-        /// </summary>
-        /// <returns>true跳过，false不跳过</returns>
-        public bool IsBreakReset()
-        {
-            if (!config.options.General.Noreset)
-            {
-                //0.全屏跳过判断
-                if (config.options.Behavior.IsFullScreenBreak)
-                {
-                    var info = Win32APIHelper.GetFocusWindowInfo();
-                    if (info.IsFullScreen)
-                    {
-                        return true;
-                    }
-                }
-
-                //1.进程跳过判断
-                if (config.options.Behavior.IsBreakProgressList)
-                {
-                    var processes = Process.GetProcesses();
-                    foreach (var process in processes)
-                    {
-                        try
-                        {
-                            foreach (var appInfo in config.options.Behavior.BreakProgressList)
-                            {
-                                if (MatchesProcess(appInfo, process))
-                                {
-                                    return true;
-                                }
-                            }
-                        }
-                        catch
-                        {
-                        }
-                    }
-                }
-
-                return false;
-            }
-
-            return true;
-        }
         #endregion
 
         #region 重置测量时间
