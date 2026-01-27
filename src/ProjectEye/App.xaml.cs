@@ -44,7 +44,6 @@ namespace ProjectEye
             var services = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
 
             // Register App instance
-            services.AddSingleton<Application>(this);
             services.AddSingleton(this);
 
             // Register services in order of priority
