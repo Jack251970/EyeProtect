@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Windows;
 using Microsoft.Toolkit.Uwp.Notifications;
 
@@ -7,18 +7,16 @@ namespace ProjectEye.Core.Service
     /// <summary>
     /// Notification Service for Windows Toast Notifications
     /// </summary>
-    public class NotificationService : IService
+    public class NotificationService : IService, IDisposable
     {
-        private readonly ConfigService config;
-
-        public NotificationService(ConfigService config)
-        {
-            this.config = config;
-        }
-
         public void Init()
         {
-            // Initialize notification service if needed
+            // No initialization needed for toast notifications
+        }
+
+        public void Dispose()
+        {
+            ToastNotificationManagerCompat.Uninstall();
         }
 
         /// <summary>
