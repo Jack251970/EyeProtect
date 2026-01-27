@@ -7,6 +7,7 @@
     <RootNamespace>ProjectEye</RootNamespace>
     <AssemblyName>ProjectEye</AssemblyName>
     <ApplicationIcon>Resources\sunglasses.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
