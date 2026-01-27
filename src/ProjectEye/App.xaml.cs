@@ -31,32 +31,33 @@ namespace ProjectEye
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            //全局异常捕获
+
+            // 全局异常捕获
             DispatcherUnhandledException += App_DispatcherUnhandledException;
 
-            //必须按优先级依次添加
+            // 必须按优先级依次添加
             serviceCollection.AddInstance(this);
-            //后台任务
+            // 后台任务
             serviceCollection.Add<BackgroundWorkerService>();
-            //系统资源
+            // 系统资源
             serviceCollection.Add<SystemResourcesService>();
-            //内存缓存
+            // 内存缓存
             serviceCollection.Add<CacheService>();
-            //配置文件
+            // 配置文件
             serviceCollection.Add<ConfigService>();
-            //通知
+            // 通知
             serviceCollection.Add<NotificationService>();
-            //主题
+            // 主题
             serviceCollection.Add<ThemeService>();
-            //扩展显示器
+            // 扩展显示器
             serviceCollection.Add<ScreenService>();
-            //主要
+            // 主要
             serviceCollection.Add<MainService>();
-            //托盘
+            // 托盘
             serviceCollection.Add<TrayService>();
-            //休息
+            // 休息
             serviceCollection.Add<RestService>();
-            //声音
+            // 声音
             serviceCollection.Add<SoundService>();
 
             WindowManager.serviceCollection = serviceCollection;
@@ -65,6 +66,8 @@ namespace ProjectEye
 
             // 检查开机自启错误
             AutoStartup();
+
+            LogHelper.Info("App Start");
         }
 
         [Conditional("RELEASE")]

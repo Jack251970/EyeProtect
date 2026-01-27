@@ -16,22 +16,35 @@ namespace ProjectEye.Core
             /// </summary>
             ERROR,
             /// <summary>
+            /// 信息
+            /// </summary>
+            INFO,
+            /// <summary>
             /// 警告
             /// </summary>
             WARNING
         }
+
         public static void Debug(string text, bool write = false, bool console = true)
         {
             Log(Level.DEBUG, text, write, console);
         }
+
+        public static void Info(string text, bool write = true, bool console = true)
+        {
+            Log(Level.INFO, text, write, console);
+        }
+
         public static void Error(string text, bool write = true, bool console = true)
         {
             Log(Level.ERROR, text, write, console);
         }
+
         public static void Warning(string text, bool write = true, bool console = true)
         {
             Log(Level.WARNING, text, write, console);
         }
+
         private static void Log(Level level, string text, bool write = false, bool console = true)
         {
             var log = LogFormat(level, text);
@@ -46,6 +59,7 @@ namespace ProjectEye.Core
                 System.Diagnostics.Debug.WriteLine(log);
             }
         }
+
         private static void WriteFile(Level level, string text)
         {
             try
@@ -65,6 +79,7 @@ namespace ProjectEye.Core
                 //...
             }
         }
+
         private static string LogFormat(Level level, string text)
         {
             var logText = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] [{level}]\r\n{text}\r\n------------------------\r\n\r\n";
