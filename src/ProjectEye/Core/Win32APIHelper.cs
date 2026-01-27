@@ -38,13 +38,17 @@ namespace ProjectEye.Core
             /// 是否最大化
             /// </summary>
             public bool IsZoomed;
+            /// <summary>
+            /// 窗口所属进程ID
+            /// </summary>
+            public uint ProcessId;
         }
 
         /// <summary>
         /// 获取当前焦点窗口信息
         /// </summary>
         /// <returns></returns>
-        public static WindowInfo GetFocusWindowInfo()
+        public static unsafe WindowInfo GetFocusWindowInfo()
         {
             var result = new WindowInfo();
             //获取当前焦点窗口句柄
@@ -60,6 +64,10 @@ namespace ProjectEye.Core
             result.ClassName = GetClassName(hwnd);
             //判断全屏
             result.IsFullScreen = IsWindowFullscreen(hwnd);
+            //获取进程ID
+            uint processId = 0;
+            PInvoke.GetWindowThreadProcessId(hwnd, &processId);
+            result.ProcessId = processId;
             return result;
         }
 
@@ -107,7 +115,7 @@ namespace ProjectEye.Core
         /// 从窗口句柄获取窗口信息
         /// Get window information from handle
         /// </summary>
-        private static WindowInfo GetWindowInfoFromHandle(HWND hwnd)
+        private static unsafe WindowInfo GetWindowInfoFromHandle(HWND hwnd)
         {
             var result = new WindowInfo();
             PInvoke.GetWindowRect(hwnd, out var rect);
@@ -117,6 +125,12 @@ namespace ProjectEye.Core
             result.Title = GetWindowTitle(hwnd);
             result.ClassName = GetClassName(hwnd);
             result.IsFullScreen = IsWindowFullscreen(hwnd);
+            
+            // Get process ID
+            uint processId = 0;
+            PInvoke.GetWindowThreadProcessId(hwnd, &processId);
+            result.ProcessId = processId;
+            
             return result;
         }
 

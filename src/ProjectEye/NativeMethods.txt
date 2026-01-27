@@ -23,6 +23,7 @@ GetShellWindow
 GetDesktopWindow
 EnumWindows
 IsWindowVisible
+GetWindowThreadProcessId
 
 SHCreateItemFromParsingName
 IShellItem

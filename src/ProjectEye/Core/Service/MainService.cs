@@ -436,10 +436,12 @@ namespace ProjectEye.Core.Service
                 return;
             }
 
+            // Get all top visible windows once for both checks
+            var windows = Win32APIHelper.GetTopVisibleWindowsInfo();
+
             // Check for fullscreen application
             if (config.options.Behavior.IsFullScreenBreak)
             {
-                var windows = Win32APIHelper.GetTopVisibleWindowsInfo();
                 // 如果任何顶层可见窗口是全屏的，则跳过休息提醒
                 // If any top visible window is fullscreen, skip the break reminder
                 foreach (var info in windows)
@@ -456,11 +458,16 @@ namespace ProjectEye.Core.Service
             // Check for ignored applications
             if (config.options.Behavior.IsBreakProgressList)
             {
-                var processes = Process.GetProcesses();
-                foreach (var process in processes)
+                // 检查所有顶层可见窗口的进程
+                // Check processes of all top visible windows
+                foreach (var window in windows)
                 {
+                    if (window.ProcessId == 0)
+                        continue;
+
                     try
                     {
+                        var process = Process.GetProcessById((int)window.ProcessId);
                         foreach (var appInfo in config.options.Behavior.BreakProgressList)
                         {
                             if (MatchesProcess(appInfo, process))
@@ -473,6 +480,7 @@ namespace ProjectEye.Core.Service
                     }
                     catch
                     {
+                        // Process may have exited or access denied
                     }
                 }
             }
