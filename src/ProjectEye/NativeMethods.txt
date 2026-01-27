@@ -18,6 +18,9 @@ IsZoomed
 GetWindowTextLength
 GetWindowText
 GetClassName
+FindWindowEx
+GetShellWindow
+GetDesktopWindow
 
 SHCreateItemFromParsingName
 IShellItem

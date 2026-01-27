@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Windows;
+using ProjectEye.Models;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 
@@ -57,19 +57,7 @@ namespace ProjectEye.Core
             //获取窗口类名
             result.ClassName = GetClassName(hwnd);
             //判断全屏
-            result.IsFullScreen = false;
-            if (!result.IsZoomed)
-            {
-                //非最大化状态下计算判断全屏
-                result.IsFullScreen = result.Width >= SystemParameters.PrimaryScreenWidth && result.Height >= SystemParameters.PrimaryScreenHeight;
-            }
-            //浏览器全屏判断
-            if (result.ClassName.Contains("chrome_widgetwin", StringComparison.CurrentCultureIgnoreCase))
-            {
-                //chrome浏览器比较特殊，全屏模式不能被识别，需要另外计算
-                result.IsFullScreen = result.Width >= SystemParameters.PrimaryScreenWidth && result.Height >= SystemParameters.PrimaryScreenHeight;
-                result.IsZoomed = !result.IsFullScreen;
-            }
+            result.IsFullScreen = IsWindowFullscreen(hwnd);
             return result;
         }
 
@@ -98,6 +86,68 @@ namespace ProjectEye.Core
                     _ => new string(buf),
                 };
             }
+        }
+
+        private const string WINDOW_CLASS_CONSOLE = "ConsoleWindowClass";
+        private const string WINDOW_CLASS_WINTAB = "Flip3D";
+        private const string WINDOW_CLASS_PROGMAN = "Progman";
+        private const string WINDOW_CLASS_WORKERW = "WorkerW";
+
+        private static HWND _hwnd_shell;
+        private static HWND HWND_SHELL =>
+            _hwnd_shell != HWND.Null ? _hwnd_shell : _hwnd_shell = PInvoke.GetShellWindow();
+
+        private static HWND _hwnd_desktop;
+        private static HWND HWND_DESKTOP =>
+            _hwnd_desktop != HWND.Null ? _hwnd_desktop : _hwnd_desktop = PInvoke.GetDesktopWindow();
+
+        public static unsafe bool IsWindowFullscreen(HWND hWnd)
+        {
+            // If current active window is desktop or shell, exit early
+            if (hWnd.Equals(HWND_DESKTOP) || hWnd.Equals(HWND_SHELL))
+            {
+                return false;
+            }
+
+            string windowClass;
+            const int capacity = 256;
+            Span<char> buffer = stackalloc char[capacity];
+            int validLength;
+            fixed (char* pBuffer = buffer)
+            {
+                validLength = PInvoke.GetClassName(hWnd, pBuffer, capacity);
+            }
+
+            windowClass = buffer[..validLength].ToString();
+
+            // For Win+Tab (Flip3D)
+            if (windowClass == WINDOW_CLASS_WINTAB)
+            {
+                return false;
+            }
+
+            PInvoke.GetWindowRect(hWnd, out var appBounds);
+
+            // For console (ConsoleWindowClass), we have to check for negative dimensions
+            if (windowClass == WINDOW_CLASS_CONSOLE)
+            {
+                return appBounds.top < 0 && appBounds.bottom < 0;
+            }
+
+            // For desktop (Progman or WorkerW, depends on the system), we have to check
+            if (windowClass is WINDOW_CLASS_PROGMAN or WINDOW_CLASS_WORKERW)
+            {
+                var hWndDesktop = PInvoke.FindWindowEx(hWnd, HWND.Null, "SHELLDLL_DefView", null);
+                hWndDesktop = PInvoke.FindWindowEx(hWndDesktop, HWND.Null, "SysListView32", "FolderView");
+                if (hWndDesktop != HWND.Null)
+                {
+                    return false;
+                }
+            }
+
+            var monitorInfo = MonitorInfo.GetNearestDisplayMonitor(hWnd);
+            return (appBounds.bottom - appBounds.top) == monitorInfo.Bounds.Height &&
+                   (appBounds.right - appBounds.left) == monitorInfo.Bounds.Width;
         }
     }
 }
