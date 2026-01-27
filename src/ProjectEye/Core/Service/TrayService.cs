@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using iNKORE.UI.WPF.Modern;
+using ProjectEye.Models;
 
 namespace ProjectEye.Core.Service
 {
@@ -12,16 +13,21 @@ namespace ProjectEye.Core.Service
     /// </summary>
     public class TrayService : IService
     {
-        //托盘图标
-        private readonly System.Windows.Forms.NotifyIcon notifyIcon;
+        // Icon
+#if DEBUG
+        private readonly Guid notifyIconGuid = new("A80B9DBC-DCE9-4F07-87C9-AE161869878C");
+#else
+        private readonly Guid notifyIconGuid = new("F995B3D0-0F4B-415C-B343-F592296F2749");
+#endif
+        private readonly SystemTrayIcon notifyIcon;
 
-        //Service
-        private readonly App app;
+        // Service
         private readonly MainService mainService;
         private readonly ConfigService config;
         private readonly BackgroundWorkerService backgroundWorker;
         private readonly ThemeService theme;
-        //托盘菜单项
+
+        // Menu
         private ContextMenu contextMenu;
         private MenuItem menuItem_NoReset;
         private MenuItem menuItem_Options;
@@ -36,15 +42,6 @@ namespace ProjectEye.Core.Service
 
         private string lastIcon = string.Empty;
 
-        //event
-        /// <summary>
-        /// 鼠标单击托盘图标时发生
-        /// </summary>
-        public event System.Windows.Forms.MouseEventHandler MouseClickTrayIcon;
-        /// <summary>
-        /// 鼠标停留在托盘图标上时发生
-        /// </summary>
-        public event System.Windows.Forms.MouseEventHandler MouseMoveTrayIcon;
         public TrayService(
             App app,
             MainService mainService,
@@ -52,7 +49,6 @@ namespace ProjectEye.Core.Service
             BackgroundWorkerService backgroundWorker,
             ThemeService theme)
         {
-            this.app = app;
             this.mainService = mainService;
             this.config = config;
             this.backgroundWorker = backgroundWorker;
@@ -65,8 +61,10 @@ namespace ProjectEye.Core.Service
             mainService.OnLoadedLanguage += MainService_OnLoadedLanguage;
             backgroundWorker.DoWork += BackgroundWorker_DoWork;
             backgroundWorker.OnCompleted += BackgroundWorker_OnCompleted;
-
-            notifyIcon = new System.Windows.Forms.NotifyIcon();
+            var iconUri = new Uri("/ProjectEye;component/Resources/sunglasses.ico", UriKind.RelativeOrAbsolute);
+            var info = Application.GetResourceStream(iconUri);
+            using var stream = info.Stream;
+            notifyIcon = new SystemTrayIcon(new Icon(stream), "Eye Protect", notifyIconGuid, true);
         }
 
         private void MainService_OnLoadedLanguage(object service, int msg)
@@ -74,7 +72,6 @@ namespace ProjectEye.Core.Service
             CreateTrayMenu();
         }
 
-        //主题更改时
         private void Theme_OnChangedTheme(ApplicationTheme oldTheme, ApplicationTheme newTheme)
         {
             CreateTrayMenu();
@@ -108,24 +105,65 @@ namespace ProjectEye.Core.Service
             UpdateIcon("sleeping");
         }
 
-        #region Init
         public void Init()
         {
-            //托盘菜单
             CreateTrayMenu();
 
-            notifyIcon.Visible = true;
-            notifyIcon.MouseMove += NotifyIcon_MouseMove;
-            notifyIcon.MouseClick += notifyIcon_MouseClick;
-            notifyIcon.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
+            notifyIcon.IsVisible = true;
+            notifyIcon.MouseMoved += NotifyIcon_MouseMoved;
+            notifyIcon.RightClicked += NotifyIcon_RightClicked;
 
             noresetTimer = new DispatcherTimer();
-
         }
-        #endregion
 
         #region Events
-        private void NotifyIcon_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+
+        // 有后台工作任务在运行时
+        private void BackgroundWorker_DoWork()
+        {
+            UpdateIcon("overheated", false);
+            SetText($"Eye Protect: {Application.Current.Resources["Lang_TimeconsumingOperation"]}");
+        }
+
+        // 后台工作任务运行结束时
+        private void BackgroundWorker_OnCompleted()
+        {
+            SetText("Eye Protect");
+            UpdateIcon();
+        }
+
+        private void MenuItem_NoReset_Off_Click(object sender, RoutedEventArgs e)
+        {
+            OnNoResetAction(sender, -1);
+        }
+
+        private void MenuItem_NoReset_Forver_Click(object sender, RoutedEventArgs e)
+        {
+            OnNoResetAction(sender, 0);
+        }
+
+        private void MenuItem_NoReset_TwoHour_Click(object sender, RoutedEventArgs e)
+        {
+            OnNoResetAction(sender, 2);
+        }
+
+        private void MenuItem_NoReset_OneHour_Click(object sender, RoutedEventArgs e)
+        {
+            OnNoResetAction(sender, 1);
+        }
+
+        private void config_Changed(object sender, EventArgs e)
+        {
+            menuItem_NoReset.IsChecked = config.options.General.Noreset;
+        }
+
+        private void menuItem_Options_Click(object sender, EventArgs e)
+        {
+            WindowManager.CreateWindowInScreen("OptionsWindow");
+            WindowManager.Show("OptionsWindow");
+        }
+
+        private void NotifyIcon_MouseMoved(object sender, MouseEventReceivedEventArgs e)
         {
             if (mainService.IsWorkTimerRun() && !backgroundWorker.IsBusy)
             {
@@ -156,69 +194,16 @@ namespace ProjectEye.Core.Service
             {
                 SetText("Eye Protect");
             }
-            MouseMoveTrayIcon?.Invoke(sender, e);
         }
 
-        //有后台工作任务在运行时
-        private void BackgroundWorker_DoWork()
+        private void NotifyIcon_RightClicked(object sender, MouseEventReceivedEventArgs e)
         {
-            UpdateIcon("overheated", false);
-            SetText($"Eye Protect: {Application.Current.Resources["Lang_TimeconsumingOperation"]}");
-        }
-        //后台工作任务运行结束时
-        private void BackgroundWorker_OnCompleted()
-        {
-            SetText("Eye Protect");
-            UpdateIcon();
-        }
-
-        private void MenuItem_NoReset_Off_Click(object sender, RoutedEventArgs e)
-        {
-            OnNoResetAction(sender, -1);
-        }
-
-        private void MenuItem_NoReset_Forver_Click(object sender, RoutedEventArgs e)
-        {
-            OnNoResetAction(sender, 0);
-        }
-
-        private void MenuItem_NoReset_TwoHour_Click(object sender, RoutedEventArgs e)
-        {
-            OnNoResetAction(sender, 2);
-        }
-
-        private void MenuItem_NoReset_OneHour_Click(object sender, RoutedEventArgs e)
-        {
-            OnNoResetAction(sender, 1);
-        }
-
-        private void config_Changed(object sender, EventArgs e)
-        {
-            menuItem_NoReset.IsChecked = config.options.General.Noreset;
-            //menuItem_Sound.IsChecked = config.options.General.Sound;
-        }
-
-        private void menuItem_Options_Click(object sender, EventArgs e)
-        {
-            WindowManager.CreateWindowInScreen("OptionsWindow");
-            WindowManager.Show("OptionsWindow");
-        }
-
-        private void notifyIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            MouseClickTrayIcon?.Invoke(sender, e);
-            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            if (backgroundWorker.IsBusy)
             {
-                if (backgroundWorker.IsBusy)
-                {
-                    return;
-                }
-                //右键单击弹出托盘菜单
-                contextMenu.IsOpen = true;
-                //激活主窗口，用于处理关闭托盘菜单
-                App.Current.MainWindow.Activate();
-
+                return;
             }
+
+            contextMenu.IsOpen = true;
         }
 
         private void menuItem_Exit_Click(object sender, EventArgs e)
@@ -229,28 +214,20 @@ namespace ProjectEye.Core.Service
         private void app_Exit(object sender, ExitEventArgs e)
         {
             mainService.Exit();
-            Remove();
+            notifyIcon?.Destroy();
         }
 
-        private void NotifyIcon_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            // Double-click functionality removed (was used for Tomato Timer mode)
-        }
         #endregion
 
         #region Function
+
         private void CreateTrayMenu()
         {
             contextMenu = new ContextMenu();
-            App.Current.Deactivated += (e, c) =>
-            {
-                contextMenu.IsOpen = false;
-            };
-            //托盘菜单项
+            // 托盘菜单项
             menuItem_Options = new MenuItem();
             menuItem_Options.Header = Application.Current.Resources["Lang_Settings"];
             menuItem_Options.Click += menuItem_Options_Click;
-
 
             menuItem_NoReset = new MenuItem();
             menuItem_NoReset.Header = Application.Current.Resources["Lang_Suspendnow"];
@@ -274,11 +251,6 @@ namespace ProjectEye.Core.Service
             menuItem_NoReset.Items.Add(menuItem_NoReset_Forver);
             menuItem_NoReset.Items.Add(menuItem_NoReset_Off);
 
-            //menuItem_Sound = new MenuItem();
-            //menuItem_Sound.Header = "提示音";
-            //menuItem_Sound.IsChecked = config.options.General.Sound;
-            //menuItem_Sound.Click += menuItem_Sound_Click;
-
             menuItem_Quit = new MenuItem();
             menuItem_Quit.Header = Application.Current.Resources["Lang_Quit"]; ;
             menuItem_Quit.Click += menuItem_Exit_Click;
@@ -287,15 +259,10 @@ namespace ProjectEye.Core.Service
             contextMenu.Items.Add(menuItem_Options);
             contextMenu.Items.Add(new Separator());
             contextMenu.Items.Add(menuItem_NoReset);
-            //contextMenu.Items.Add(menuItem_Sound);
             contextMenu.Items.Add(new Separator());
             contextMenu.Items.Add(menuItem_Quit);
+        }
 
-        }
-        public void Remove()
-        {
-            notifyIcon.Visible = false;
-        }
         public void UpdateIcon(string name = "", bool save = true)
         {
             name = name == "" ? lastIcon : name;
@@ -307,13 +274,15 @@ namespace ProjectEye.Core.Service
             {
                 var iconUri = new Uri("/ProjectEye;component/Resources/" + name + ".ico", UriKind.RelativeOrAbsolute);
                 var info = Application.GetResourceStream(iconUri);
-                notifyIcon.Icon = new Icon(info.Stream);
+                using var stream = info.Stream;
+                notifyIcon.Icon = new Icon(stream);
                 if (save)
                 {
                     lastIcon = name;
                 }
             }
         }
+
         /// <summary>
         /// 设置不提醒操作
         /// </summary>
@@ -375,19 +344,9 @@ namespace ProjectEye.Core.Service
         /// <param name="text"></param>
         public void SetText(string text)
         {
-            notifyIcon.Text = text.Length > 63 ? text[..63] : text;
+            notifyIcon.Tooltip = text.Length > 63 ? text[..63] : text;
         }
 
-        /// <summary>
-        /// 显示气泡或通知（在windows7上是任务栏气泡，win10上是系统通知）
-        /// </summary>
-        public void BalloonTipIcon(string title, string content, System.Windows.Forms.ToolTipIcon icon = System.Windows.Forms.ToolTipIcon.None)
-        {
-            notifyIcon.BalloonTipTitle = title;
-            notifyIcon.BalloonTipText = content;
-            notifyIcon.BalloonTipIcon = icon;
-            notifyIcon.ShowBalloonTip(5000);
-        }
         #endregion
     }
 }

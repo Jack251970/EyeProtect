@@ -13,7 +13,7 @@ namespace ProjectEye.Core
             public uint y { get; init; }
         }
 
-        internal static Dpi GetDpi(this MonitorInfo screen, MONITOR_DPI_TYPE dpiType)
+        public static Dpi GetDpi(this MonitorInfo screen, MONITOR_DPI_TYPE dpiType)
         {
             var pnt = new System.Drawing.Point((int)screen.Bounds.Left + 1, (int)screen.Bounds.Top + 1);
             var mon = PInvoke.MonitorFromPoint(pnt, MONITOR_FROM_FLAGS.MONITOR_DEFAULTTONEAREST);

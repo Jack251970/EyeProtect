@@ -35,9 +35,9 @@ namespace ProjectEye
             //重复运行判断
             if (IsRuned())
             {
-                //仅允许运行一次进程
-                MessageBox.Show("程序已经在运行中了", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
-                App.Current.Shutdown();
+                WindowManager.CreateWindowInScreen("OptionsWindow");
+                WindowManager.Show("OptionsWindow");
+                Current.Shutdown();
             }
             else
             {
