@@ -66,6 +66,7 @@ namespace ProjectEye.Models
         public event EventHandler? IconDestroyed;
         public event EventHandler<MouseEventReceivedEventArgs>? LeftClicked;
         public event EventHandler<MouseEventReceivedEventArgs>? RightClicked;
+        public event EventHandler<MouseEventReceivedEventArgs>? MouseMoved;
 
         /// <summary>
         /// Initializes a new instance of <see cref="SystemTrayIcon"/>.
@@ -181,6 +182,15 @@ namespace ProjectEye.Models
                     {
                         switch ((uint)LOWORD(lParam.Value))
                         {
+                            case PInvoke.WM_MOUSEMOVE:
+                                {
+                                    PInvoke.SetForegroundWindow(hWnd);
+                                    var point = GetCenterPointOfTrayIcon(hWnd);
+                                    if (!point.IsEmpty)
+                                        MouseMoved?.Invoke(this, new MouseEventReceivedEventArgs(point));
+
+                                    break;
+                                }
                             case PInvoke.WM_LBUTTONUP:
                                 {
                                     PInvoke.SetForegroundWindow(hWnd);

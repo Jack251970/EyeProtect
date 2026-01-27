@@ -34,5 +34,6 @@ Shell_NotifyIconGetRect
 WM_LBUTTONUP
 WM_RBUTTONUP
 WM_DESTROY
+WM_MOUSEMOVE
 SetForegroundWindow
 DefWindowProc
