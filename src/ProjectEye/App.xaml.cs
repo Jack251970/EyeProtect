@@ -25,6 +25,9 @@ namespace ProjectEye
 
         public App()
         {
+            // Do not use bitmap cache since it can cause WPF second window freezing issue
+            ShadowAssist.UseBitmapCache = false;
+
             serviceCollection = new ServiceCollection();
         }
 
