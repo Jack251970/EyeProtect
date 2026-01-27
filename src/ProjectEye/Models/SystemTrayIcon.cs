@@ -20,7 +20,7 @@ namespace ProjectEye.Models
     {
         private const uint WM_UNIQUE_MESSAGE = 2048U;
 
-        private string TrayIconWindowClassName => $"SystemTrayIconClass_{Id:B}";
+        private string TrayIconWindowClassName => $"EyeProtectSystemTrayIconClass_{Id:B}";
 
         private readonly uint _taskbarRestartMessageId;
         private readonly WNDPROC _wndProc;
