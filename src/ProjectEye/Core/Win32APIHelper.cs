@@ -150,7 +150,7 @@ namespace ProjectEye.Core
 
             // 跳过太小的窗口（例如任务栏图标等）
             // Skip windows that are too small (e.g., taskbar icons)
-            if (rect.Width < 100 || rect.Height < 100)
+            if (rect.Width < MIN_WINDOW_WIDTH || rect.Height < MIN_WINDOW_HEIGHT)
             {
                 return false;
             }
@@ -189,6 +189,8 @@ namespace ProjectEye.Core
         private const string WINDOW_CLASS_WINTAB = "Flip3D";
         private const string WINDOW_CLASS_PROGMAN = "Progman";
         private const string WINDOW_CLASS_WORKERW = "WorkerW";
+        private const int MIN_WINDOW_WIDTH = 100;
+        private const int MIN_WINDOW_HEIGHT = 100;
 
         private static HWND _hwnd_shell;
         private static HWND HWND_SHELL =>
