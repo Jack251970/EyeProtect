@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using iNKORE.UI.WPF.Modern.Common;
 using ProjectEye.Core;
 using ProjectEye.Core.Service;
@@ -16,8 +18,6 @@ namespace ProjectEye
 
         // To prevent two disposals running at the same time.
         private static readonly Lock _disposingLock = new();
-
-        private readonly ServiceCollection serviceCollection;
 
         [STAThread]
         public static void Main()
@@ -35,7 +35,32 @@ namespace ProjectEye
             // Do not use bitmap cache since it can cause WPF second window freezing issue
             ShadowAssist.UseBitmapCache = false;
 
-            serviceCollection = new ServiceCollection();
+            // Configure IoC container
+            Ioc.Default.ConfigureServices(ConfigureServices());
+        }
+
+        private IServiceProvider ConfigureServices()
+        {
+            var services = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
+
+            // Register App instance
+            services.AddSingleton<Application>(this);
+            services.AddSingleton(this);
+
+            // Register services in order of priority
+            services.AddSingleton<BackgroundWorkerService>();
+            services.AddSingleton<SystemResourcesService>();
+            services.AddSingleton<CacheService>();
+            services.AddSingleton<ConfigService>();
+            services.AddSingleton<NotificationService>();
+            services.AddSingleton<ThemeService>();
+            services.AddSingleton<ScreenService>();
+            services.AddSingleton<MainService>();
+            services.AddSingleton<TrayService>();
+            services.AddSingleton<RestService>();
+            services.AddSingleton<SoundService>();
+
+            return services.BuildServiceProvider();
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -60,40 +85,29 @@ namespace ProjectEye
             DispatcherUnhandledException += App_DispatcherUnhandledException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-            // 必须按优先级依次添加
-            serviceCollection.AddInstance(this);
-            // 后台任务
-            serviceCollection.Add<BackgroundWorkerService>();
-            // 系统资源
-            serviceCollection.Add<SystemResourcesService>();
-            // 内存缓存
-            serviceCollection.Add<CacheService>();
-            // 配置文件
-            serviceCollection.Add<ConfigService>();
-            // 通知
-            serviceCollection.Add<NotificationService>();
-            // 主题
-            serviceCollection.Add<ThemeService>();
-            // 扩展显示器
-            serviceCollection.Add<ScreenService>();
-            // 主要
-            serviceCollection.Add<MainService>();
-            // 托盘
-            serviceCollection.Add<TrayService>();
-            // 休息
-            serviceCollection.Add<RestService>();
-            // 声音
-            serviceCollection.Add<SoundService>();
-
-            WindowManager.serviceCollection = serviceCollection;
-
-            //初始化所有服务
-            serviceCollection.Initialize();
+            // Initialize all services
+            InitializeServices();
 
             // 检查开机自启错误
             AutoStartup();
 
             LogHelper.Info("App Start");
+        }
+
+        private void InitializeServices()
+        {
+            // Initialize services in registration order
+            Ioc.Default.GetService<BackgroundWorkerService>()?.Init();
+            Ioc.Default.GetService<SystemResourcesService>()?.Init();
+            Ioc.Default.GetService<CacheService>()?.Init();
+            Ioc.Default.GetService<ConfigService>()?.Init();
+            Ioc.Default.GetService<NotificationService>()?.Init();
+            Ioc.Default.GetService<ThemeService>()?.Init();
+            Ioc.Default.GetService<ScreenService>()?.Init();
+            Ioc.Default.GetService<MainService>()?.Init();
+            Ioc.Default.GetService<TrayService>()?.Init();
+            Ioc.Default.GetService<RestService>()?.Init();
+            Ioc.Default.GetService<SoundService>()?.Init();
         }
 
         [Conditional("RELEASE")]
@@ -145,9 +159,9 @@ namespace ProjectEye
             {
                 // Dispose needs to be called on the main Windows thread,
                 // since some resources owned by the thread need to be disposed.
-                ((MainService)serviceCollection.GetInstance(typeof(MainService).FullName)).Exit();
-                ((TrayService)serviceCollection.GetInstance(typeof(TrayService).FullName)).Exit();
-                ((NotificationService)serviceCollection.GetInstance(typeof(NotificationService).FullName)).Exit();
+                Ioc.Default.GetService<MainService>()?.Exit();
+                Ioc.Default.GetService<TrayService>()?.Exit();
+                Ioc.Default.GetService<NotificationService>()?.Exit();
             }
         }
 
