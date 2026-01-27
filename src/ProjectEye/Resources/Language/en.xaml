@@ -198,4 +198,9 @@
     <sys:String x:Key="Lang_On">On</sys:String>
     <sys:String x:Key="Lang_Off">Off</sys:String>
 
+    <sys:String x:Key="Lang_NotificationTitle">Eye Protect Reminder</sys:String>
+    <sys:String x:Key="Lang_NotificationBreakSkipped">Break reminder skipped: {0}</sys:String>
+    <sys:String x:Key="Lang_NotificationFullscreen">Fullscreen application detected</sys:String>
+    <sys:String x:Key="Lang_NotificationIgnoredApp">Ignored application is running</sys:String>
+
 </ResourceDictionary>
