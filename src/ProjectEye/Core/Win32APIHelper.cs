@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using ProjectEye.Models;
 using Windows.Win32;
 using Windows.Win32.Foundation;
-using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace ProjectEye.Core
 {
@@ -73,7 +72,6 @@ namespace ProjectEye.Core
 
         /// <summary>
         /// 获取所有顶层可见窗口信息
-        /// Get all top-level visible window information
         /// </summary>
         /// <returns></returns>
         public static List<WindowInfo> GetTopVisibleWindowsInfo()
@@ -82,13 +80,11 @@ namespace ProjectEye.Core
             var visibleWindows = new List<HWND>();
 
             // 枚举所有顶层窗口
-            // Enumerate all top-level windows
             unsafe
             {
                 PInvoke.EnumWindows((hwnd, lParam) =>
                 {
                     // 只处理可见的窗口
-                    // Only process visible windows
                     if (PInvoke.IsWindowVisible(hwnd))
                     {
                         visibleWindows.Add(hwnd);
@@ -98,7 +94,6 @@ namespace ProjectEye.Core
             }
 
             // 对于每个可见窗口，检查它是否应该被包含
-            // For each visible window, check if it should be included
             foreach (var hwnd in visibleWindows)
             {
                 if (IsValidTopWindow(hwnd))
@@ -113,7 +108,6 @@ namespace ProjectEye.Core
 
         /// <summary>
         /// 从窗口句柄获取窗口信息
-        /// Get window information from handle
         /// </summary>
         private static unsafe WindowInfo GetWindowInfoFromHandle(HWND hwnd)
         {
@@ -141,29 +135,24 @@ namespace ProjectEye.Core
         private static bool IsValidTopWindow(HWND hwnd)
         {
             // 跳过桌面和Shell窗口
-            // Skip desktop and shell windows
             if (hwnd.Equals(HWND_DESKTOP) || hwnd.Equals(HWND_SHELL))
             {
                 return false;
             }
 
             // 获取窗口类名
-            // Get window class name
             string windowClass = GetClassName(hwnd);
 
             // 跳过某些特殊窗口类
-            // Skip certain special window classes
             if (windowClass is WINDOW_CLASS_PROGMAN or WINDOW_CLASS_WORKERW or WINDOW_CLASS_WINTAB)
             {
                 return false;
             }
 
             // 获取窗口矩形
-            // Get window rectangle
             PInvoke.GetWindowRect(hwnd, out var rect);
 
             // 跳过太小的窗口（例如任务栏图标等）
-            // Skip windows that are too small (e.g., taskbar icons)
             if (rect.Width < MIN_WINDOW_WIDTH || rect.Height < MIN_WINDOW_HEIGHT)
             {
                 return false;
@@ -214,7 +203,7 @@ namespace ProjectEye.Core
         private static HWND HWND_DESKTOP =>
             _hwnd_desktop != HWND.Null ? _hwnd_desktop : _hwnd_desktop = PInvoke.GetDesktopWindow();
 
-        public static unsafe bool IsWindowFullscreen(HWND hWnd)
+        private static unsafe bool IsWindowFullscreen(HWND hWnd)
         {
             // If current active window is desktop or shell, exit early
             if (hWnd.Equals(HWND_DESKTOP) || hWnd.Equals(HWND_SHELL))
