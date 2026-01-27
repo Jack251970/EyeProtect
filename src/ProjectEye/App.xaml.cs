@@ -39,9 +39,9 @@ namespace ProjectEye
             Ioc.Default.ConfigureServices(ConfigureServices());
         }
 
-        private IServiceProvider ConfigureServices()
+        private ServiceProvider ConfigureServices()
         {
-            var services = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
+            var services = new ServiceCollection();
 
             // Register App instance
             services.AddSingleton(this);
