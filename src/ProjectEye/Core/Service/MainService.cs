@@ -94,7 +94,7 @@ namespace ProjectEye.Core.Service
         /// </summary>
         public event MainEventHandler OnHandleTimeout;
         #endregion
-        public MainService(App app,
+        public MainService(
             ScreenService screen,
             ConfigService config,
             CacheService cache,
@@ -108,8 +108,6 @@ namespace ProjectEye.Core.Service
             this.theme = theme;
             this.systemResources = systemResources;
             this.notification = notification;
-
-            app.Exit += new ExitEventHandler(app_Exit);
             SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(OnPowerModeChanged);
         }
 
@@ -506,13 +504,6 @@ namespace ProjectEye.Core.Service
         {
             ShowTipWindow();
             OnReset?.Invoke(this, 0);
-        }
-        #endregion
-
-        #region 程序退出 Event
-        private void app_Exit(object sender, ExitEventArgs e)
-        {
-            Exit();
         }
         #endregion
 

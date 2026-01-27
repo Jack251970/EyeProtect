@@ -43,7 +43,6 @@ namespace ProjectEye.Core.Service
         private string lastIcon = string.Empty;
 
         public TrayService(
-            App app,
             MainService mainService,
             ConfigService config,
             BackgroundWorkerService backgroundWorker,
@@ -55,7 +54,6 @@ namespace ProjectEye.Core.Service
             this.theme = theme;
             this.config.Changed += new EventHandler(config_Changed);
             this.theme.OnChangedTheme += Theme_OnChangedTheme;
-            app.Exit += new ExitEventHandler(app_Exit);
             mainService.OnLeaveEvent += MainService_OnLeaveEvent;
             mainService.OnStart += MainService_OnStart;
             mainService.OnLoadedLanguage += MainService_OnLoadedLanguage;
@@ -214,9 +212,8 @@ namespace ProjectEye.Core.Service
             Application.Current.Shutdown();
         }
 
-        private void app_Exit(object sender, ExitEventArgs e)
+        public void Exit()
         {
-            mainService.Exit();
             notifyIcon?.Destroy();
         }
 

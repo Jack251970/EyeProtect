@@ -7,14 +7,14 @@ namespace ProjectEye.Core.Service
     /// <summary>
     /// Notification Service for Windows Toast Notifications
     /// </summary>
-    public class NotificationService : IService, IDisposable
+    public class NotificationService : IService
     {
         public void Init()
         {
             // No initialization needed for toast notifications
         }
 
-        public void Dispose()
+        public void Exit()
         {
             ToastNotificationManagerCompat.Uninstall();
         }
