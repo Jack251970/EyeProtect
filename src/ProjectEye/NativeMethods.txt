@@ -21,6 +21,12 @@ GetClassName
 FindWindowEx
 GetShellWindow
 GetDesktopWindow
+EnumWindows
+IsWindowVisible
+GetWindowThreadProcessId
+GetWindowLongPtr
+GetWindow
+DwmGetWindowAttribute
 
 SHCreateItemFromParsingName
 IShellItem

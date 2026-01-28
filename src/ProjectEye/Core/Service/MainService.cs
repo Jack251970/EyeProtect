@@ -215,7 +215,7 @@ namespace ProjectEye.Core.Service
 
         private void busy_timer_Tick(object sender, EventArgs e)
         {
-            Debug.WriteLine("用户超过20秒未处理");
+            LogHelper.Debug("用户超过20秒未处理");
             //用户超过20秒未处理
             busy_timer.Stop();
 
@@ -227,7 +227,7 @@ namespace ProjectEye.Core.Service
         {
             if (IsCursorPosChanged())
             {
-                Debug.WriteLine("用户回来了");
+                LogHelper.Debug("用户回来了");
                 back_timer.Stop();
                 DoStart(false);
             }
@@ -308,7 +308,7 @@ namespace ProjectEye.Core.Service
         /// </summary>
         public void OnLeave()
         {
-            Debug.WriteLine("用户离开了");
+            LogHelper.Debug("用户离开了");
             WindowManager.Hide("TipWindow");
             leave_timer.Stop();
             //停止所有服务
@@ -361,7 +361,7 @@ namespace ProjectEye.Core.Service
         {
             if (work_timer.Interval.TotalMinutes != minutes)
             {
-                Debug.WriteLine(work_timer.Interval.TotalMinutes + "," + minutes);
+                LogHelper.Debug(work_timer.Interval.TotalMinutes + "," + minutes);
                 work_timer.Interval = new TimeSpan(0, minutes, 0);
                 if (!config.options.General.Noreset)
                 {
@@ -382,7 +382,7 @@ namespace ProjectEye.Core.Service
         {
             if (!config.options.General.Noreset)
             {
-                Debug.WriteLine("重新启动休息计时");
+                LogHelper.Debug("重新启动休息计时");
                 DoStop();
                 DoStart();
                 OnReStartTimer?.Invoke(this, 0);
@@ -439,6 +439,7 @@ namespace ProjectEye.Core.Service
             // Check for fullscreen application
             if (config.options.Behavior.IsFullScreenBreak)
             {
+                // If focused window is fullscreen, skip the break reminder
                 var info = Win32APIHelper.GetFocusWindowInfo();
                 if (info.IsFullScreen)
                 {
@@ -451,11 +452,18 @@ namespace ProjectEye.Core.Service
             // Check for ignored applications
             if (config.options.Behavior.IsBreakProgressList)
             {
-                var processes = Process.GetProcesses();
-                foreach (var process in processes)
+                // Get all top visible windows once for both checks
+                var windows = Win32APIHelper.GetTopVisibleWindowsInfo();
+
+                // Check processes of all top visible windows
+                foreach (var window in windows)
                 {
                     try
                     {
+                        if (window.ProcessId == 0)
+                            continue;
+
+                        var process = Process.GetProcessById((int)window.ProcessId);
                         foreach (var appInfo in config.options.Behavior.BreakProgressList)
                         {
                             if (MatchesProcess(appInfo, process))
@@ -468,6 +476,7 @@ namespace ProjectEye.Core.Service
                     }
                     catch
                     {
+                        // Process may have exited or access denied
                     }
                 }
             }
