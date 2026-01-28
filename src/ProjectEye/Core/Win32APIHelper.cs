@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ProjectEye.Models;
 using Windows.Win32;
 using Windows.Win32.Foundation;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace ProjectEye.Core
 {
@@ -135,24 +136,68 @@ namespace ProjectEye.Core
         private static bool IsValidTopWindow(HWND hwnd)
         {
             // 跳过桌面和Shell窗口
+            // Skip desktop and shell windows
             if (hwnd.Equals(HWND_DESKTOP) || hwnd.Equals(HWND_SHELL))
             {
                 return false;
             }
 
             // 获取窗口类名
+            // Get window class name
             string windowClass = GetClassName(hwnd);
 
             // 跳过某些特殊窗口类
+            // Skip certain special window classes
             if (windowClass is WINDOW_CLASS_PROGMAN or WINDOW_CLASS_WORKERW or WINDOW_CLASS_WINTAB)
             {
                 return false;
             }
 
+            // 跳过UWP应用容器窗口和内部窗口
+            // Skip UWP app container windows and internal windows
+            if (windowClass is "ApplicationFrameWindow" or "Windows.UI.Core.CoreWindow")
+            {
+                return false;
+            }
+
+            // 跳过覆盖层窗口（如NVIDIA覆盖层）
+            // Skip overlay windows (e.g., NVIDIA overlay)
+            if (windowClass.Contains("CEF-OSC-WIDGET", StringComparison.OrdinalIgnoreCase) ||
+                windowClass.Contains("Overlay", StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            // 检查窗口扩展样式
+            // Check window extended styles
+            var exStyle = (WINDOW_EX_STYLE)PInvoke.GetWindowLongPtr(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
+            
+            // 跳过工具窗口
+            // Skip tool windows
+            if ((exStyle & WINDOW_EX_STYLE.WS_EX_TOOLWINDOW) != 0)
+            {
+                return false;
+            }
+
+            // 跳过无应用窗口样式的窗口（这些通常不显示在任务栏）
+            // Skip windows without app window style (these usually don't show in taskbar)
+            if ((exStyle & WINDOW_EX_STYLE.WS_EX_APPWINDOW) == 0)
+            {
+                // 如果窗口有所有者窗口，则它通常不是顶层应用窗口
+                // If the window has an owner, it's usually not a top-level app window
+                var owner = PInvoke.GetAncestor(hwnd, GET_ANCESTOR_FLAGS.GA_ROOTOWNER);
+                if (!owner.Equals(hwnd))
+                {
+                    return false;
+                }
+            }
+
             // 获取窗口矩形
+            // Get window rectangle
             PInvoke.GetWindowRect(hwnd, out var rect);
 
             // 跳过太小的窗口（例如任务栏图标等）
+            // Skip windows that are too small (e.g., taskbar icons)
             if (rect.Width < MIN_WINDOW_WIDTH || rect.Height < MIN_WINDOW_HEIGHT)
             {
                 return false;

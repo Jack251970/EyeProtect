@@ -24,6 +24,8 @@ GetDesktopWindow
 EnumWindows
 IsWindowVisible
 GetWindowThreadProcessId
+GetWindowLongPtr
+GetAncestor
 
 SHCreateItemFromParsingName
 IShellItem
