@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ProjectEye.Models;
 using Windows.Win32;
 using Windows.Win32.Foundation;
+using Windows.Win32.Graphics.Dwm;
 using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace ProjectEye.Core
@@ -77,13 +80,13 @@ namespace ProjectEye.Core
         /// <returns></returns>
         public static List<WindowInfo> GetTopVisibleWindowsInfo()
         {
-            var windows = new List<WindowInfo>();
+            var windows = new ConcurrentBag<WindowInfo>();
             var visibleWindows = new List<HWND>();
 
             // 枚举所有顶层窗口
             unsafe
             {
-                PInvoke.EnumWindows((hwnd, lParam) =>
+                PInvoke.EnumWindows((hwnd, _) =>
                 {
                     // 只处理可见的窗口
                     if (PInvoke.IsWindowVisible(hwnd))
@@ -94,17 +97,17 @@ namespace ProjectEye.Core
                 }, 0);
             }
 
-            // 对于每个可见窗口，检查它是否应该被包含
-            foreach (var hwnd in visibleWindows)
+            // 对于每个可见窗口，并行检查它是否应该被包含
+            Parallel.ForEach(visibleWindows, hwnd =>
             {
                 if (IsValidTopWindow(hwnd))
                 {
                     var info = GetWindowInfoFromHandle(hwnd);
                     windows.Add(info);
                 }
-            }
+            });
 
-            return windows;
+            return [.. windows];
         }
 
         /// <summary>
@@ -177,7 +180,7 @@ namespace ProjectEye.Core
             // 检查窗口是否被DWM隐藏（Windows 10+的窗口隐藏功能）
             // Check if window is cloaked by DWM (Windows 10+ window hiding feature)
             int cloaked = 0;
-            var result = PInvoke.DwmGetWindowAttribute(hwnd, Windows.Win32.Graphics.Dwm.DWMWINDOWATTRIBUTE.DWMWA_CLOAKED, &cloaked, sizeof(int));
+            var result = PInvoke.DwmGetWindowAttribute(hwnd, DWMWINDOWATTRIBUTE.DWMWA_CLOAKED, &cloaked, sizeof(int));
             if (result == 0 && cloaked != 0)
             {
                 return false;
