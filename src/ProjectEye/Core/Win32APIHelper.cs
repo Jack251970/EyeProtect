@@ -133,7 +133,7 @@ namespace ProjectEye.Core
         /// 检查窗口是否为有效的顶层窗口
         /// Check if window is a valid top window
         /// </summary>
-        private static bool IsValidTopWindow(HWND hwnd)
+        private static unsafe bool IsValidTopWindow(HWND hwnd)
         {
             // 跳过桌面和Shell窗口
             // Skip desktop and shell windows
@@ -153,17 +153,32 @@ namespace ProjectEye.Core
                 return false;
             }
 
-            // 跳过UWP应用容器窗口和内部窗口
-            // Skip UWP app container windows and internal windows
-            if (windowClass is "ApplicationFrameWindow" or "Windows.UI.Core.CoreWindow")
+            // 跳过UWP应用内部窗口（但保留ApplicationFrameWindow容器）
+            // Skip UWP app internal windows (but keep ApplicationFrameWindow container)
+            if (windowClass is "Windows.UI.Core.CoreWindow")
             {
                 return false;
             }
 
-            // 跳过覆盖层窗口（如NVIDIA覆盖层）
-            // Skip overlay windows (e.g., NVIDIA overlay)
-            if (windowClass.Contains("CEF-OSC-WIDGET", StringComparison.OrdinalIgnoreCase) ||
-                windowClass.Contains("Overlay", StringComparison.OrdinalIgnoreCase))
+            // 跳过特定的已知覆盖层和系统窗口
+            // Skip specific known overlay and system windows
+            if (windowClass is "CEF-OSC-WIDGET" or "Windows Input Experience")
+            {
+                return false;
+            }
+
+            // 跳过HwndWrapper窗口（通常是WPF托管的背景窗口）
+            // Skip HwndWrapper windows (usually WPF hosted background windows)
+            if (windowClass.StartsWith("HwndWrapper", StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            // 检查窗口是否被DWM隐藏（Windows 10+的窗口隐藏功能）
+            // Check if window is cloaked by DWM (Windows 10+ window hiding feature)
+            int cloaked = 0;
+            var result = PInvoke.DwmGetWindowAttribute(hwnd, Windows.Win32.Graphics.Dwm.DWMWINDOWATTRIBUTE.DWMWA_CLOAKED, &cloaked, sizeof(int));
+            if (result == 0 && cloaked != 0)
             {
                 return false;
             }
@@ -183,10 +198,10 @@ namespace ProjectEye.Core
             // Skip windows without app window style (these usually don't show in taskbar)
             if ((exStyle & WINDOW_EX_STYLE.WS_EX_APPWINDOW) == 0)
             {
-                // 如果窗口有所有者窗口，则它通常不是顶层应用窗口
-                // If the window has an owner, it's usually not a top-level app window
-                var owner = PInvoke.GetAncestor(hwnd, GET_ANCESTOR_FLAGS.GA_ROOTOWNER);
-                if (!owner.Equals(hwnd))
+                // 检查窗口是否有所有者，如果有则通常不是顶层应用窗口
+                // Check if window has an owner, if so it's usually not a top-level app window
+                var owner = PInvoke.GetWindow(hwnd, GET_WINDOW_CMD.GW_OWNER);
+                if (owner != HWND.Null)
                 {
                     return false;
                 }
