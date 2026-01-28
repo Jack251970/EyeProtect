@@ -66,7 +66,7 @@ namespace ProjectEye.Core
             result.IsFullScreen = IsWindowFullscreen(hwnd);
             //获取进程ID
             uint processId = 0;
-            PInvoke.GetWindowThreadProcessId(hwnd, &processId);
+            _ = PInvoke.GetWindowThreadProcessId(hwnd, &processId);
             result.ProcessId = processId;
             return result;
         }
@@ -123,7 +123,7 @@ namespace ProjectEye.Core
             
             // Get process ID
             uint processId = 0;
-            PInvoke.GetWindowThreadProcessId(hwnd, &processId);
+            _ = PInvoke.GetWindowThreadProcessId(hwnd, &processId);
             result.ProcessId = processId;
             
             return result;
