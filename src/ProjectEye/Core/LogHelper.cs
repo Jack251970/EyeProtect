@@ -51,7 +51,7 @@ namespace ProjectEye.Core
             if (write)
             {
                 //写入日志文件
-                WriteFile(level, log);
+                WriteFile(log);
             }
             if (console)
             {
@@ -60,13 +60,12 @@ namespace ProjectEye.Core
             }
         }
 
-        private static void WriteFile(Level level, string text)
+        private static void WriteFile(string text)
         {
             try
             {
                 var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                         "Log",
-                         $"{level}_{DateTime.Now:yyyy_MM_dd}.log");
+                    "Log", $"{DateTime.Now:yyyy_MM_dd}.log");
                 var dir = Path.GetDirectoryName(filePath);
                 if (!Directory.Exists(dir))
                 {
