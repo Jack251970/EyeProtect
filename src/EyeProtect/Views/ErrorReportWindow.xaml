@@ -1,0 +1,91 @@
+﻿<Window
+    x:Class="EyeProtect.Views.ErrorReportWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:EyeProtect.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+    Title="Eye Protect Crash"
+    Width="420"
+    Height="460"
+    ui:WindowHelper.UseModernWindowStyle="True"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <Grid>
+        <Image
+            Margin="20"
+            Opacity=".1"
+            Source="/EyeProtect;component/Resources/Images/explosion.png" />
+        <StackPanel Margin="20">
+
+            <Border
+                Margin="0"
+                Padding="10"
+                CornerRadius="6">
+                <Border.Background>
+                    <SolidColorBrush Opacity=".4" Color="#ccc" />
+                </Border.Background>
+                <TextBlock FontSize="14" TextWrapping="WrapWithOverflow">
+                    <Run Text="Sorry! An unexpected error occurred in the program. The detailed error report has been saved to the root directory" />
+                    <Run
+                        Cursor="Hand"
+                        Foreground="#007acc"
+                        MouseDown="Run_MouseDown"
+                        Text="Log Folder" />
+                    <Run Text=". Please provide" /> <Run
+                        Cursor="Hand"
+                        Foreground="#007acc"
+                        MouseDown="bugreportbtn_Click"
+                        Text="feedback" /><Run Text=" if possible. Many thanks!" />
+                </TextBlock>
+            </Border>
+            <TextBlock
+                Margin="0 15 0 0"
+                FontSize="16"
+                FontWeight="Bold"
+                Text="Solution" />
+            <Border
+                Margin="0 10 0 0"
+                Padding="10"
+                CornerRadius="6">
+                <Border.Background>
+                    <SolidColorBrush Opacity=".4" Color="#ccc" />
+                </Border.Background>
+                <StackPanel>
+                    <TextBlock
+                        FontSize="14"
+                        Text="1. Restart application;"
+                        TextWrapping="WrapWithOverflow" />
+                    <TextBlock
+                        FontSize="14"
+                        Text="2. Check if there is an updatable version;"
+                        TextWrapping="WrapWithOverflow" />
+                    <TextBlock
+                        FontSize="14"
+                        Text="3. Download other old versions for use;"
+                        TextWrapping="WrapWithOverflow" />
+
+                </StackPanel>
+            </Border>
+            <TextBlock
+                Margin="0 15 0 0"
+                FontSize="16"
+                FontWeight="Bold"
+                Text="Contact" />
+            <Border
+                Margin="0 10 0 0"
+                Padding="10"
+                CornerRadius="6">
+                <Border.Background>
+                    <SolidColorBrush Opacity=".4" Color="#ccc" />
+                </Border.Background>
+                <TextBlock
+                    FontSize="14"
+                    Text="Email: jack1160210343@gmail.com"
+                    TextWrapping="WrapWithOverflow" />
+            </Border>
+        </StackPanel>
+    </Grid>
+</Window>

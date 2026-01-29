@@ -5,7 +5,7 @@
 你可以设定好提醒间隔时间（默认20分钟）和休息时间（默认20秒），当程序启动后开始计时，每到达一次提醒间隔时间，就会弹出一个覆盖全屏幕的窗口提示该休息了。默认情况下你可以选择 `跳过` 或 `开始休息` ，选择 `跳过` 窗口将关闭并重新开始计时，选择 `开始休息` 程序会以从设定的休息时间（秒）开始倒计时，此时你应该将视线离开屏幕眺望远方至少6米远处放松双眼，当倒计时结束程序会播放提示音通知你。
 
 <p align="center">
-  <img alt="tipwindow" src="https://raw.githubusercontent.com/Planshit/ProjectEye/master/screenshot/tipwindow.jpg">
+  <img alt="tipwindow" src="https://raw.githubusercontent.com/Jack251970/EyeProtect/master/screenshot/tipwindow.jpg">
 </p>
 
 ## 什么是20-20-20规则
@@ -26,12 +26,12 @@
 ## 本地编译
 
 ```
-dotnet publish src\ProjectEye\ProjectEye.csproj -p:PublishProfile=Net10.0-Win64.pubxml
+dotnet publish src\EyeProtect\EyeProtect.csproj -p:PublishProfile=Net10.0-Win64.pubxml
 ```
 
 ## 下载安装
 
-你可以在这里 [Releases](https://github.com/Jack251970/EyeProtect/releases) 下载所有发布版本编译好的EXE文件，直接双击ProjectEye.exe即可运行，无需安装。
+你可以在这里 [Releases](https://github.com/Jack251970/EyeProtect/releases) 下载所有发布版本编译好的EXE文件，直接双击EyeProtect.exe即可运行，无需安装。
 
 成功启动后你将在右下角的状态栏中看到 😎 图标，右键显示菜单。
 
