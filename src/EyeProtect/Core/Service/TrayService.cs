@@ -59,7 +59,7 @@ namespace EyeProtect.Core.Service
             mainService.OnLoadedLanguage += MainService_OnLoadedLanguage;
             backgroundWorker.DoWork += BackgroundWorker_DoWork;
             backgroundWorker.OnCompleted += BackgroundWorker_OnCompleted;
-            var iconUri = new Uri("/EyeProtect;component/Resources/sunglasses.ico", UriKind.RelativeOrAbsolute);
+            var iconUri = new Uri(ResourcePaths.Icons.Sunglasses, UriKind.RelativeOrAbsolute);
             var info = Application.GetResourceStream(iconUri);
             using var stream = info.Stream;
             notifyIcon = new SystemTrayIcon(new Icon(stream), "Eye Protect", notifyIconGuid, true);
@@ -272,7 +272,7 @@ namespace EyeProtect.Core.Service
             }
             if (notifyIcon != null && name != "")
             {
-                var iconUri = new Uri("/EyeProtect;component/Resources/" + name + ".ico", UriKind.RelativeOrAbsolute);
+                var iconUri = new Uri(ResourcePaths.GetIconPath(name), UriKind.RelativeOrAbsolute);
                 var info = Application.GetResourceStream(iconUri);
                 using var stream = info.Stream;
                 notifyIcon.Icon = new Icon(stream);
