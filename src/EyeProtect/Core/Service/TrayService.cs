@@ -40,7 +40,7 @@ namespace EyeProtect.Core.Service
 
         private DispatcherTimer noresetTimer;
 
-        private string lastIcon = string.Empty;
+        private IconType? lastIcon = null;
 
         public TrayService(
             MainService mainService,
@@ -59,7 +59,7 @@ namespace EyeProtect.Core.Service
             mainService.OnLoadedLanguage += MainService_OnLoadedLanguage;
             backgroundWorker.DoWork += BackgroundWorker_DoWork;
             backgroundWorker.OnCompleted += BackgroundWorker_OnCompleted;
-            var iconUri = new Uri("/EyeProtect;component/Resources/sunglasses.ico", UriKind.RelativeOrAbsolute);
+            var iconUri = new Uri(ResourcePaths.Icons.Sunglasses, UriKind.RelativeOrAbsolute);
             var info = Application.GetResourceStream(iconUri);
             using var stream = info.Stream;
             notifyIcon = new SystemTrayIcon(new Icon(stream), "Eye Protect", notifyIconGuid, true);
@@ -81,11 +81,11 @@ namespace EyeProtect.Core.Service
             {
                 if (config.options.General.Noreset)
                 {
-                    UpdateIcon("dizzy");
+                    UpdateIcon(IconType.Dizzy);
                 }
                 else
                 {
-                    UpdateIcon("sunglasses");
+                    UpdateIcon(IconType.Sunglasses);
                 }
             }
             if (contextMenu != null && !config.options.General.Noreset)
@@ -100,7 +100,7 @@ namespace EyeProtect.Core.Service
 
         private void MainService_OnLeaveEvent(object service, int msg)
         {
-            UpdateIcon("sleeping");
+            UpdateIcon(IconType.Sleeping);
         }
 
         public void Init()
@@ -119,7 +119,7 @@ namespace EyeProtect.Core.Service
         // 有后台工作任务在运行时
         private void BackgroundWorker_DoWork()
         {
-            UpdateIcon("overheated", false);
+            UpdateIcon(IconType.Overheated, false);
             SetText($"Eye Protect: {Application.Current.Resources["Lang_TimeconsumingOperation"]}");
         }
 
@@ -263,22 +263,19 @@ namespace EyeProtect.Core.Service
             contextMenu.Items.Add(menuItem_Quit);
         }
 
-        public void UpdateIcon(string name = "", bool save = true)
+        public void UpdateIcon(IconType? type = null, bool save = true)
         {
-            name = name == "" ? lastIcon : name;
-            if (name == "")
+            type = type is null ? lastIcon : type;
+            type ??= IconType.Sunglasses;
+            if (notifyIcon != null && type is not null)
             {
-                name = "sunglasses";
-            }
-            if (notifyIcon != null && name != "")
-            {
-                var iconUri = new Uri("/EyeProtect;component/Resources/" + name + ".ico", UriKind.RelativeOrAbsolute);
+                var iconUri = new Uri(ResourcePaths.GetIconPath(type), UriKind.RelativeOrAbsolute);
                 var info = Application.GetResourceStream(iconUri);
                 using var stream = info.Stream;
                 notifyIcon.Icon = new Icon(stream);
                 if (save)
                 {
-                    lastIcon = name;
+                    lastIcon = type;
                 }
             }
         }
@@ -296,14 +293,14 @@ namespace EyeProtect.Core.Service
             menuItem_NoReset_Off.IsChecked = false;
             menuItem_NoReset.IsChecked = true;
             noresetTimer.Stop();
-            UpdateIcon("dizzy");
+            UpdateIcon(IconType.Dizzy);
             if (hour == -1)
             {
                 //关闭
                 config.options.General.Noreset = false;
                 menuItem_NoReset.IsChecked = false;
                 mainService.Start();
-                UpdateIcon("sunglasses");
+                UpdateIcon(IconType.Sunglasses);
 
             }
             else if (hour == 0)

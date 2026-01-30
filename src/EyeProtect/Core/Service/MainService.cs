@@ -181,7 +181,7 @@ namespace EyeProtect.Core.Service
             // Load selected language if it is not default language en.xaml
             if (config.options.Style.Language.Value != "en")
             {
-                var language = new ResourceDictionary { Source = new Uri($"/EyeProtect;component/Resources/Language/{config.options.Style.Language.Value}.xaml", UriKind.RelativeOrAbsolute) };
+                var language = new ResourceDictionary { Source = new Uri(ResourcePaths.Languages.GetLanguagePath(config.options.Style.Language.Value), UriKind.RelativeOrAbsolute) };
                 mds.Add(language);
             }
 

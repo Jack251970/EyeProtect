@@ -146,7 +146,7 @@ namespace EyeProtect.ViewModels
             ContainerOpacity = 0.98;
             
             // Set tip image based on theme
-            var imagePath = $"pack://application:,,,/EyeProtect;component/Resources/Images/{(isDarkTheme ? "Dark" : "Light")}/tipImage.png";
+            var imagePath = ResourcePaths.GetTipImagePackUri(isDarkTheme);
             try
             {
                 var image = new BitmapImage();
@@ -155,9 +155,9 @@ namespace EyeProtect.ViewModels
                 image.EndInit();
                 TipImageSource = image;
             }
-            catch
+            catch (Exception e)
             {
-                TipImageSource = BitmapImager.Load("pack://application:,,,/EyeProtect;component/Resources/Images/sunglasses.png");
+                LogHelper.Error("Failed to load tip image: " + e.Message);
             }
             
             // Set tip content with variable replacement

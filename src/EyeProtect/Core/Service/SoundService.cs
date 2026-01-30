@@ -105,7 +105,7 @@ namespace EyeProtect.Core.Service
         public void LoadSound(SoundType soundType = SoundType.RestOverSound)
         {
             var isDefault = true;
-            var path = "/EyeProtect;component/Resources/relentless.wav";
+            var path = ResourcePaths.Sounds.Relentless;
             var loadResult = Load(soundType, path, isDefault);
             //加载音效失败
             if (!loadResult && !isDefault)
