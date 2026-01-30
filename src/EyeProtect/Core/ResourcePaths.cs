@@ -6,7 +6,7 @@
     public static class ResourcePaths
     {
         // Base paths
-        private const string ResourceBase = "/EyeProtect;component/Resources/";
+        private const string ResourceBase = "pack://application:,,,/EyeProtect;component/Resources/";
         private const string ImagesBase = ResourceBase + "Images/";
 
         // Icon resources
@@ -21,7 +21,6 @@
         // Image resources
         public static class Images
         {
-            public const string Sunglasses = ImagesBase + "sunglasses.png";
             public const string TipImageDark = ImagesBase + "Dark/tipImage.png";
             public const string TipImageLight = ImagesBase + "Light/tipImage.png";
         }
@@ -53,18 +52,7 @@
         /// <returns>The pack URI to the appropriate tip image</returns>
         public static string GetTipImagePackUri(bool isDarkTheme)
         {
-            var relativePath = isDarkTheme ? Images.TipImageDark : Images.TipImageLight;
-            return $"pack://application:,,,/EyeProtect;component{relativePath}";
-        }
-
-        /// <summary>
-        /// Get pack URI for an image resource
-        /// </summary>
-        /// <param name="relativePath">The relative resource path</param>
-        /// <returns>The full pack URI</returns>
-        public static string GetPackUri(string relativePath)
-        {
-            return $"pack://application:,,,/EyeProtect;component{relativePath}";
+            return isDarkTheme ? Images.TipImageDark : Images.TipImageLight;
         }
 
         /// <summary>

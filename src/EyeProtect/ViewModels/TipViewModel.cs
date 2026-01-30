@@ -155,9 +155,9 @@ namespace EyeProtect.ViewModels
                 image.EndInit();
                 TipImageSource = image;
             }
-            catch
+            catch (Exception e)
             {
-                TipImageSource = BitmapImager.Load(ResourcePaths.GetPackUri(ResourcePaths.Images.Sunglasses));
+                LogHelper.Error("Failed to load tip image: " + e.Message);
             }
             
             // Set tip content with variable replacement
