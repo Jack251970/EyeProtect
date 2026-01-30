@@ -37,7 +37,7 @@ namespace EyeProtect.Core
         // Language resources
         public static class Languages
         {
-            private const string LanguageBase = "/Resources/Language/";
+            private const string LanguageBase = ResourceBase + "Language/";
             public const string English = LanguageBase + "en.xaml";
             public const string ChineseSimplified = LanguageBase + "zh-cn.xaml";
             public const string ChineseTraditional = LanguageBase + "zh-tw.xaml";
@@ -49,13 +49,24 @@ namespace EyeProtect.Core
         }
 
         /// <summary>
-        /// Get theme-specific tip image path
+        /// Get theme-specific tip image path with pack URI scheme
         /// </summary>
         /// <param name="isDarkTheme">Whether the current theme is dark</param>
-        /// <returns>The path to the appropriate tip image</returns>
-        public static string GetTipImagePath(bool isDarkTheme)
+        /// <returns>The pack URI to the appropriate tip image</returns>
+        public static string GetTipImagePackUri(bool isDarkTheme)
         {
-            return isDarkTheme ? Images.TipImageDark : Images.TipImageLight;
+            var relativePath = isDarkTheme ? Images.TipImageDark : Images.TipImageLight;
+            return $"pack://application:,,,/EyeProtect;component{relativePath}";
+        }
+
+        /// <summary>
+        /// Get pack URI for an image resource
+        /// </summary>
+        /// <param name="relativePath">The relative resource path</param>
+        /// <returns>The full pack URI</returns>
+        public static string GetPackUri(string relativePath)
+        {
+            return $"pack://application:,,,/EyeProtect;component{relativePath}";
         }
 
         /// <summary>
@@ -65,6 +76,11 @@ namespace EyeProtect.Core
         /// <returns>The full path to the icon resource</returns>
         public static string GetIconPath(string iconName)
         {
+            if (string.IsNullOrEmpty(iconName))
+            {
+                return Icons.Sunglasses;
+            }
+
             return iconName.ToLower() switch
             {
                 "sunglasses" => Icons.Sunglasses,
