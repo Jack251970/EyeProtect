@@ -1,4 +1,4 @@
-namespace EyeProtect.Core
+﻿namespace EyeProtect.Core
 {
     /// <summary>
     /// Centralized resource path management
@@ -22,8 +22,6 @@ namespace EyeProtect.Core
         public static class Images
         {
             public const string Sunglasses = ImagesBase + "sunglasses.png";
-            public const string Explosion = ImagesBase + "explosion.png";
-            public const string Ecology = ResourceBase + "ecology.png";
             public const string TipImageDark = ImagesBase + "Dark/tipImage.png";
             public const string TipImageLight = ImagesBase + "Light/tipImage.png";
         }

@@ -14,10 +14,6 @@
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Grid>
-        <Image
-            Margin="20"
-            Opacity=".1"
-            Source="/EyeProtect;component/Resources/Images/explosion.png" />
         <StackPanel Margin="20">
 
             <Border

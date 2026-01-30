@@ -14,12 +14,6 @@
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Grid Margin="10">
-        <Grid.Background>
-            <ImageBrush
-                ImageSource="/EyeProtect;component/Resources/ecology.png"
-                Opacity="0.5"
-                Stretch="UniformToFill" />
-        </Grid.Background>
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <ui:HyperlinkButton
