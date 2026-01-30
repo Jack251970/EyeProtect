@@ -72,21 +72,29 @@
         /// </summary>
         /// <param name="iconName">Icon name (sunglasses, dizzy, sleeping, overheated)</param>
         /// <returns>The full path to the icon resource</returns>
-        public static string GetIconPath(string iconName)
+        public static string GetIconPath(IconType? type)
         {
-            if (string.IsNullOrEmpty(iconName))
+            if (type is null)
             {
                 return Icons.Sunglasses;
             }
 
-            return iconName.ToLower() switch
+            return type switch
             {
-                "sunglasses" => Icons.Sunglasses,
-                "dizzy" => Icons.Dizzy,
-                "sleeping" => Icons.Sleeping,
-                "overheated" => Icons.Overheated,
+                IconType.Sunglasses => Icons.Sunglasses,
+                IconType.Dizzy => Icons.Dizzy,
+                IconType.Sleeping => Icons.Sleeping,
+                IconType.Overheated => Icons.Overheated,
                 _ => Icons.Sunglasses
             };
         }
+    }
+
+    public enum IconType
+    {
+        Sunglasses,
+        Dizzy,
+        Sleeping,
+        Overheated
     }
 }
