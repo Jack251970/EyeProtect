@@ -40,7 +40,6 @@
     <Resource Include="Resources\**\*.png" />
     <Resource Include="Resources\**\*.jpg" />
     <Resource Include="Resources\**\*.wav" />
-    <Resource Include="Resources\**\*.ttf" />
   </ItemGroup>
 
   <ItemGroup>
