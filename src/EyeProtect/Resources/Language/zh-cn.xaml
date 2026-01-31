@@ -80,12 +80,6 @@
     <sys:String x:Key="Lang_Help">帮助</sys:String>
     <sys:String x:Key="Lang_Source">开源</sys:String>
     <sys:String x:Key="Lang_Feedback">反馈</sys:String>
-    <sys:String x:Key="Lang_Developers">开发者</sys:String>
-    <sys:String x:Key="Lang_Contributors">贡献者</sys:String>
-
-    <sys:String x:Key="Lang_Createashortcutondesktop">创建桌面图标</sys:String>
-    <sys:String x:Key="Lang_Apply">应用</sys:String>
-
 
     <!--<sys:String x:Key="Lang_Week">本周</sys:String>-->
     <sys:String x:Key="Lang_Break">休息</sys:String>

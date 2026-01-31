@@ -79,12 +79,6 @@
     <sys:String x:Key="Lang_Help">幫助</sys:String>
     <sys:String x:Key="Lang_Source">開源</sys:String>
     <sys:String x:Key="Lang_Feedback">回饋</sys:String>
-    <sys:String x:Key="Lang_Developers">開發者</sys:String>
-    <sys:String x:Key="Lang_Contributors">貢獻者</sys:String>
-
-    <sys:String x:Key="Lang_Createashortcutondesktop">創建桌面圖示</sys:String>
-    <sys:String x:Key="Lang_Apply">應用</sys:String>
-
 
     <!--<sys:String x:Key="Lang_Week">本周</sys:String>-->
     <sys:String x:Key="Lang_Break">休息</sys:String>
