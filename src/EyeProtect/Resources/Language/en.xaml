@@ -78,11 +78,6 @@
     <sys:String x:Key="Lang_Help">Help</sys:String>
     <sys:String x:Key="Lang_Source">Source</sys:String>
     <sys:String x:Key="Lang_Feedback">Feedback</sys:String>
-    <sys:String x:Key="Lang_Developers">Developers</sys:String>
-    <sys:String x:Key="Lang_Contributors">Contributors</sys:String>
-
-    <sys:String x:Key="Lang_Createashortcutondesktop">Create a shortcut on desktop</sys:String>
-    <sys:String x:Key="Lang_Apply">Apply</sys:String>
 
     <sys:String x:Key="Lang_Break">Break</sys:String>
     <sys:String x:Key="Lang_Skip">Skip</sys:String>

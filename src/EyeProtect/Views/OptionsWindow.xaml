@@ -263,10 +263,6 @@
                                 VerticalAlignment="Center"
                                 Content="{Binding Model.Version}"
                                 NavigateUri="{Binding Model.VersionLink}" />
-                            <ui:HyperlinkButton
-                                Command="{Binding OpenWindowCommand}"
-                                CommandParameter="ContributorsWindow"
-                                Content="{DynamicResource Lang_Contributors}" />
                         </StackPanel>
 
                         <StackPanel Margin="0 8 0 0" Orientation="Horizontal">
