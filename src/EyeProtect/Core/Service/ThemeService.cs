@@ -5,6 +5,7 @@ namespace EyeProtect.Core.Service
     public class ThemeService : IService
     {
         public delegate void ThemeChangedEventHandler(ApplicationTheme OldTheme, ApplicationTheme NewTheme);
+
         /// <summary>
         /// 当切换主题时发生
         /// </summary>

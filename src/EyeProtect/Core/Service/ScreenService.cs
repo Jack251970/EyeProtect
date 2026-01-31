@@ -59,10 +59,7 @@ namespace EyeProtect.Core.Service
         {
             source = HwndSource.FromHwnd(new WindowInteropHelper((Window)sender).Handle);
             source.AddHook(hwndSourceHook);
-
         }
-
-
 
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {

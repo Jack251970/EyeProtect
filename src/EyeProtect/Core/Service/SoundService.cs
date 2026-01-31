@@ -39,7 +39,9 @@ namespace EyeProtect.Core.Service
             //加载休息结束提示音
             LoadSound(SoundType.RestOverSound);
         }
+
         #region 播放音效
+
         /// <summary>
         /// 播放音效,默认休息结束音效
         /// </summary>
@@ -67,6 +69,7 @@ namespace EyeProtect.Core.Service
         #endregion
 
         #region 加载指定音效文件
+
         /// <summary>
         /// 从路径加载音效
         /// </summary>
@@ -98,6 +101,7 @@ namespace EyeProtect.Core.Service
                 return false;
             }
         }
+
         /// <summary>
         /// 加载指定音效文件
         /// </summary>
@@ -115,27 +119,7 @@ namespace EyeProtect.Core.Service
                 LoadSound();
             }
         }
-        #endregion
 
-        #region 测试外部音效
-        /// <summary>
-        /// 测试外部音效
-        /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        public bool Test(string file)
-        {
-
-            if (Load(SoundType.Other, file, false))
-            {
-                if (Play(SoundType.Other))
-                {
-                    return true;
-                }
-            }
-            return false;
-
-        }
         #endregion
     }
 }

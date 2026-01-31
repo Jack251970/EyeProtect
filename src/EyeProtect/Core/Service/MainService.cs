@@ -44,16 +44,12 @@ namespace EyeProtect.Core.Service
         /// </summary>
         private bool isDateTimerReset;
 
-        #region Service
         private readonly ScreenService screen;
         private readonly ConfigService config;
         private readonly CacheService cache;
-        private readonly ThemeService theme;
         private readonly SystemResourcesService systemResources;
         private readonly NotificationService notification;
-        #endregion
 
-        #region Event
         public delegate void MainEventHandler(object service, int msg);
         /// <summary>
         /// 用户离开时发生
@@ -87,7 +83,6 @@ namespace EyeProtect.Core.Service
         /// 提示休息后超时未处理时发生
         /// </summary>
         public event MainEventHandler OnHandleTimeout;
-        #endregion
 
         public MainService(
             ScreenService screen,
@@ -100,7 +95,6 @@ namespace EyeProtect.Core.Service
             this.screen = screen;
             this.config = config;
             this.cache = cache;
-            this.theme = theme;
             this.systemResources = systemResources;
             this.notification = notification;
             SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(OnPowerModeChanged);
@@ -193,6 +187,7 @@ namespace EyeProtect.Core.Service
         {
             HandleLanguageChanged();
         }
+
         private void OnPowerModeChanged(object sender, PowerModeChangedEventArgs e)
         {
             switch (e.Mode)
