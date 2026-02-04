@@ -91,6 +91,7 @@ namespace EyeProtect.ViewModels
         {
             UpdateUIData();
             // Subscribe to IsVisibleChanged to handle window show/hide events
+            WindowInstance.IsVisibleChanged -= WindowInstance_IsVisibleChanged;
             WindowInstance.IsVisibleChanged += WindowInstance_IsVisibleChanged;
         }
 
