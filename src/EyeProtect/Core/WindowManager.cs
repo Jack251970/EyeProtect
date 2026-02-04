@@ -318,7 +318,7 @@ namespace EyeProtect.Core
                 }
                 else
                 {
-                    CreateWindowInScreen(name, screen, isMaximized);
+                    CreateWindowInScreen(name, screen, isMaximized, newViewModel: true);
                 }
             }
         }
