@@ -23,8 +23,7 @@ namespace EyeProtect.ViewModels
 
         public OptionsViewModel(ConfigService config,
             MainService mainService,
-            SystemResourcesService systemResources,
-            SoundService sound)
+            SystemResourcesService systemResources)
         {
             this.config = config;
             this.mainService = mainService;

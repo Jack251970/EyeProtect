@@ -91,18 +91,18 @@ namespace EyeProtect.ViewModels
         {
             UpdateUIData();
             // Subscribe to IsVisibleChanged to handle window show/hide events
+            WindowInstance.IsVisibleChanged -= WindowInstance_IsVisibleChanged;
             WindowInstance.IsVisibleChanged += WindowInstance_IsVisibleChanged;
         }
 
         private void WindowInstance_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            // When window becomes visible, trigger the OnWShow logic
             if (WindowInstance.IsVisible)
             {
                 UpdateVariable();
                 UpdateUIData();
-                WindowInstance.Focus();
                 HandleAutoAction();
+                WindowInstance.Focus();
             }
         }
 
@@ -225,7 +225,6 @@ namespace EyeProtect.ViewModels
         private void timeChanged(object sender, int timed)
         {
             Countdown = timed;
-
         }
 
         /// <summary>
@@ -238,7 +237,6 @@ namespace EyeProtect.ViewModels
             {
                 //进入休息
                 Reset(null);
-                return;
             }
         }
 
