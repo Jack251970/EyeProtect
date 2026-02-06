@@ -32,10 +32,6 @@ namespace EyeProtect.Core.Service
         /// </summary>
         private DispatcherTimer busy_timer;
         /// <summary>
-        /// 用眼计时，用于定时统计和保存用户的用眼时长
-        /// </summary>
-        private DispatcherTimer useeye_timer;
-        /// <summary>
         /// 日期更改计时，用于处理日期变化
         /// </summary>
         private DispatcherTimer date_timer;
@@ -123,10 +119,6 @@ namespace EyeProtect.Core.Service
             busy_timer = new DispatcherTimer();
             busy_timer.Tick += new EventHandler(busy_timer_Tick);
             busy_timer.Interval = new TimeSpan(0, 0, 30);
-            //初始化用眼统计计时器
-            useeye_timer = new DispatcherTimer();
-            useeye_timer.Tick += new EventHandler(useeye_timer_Tick);
-            useeye_timer.Interval = new TimeSpan(0, 10, 0);
 
             date_timer = new DispatcherTimer();
             date_timer.Tick += new EventHandler(date_timer_Tick);
@@ -138,7 +130,6 @@ namespace EyeProtect.Core.Service
             leave_timer.Interval = new TimeSpan(0, 0, 20);
             //每10秒检测回来
             back_timer.Interval = new TimeSpan(0, 0, 10);
-            useeye_timer.Interval = new TimeSpan(0, 1, 0);
 #endif
 
             CreateTipWindows();
@@ -262,13 +253,6 @@ namespace EyeProtect.Core.Service
         public bool IsWorkTimerRun()
         {
             return work_timer.IsEnabled && !config.options.General.Noreset;
-        }
-        #endregion
-
-        #region 到达统计时间
-        private void useeye_timer_Tick(object sender, EventArgs e)
-        {
-            StatisticData();
         }
         #endregion
 
