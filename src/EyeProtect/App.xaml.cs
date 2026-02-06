@@ -175,9 +175,17 @@ namespace EyeProtect
             {
                 // Dispose needs to be called on the main Windows thread,
                 // since some resources owned by the thread need to be disposed.
-                Ioc.Default.GetService<MainService>()?.Exit();
-                Ioc.Default.GetService<TrayService>()?.Exit();
-                Ioc.Default.GetService<NotificationService>()?.Exit();
+                Ioc.Default.GetService<BackgroundWorkerService>()?.Dispose();
+                Ioc.Default.GetService<SystemResourcesService>()?.Dispose();
+                Ioc.Default.GetService<CacheService>()?.Dispose();
+                Ioc.Default.GetService<ConfigService>()?.Dispose();
+                Ioc.Default.GetService<NotificationService>()?.Dispose();
+                Ioc.Default.GetService<ThemeService>()?.Dispose();
+                Ioc.Default.GetService<ScreenService>()?.Dispose();
+                Ioc.Default.GetService<MainService>()?.Dispose();
+                Ioc.Default.GetService<TrayService>()?.Dispose();
+                Ioc.Default.GetService<RestService>()?.Dispose();
+                Ioc.Default.GetService<SoundService>()?.Dispose();
             }
         }
 

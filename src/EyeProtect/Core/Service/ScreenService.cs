@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Threading;
+using Windows.Win32;
 
 namespace EyeProtect.Core.Service
 {
@@ -11,8 +12,6 @@ namespace EyeProtect.Core.Service
     /// </summary>
     public class ScreenService : IService
     {
-        private const int WM_DISPLAYCHANGE = 0x007e;
-        private const int ga = 0x020A;
         private readonly DispatcherTimer timer;
         private HwndSource source;
         private readonly HwndSourceHook hwndSourceHook;
@@ -23,7 +22,6 @@ namespace EyeProtect.Core.Service
             timer = new DispatcherTimer();
             timer.Tick += new EventHandler(timer_Tick);
             timer.Interval = new TimeSpan(0, 0, 3);
-
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -65,7 +63,7 @@ namespace EyeProtect.Core.Service
         {
             switch (msg)
             {
-                case WM_DISPLAYCHANGE:
+                case (int)PInvoke.WM_DISPLAYCHANGE:
                     timer.Start();
                     break;
             }

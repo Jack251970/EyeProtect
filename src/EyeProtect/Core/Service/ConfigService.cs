@@ -24,6 +24,7 @@ namespace EyeProtect.Core.Service
         /// 配置文件被修改时发生
         /// </summary>
         public event EventHandler Changed;
+
         public ConfigService(SystemResourcesService systemResources)
         {
             this.systemResources = systemResources;
@@ -33,6 +34,7 @@ namespace EyeProtect.Core.Service
             jsonExtensions = new JsonExtensions(configPath);
             oldOptions_ = new OptionsModel();
         }
+
         public void Init()
         {
             // Try to migrate from old XML config if it exists
@@ -118,7 +120,7 @@ namespace EyeProtect.Core.Service
             SaveOldOptions();
         }
 
-        private void CheckOptions(object obj)
+        private static void CheckOptions(object obj)
         {
             var properties = obj.GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
 
@@ -151,6 +153,11 @@ namespace EyeProtect.Core.Service
                 return;
             }
             Changed?.Invoke(oldOptions_, null);
+        }
+
+        public void Dispose()
+        {
+            Save();
         }
     }
 }

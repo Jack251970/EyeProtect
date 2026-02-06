@@ -32,10 +32,6 @@ namespace EyeProtect.Core.Service
         /// </summary>
         private DispatcherTimer busy_timer;
         /// <summary>
-        /// 用眼计时，用于定时统计和保存用户的用眼时长
-        /// </summary>
-        private DispatcherTimer useeye_timer;
-        /// <summary>
         /// 日期更改计时，用于处理日期变化
         /// </summary>
         private DispatcherTimer date_timer;
@@ -123,10 +119,6 @@ namespace EyeProtect.Core.Service
             busy_timer = new DispatcherTimer();
             busy_timer.Tick += new EventHandler(busy_timer_Tick);
             busy_timer.Interval = new TimeSpan(0, 0, 30);
-            //初始化用眼统计计时器
-            useeye_timer = new DispatcherTimer();
-            useeye_timer.Tick += new EventHandler(useeye_timer_Tick);
-            useeye_timer.Interval = new TimeSpan(0, 10, 0);
 
             date_timer = new DispatcherTimer();
             date_timer.Tick += new EventHandler(date_timer_Tick);
@@ -138,7 +130,6 @@ namespace EyeProtect.Core.Service
             leave_timer.Interval = new TimeSpan(0, 0, 20);
             //每10秒检测回来
             back_timer.Interval = new TimeSpan(0, 0, 10);
-            useeye_timer.Interval = new TimeSpan(0, 1, 0);
 #endif
 
             CreateTipWindows();
@@ -265,13 +256,6 @@ namespace EyeProtect.Core.Service
         }
         #endregion
 
-        #region 到达统计时间
-        private void useeye_timer_Tick(object sender, EventArgs e)
-        {
-            StatisticData();
-        }
-        #endregion
-
         #region 统计数据
         private void StatisticData()
         {
@@ -314,9 +298,8 @@ namespace EyeProtect.Core.Service
         /// <summary>
         /// 停止主进程。退出程序时调用
         /// </summary>
-        public void Exit()
+        public void Dispose()
         {
-            screen.Dispose();
             DoStop();
             WindowManager.Close("TipWindow");
         }
@@ -400,13 +383,10 @@ namespace EyeProtect.Core.Service
         #region 停止计时实际操作
         private void DoStop(bool isHard = true)
         {
-            //统计数据
-            StatisticData();
             work_timer.Stop();
             workTimerStopwatch.Stop();
             if (isHard)
             {
-                useeye_timer.Stop();
                 leave_timer.Stop();
                 back_timer.Stop();
             }

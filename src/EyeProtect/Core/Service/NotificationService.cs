@@ -21,7 +21,7 @@ namespace EyeProtect.Core.Service
             ToastNotificationManagerCompat.OnActivated += OnToastActivated;
         }
 
-        public void Exit()
+        public void Dispose()
         {
             ToastNotificationManagerCompat.OnActivated -= OnToastActivated;
             ToastNotificationManagerCompat.Uninstall();

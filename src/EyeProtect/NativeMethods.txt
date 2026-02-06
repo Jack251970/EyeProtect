@@ -46,3 +46,5 @@ WM_DESTROY
 WM_MOUSEMOVE
 SetForegroundWindow
 DefWindowProc
+
+WM_DISPLAYCHANGE

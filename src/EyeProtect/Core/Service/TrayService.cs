@@ -212,7 +212,7 @@ namespace EyeProtect.Core.Service
             Application.Current.Shutdown();
         }
 
-        public void Exit()
+        public void Dispose()
         {
             notifyIcon?.Destroy();
         }
