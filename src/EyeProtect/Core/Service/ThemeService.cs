@@ -27,5 +27,10 @@ namespace EyeProtect.Core.Service
                 OnChangedTheme?.Invoke(ApplicationTheme.Dark, ApplicationTheme.Light);
             }
         }
+
+        public void Dispose()
+        {
+            ThemeManager.Current.ActualApplicationThemeChanged -= Current_ActualApplicationThemeChanged;
+        }
     }
 }

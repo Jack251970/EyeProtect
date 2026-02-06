@@ -1,4 +1,5 @@
-﻿using System.Runtime.Caching;
+﻿using System.Linq;
+using System.Runtime.Caching;
 
 namespace EyeProtect.Core.Service
 {
@@ -29,6 +30,15 @@ namespace EyeProtect.Core.Service
             }
 
             set => cache.Set(key, value, null);
+        }
+
+        public void Dispose()
+        {
+            var keys = cache.Select(kvp => kvp.Key).ToList();
+            foreach (var key in keys)
+            {
+                cache.Remove(key);
+            }
         }
     }
 }

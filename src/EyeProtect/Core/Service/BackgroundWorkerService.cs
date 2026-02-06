@@ -58,5 +58,10 @@ namespace EyeProtect.Core.Service
                 backgroundWorker.RunWorkerAsync();
             }
         }
+
+        public void Dispose()
+        {
+            backgroundWorker.Dispose();
+        }
     }
 }

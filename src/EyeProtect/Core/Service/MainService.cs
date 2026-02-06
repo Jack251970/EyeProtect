@@ -298,9 +298,8 @@ namespace EyeProtect.Core.Service
         /// <summary>
         /// 停止主进程。退出程序时调用
         /// </summary>
-        public void Exit()
+        public void Dispose()
         {
-            screen.Dispose();
             DoStop();
             WindowManager.Close("TipWindow");
         }
@@ -384,13 +383,10 @@ namespace EyeProtect.Core.Service
         #region 停止计时实际操作
         private void DoStop(bool isHard = true)
         {
-            //统计数据
-            StatisticData();
             work_timer.Stop();
             workTimerStopwatch.Stop();
             if (isHard)
             {
-                useeye_timer.Stop();
                 leave_timer.Stop();
                 back_timer.Stop();
             }
