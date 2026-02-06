@@ -14,7 +14,7 @@ namespace EyeProtect.Core.Service
             // No initialization needed for toast notifications
         }
 
-        public void Exit()
+        public void Dispose()
         {
             ToastNotificationManagerCompat.Uninstall();
         }

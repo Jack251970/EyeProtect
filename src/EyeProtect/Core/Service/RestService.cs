@@ -41,6 +41,11 @@ namespace EyeProtect.Core.Service
         public void Init()
         {
         }
+
+        public void Dispose()
+        {
+        }
+
         /// <summary>
         /// 开始休息
         /// </summary>

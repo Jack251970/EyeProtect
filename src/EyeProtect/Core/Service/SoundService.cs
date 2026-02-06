@@ -20,6 +20,15 @@ namespace EyeProtect.Core.Service
             (sender as SoundPlayer).Dispose();
         }
 
+        public void Dispose()
+        {
+            foreach (var player in players.Values)
+            {
+                player.Dispose();
+            }
+            players.Clear();
+        }
+
         public void Init()
         {
             players.Add(SoundType.RestOverSound, new SoundPlayer());
