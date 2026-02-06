@@ -107,6 +107,13 @@ namespace EyeProtect
             Ioc.Default.GetService<TrayService>()?.Init();
             Ioc.Default.GetService<RestService>()?.Init();
             Ioc.Default.GetService<SoundService>()?.Init();
+
+            // Wire up notification service dependencies after all services are initialized
+            var notificationService = Ioc.Default.GetService<NotificationService>();
+            var mainService = Ioc.Default.GetService<MainService>();
+            var restService = Ioc.Default.GetService<RestService>();
+            notificationService?.SetMainService(mainService);
+            notificationService?.SetRestService(restService);
         }
 
         [Conditional("RELEASE")]
