@@ -32,7 +32,7 @@ namespace EyeProtect.Core.Service
         /// </summary>
         public void SetMainService(MainService main)
         {
-            this._mainService = main;
+            _mainService = main;
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace EyeProtect.Core.Service
         /// </summary>
         public void SetRestService(RestService rest)
         {
-            this._restService = rest;
+            _restService = rest;
         }
 
         /// <summary>
