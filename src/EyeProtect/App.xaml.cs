@@ -112,8 +112,18 @@ namespace EyeProtect
             var notificationService = Ioc.Default.GetService<NotificationService>();
             var mainService = Ioc.Default.GetService<MainService>();
             var restService = Ioc.Default.GetService<RestService>();
-            notificationService?.SetMainService(mainService);
-            notificationService?.SetRestService(restService);
+            
+            if (notificationService != null)
+            {
+                if (mainService != null)
+                {
+                    notificationService.SetMainService(mainService);
+                }
+                if (restService != null)
+                {
+                    notificationService.SetRestService(restService);
+                }
+            }
         }
 
         [Conditional("RELEASE")]

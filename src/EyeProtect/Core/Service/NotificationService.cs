@@ -9,8 +9,11 @@ namespace EyeProtect.Core.Service
     /// </summary>
     public class NotificationService : IService
     {
-        private MainService mainService;
-        private RestService restService;
+        private const string ACTION_START_REST = "startrest";
+        private const string ACTION_REST_LATER = "restlater";
+
+        private MainService _mainService;
+        private RestService _restService;
 
         public void Init()
         {
@@ -29,7 +32,7 @@ namespace EyeProtect.Core.Service
         /// </summary>
         public void SetMainService(MainService main)
         {
-            this.mainService = main;
+            this._mainService = main;
         }
 
         /// <summary>
@@ -37,7 +40,7 @@ namespace EyeProtect.Core.Service
         /// </summary>
         public void SetRestService(RestService rest)
         {
-            this.restService = rest;
+            this._restService = rest;
         }
 
         /// <summary>
@@ -56,18 +59,17 @@ namespace EyeProtect.Core.Service
                     {
                         var action = args["action"];
 
-                        if (action == "startrest" && mainService != null && restService != null)
+                        if (action == ACTION_START_REST && _mainService != null && _restService != null)
                         {
                             // Start rest - same as Reset command
-                            mainService.StopBusyListener();
-                            restService.Start();
+                            _mainService.StopBusyListener();
+                            _restService.Start();
                         }
-                        else if (action == "restlater" && mainService != null)
+                        else if (action == ACTION_REST_LATER && _mainService != null)
                         {
                             // Rest later - same as Busy command
-                            mainService.StopBusyListener();
-                            mainService.ReStart();
-                            WindowManager.Hide("TipWindow");
+                            _mainService.StopBusyListener();
+                            _mainService.ReStart();
                         }
                     }
                 });
@@ -98,10 +100,10 @@ namespace EyeProtect.Core.Service
                     .AddText(message)
                     .AddButton(new ToastButton()
                         .SetContent(startRestText)
-                        .AddArgument("action", "startrest"))
+                        .AddArgument("action", ACTION_START_REST))
                     .AddButton(new ToastButton()
                         .SetContent(restLaterText)
-                        .AddArgument("action", "restlater"))
+                        .AddArgument("action", ACTION_REST_LATER))
                     .Show();
             }
             catch (Exception ex)
