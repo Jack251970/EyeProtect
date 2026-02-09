@@ -36,33 +36,29 @@ namespace EyeProtect.Core.Service
         {
             lock (_lock)
             {
-                // Dispose media playback data source if it implements IDisposable
-                if (_mediaPlaybackDataSource is IDisposable mediaDisposable)
-                {
-                    try
-                    {
-                        mediaDisposable.Dispose();
-                    }
-                    catch (Exception ex)
-                    {
-                        LogHelper.Error("Error disposing MediaPlaybackDataSource: " + ex.Message);
-                    }
-                }
+                DisposeResource(_mediaPlaybackDataSource, "MediaPlaybackDataSource");
                 _mediaPlaybackDataSource = null;
 
-                // Dispose session manager if it implements IDisposable
-                if (_sessionManager is IDisposable managerDisposable)
-                {
-                    try
-                    {
-                        managerDisposable.Dispose();
-                    }
-                    catch (Exception ex)
-                    {
-                        LogHelper.Error("Error disposing NowPlayingSessionManager: " + ex.Message);
-                    }
-                }
+                DisposeResource(_sessionManager, "NowPlayingSessionManager");
                 _sessionManager = null;
+            }
+        }
+
+        /// <summary>
+        /// Helper method to safely dispose resources
+        /// </summary>
+        private void DisposeResource(object resource, string resourceName)
+        {
+            if (resource is IDisposable disposable)
+            {
+                try
+                {
+                    disposable.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.Error($"Error disposing {resourceName}: {ex.Message}");
+                }
             }
         }
 
@@ -82,13 +78,9 @@ namespace EyeProtect.Core.Service
                     }
 
                     // Dispose old media playback data source if it exists
-                    if (_mediaPlaybackDataSource is IDisposable oldDisposable)
+                    if (_mediaPlaybackDataSource is not null)
                     {
-                        try
-                        {
-                            oldDisposable.Dispose();
-                        }
-                        catch { }
+                        DisposeResource(_mediaPlaybackDataSource, "MediaPlaybackDataSource");
                     }
 
                     _mediaPlaybackDataSource = _sessionManager.CurrentSession.ActivateMediaPlaybackDataSource();
