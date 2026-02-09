@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using NPSMLib;
 
 namespace EyeProtect.Core.Service
@@ -8,7 +9,7 @@ namespace EyeProtect.Core.Service
     /// </summary>
     public class MediaControlService : IService
     {
-        private readonly object _lock = new();
+        private readonly Lock _lock = new();
         
         private NowPlayingSessionManager _sessionManager;
         private MediaPlaybackDataSource _mediaPlaybackDataSource;
