@@ -58,6 +58,7 @@ namespace EyeProtect
             services.AddSingleton<TrayService>();
             services.AddSingleton<RestService>();
             services.AddSingleton<SoundService>();
+            services.AddSingleton<MediaControlService>();
 
             return services.BuildServiceProvider();
         }
@@ -107,6 +108,7 @@ namespace EyeProtect
             Ioc.Default.GetService<TrayService>()?.Init();
             Ioc.Default.GetService<RestService>()?.Init();
             Ioc.Default.GetService<SoundService>()?.Init();
+            Ioc.Default.GetService<MediaControlService>()?.Init();
         }
 
         [Conditional("RELEASE")]
@@ -169,6 +171,7 @@ namespace EyeProtect
                 Ioc.Default.GetService<TrayService>()?.Dispose();
                 Ioc.Default.GetService<RestService>()?.Dispose();
                 Ioc.Default.GetService<SoundService>()?.Dispose();
+                Ioc.Default.GetService<MediaControlService>()?.Dispose();
             }
         }
 
