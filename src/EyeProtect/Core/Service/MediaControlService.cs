@@ -152,6 +152,7 @@ namespace EyeProtect.Core.Service
         {
             lock (_lock)
             {
+                MediaPlaybackDataSource dataSource = null;
                 try
                 {
                     if (_sessionManager?.CurrentSession is null)
@@ -159,27 +160,27 @@ namespace EyeProtect.Core.Service
                         return false;
                     }
 
-                    var dataSource = _sessionManager.CurrentSession.ActivateMediaPlaybackDataSource();
+                    dataSource = _sessionManager.CurrentSession.ActivateMediaPlaybackDataSource();
                     if (dataSource is null)
                     {
                         return false;
                     }
 
                     var playbackInfo = dataSource.GetMediaPlaybackInfo();
-                    var isPlaying = playbackInfo.PlaybackState == MediaPlaybackState.Playing;
-
-                    // Dispose the temporary data source if it's not the one we're tracking
-                    if (dataSource != _mediaPlaybackDataSource)
-                    {
-                        DisposeResource(dataSource, "MediaPlaybackDataSource");
-                    }
-
-                    return isPlaying;
+                    return playbackInfo.PlaybackState == MediaPlaybackState.Playing;
                 }
                 catch (Exception ex)
                 {
                     LogHelper.Error("Error while checking if media is playing: " + ex.Message);
                     return false;
+                }
+                finally
+                {
+                    // Dispose the temporary data source if it's not the one we're tracking
+                    if (dataSource is not null && dataSource != _mediaPlaybackDataSource)
+                    {
+                        DisposeResource(dataSource, "MediaPlaybackDataSource");
+                    }
                 }
             }
         }
