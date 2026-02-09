@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using EyeProtect.Core.Service;
 using EyeProtect.Models;
 using EyeProtect.ViewModels;
 using Windows.Win32.UI.HiDpi;
