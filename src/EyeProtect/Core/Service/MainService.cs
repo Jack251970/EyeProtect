@@ -457,6 +457,9 @@ namespace EyeProtect.Core.Service
             // No skip conditions met, show the normal tip window
             busy_timer.Start();
             WindowManager.Show("TipWindow");
+
+            // Pause media when tip window becomes visible
+            mediaControl.PauseMedia();
         }
         #endregion
 

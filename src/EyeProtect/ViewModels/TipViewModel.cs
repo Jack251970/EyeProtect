@@ -67,19 +67,23 @@ namespace EyeProtect.ViewModels
             main.StopBusyListener();
             main.ReStart();
             WindowManager.Hide("TipWindow");
+
+            // Resume media when tip window is hidden
+            mediaControl.ResumeMedia();
         }
 
         private void Main_OnHandleTimeout(object service, int msg)
         {
             if (config.options.Behavior.IsHandleTimeoutRest)
             {
-                //  进入休息状态
+                // 进入休息状态
                 Reset(null);
             }
             else
             {
                 //关闭窗口
                 WindowManager.Hide("TipWindow");
+
                 //进入离开状态
                 main.OnLeave();
             }
@@ -106,14 +110,6 @@ namespace EyeProtect.ViewModels
                 UpdateUIData();
                 HandleAutoAction();
                 WindowInstance.Focus();
-                
-                // Pause media when tip window becomes visible
-                mediaControl?.PauseMedia();
-            }
-            else
-            {
-                // Resume media when tip window is hidden
-                mediaControl?.ResumeMedia();
             }
         }
 
