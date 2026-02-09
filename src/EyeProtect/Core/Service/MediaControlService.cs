@@ -143,5 +143,45 @@ namespace EyeProtect.Core.Service
                 }
             }
         }
+
+        /// <summary>
+        /// Check if media is currently playing
+        /// </summary>
+        /// <returns>True if media is playing, false otherwise</returns>
+        public bool IsMediaPlaying()
+        {
+            lock (_lock)
+            {
+                try
+                {
+                    if (_sessionManager?.CurrentSession is null)
+                    {
+                        return false;
+                    }
+
+                    var dataSource = _sessionManager.CurrentSession.ActivateMediaPlaybackDataSource();
+                    if (dataSource is null)
+                    {
+                        return false;
+                    }
+
+                    var playbackInfo = dataSource.GetMediaPlaybackInfo();
+                    var isPlaying = playbackInfo.PlaybackState == MediaPlaybackState.Playing;
+
+                    // Dispose the temporary data source if it's not the one we're tracking
+                    if (dataSource != _mediaPlaybackDataSource)
+                    {
+                        DisposeResource(dataSource, "MediaPlaybackDataSource");
+                    }
+
+                    return isPlaying;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.Error("Error while checking if media is playing: " + ex.Message);
+                    return false;
+                }
+            }
+        }
     }
 }

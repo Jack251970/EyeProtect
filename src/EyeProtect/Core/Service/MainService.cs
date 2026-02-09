@@ -45,6 +45,7 @@ namespace EyeProtect.Core.Service
         private readonly CacheService cache;
         private readonly SystemResourcesService systemResources;
         private readonly NotificationService notification;
+        private readonly MediaControlService mediaControl;
 
         public delegate void MainEventHandler(object service, int msg);
         /// <summary>
@@ -86,13 +87,15 @@ namespace EyeProtect.Core.Service
             CacheService cache,
             ThemeService theme,
             SystemResourcesService systemResources,
-            NotificationService notification)
+            NotificationService notification,
+            MediaControlService mediaControl)
         {
             this.screen = screen;
             this.config = config;
             this.cache = cache;
             this.systemResources = systemResources;
             this.notification = notification;
+            this.mediaControl = mediaControl;
             SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(OnPowerModeChanged);
         }
 
@@ -521,7 +524,7 @@ namespace EyeProtect.Core.Service
         /// <returns></returns>
         private bool IsUserLeave()
         {
-            if (!IsCursorPosChanged() && !AudioHelper.IsWindowsPlayingSound())
+            if (!IsCursorPosChanged() && !mediaControl.IsMediaPlaying())
             {
                 //鼠标没动且电脑没在播放声音
                 return true;
