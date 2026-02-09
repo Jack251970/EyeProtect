@@ -19,6 +19,7 @@ namespace EyeProtect.ViewModels
         private readonly SoundService sound;
         private readonly ConfigService config;
         private readonly MainService main;
+        private readonly MediaControlService mediaControl;
 
         public event ViewModelEventHandler ChangedEvent;
 
@@ -26,7 +27,8 @@ namespace EyeProtect.ViewModels
             SoundService sound,
             ConfigService config,
             MainService main,
-            ThemeService theme)
+            ThemeService theme,
+            MediaControlService mediaControl)
         {
             this.reset = reset;
             this.reset.TimeChanged += new RestEventHandler(timeChanged);
@@ -37,6 +39,7 @@ namespace EyeProtect.ViewModels
             this.config.Changed += config_Changed;
 
             this.main = main;
+            this.mediaControl = mediaControl;
             theme.OnChangedTheme += Theme_OnChangedTheme;
             ChangedEvent += TipViewModel_ChangedEvent;
             main.OnHandleTimeout += Main_OnHandleTimeout;
@@ -103,6 +106,14 @@ namespace EyeProtect.ViewModels
                 UpdateUIData();
                 HandleAutoAction();
                 WindowInstance.Focus();
+                
+                // Pause media when tip window becomes visible
+                mediaControl?.PauseMedia();
+            }
+            else
+            {
+                // Resume media when tip window is hidden
+                mediaControl?.ResumeMedia();
             }
         }
 
