@@ -47,7 +47,7 @@ namespace EyeProtect.Core.Service
         /// <summary>
         /// Helper method to safely dispose resources
         /// </summary>
-        private void DisposeResource(object resource, string resourceName)
+        private static void DisposeResource(object resource, string resourceName)
         {
             if (resource is IDisposable disposable)
             {
