@@ -36,8 +36,33 @@ namespace EyeProtect.Core.Service
         {
             lock (_lock)
             {
-                _sessionManager = null;
+                // Dispose media playback data source if it implements IDisposable
+                if (_mediaPlaybackDataSource is IDisposable mediaDisposable)
+                {
+                    try
+                    {
+                        mediaDisposable.Dispose();
+                    }
+                    catch (Exception ex)
+                    {
+                        LogHelper.Error("Error disposing MediaPlaybackDataSource: " + ex.Message);
+                    }
+                }
                 _mediaPlaybackDataSource = null;
+
+                // Dispose session manager if it implements IDisposable
+                if (_sessionManager is IDisposable managerDisposable)
+                {
+                    try
+                    {
+                        managerDisposable.Dispose();
+                    }
+                    catch (Exception ex)
+                    {
+                        LogHelper.Error("Error disposing NowPlayingSessionManager: " + ex.Message);
+                    }
+                }
+                _sessionManager = null;
             }
         }
 
@@ -54,6 +79,16 @@ namespace EyeProtect.Core.Service
                     {
                         _wasPlayingBeforePause = false;
                         return;
+                    }
+
+                    // Dispose old media playback data source if it exists
+                    if (_mediaPlaybackDataSource is IDisposable oldDisposable)
+                    {
+                        try
+                        {
+                            oldDisposable.Dispose();
+                        }
+                        catch { }
                     }
 
                     _mediaPlaybackDataSource = _sessionManager.CurrentSession.ActivateMediaPlaybackDataSource();
