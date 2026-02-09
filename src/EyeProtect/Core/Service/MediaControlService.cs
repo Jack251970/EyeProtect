@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using NPSMLib;
 
 namespace EyeProtect.Core.Service
@@ -24,7 +24,6 @@ namespace EyeProtect.Core.Service
             try
             {
                 _sessionManager = new NowPlayingSessionManager();
-                LogHelper.Info("MediaControlService initialized");
             }
             catch (Exception ex)
             {
@@ -98,7 +97,6 @@ namespace EyeProtect.Core.Service
                     {
                         _wasPlayingBeforePause = true;
                         _mediaPlaybackDataSource.SendMediaPlaybackCommand(MediaPlaybackCommands.Pause);
-                        LogHelper.Info("Media paused for rest period");
                     }
                     else
                     {
@@ -135,7 +133,6 @@ namespace EyeProtect.Core.Service
                     }
 
                     _mediaPlaybackDataSource.SendMediaPlaybackCommand(MediaPlaybackCommands.Play);
-                    LogHelper.Info("Media resumed after rest period");
                     _wasPlayingBeforePause = false;
                 }
                 catch (Exception ex)

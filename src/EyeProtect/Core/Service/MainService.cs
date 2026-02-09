@@ -521,7 +521,6 @@ namespace EyeProtect.Core.Service
         /// <returns></returns>
         private bool IsUserLeave()
         {
-
             if (!IsCursorPosChanged() && !AudioHelper.IsWindowsPlayingSound())
             {
                 //鼠标没动且电脑没在播放声音
