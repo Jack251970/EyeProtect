@@ -40,7 +40,6 @@ namespace EyeProtect.Core.Service
         /// </summary>
         private bool isDateTimerReset;
 
-        private readonly ScreenService screen;
         private readonly ConfigService config;
         private readonly CacheService cache;
         private readonly SystemResourcesService systemResources;
@@ -92,7 +91,6 @@ namespace EyeProtect.Core.Service
             MediaControlService mediaControl,
             FaceDetectionService faceDetection)
         {
-            this.screen = screen;
             this.config = config;
             this.cache = cache;
             this.systemResources = systemResources;
