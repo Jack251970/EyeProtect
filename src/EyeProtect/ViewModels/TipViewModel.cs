@@ -68,8 +68,11 @@ namespace EyeProtect.ViewModels
             main.ReStart();
             WindowManager.Hide("TipWindow");
 
-            // Resume media when tip window is hidden
-            mediaControl.ResumeMedia();
+            // Resume media when tip window is hidden (if enabled)
+            if (config.options.Behavior.IsAutoPauseMedia)
+            {
+                mediaControl.ResumeMedia();
+            }
         }
 
         private void Main_OnHandleTimeout(object service, int msg)

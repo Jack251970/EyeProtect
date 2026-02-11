@@ -68,8 +68,11 @@ namespace EyeProtect.Core.Service
             timed = config.options.General.RestTime;
             main.ReStartWorkTimerWatch();
             OnResetCompleted();
-            // Resume media when tip window is hidden
-            mediaControl.ResumeMedia();
+            // Resume media when tip window is hidden (if enabled)
+            if (config.options.Behavior.IsAutoPauseMedia)
+            {
+                mediaControl.ResumeMedia();
+            }
         }
         private void timer_Tick(object sender, EventArgs e)
         {

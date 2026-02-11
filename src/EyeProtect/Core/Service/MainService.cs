@@ -458,8 +458,11 @@ namespace EyeProtect.Core.Service
             busy_timer.Start();
             WindowManager.Show("TipWindow");
 
-            // Pause media when tip window becomes visible
-            mediaControl.PauseMedia();
+            // Pause media when tip window becomes visible (if enabled)
+            if (config.options.Behavior.IsAutoPauseMedia)
+            {
+                mediaControl.PauseMedia();
+            }
         }
         #endregion
 

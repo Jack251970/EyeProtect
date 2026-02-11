@@ -37,5 +37,11 @@ namespace EyeProtect.Models.Settings
         /// </summary>
         [ObservableProperty]
         private bool isHandleTimeoutRest = true;
+
+        /// <summary>
+        /// 是否启用自动暂停媒体功能
+        /// </summary>
+        [ObservableProperty]
+        private bool isAutoPauseMedia = true;
     }
 }
