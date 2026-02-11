@@ -138,11 +138,6 @@ namespace EyeProtect.Core.Service
         /// </summary>
         public bool IsFaceDetected()
         {
-            if (!_config.options.Behavior.IsFaceDetectionEnabled)
-            {
-                return true; // If disabled, assume face is always present
-            }
-
             lock (_lock)
             {
                 return _faceDetected;

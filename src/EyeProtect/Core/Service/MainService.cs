@@ -557,12 +557,9 @@ namespace EyeProtect.Core.Service
             if (!IsCursorPosChanged() && !mediaControl.IsMediaPlaying())
             {
                 // Check if face detection is enabled and user is detected
-                if (config.options.Behavior.IsFaceDetectionEnabled)
+                if (config.options.Behavior.IsFaceDetectionEnabled && faceDetection.IsFaceDetected())
                 {
-                    if (faceDetection.IsFaceDetected())
-                    {
-                        return false; // Face detected, user is present
-                    }
+                    return false; // Face detected, user is present
                 }
 
                 return true;
