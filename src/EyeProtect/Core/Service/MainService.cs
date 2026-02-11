@@ -554,20 +554,20 @@ namespace EyeProtect.Core.Service
         /// <returns></returns>
         private bool IsUserLeave()
         {
-            // Check if face detection is enabled and user is detected
-            if (config.options.Behavior.IsFaceDetectionEnabled)
-            {
-                if (faceDetection.IsFaceDetected())
-                {
-                    return false; // Face detected, user is present
-                }
-            }
-
             if (!IsCursorPosChanged() && !mediaControl.IsMediaPlaying())
             {
-                //鼠标没动且电脑没在播放声音
+                // Check if face detection is enabled and user is detected
+                if (config.options.Behavior.IsFaceDetectionEnabled)
+                {
+                    if (faceDetection.IsFaceDetected())
+                    {
+                        return false; // Face detected, user is present
+                    }
+                }
+
                 return true;
             }
+
             return false;
         }
 
