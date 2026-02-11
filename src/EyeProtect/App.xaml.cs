@@ -174,6 +174,7 @@ namespace EyeProtect
                 Ioc.Default.GetService<RestService>()?.Dispose();
                 Ioc.Default.GetService<SoundService>()?.Dispose();
                 Ioc.Default.GetService<MediaControlService>()?.Dispose();
+                Ioc.Default.GetService<FaceDetectionService>()?.Dispose();
             }
         }
 
