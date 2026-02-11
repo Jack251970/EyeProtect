@@ -40,12 +40,12 @@ namespace EyeProtect.Core.Service
         /// </summary>
         private bool isDateTimerReset;
 
-        private readonly ScreenService screen;
         private readonly ConfigService config;
         private readonly CacheService cache;
         private readonly SystemResourcesService systemResources;
         private readonly NotificationService notification;
         private readonly MediaControlService mediaControl;
+        private readonly FaceDetectionService faceDetection;
 
         public delegate void MainEventHandler(object service, int msg);
         /// <summary>
@@ -88,14 +88,15 @@ namespace EyeProtect.Core.Service
             ThemeService theme,
             SystemResourcesService systemResources,
             NotificationService notification,
-            MediaControlService mediaControl)
+            MediaControlService mediaControl,
+            FaceDetectionService faceDetection)
         {
-            this.screen = screen;
             this.config = config;
             this.cache = cache;
             this.systemResources = systemResources;
             this.notification = notification;
             this.mediaControl = mediaControl;
+            this.faceDetection = faceDetection;
             SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(OnPowerModeChanged);
         }
 
@@ -180,6 +181,17 @@ namespace EyeProtect.Core.Service
         private void Config_Changed(object sender, EventArgs e)
         {
             HandleLanguageChanged();
+            
+            // Handle face detection setting change
+            // Note: Start/Stop methods are thread-safe and handle re-entrance
+            if (config.options.Behavior.IsFaceDetectionEnabled && IsWorkTimerRun())
+            {
+                faceDetection.Start();
+            }
+            else
+            {
+                faceDetection.Stop();
+            }
         }
 
         private void OnPowerModeChanged(object sender, PowerModeChangedEventArgs e)
@@ -379,6 +391,13 @@ namespace EyeProtect.Core.Service
             }
             //离开监听
             leave_timer.Start();
+            
+            // Start face detection if enabled
+            if (config.options.Behavior.IsFaceDetectionEnabled)
+            {
+                faceDetection.Start();
+            }
+            
             OnStart?.Invoke(this, 0);
         }
         #endregion
@@ -392,6 +411,9 @@ namespace EyeProtect.Core.Service
             {
                 leave_timer.Stop();
                 back_timer.Stop();
+                
+                // Stop face detection
+                faceDetection.Stop();
             }
             busy_timer.Stop();
         }
@@ -532,9 +554,15 @@ namespace EyeProtect.Core.Service
         {
             if (!IsCursorPosChanged() && !mediaControl.IsMediaPlaying())
             {
-                //鼠标没动且电脑没在播放声音
+                // Check if face detection is enabled and user is detected
+                if (config.options.Behavior.IsFaceDetectionEnabled && faceDetection.IsFaceDetected())
+                {
+                    return false; // Face detected, user is present
+                }
+
                 return true;
             }
+
             return false;
         }
 
