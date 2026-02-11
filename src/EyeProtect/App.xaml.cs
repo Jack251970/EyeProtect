@@ -54,6 +54,7 @@ namespace EyeProtect
             services.AddSingleton<NotificationService>();
             services.AddSingleton<ThemeService>();
             services.AddSingleton<ScreenService>();
+            services.AddSingleton<FaceDetectionService>();
             services.AddSingleton<MainService>();
             services.AddSingleton<TrayService>();
             services.AddSingleton<RestService>();
@@ -104,6 +105,7 @@ namespace EyeProtect
             Ioc.Default.GetService<NotificationService>()?.Init();
             Ioc.Default.GetService<ThemeService>()?.Init();
             Ioc.Default.GetService<ScreenService>()?.Init();
+            Ioc.Default.GetService<FaceDetectionService>()?.Init();
             Ioc.Default.GetService<MainService>()?.Init();
             Ioc.Default.GetService<TrayService>()?.Init();
             Ioc.Default.GetService<RestService>()?.Init();

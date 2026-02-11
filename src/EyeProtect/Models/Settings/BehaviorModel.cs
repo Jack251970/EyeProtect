@@ -43,5 +43,11 @@ namespace EyeProtect.Models.Settings
         /// </summary>
         [ObservableProperty]
         private bool isAutoPauseMedia = true;
+
+        /// <summary>
+        /// 是否启用人脸检测功能
+        /// </summary>
+        [ObservableProperty]
+        private bool isFaceDetectionEnabled = false;
     }
 }

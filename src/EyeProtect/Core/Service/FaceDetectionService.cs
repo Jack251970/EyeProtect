@@ -1,0 +1,248 @@
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Emgu.CV;
+using Emgu.CV.Structure;
+using Microsoft.ML.OnnxRuntime;
+using Microsoft.ML.OnnxRuntime.Tensors;
+using EyeProtect.Core.Helpers;
+using EyeProtect.Models.FaceDetection;
+
+namespace EyeProtect.Core.Service
+{
+    /// <summary>
+    /// Face Detection Service - detects if user is present using camera
+    /// </summary>
+    public class FaceDetectionService : IService, IDisposable
+    {
+        private InferenceSession _inferenceSession;
+        private VideoCapture _camera;
+        private readonly ConfigService _config;
+        private Thread _detectionThread;
+        private volatile bool _isRunning;
+        private volatile bool _faceDetected;
+        private readonly object _lock = new object();
+
+        // Detection parameters
+        private const int DetectionIntervalMs = 1000; // Check every second
+        private const int ModelInputWidth = 320;
+        private const int ModelInputHeight = 240;
+
+        public FaceDetectionService(ConfigService config)
+        {
+            _config = config;
+        }
+
+        public void Init()
+        {
+            try
+            {
+                // Initialize ONNX model
+                string modelPath = Path.Combine(
+                    AppDomain.CurrentDomain.BaseDirectory,
+                    "Models",
+                    "Lightweight-Face-Detection.onnx");
+
+                if (File.Exists(modelPath))
+                {
+                    var sessionOptions = new SessionOptions();
+                    sessionOptions.RegisterOrtExtensions();
+                    _inferenceSession = new InferenceSession(modelPath, sessionOptions);
+                    LogHelper.Info("Face detection model loaded successfully");
+                }
+                else
+                {
+                    LogHelper.Warning($"Face detection model not found at: {modelPath}");
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error($"Failed to initialize face detection service: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Start face detection
+        /// </summary>
+        public void Start()
+        {
+            if (!_config.options.Behavior.IsFaceDetectionEnabled || _inferenceSession == null)
+            {
+                return;
+            }
+
+            if (_isRunning)
+            {
+                return;
+            }
+
+            try
+            {
+                // Initialize camera
+                _camera = new VideoCapture(0); // Use default camera
+                if (!_camera.IsOpened)
+                {
+                    LogHelper.Warning("Could not open camera for face detection");
+                    return;
+                }
+
+                _isRunning = true;
+                _detectionThread = new Thread(DetectionLoop)
+                {
+                    IsBackground = true,
+                    Name = "FaceDetectionThread"
+                };
+                _detectionThread.Start();
+
+                LogHelper.Info("Face detection service started");
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error($"Failed to start face detection: {ex.Message}");
+                _isRunning = false;
+            }
+        }
+
+        /// <summary>
+        /// Stop face detection
+        /// </summary>
+        public void Stop()
+        {
+            if (!_isRunning)
+            {
+                return;
+            }
+
+            _isRunning = false;
+
+            // Wait for thread to finish
+            if (_detectionThread != null && _detectionThread.IsAlive)
+            {
+                _detectionThread.Join(2000);
+            }
+
+            // Release camera
+            if (_camera != null)
+            {
+                _camera.Dispose();
+                _camera = null;
+            }
+
+            LogHelper.Info("Face detection service stopped");
+        }
+
+        /// <summary>
+        /// Check if a face is currently detected
+        /// </summary>
+        public bool IsFaceDetected()
+        {
+            if (!_config.options.Behavior.IsFaceDetectionEnabled)
+            {
+                return true; // If disabled, assume face is always present
+            }
+
+            lock (_lock)
+            {
+                return _faceDetected;
+            }
+        }
+
+        private void DetectionLoop()
+        {
+            while (_isRunning)
+            {
+                try
+                {
+                    if (_camera != null && _camera.IsOpened)
+                    {
+                        using (Mat frame = new Mat())
+                        {
+                            _camera.Read(frame);
+                            if (!frame.IsEmpty)
+                            {
+                                bool detected = DetectFaceInFrame(frame);
+                                lock (_lock)
+                                {
+                                    _faceDetected = detected;
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.Error($"Error in face detection loop: {ex.Message}");
+                }
+
+                Thread.Sleep(DetectionIntervalMs);
+            }
+        }
+
+        private bool DetectFaceInFrame(Mat frame)
+        {
+            try
+            {
+                if (_inferenceSession == null)
+                {
+                    return false;
+                }
+
+                // Convert Mat to Bitmap - create a new Bitmap and copy pixel data
+                using (var image = frame.ToImage<Bgr, byte>())
+                {
+                    using (Bitmap bitmap = new Bitmap(image.Width, image.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb))
+                    {
+                        // Copy image data to bitmap
+                        var bmpData = bitmap.LockBits(
+                            new Rectangle(0, 0, bitmap.Width, bitmap.Height),
+                            System.Drawing.Imaging.ImageLockMode.WriteOnly,
+                            bitmap.PixelFormat);
+                        
+                        System.Runtime.InteropServices.Marshal.Copy(
+                            image.Bytes, 0, bmpData.Scan0, image.Bytes.Length);
+                        
+                        bitmap.UnlockBits(bmpData);
+
+                        // Resize with padding
+                        using (Bitmap resized = BitmapFunctions.ResizeBitmapWithPadding(bitmap, ModelInputWidth, ModelInputHeight))
+                        {
+                            // Prepare input tensor
+                            var inputMetadataName = _inferenceSession.InputNames[0];
+                            var inputDimensions = _inferenceSession.InputMetadata[inputMetadataName].Dimensions;
+                            Tensor<float> input = new DenseTensor<float>(inputDimensions.Select(d => (int)d).ToArray());
+                            input = BitmapFunctions.PreprocessBitmapForFaceDetection(resized, input);
+
+                            var inputs = new List<NamedOnnxValue>
+                            {
+                                NamedOnnxValue.CreateFromTensor(inputMetadataName, input)
+                            };
+
+                            // Run inference
+                            using (IDisposableReadOnlyCollection<DisposableNamedOnnxValue> results = _inferenceSession.Run(inputs))
+                            {
+                                var predictions = FaceHelpers.PostprocessFacialResults(results, frame.Width, frame.Height);
+                                return predictions.Count > 0;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error($"Error detecting face in frame: {ex.Message}");
+                return false;
+            }
+        }
+
+        public void Dispose()
+        {
+            Stop();
+            _inferenceSession?.Dispose();
+            _inferenceSession = null;
+        }
+    }
+}

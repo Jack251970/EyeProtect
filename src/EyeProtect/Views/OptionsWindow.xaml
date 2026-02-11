@@ -140,6 +140,12 @@
                             OnContent="{DynamicResource Lang_On}" />
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
+                            Header="Enable Face Detection"
+                            IsOn="{Binding Model.Data.Behavior.IsFaceDetectionEnabled, Mode=TwoWay}"
+                            OffContent="{DynamicResource Lang_Off}"
+                            OnContent="{DynamicResource Lang_On}" />
+                        <ui:ToggleSwitch
+                            Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Donotdisturbwhenrunningfullscreenapplications}"
                             IsOn="{Binding Model.Data.Behavior.IsFullScreenBreak, Mode=TwoWay}"
                             OffContent="{DynamicResource Lang_Off}"
