@@ -22,27 +22,25 @@ namespace EyeProtect.Core.Helpers
             int offsetY = (targetHeight - scaledHeight) / 2;
 
             // Resize the frame
-            using (Mat resizedFrame = new Mat())
+            Mat resizedFrame = new Mat();
+            CvInvoke.Resize(frame, resizedFrame, new Size(scaledWidth, scaledHeight), 0, 0, Emgu.CV.CvEnum.Inter.Cubic);
+
+            // Create padded bitmap with white background
+            Bitmap paddedBitmap = new Bitmap(targetWidth, targetHeight);
+
+            using (Graphics graphics = Graphics.FromImage(paddedBitmap))
             {
-                CvInvoke.Resize(frame, resizedFrame, new Size(scaledWidth, scaledHeight), 0, 0, Emgu.CV.CvEnum.Inter.Cubic);
+                graphics.Clear(Color.White); // White padding background
+                graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
 
-                // Create padded bitmap with white background
-                Bitmap paddedBitmap = new Bitmap(targetWidth, targetHeight);
-
-                using (Graphics graphics = Graphics.FromImage(paddedBitmap))
-                {
-                    graphics.Clear(Color.White); // White padding background
-                    graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-
-                    // Convert resized Mat to Bitmap (copying data) and draw it centered
-                    using (Bitmap resizedBitmap = resizedFrame.ToImage<Emgu.CV.Structure.Bgr, byte>().ToBitmap())
-                    {
-                        graphics.DrawImage(resizedBitmap, offsetX, offsetY, scaledWidth, scaledHeight);
-                    }
-                }
-
-                return paddedBitmap;
+                // Convert resized Mat to Bitmap and draw it centered
+                Bitmap resizedBitmap = new Bitmap(scaledWidth, scaledHeight, stride: scaledWidth * 3, PixelFormat.Format24bppRgb, resizedFrame.DataPointer);
+                graphics.DrawImage(resizedBitmap, offsetX, offsetY, scaledWidth, scaledHeight);
+                resizedBitmap.Dispose();
             }
+
+            resizedFrame.Dispose();
+            return paddedBitmap;
         }
 
         public static Tensor<float> PreprocessBitmapForFaceDetection(Bitmap bitmap, Tensor<float> input)
