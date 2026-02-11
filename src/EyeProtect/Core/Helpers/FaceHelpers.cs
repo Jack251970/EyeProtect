@@ -13,7 +13,7 @@ namespace EyeProtect.Core.Helpers
             var heatmap = results.ElementAt(0).AsTensor<float>();
             var bbox = results.ElementAt(1).AsTensor<float>();
 
-            Prediction? bestPrediction = null;
+            Prediction bestPrediction = null;
             float bestScore = 0;
 
             int modelInputHeight = heatmap.Dimensions[2] * 8;
