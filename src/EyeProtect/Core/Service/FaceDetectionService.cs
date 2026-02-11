@@ -1,16 +1,14 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using Microsoft.ML.OnnxRuntime;
 using Microsoft.ML.OnnxRuntime.Tensors;
 using EyeProtect.Core.Helpers;
-using EyeProtect.Models.FaceDetection;
 
 namespace EyeProtect.Core.Service
 {
@@ -25,7 +23,7 @@ namespace EyeProtect.Core.Service
         private Thread _detectionThread;
         private volatile bool _isRunning;
         private volatile bool _faceDetected;
-        private readonly object _lock = new object();
+        private readonly Lock _lock = new();
 
         // Detection parameters
         private const int DetectionIntervalMs = 1000; // Check every second
@@ -127,11 +125,8 @@ namespace EyeProtect.Core.Service
             }
 
             // Release camera
-            if (_camera != null)
-            {
-                _camera.Dispose();
-                _camera = null;
-            }
+            _camera?.Dispose();
+            _camera = null;
 
             LogHelper.Info("Face detection service stopped");
         }
