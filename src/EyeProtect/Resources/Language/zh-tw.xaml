@@ -194,6 +194,7 @@
     <sys:String x:Key="Lang_Learnmore">了解更多</sys:String>
     <sys:String x:Key="Lang_HandleTimeoutAutoRest">超時未選擇時進入休息狀態</sys:String>
     <sys:String x:Key="Lang_AutoPauseMedia">休息期間自動暫停媒體播放</sys:String>
+    <sys:String x:Key="Lang_EnableFaceDetection">啟用人臉檢測</sys:String>
 
     <sys:String x:Key="Lang_On">開</sys:String>
     <sys:String x:Key="Lang_Off">關</sys:String>
