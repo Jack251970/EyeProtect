@@ -69,6 +69,7 @@
     <sys:String x:Key="Lang_Applicationname">Application name</sys:String>
     <sys:String x:Key="Lang_Selectapplication">Select an application</sys:String>
     <sys:String x:Key="Lang_Breakscannotbeskipped">Breaks can not be skipped</sys:String>
+    <sys:String x:Key="Lang_AutoActionWhenBreakDisabled">Auto start rest when breaks can not be skipped</sys:String>
 
 
     <sys:String x:Key="Lang_About">About</sys:String>

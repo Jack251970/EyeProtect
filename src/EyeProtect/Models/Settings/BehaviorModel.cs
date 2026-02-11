@@ -37,5 +37,11 @@ namespace EyeProtect.Models.Settings
         /// </summary>
         [ObservableProperty]
         private bool isHandleTimeoutRest = true;
+
+        /// <summary>
+        /// 是否启用自动动作功能（当禁用跳过时自动进入休息）
+        /// </summary>
+        [ObservableProperty]
+        private bool isAutoAction = true;
     }
 }

@@ -239,8 +239,8 @@ namespace EyeProtect.ViewModels
         /// </summary>
         private void HandleAutoAction()
         {
-            //禁用跳过休息
-            if (config.options.Behavior.IsDisabledSkip)
+            //禁用跳过休息且启用自动动作
+            if (config.options.Behavior.IsDisabledSkip && config.options.Behavior.IsAutoAction)
             {
                 //进入休息
                 Reset(null);

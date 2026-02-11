@@ -71,6 +71,7 @@
     <sys:String x:Key="Lang_Applicationname">应用名称</sys:String>
     <sys:String x:Key="Lang_Selectapplication">选择应用</sys:String>
     <sys:String x:Key="Lang_Breakscannotbeskipped">禁止跳过休息</sys:String>
+    <sys:String x:Key="Lang_AutoActionWhenBreakDisabled">禁止跳过时自动开始休息</sys:String>
 
 
     <sys:String x:Key="Lang_About">关于</sys:String>

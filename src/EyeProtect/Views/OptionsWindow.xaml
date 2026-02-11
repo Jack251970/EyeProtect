@@ -127,6 +127,13 @@
                             OnContent="{DynamicResource Lang_On}" />
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
+                            Header="{DynamicResource Lang_AutoActionWhenBreakDisabled}"
+                            IsEnabled="{Binding Model.Data.Behavior.IsDisabledSkip}"
+                            IsOn="{Binding Model.Data.Behavior.IsAutoAction, Mode=TwoWay}"
+                            OffContent="{DynamicResource Lang_Off}"
+                            OnContent="{DynamicResource Lang_On}" />
+                        <ui:ToggleSwitch
+                            Margin="0 8 0 0"
                             Header="{DynamicResource Lang_HandleTimeoutAutoRest}"
                             IsEnabled="{Binding Model.Data.Behavior.IsDisabledSkip, Converter={StaticResource BoolNegationConverter}}"
                             IsOn="{Binding Model.Data.Behavior.IsHandleTimeoutRest, Mode=TwoWay}"
