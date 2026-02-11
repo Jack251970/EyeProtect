@@ -53,6 +53,8 @@ namespace EyeProtect.Core.Helpers
             {
                 unsafe
                 {
+                    // Use direct memory access for performance when processing bitmap pixel data
+                    // This avoids the overhead of GetPixel/SetPixel calls for each pixel
                     byte* scan0 = (byte*)bmpData.Scan0.ToPointer();
                     int stride = bmpData.Stride;
 

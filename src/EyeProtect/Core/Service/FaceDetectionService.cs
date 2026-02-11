@@ -29,6 +29,7 @@ namespace EyeProtect.Core.Service
 
         // Detection parameters
         private const int DetectionIntervalMs = 1000; // Check every second
+        private const int ThreadJoinTimeoutMs = 2000; // Timeout for thread to finish
         private const int ModelInputWidth = 320;
         private const int ModelInputHeight = 240;
 
@@ -122,7 +123,7 @@ namespace EyeProtect.Core.Service
             // Wait for thread to finish
             if (_detectionThread != null && _detectionThread.IsAlive)
             {
-                _detectionThread.Join(2000);
+                _detectionThread.Join(ThreadJoinTimeoutMs);
             }
 
             // Release camera
@@ -136,7 +137,9 @@ namespace EyeProtect.Core.Service
         }
 
         /// <summary>
-        /// Check if a face is currently detected
+        /// Check if a face is currently detected.
+        /// Note: When face detection is disabled in settings, this method returns true
+        /// to assume the user is always present (backward compatibility with existing behavior).
         /// </summary>
         public bool IsFaceDetected()
         {

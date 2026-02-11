@@ -103,6 +103,12 @@ namespace EyeProtect.Core.Helpers
             float box2Area = (box2.Xmax - box2.Xmin) * (box2.Ymax - box2.Ymin);
             float unionArea = box1Area + box2Area - intersectionArea;
 
+            // Guard against division by zero
+            if (unionArea <= 0.0f)
+            {
+                return 0.0f;
+            }
+
             return intersectionArea / unionArea;
         }
     }

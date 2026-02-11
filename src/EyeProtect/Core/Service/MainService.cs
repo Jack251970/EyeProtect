@@ -185,6 +185,7 @@ namespace EyeProtect.Core.Service
             HandleLanguageChanged();
             
             // Handle face detection setting change
+            // Note: Start/Stop methods are thread-safe and handle re-entrance
             if (config.options.Behavior.IsFaceDetectionEnabled && IsWorkTimerRun())
             {
                 faceDetection.Start();
