@@ -140,7 +140,7 @@ namespace EyeProtect.Core.Service
             }
         }
 
-        private async void DetectionLoop()
+        private void DetectionLoop()
         {
             while (_isRunning)
             {
