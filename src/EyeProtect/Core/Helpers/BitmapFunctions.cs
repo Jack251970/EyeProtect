@@ -1,86 +1,79 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
+using Emgu.CV;
 using Microsoft.ML.OnnxRuntime.Tensors;
-
 namespace EyeProtect.Core.Helpers
 {
     public static class BitmapFunctions
     {
-        public static Bitmap ResizeBitmapWithPadding(Bitmap originalBitmap, int targetWidth, int targetHeight)
+        public static Bitmap ResizeVideoFrameWithPadding(Mat frame, int targetWidth, int targetHeight)
         {
-            // Calculate scaling factor to fit the image in the target size while maintaining aspect ratio
-            float scaleX = (float)targetWidth / originalBitmap.Width;
-            float scaleY = (float)targetHeight / originalBitmap.Height;
-            float scale = Math.Min(scaleX, scaleY);
+            // Determine the scaling factor
+            float scale = Math.Min((float)targetWidth / frame.Width, (float)targetHeight / frame.Height);
 
-            int newWidth = (int)(originalBitmap.Width * scale);
-            int newHeight = (int)(originalBitmap.Height * scale);
+            // Calculate new scaled dimensions
+            int scaledWidth = (int)(frame.Width * scale);
+            int scaledHeight = (int)(frame.Height * scale);
 
-            // Create a new bitmap with the target dimensions
-            Bitmap resizedBitmap = new Bitmap(targetWidth, targetHeight);
+            // Calculate padding offsets (centering the image)
+            int offsetX = (targetWidth - scaledWidth) / 2;
+            int offsetY = (targetHeight - scaledHeight) / 2;
 
-            using (Graphics graphics = Graphics.FromImage(resizedBitmap))
+            // Resize the frame
+            Mat resizedFrame = new Mat();
+            CvInvoke.Resize(frame, resizedFrame, new Size(scaledWidth, scaledHeight), 0, 0, Emgu.CV.CvEnum.Inter.Cubic);
+
+            // Create padded bitmap with white background
+            Bitmap paddedBitmap = new Bitmap(targetWidth, targetHeight);
+
+            using (Graphics graphics = Graphics.FromImage(paddedBitmap))
             {
-                // Fill with black background
-                graphics.Clear(Color.Black);
-
-                // Calculate position to center the resized image
-                int x = (targetWidth - newWidth) / 2;
-                int y = (targetHeight - newHeight) / 2;
-
-                // Set high quality rendering
+                graphics.Clear(Color.White); // White padding background
                 graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-                graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
 
-                // Draw the resized image centered
-                graphics.DrawImage(originalBitmap, x, y, newWidth, newHeight);
+                // Convert resized Mat to Bitmap and draw it centered
+                Bitmap resizedBitmap = new Bitmap(scaledWidth, scaledHeight, stride: scaledWidth * 3, PixelFormat.Format24bppRgb, resizedFrame.DataPointer);
+                graphics.DrawImage(resizedBitmap, offsetX, offsetY, scaledWidth, scaledHeight);
+                resizedBitmap.Dispose();
             }
 
-            return resizedBitmap;
+            resizedFrame.Dispose();
+            return paddedBitmap;
         }
 
         public static Tensor<float> PreprocessBitmapForFaceDetection(Bitmap bitmap, Tensor<float> input)
         {
-            // Lock the bitmap's bits
-            BitmapData bmpData = bitmap.LockBits(
-                new Rectangle(0, 0, bitmap.Width, bitmap.Height),
-                ImageLockMode.ReadOnly,
-                PixelFormat.Format24bppRgb);
+            int width = bitmap.Width;
+            int height = bitmap.Height;
 
-            try
+            BitmapData bmpData = bitmap.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+
+            int stride = bmpData.Stride;
+            IntPtr ptr = bmpData.Scan0;
+            int bytes = Math.Abs(stride) * height;
+            byte[] rgbValues = new byte[bytes];
+
+            Marshal.Copy(ptr, rgbValues, 0, bytes);
+
+            for (int y = 0; y < height; y++)
             {
-                unsafe
+                for (int x = 0; x < width; x++)
                 {
-                    // Use direct memory access for performance when processing bitmap pixel data
-                    // This avoids the overhead of GetPixel/SetPixel calls for each pixel
-                    byte* scan0 = (byte*)bmpData.Scan0.ToPointer();
-                    int stride = bmpData.Stride;
+                    int index = (y * stride) + (x * 3);
+                    byte blue = rgbValues[index];
+                    byte green = rgbValues[index + 1];
+                    byte red = rgbValues[index + 2];
 
-                    // Normalize and convert to tensor format (CHW - Channels, Height, Width)
-                    for (int y = 0; y < bitmap.Height; y++)
-                    {
-                        byte* row = scan0 + (y * stride);
-                        for (int x = 0; x < bitmap.Width; x++)
-                        {
-                            // BGR format in bitmap
-                            byte b = row[x * 3];
-                            byte g = row[x * 3 + 1];
-                            byte r = row[x * 3 + 2];
+                    // Convert to grayscale and normalize to [0,1]
+                    float gray = (0.299f * red + 0.587f * green + 0.114f * blue) / 255f;
 
-                            // Normalize to [0, 1] and convert to RGB format for model
-                            input[0, 0, y, x] = r / 255.0f;
-                            input[0, 1, y, x] = g / 255.0f;
-                            input[0, 2, y, x] = b / 255.0f;
-                        }
-                    }
+                    input[0, 0, y, x] = (gray - .442f) / .28f;
                 }
             }
-            finally
-            {
-                bitmap.UnlockBits(bmpData);
-            }
+
+            bitmap.UnlockBits(bmpData);
 
             return input;
         }

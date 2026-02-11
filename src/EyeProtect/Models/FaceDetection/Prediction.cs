@@ -1,16 +1,25 @@
-namespace EyeProtect.Models.FaceDetection
+﻿namespace EyeProtect.Models.FaceDetection
 {
     public class Prediction
     {
-        public BoundingBox Box { get; set; }
-        public float Confidence { get; set; }
+        public Box Box { get; set; }
+        public required string Label { get; set; }
+        public required float Confidence { get; set; }
+    }
 
-        public class BoundingBox
+    public class Box
+    {
+        public float Xmin { get; set; }
+        public float Ymin { get; set; }
+        public float Xmax { get; set; }
+        public float Ymax { get; set; }
+
+        public Box(float xmin, float ymin, float xmax, float ymax)
         {
-            public float Xmin { get; set; }
-            public float Ymin { get; set; }
-            public float Xmax { get; set; }
-            public float Ymax { get; set; }
+            Xmin = xmin;
+            Ymin = ymin;
+            Xmax = xmax;
+            Ymax = ymax;
         }
     }
 }

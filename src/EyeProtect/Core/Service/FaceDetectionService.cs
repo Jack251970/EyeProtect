@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using Emgu.CV;
-using Emgu.CV.Structure;
+using EyeProtect.Core.Helpers;
 using Microsoft.ML.OnnxRuntime;
 using Microsoft.ML.OnnxRuntime.Tensors;
-using EyeProtect.Core.Helpers;
 
 namespace EyeProtect.Core.Service
 {
@@ -28,8 +26,6 @@ namespace EyeProtect.Core.Service
         // Detection parameters
         private const int DetectionIntervalMs = 1000; // Check every second
         private const int ThreadJoinTimeoutMs = 2000; // Timeout for thread to finish
-        private const int ModelInputWidth = 320;
-        private const int ModelInputHeight = 240;
 
         public FaceDetectionService(ConfigService config)
         {
@@ -144,7 +140,7 @@ namespace EyeProtect.Core.Service
             }
         }
 
-        private void DetectionLoop()
+        private async void DetectionLoop()
         {
             while (_isRunning)
             {
@@ -184,44 +180,29 @@ namespace EyeProtect.Core.Service
                     return false;
                 }
 
-                // Convert Mat to Bitmap - create a new Bitmap and copy pixel data
-                using (var image = frame.ToImage<Bgr, byte>())
+                var originalImageWidth = frame.Width;
+                var originalImageHeight = frame.Height;
+
+                var inputMetadataName = _inferenceSession.InputNames[0];
+                var inputDimensions = _inferenceSession.InputMetadata[inputMetadataName].Dimensions;
+
+                int modelInputHeight = inputDimensions[2];
+                int modelInputWidth = inputDimensions[3];
+
+                using Bitmap resizedImage = BitmapFunctions.ResizeVideoFrameWithPadding(frame, modelInputWidth, modelInputHeight);
+
+                Tensor<float> input = new DenseTensor<float>([.. inputDimensions]);
+                input = BitmapFunctions.PreprocessBitmapForFaceDetection(resizedImage, input);
+
+                var inputs = new List<NamedOnnxValue>
                 {
-                    using (Bitmap bitmap = new Bitmap(image.Width, image.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb))
-                    {
-                        // Copy image data to bitmap
-                        var bmpData = bitmap.LockBits(
-                            new Rectangle(0, 0, bitmap.Width, bitmap.Height),
-                            System.Drawing.Imaging.ImageLockMode.WriteOnly,
-                            bitmap.PixelFormat);
-                        
-                        System.Runtime.InteropServices.Marshal.Copy(
-                            image.Bytes, 0, bmpData.Scan0, image.Bytes.Length);
-                        
-                        bitmap.UnlockBits(bmpData);
+                    NamedOnnxValue.CreateFromTensor(inputMetadataName, input)
+                };
 
-                        // Resize with padding
-                        using (Bitmap resized = BitmapFunctions.ResizeBitmapWithPadding(bitmap, ModelInputWidth, ModelInputHeight))
-                        {
-                            // Prepare input tensor
-                            var inputMetadataName = _inferenceSession.InputNames[0];
-                            var inputDimensions = _inferenceSession.InputMetadata[inputMetadataName].Dimensions;
-                            Tensor<float> input = new DenseTensor<float>(inputDimensions.Select(d => (int)d).ToArray());
-                            input = BitmapFunctions.PreprocessBitmapForFaceDetection(resized, input);
-
-                            var inputs = new List<NamedOnnxValue>
-                            {
-                                NamedOnnxValue.CreateFromTensor(inputMetadataName, input)
-                            };
-
-                            // Run inference
-                            using (IDisposableReadOnlyCollection<DisposableNamedOnnxValue> results = _inferenceSession.Run(inputs))
-                            {
-                                var predictions = FaceHelpers.PostprocessFacialResults(results, frame.Width, frame.Height);
-                                return predictions.Count > 0;
-                            }
-                        }
-                    }
+                using IDisposableReadOnlyCollection<DisposableNamedOnnxValue> results = _inferenceSession.Run(inputs);
+                {
+                    var predictions = FaceHelpers.PostprocessFacialResults(results, originalImageWidth, originalImageHeight);
+                    return predictions.Count > 0;
                 }
             }
             catch (Exception ex)
