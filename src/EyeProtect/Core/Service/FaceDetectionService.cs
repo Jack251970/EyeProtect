@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Threading;
+using System.Windows.Threading;
 using Emgu.CV;
 using EyeProtect.Core.Helpers;
 using Microsoft.ML.OnnxRuntime;
@@ -23,6 +24,7 @@ namespace EyeProtect.Core.Service
         private volatile bool _faceDetected;
         private volatile bool _wasFaceDetected; // Track previous state for edge detection
         private readonly Lock _lock = new();
+        private Dispatcher _uiDispatcher;
 
         // Detection parameters
         private const int DetectionIntervalMs = 1000; // Check every second
@@ -83,6 +85,9 @@ namespace EyeProtect.Core.Service
 
             try
             {
+                // Store the current dispatcher to marshal events back to UI thread
+                _uiDispatcher = Dispatcher.CurrentDispatcher;
+
                 // Initialize camera
                 _camera = new VideoCapture(0); // Use default camera
                 if (!_camera.IsOpened)
@@ -166,7 +171,13 @@ namespace EyeProtect.Core.Service
                                     // Fire event if face was just detected (transition from no face to face)
                                     if (detected && !_wasFaceDetected)
                                     {
-                                        FaceDetected?.Invoke(this, EventArgs.Empty);
+                                        // Marshal the event back to the UI thread
+                                        if (_uiDispatcher != null && !_uiDispatcher.HasShutdownStarted)
+                                        {
+                                            _uiDispatcher.BeginInvoke(
+                                                () => FaceDetected?.Invoke(this, EventArgs.Empty),
+                                                DispatcherPriority.Normal);
+                                        }
                                     }
                                     
                                     _faceDetected = detected;
