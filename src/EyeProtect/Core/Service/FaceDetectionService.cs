@@ -44,22 +44,28 @@ namespace EyeProtect.Core.Service
         {
             try
             {
-                // Initialize ONNX model
-                string modelPath = Path.Combine(
-                    AppDomain.CurrentDomain.BaseDirectory,
-                    "Models",
-                    "Lightweight-Face-Detection.onnx");
+                // Initialize ONNX model from embedded resources
+                var modelUri = new Uri(ResourcePaths.Models.FaceDetection, UriKind.RelativeOrAbsolute);
+                var resourceInfo = System.Windows.Application.GetResourceStream(modelUri);
 
-                if (File.Exists(modelPath))
+                if (resourceInfo != null)
                 {
+                    // Create a temporary file for the ONNX model since InferenceSession requires a file path
+                    string tempModelPath = Path.Combine(Path.GetTempPath(), "Lightweight-Face-Detection.onnx");
+                    
+                    using (var fileStream = File.Create(tempModelPath))
+                    {
+                        resourceInfo.Stream.CopyTo(fileStream);
+                    }
+
                     var sessionOptions = new SessionOptions();
                     sessionOptions.RegisterOrtExtensions();
-                    _inferenceSession = new InferenceSession(modelPath, sessionOptions);
-                    LogHelper.Info("Face detection model loaded successfully");
+                    _inferenceSession = new InferenceSession(tempModelPath, sessionOptions);
+                    LogHelper.Info("Face detection model loaded successfully from resources");
                 }
                 else
                 {
-                    LogHelper.Warning($"Face detection model not found at: {modelPath}");
+                    LogHelper.Warning("Face detection model resource not found");
                 }
             }
             catch (Exception ex)
