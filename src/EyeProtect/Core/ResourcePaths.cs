@@ -31,6 +31,12 @@
             public const string Relentless = ResourceBase + "relentless.wav";
         }
 
+        // Model resources
+        public static class Models
+        {
+            public const string FaceDetection = "pack://application:,,,/EyeProtect;component/Models/Lightweight-Face-Detection.onnx";
+        }
+
         // Language resources
         public static class Languages
         {
