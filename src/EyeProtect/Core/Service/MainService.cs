@@ -82,10 +82,8 @@ namespace EyeProtect.Core.Service
         public event MainEventHandler OnHandleTimeout;
 
         public MainService(
-            ScreenService screen,
             ConfigService config,
             CacheService cache,
-            ThemeService theme,
             SystemResourcesService systemResources,
             NotificationService notification,
             MediaControlService mediaControl,
@@ -280,13 +278,6 @@ namespace EyeProtect.Core.Service
         public bool IsWorkTimerRun()
         {
             return work_timer.IsEnabled && !config.options.General.Noreset;
-        }
-        #endregion
-
-        #region 统计数据
-        private void StatisticData()
-        {
-            // Statistic feature removed
         }
         #endregion
 
@@ -622,7 +613,7 @@ namespace EyeProtect.Core.Service
         /// <summary>
         /// Check if an AppInfo matches a running process
         /// </summary>
-        private bool MatchesProcess(AppInfo appInfo, Process process)
+        private static bool MatchesProcess(AppInfo appInfo, Process process)
         {
             try
             {
