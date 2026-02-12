@@ -4,6 +4,7 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using Emgu.CV;
 using Microsoft.ML.OnnxRuntime.Tensors;
+
 namespace EyeProtect.Core.Helpers
 {
     public static class BitmapFunctions
