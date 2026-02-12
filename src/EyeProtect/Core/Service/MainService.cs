@@ -181,17 +181,6 @@ namespace EyeProtect.Core.Service
         private void Config_Changed(object sender, EventArgs e)
         {
             HandleLanguageChanged();
-            
-            // Handle face detection setting change
-            // Note: Start/Stop methods are thread-safe and handle re-entrance
-            if (config.options.Behavior.IsFaceDetectionEnabled && IsWorkTimerRun())
-            {
-                faceDetection.Start();
-            }
-            else
-            {
-                faceDetection.Stop();
-            }
         }
 
         private void OnPowerModeChanged(object sender, PowerModeChangedEventArgs e)
@@ -225,9 +214,30 @@ namespace EyeProtect.Core.Service
             {
                 LogHelper.Debug("用户回来了");
                 back_timer.Stop();
+                
+                // Stop face detection when user comes back
+                faceDetection.FaceDetected -= OnFaceDetected;
+                faceDetection.Stop();
+                
                 DoStart(false);
             }
+
             SaveCursorPos();
+        }
+
+        /// <summary>
+        /// Handle instant face detection when user returns
+        /// </summary>
+        private void OnFaceDetected(object sender, EventArgs e)
+        {
+            LogHelper.Debug("用户回来了 - 通过人脸检测");
+            back_timer.Stop();
+            
+            // Stop face detection when user comes back
+            faceDetection.FaceDetected -= OnFaceDetected;
+            faceDetection.Stop();
+            
+            DoStart(false);
         }
 
         private void leave_timer_Tick(object sender, EventArgs e)
@@ -302,8 +312,18 @@ namespace EyeProtect.Core.Service
             leave_timer.Stop();
             //停止所有服务
             DoStop();
-            //启动back timer监听鼠标状态
+            //启动back timer监听鼠标状态和面部检测
             back_timer.Start();
+            
+            // Start face detection if enabled
+            if (config.options.Behavior.IsFaceDetectionEnabled)
+            {
+                // Subscribe to instant face detection event
+                faceDetection.FaceDetected -= OnFaceDetected;
+                faceDetection.FaceDetected += OnFaceDetected;
+                faceDetection.Start();
+            }
+            
             //事件响应
             OnLeaveEvent?.Invoke(this, 0);
         }
@@ -392,12 +412,6 @@ namespace EyeProtect.Core.Service
             //离开监听
             leave_timer.Start();
             
-            // Start face detection if enabled
-            if (config.options.Behavior.IsFaceDetectionEnabled)
-            {
-                faceDetection.Start();
-            }
-            
             OnStart?.Invoke(this, 0);
         }
         #endregion
@@ -411,9 +425,6 @@ namespace EyeProtect.Core.Service
             {
                 leave_timer.Stop();
                 back_timer.Stop();
-                
-                // Stop face detection
-                faceDetection.Stop();
             }
             busy_timer.Stop();
         }
@@ -554,12 +565,6 @@ namespace EyeProtect.Core.Service
         {
             if (!IsCursorPosChanged() && !mediaControl.IsMediaPlaying())
             {
-                // Check if face detection is enabled and user is detected
-                if (config.options.Behavior.IsFaceDetectionEnabled && faceDetection.IsFaceDetected())
-                {
-                    return false; // Face detected, user is present
-                }
-
                 return true;
             }
 

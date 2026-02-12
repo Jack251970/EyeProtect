@@ -21,11 +21,17 @@ namespace EyeProtect.Core.Service
         private Thread _detectionThread;
         private volatile bool _isRunning;
         private volatile bool _faceDetected;
+        private volatile bool _wasFaceDetected; // Track previous state for edge detection
         private readonly Lock _lock = new();
 
         // Detection parameters
         private const int DetectionIntervalMs = 1000; // Check every second
         private const int ThreadJoinTimeoutMs = 2000; // Timeout for thread to finish
+
+        /// <summary>
+        /// Event fired when a face is detected (transition from no face to face detected)
+        /// </summary>
+        public event EventHandler FaceDetected;
 
         public FaceDetectionService(ConfigService config)
         {
@@ -113,6 +119,7 @@ namespace EyeProtect.Core.Service
             }
 
             _isRunning = false;
+            _wasFaceDetected = false;
 
             // Wait for thread to finish
             if (_detectionThread != null && _detectionThread.IsAlive)
@@ -156,7 +163,14 @@ namespace EyeProtect.Core.Service
                                 bool detected = DetectFaceInFrame(frame);
                                 lock (_lock)
                                 {
+                                    // Fire event if face was just detected (transition from no face to face)
+                                    if (detected && !_wasFaceDetected)
+                                    {
+                                        FaceDetected?.Invoke(this, EventArgs.Empty);
+                                    }
+                                    
                                     _faceDetected = detected;
+                                    _wasFaceDetected = detected;
                                 }
                             }
                         }
