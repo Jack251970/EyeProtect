@@ -128,12 +128,14 @@ namespace EyeProtect.Core.Service
             date_timer.Tick += new EventHandler(date_timer_Tick);
             /****调试模式代码****/
 #if DEBUG
-            //30秒提示休息
+            //每30秒提示休息
             work_timer.Interval = new TimeSpan(0, 0, 30);
-            //20秒表示离开
+            //每20秒表示离开
             leave_timer.Interval = new TimeSpan(0, 0, 20);
             //每10秒检测回来
             back_timer.Interval = new TimeSpan(0, 0, 10);
+            //每5秒检测用户是否处理了休息提示
+            busy_timer.Interval = new TimeSpan(0, 0, 5);
 #endif
 
             CreateTipWindows();
