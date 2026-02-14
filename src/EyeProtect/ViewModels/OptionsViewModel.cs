@@ -155,7 +155,7 @@ namespace EyeProtect.ViewModels
         private void AddBreackProcess(Button button)
         {
             // Show AppSelectionDialog and select an application
-            var dialog = new AppSelectionWindow
+            var dialog = new AppSelectionWindow(Model.Data.Behavior.BreakProgressList)
             {
                 Owner = Window.GetWindow(button)
             };
@@ -165,9 +165,9 @@ namespace EyeProtect.ViewModels
             {
                 var addedApp = dialog.ViewModel.SelectedApp;
                 
-                // Check if app already exists in the list
+                // Check if app already exists in the list (additional safety check)
                 var existingApp = Model.Data.Behavior.BreakProgressList.FirstOrDefault(a => 
-                    a.DefaultDisplayName == addedApp.DefaultDisplayName);
+                    a.Equals(addedApp));
                 
                 if (existingApp == null)
                 {
