@@ -34,8 +34,11 @@ namespace EyeProtect.Models
             get => _Icon;
             set
             {
-                _Icon = value;
-                Show();
+                if (_Icon != value)
+                {
+                    _Icon = value;
+                    Show();
+                }
             }
         }
 
@@ -45,8 +48,11 @@ namespace EyeProtect.Models
             get => _Tooltip;
             set
             {
-                _Tooltip = value;
-                Show();
+                if (_Tooltip != value)
+                {
+                    _Tooltip = value;
+                    Show();
+                }
             }
         }
 
@@ -56,8 +62,11 @@ namespace EyeProtect.Models
             get => _IsVisible;
             set
             {
-                _IsVisible = value;
-                Show();
+                if (_IsVisible != value)
+                {
+                    _IsVisible = value;
+                    Show();
+                }
             }
         }
 
@@ -109,6 +118,8 @@ namespace EyeProtect.Models
                     throw new Win32Exception("ERR: Message window handle was not a valid pointer.");
                 }
             }
+
+            Show();
         }
 
         /// <summary>
