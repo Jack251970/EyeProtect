@@ -16,15 +16,15 @@ namespace EyeProtect.ViewModels
         private List<AppInfo> _allApps = new();
         private List<AppInfo> _existingApps = new();
 
-        public AppSelectionViewModel()
+        public AppSelectionViewModel() : this(null)
         {
-            SearchQuery = string.Empty;
-            LoadAppsAsync().ConfigureAwait(false);
         }
 
-        public AppSelectionViewModel(IEnumerable<AppInfo> existingApps) : this()
+        public AppSelectionViewModel(IEnumerable<AppInfo> existingApps)
         {
             _existingApps = existingApps?.ToList() ?? new List<AppInfo>();
+            SearchQuery = string.Empty;
+            LoadAppsAsync().ConfigureAwait(false);
         }
 
         [ObservableProperty]
