@@ -45,7 +45,7 @@
     <Resource Include="Resources\**\*.png" />
     <Resource Include="Resources\**\*.jpg" />
     <Resource Include="Resources\**\*.wav" />
-    <Resource Include="Models\**\*.onnx" />
+    <Resource Include="Resources\**\*.onnx" />
   </ItemGroup>
 
   <ItemGroup>

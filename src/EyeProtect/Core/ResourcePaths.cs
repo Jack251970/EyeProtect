@@ -34,7 +34,7 @@
         // Model resources
         public static class Models
         {
-            public const string FaceDetection = "pack://application:,,,/EyeProtect;component/Models/Lightweight-Face-Detection.onnx";
+            public const string FaceDetection = "pack://application:,,,/EyeProtect;component/Resources/Lightweight-Face-Detection.onnx";
         }
 
         // Language resources
