@@ -14,7 +14,7 @@ namespace EyeProtect.ViewModels
     {
         private CancellationTokenSource _searchCancellationTokenSource = new();
         private List<AppInfo> _allApps = new();
-        private List<AppInfo> _existingApps = new();
+        private HashSet<AppInfo> _existingAppsSet = new();
 
         public AppSelectionViewModel() : this(null)
         {
@@ -22,7 +22,7 @@ namespace EyeProtect.ViewModels
 
         public AppSelectionViewModel(IEnumerable<AppInfo> existingApps)
         {
-            _existingApps = existingApps?.ToList() ?? new List<AppInfo>();
+            _existingAppsSet = existingApps != null ? new HashSet<AppInfo>(existingApps) : new HashSet<AppInfo>();
             SearchQuery = string.Empty;
             LoadAppsAsync().ConfigureAwait(false);
         }
@@ -74,7 +74,7 @@ namespace EyeProtect.ViewModels
                 _allApps = allApps
                     .GroupBy(app => app.DefaultDisplayName)
                     .Select(group => group.First())
-                    .Where(app => !_existingApps.Any(existing => existing.Equals(app)))
+                    .Where(app => !_existingAppsSet.Contains(app))
                     .ToList();
 
                 // Initial display - show all apps and trigger icon loading
