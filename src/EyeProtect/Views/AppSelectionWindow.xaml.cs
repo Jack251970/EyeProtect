@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
+using EyeProtect.Models.AppInfo;
 using EyeProtect.ViewModels;
 
 namespace EyeProtect.Views
@@ -11,6 +13,13 @@ namespace EyeProtect.Views
         {
             InitializeComponent();
             ViewModel = new AppSelectionViewModel();
+            DataContext = ViewModel;
+        }
+
+        public AppSelectionWindow(IEnumerable<AppInfo> existingApps)
+        {
+            InitializeComponent();
+            ViewModel = new AppSelectionViewModel(existingApps);
             DataContext = ViewModel;
         }
 

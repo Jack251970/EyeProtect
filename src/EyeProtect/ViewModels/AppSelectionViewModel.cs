@@ -14,9 +14,15 @@ namespace EyeProtect.ViewModels
     {
         private CancellationTokenSource _searchCancellationTokenSource = new();
         private List<AppInfo> _allApps = new();
+        private HashSet<AppInfo> _existingAppsSet = new();
 
-        public AppSelectionViewModel()
+        public AppSelectionViewModel() : this(null)
         {
+        }
+
+        public AppSelectionViewModel(IEnumerable<AppInfo> existingApps)
+        {
+            _existingAppsSet = existingApps != null ? new HashSet<AppInfo>(existingApps) : new HashSet<AppInfo>();
             SearchQuery = string.Empty;
             LoadAppsAsync().ConfigureAwait(false);
         }
@@ -63,8 +69,13 @@ namespace EyeProtect.ViewModels
 
                 await Task.WhenAll(tasks);
 
-                // Combine all apps
-                _allApps = tasks.SelectMany(t => t.Result).ToList();
+                // Combine all apps and remove duplicates based on DefaultDisplayName
+                var allApps = tasks.SelectMany(t => t.Result).ToList();
+                _allApps = allApps
+                    .GroupBy(app => app.DefaultDisplayName)
+                    .Select(group => group.First())
+                    .Where(app => !_existingAppsSet.Contains(app))
+                    .ToList();
 
                 // Initial display - show all apps and trigger icon loading
                 await System.Windows.Application.Current.Dispatcher.InvokeAsync(() =>
