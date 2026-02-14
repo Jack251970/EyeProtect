@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using iNKORE.UI.WPF.Modern;
-using EyeProtect.Models;
+using EyeProtect.Models.Taskbar;
 
 namespace EyeProtect.Core.Service
 {
@@ -107,9 +107,9 @@ namespace EyeProtect.Core.Service
         {
             CreateTrayMenu();
 
-            notifyIcon.IsVisible = true;
             notifyIcon.MouseMoved += NotifyIcon_MouseMoved;
             notifyIcon.RightClicked += NotifyIcon_RightClicked;
+            notifyIcon.Show();
 
             noresetTimer = new DispatcherTimer();
         }
@@ -214,7 +214,8 @@ namespace EyeProtect.Core.Service
 
         public void Dispose()
         {
-            notifyIcon?.Destroy();
+            notifyIcon.Hide();
+            notifyIcon.Dispose();
         }
 
         #endregion

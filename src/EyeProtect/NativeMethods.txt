@@ -47,4 +47,22 @@ WM_MOUSEMOVE
 SetForegroundWindow
 DefWindowProc
 
+NOTIFYICONIDENTIFIER
+Shell_NotifyIconGetRect
+NOTIFYICONDATAW
+Shell_NotifyIcon
+LRESULT
+WPARAM
+LPARAM
+DefWindowProc
+WM_LBUTTONUP
+WM_RBUTTONUP
+WM_DESTROY
+WNDPROC
+WNDCLASSEXW
+GetModuleHandle
+RegisterClassEx
+CreateWindowEx
+DestroyWindow
+
 WM_DISPLAYCHANGE
