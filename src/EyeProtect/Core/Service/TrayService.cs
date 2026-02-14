@@ -225,25 +225,37 @@ namespace EyeProtect.Core.Service
         {
             contextMenu = new ContextMenu();
             // 托盘菜单项
-            menuItem_Options = new MenuItem();
-            menuItem_Options.Header = Application.Current.Resources["Lang_Settings"];
+            menuItem_Options = new MenuItem
+            {
+                Header = Application.Current.Resources["Lang_Settings"]
+            };
             menuItem_Options.Click += menuItem_Options_Click;
 
-            menuItem_NoReset = new MenuItem();
-            menuItem_NoReset.Header = Application.Current.Resources["Lang_Suspendnow"];
+            menuItem_NoReset = new MenuItem
+            {
+                Header = Application.Current.Resources["Lang_Suspendnow"]
+            };
 
-            menuItem_NoReset_OneHour = new MenuItem();
-            menuItem_NoReset_OneHour.Header = Application.Current.Resources["Lang_Onehours"];
+            menuItem_NoReset_OneHour = new MenuItem
+            {
+                Header = Application.Current.Resources["Lang_Onehours"]
+            };
             menuItem_NoReset_OneHour.Click += MenuItem_NoReset_OneHour_Click;
-            menuItem_NoReset_TwoHour = new MenuItem();
-            menuItem_NoReset_TwoHour.Header = Application.Current.Resources["Lang_Twohours"];
+            menuItem_NoReset_TwoHour = new MenuItem
+            {
+                Header = Application.Current.Resources["Lang_Twohours"]
+            };
             menuItem_NoReset_TwoHour.Click += MenuItem_NoReset_TwoHour_Click;
-            menuItem_NoReset_Forver = new MenuItem();
-            menuItem_NoReset_Forver.Header = Application.Current.Resources["Lang_Suspenduntilnextstartup"];
+            menuItem_NoReset_Forver = new MenuItem
+            {
+                Header = Application.Current.Resources["Lang_Suspenduntilnextstartup"]
+            };
             menuItem_NoReset_Forver.Click += MenuItem_NoReset_Forver_Click;
-            menuItem_NoReset_Off = new MenuItem();
-            menuItem_NoReset_Off.Header = Application.Current.Resources["Lang_Disabled"];
-            menuItem_NoReset_Off.IsChecked = true;
+            menuItem_NoReset_Off = new MenuItem
+            {
+                Header = Application.Current.Resources["Lang_Disabled"],
+                IsChecked = true
+            };
             menuItem_NoReset_Off.Click += MenuItem_NoReset_Off_Click;
 
             menuItem_NoReset.Items.Add(menuItem_NoReset_OneHour);
@@ -251,8 +263,8 @@ namespace EyeProtect.Core.Service
             menuItem_NoReset.Items.Add(menuItem_NoReset_Forver);
             menuItem_NoReset.Items.Add(menuItem_NoReset_Off);
 
-            menuItem_Quit = new MenuItem();
-            menuItem_Quit.Header = Application.Current.Resources["Lang_Quit"]; ;
+            menuItem_Quit = new MenuItem { Header = Application.Current.Resources["Lang_Quit"] };
+            ;
             menuItem_Quit.Click += menuItem_Exit_Click;
 
             //添加托盘菜单项

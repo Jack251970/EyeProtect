@@ -33,13 +33,15 @@ namespace EyeProtect.Core.Service
         public void Init()
         {
             //创建一个隐藏的窗口，用于接收显示器拔插消息
-            var hookWindow = new Window();
-            hookWindow.Width = 0;
-            hookWindow.Height = 0;
-            hookWindow.ShowInTaskbar = false;
-            hookWindow.WindowStyle = WindowStyle.None;
-            //hookWindow.WindowState = WindowState.Minimized;
-            hookWindow.Visibility = Visibility.Hidden;
+            var hookWindow = new Window
+            {
+                Width = 0,
+                Height = 0,
+                ShowInTaskbar = false,
+                WindowStyle = WindowStyle.None,
+                //hookWindow.WindowState = WindowState.Minimized;
+                Visibility = Visibility.Hidden
+            };
             hookWindow.SourceInitialized += new EventHandler(hookWindow_SourceInitialized);
             hookWindow.Show();
         }
