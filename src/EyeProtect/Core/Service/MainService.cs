@@ -39,6 +39,10 @@ namespace EyeProtect.Core.Service
         /// 日期更改计时重置标记
         /// </summary>
         private bool isDateTimerReset;
+        /// <summary>
+        /// 标记休息后人脸检测是否正在运行
+        /// </summary>
+        private bool isPostRestFaceDetectionActive;
 
         private readonly ConfigService config;
         private readonly CacheService cache;
@@ -256,6 +260,7 @@ namespace EyeProtect.Core.Service
             // Stop face detection when user presence is confirmed
             faceDetection.FaceDetected -= OnFaceDetectedAfterRest;
             faceDetection.Stop();
+            isPostRestFaceDetectionActive = false;
         }
 
         /// <summary>
@@ -264,12 +269,13 @@ namespace EyeProtect.Core.Service
         private void Rest_RestCompleted(object sender, int timed)
         {
             // Start face detection after rest to check if user is back
-            if (config.options.Behavior.IsFaceDetectionEnabled)
+            if (config.options.Behavior.IsFaceDetectionEnabled && !isPostRestFaceDetectionActive)
             {
                 LogHelper.Debug("休息结束 - 启动人脸检测检查用户是否在场");
                 
+                isPostRestFaceDetectionActive = true;
+                
                 // Subscribe to instant face detection event
-                faceDetection.FaceDetected -= OnFaceDetectedAfterRest;
                 faceDetection.FaceDetected += OnFaceDetectedAfterRest;
                 faceDetection.Start();
             }
@@ -365,6 +371,17 @@ namespace EyeProtect.Core.Service
         {
             DoStop();
             WindowManager.Close("TipWindow");
+            
+            // Cleanup event subscriptions
+            if (rest != null)
+            {
+                rest.RestCompleted -= Rest_RestCompleted;
+            }
+            if (faceDetection != null)
+            {
+                faceDetection.FaceDetected -= OnFaceDetected;
+                faceDetection.FaceDetected -= OnFaceDetectedAfterRest;
+            }
         }
         #endregion
 
