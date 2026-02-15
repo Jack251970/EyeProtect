@@ -41,14 +41,6 @@ namespace EyeProtect.Core.Service
         /// 日期更改计时重置标记
         /// </summary>
         private bool isDateTimerReset;
-        /// <summary>
-        /// 标记休息后人脸检测是否正在运行
-        /// </summary>
-        private bool isPostRestFaceDetectionActive;
-        /// <summary>
-        /// 用于休息后人脸检测标志的线程安全锁
-        /// </summary>
-        private readonly Lock postRestFaceDetectionLock = new();
 
         private readonly ConfigService config;
         private readonly CacheService cache;
@@ -257,25 +249,20 @@ namespace EyeProtect.Core.Service
         /// </summary>
         private void OnFaceDetectedAfterRest(object sender, EventArgs e)
         {
-            LogHelper.Debug("休息结束后检测到用户 - 通过人脸检测");
-            
-            lock (postRestFaceDetectionLock)
+            //用户在休息时间离开了电脑
+            if (faceDetection.IsFaceDetected())
             {
-                //用户在休息时间离开了电脑
-                if (IsUserLeave())
-                {
-                    OnLeave();
-                }
-                else
-                {
-                    faceDetection.FaceDetected -= OnFaceDetectedAfterRest;
-                    faceDetection.Stop();
-                }
-
-                SaveCursorPos();
-
-                isPostRestFaceDetectionActive = false;
+                LogHelper.Debug("休息结束后人脸检测到用户仍在");
+                faceDetection.FaceDetected -= OnFaceDetectedAfterRest;
+                faceDetection.Stop();
             }
+            else
+            {
+                LogHelper.Debug("休息结束后人脸检测到用户离开");
+                OnLeave();
+            }
+
+            SaveCursorPos();
         }
 
         /// <summary>
@@ -286,19 +273,9 @@ namespace EyeProtect.Core.Service
             // Start face detection after rest to check if user is back
             if (config.options.Behavior.IsFaceDetectionEnabled)
             {
-                lock (postRestFaceDetectionLock)
-                {
-                    if (!isPostRestFaceDetectionActive)
-                    {
-                        LogHelper.Debug("休息结束 - 启动人脸检测检查用户是否在场");
-                        
-                        isPostRestFaceDetectionActive = true;
-                        
-                        // Subscribe to instant face detection event
-                        faceDetection.FaceDetected += OnFaceDetectedAfterRest;
-                        faceDetection.Start();
-                    }
-                }
+                LogHelper.Debug("休息结束后启动人脸检测");
+                faceDetection.FaceDetected += OnFaceDetectedAfterRest;
+                faceDetection.Start();
             }
         }
 
