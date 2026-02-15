@@ -22,6 +22,10 @@ namespace EyeProtect.Views
             
             // Subscribe to Closed event for cleanup
             Closed += OnClosed;
+            
+            // Subscribe to Activated event to maintain focus and block input
+            Activated += OnActivated;
+            Deactivated += OnDeactivated;
         }
 
         /// <summary>
@@ -31,6 +35,33 @@ namespace EyeProtect.Views
         {
             IsVisibleChanged -= OnIsVisibleChanged;
             Closed -= OnClosed;
+            Activated -= OnActivated;
+            Deactivated -= OnDeactivated;
+        }
+
+        /// <summary>
+        /// Handle window activation to ensure focus is maintained
+        /// </summary>
+        private void OnActivated(object sender, EventArgs e)
+        {
+            // Ensure the window stays focused when visible
+            if (IsVisible)
+            {
+                Focus();
+            }
+        }
+
+        /// <summary>
+        /// Handle window deactivation to block input by reactivating
+        /// </summary>
+        private void OnDeactivated(object sender, EventArgs e)
+        {
+            // When the tip window is visible, prevent it from losing focus
+            // This ensures user input stays blocked
+            if (IsVisible && !isAnimating)
+            {
+                Activate();
+            }
         }
 
         /// <summary>
@@ -66,6 +97,13 @@ namespace EyeProtect.Views
                     Duration = TimeSpan.FromSeconds(FadeInDuration),
                     EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
                 };
+                
+                // When fade-in completes, ensure the window is activated to block input
+                fadeIn.Completed += (s, args) =>
+                {
+                    Activate();
+                };
+                
                 BeginAnimation(OpacityProperty, fadeIn);
             }
         }

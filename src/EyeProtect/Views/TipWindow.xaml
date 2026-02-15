@@ -21,7 +21,7 @@
     Visibility="Hidden"
     WindowStyle="None"
     mc:Ignorable="d">
-    <Grid>
+    <Grid Background="Transparent">
         <Border Background="{Binding ContainerBackground}" Opacity="{Binding ContainerOpacity}" />
 
         <Grid Width="400" VerticalAlignment="Center">
