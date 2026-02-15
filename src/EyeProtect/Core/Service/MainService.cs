@@ -6,6 +6,7 @@ using System.Windows.Threading;
 using Microsoft.Win32;
 using EyeProtect.Models.AppInfo;
 using Windows.Win32;
+using System.Threading;
 
 namespace EyeProtect.Core.Service
 {
@@ -46,7 +47,7 @@ namespace EyeProtect.Core.Service
         /// <summary>
         /// 用于休息后人脸检测标志的线程安全锁
         /// </summary>
-        private readonly object postRestFaceDetectionLock = new object();
+        private readonly Lock postRestFaceDetectionLock = new();
 
         private readonly ConfigService config;
         private readonly CacheService cache;
