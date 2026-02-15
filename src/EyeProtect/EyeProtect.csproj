@@ -15,6 +15,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AppendPlatformToOutputPath>false</AppendPlatformToOutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
@@ -62,5 +63,19 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+
+  <Target Name="RemoveUnnecessaryLibFilesAfterBuild" AfterTargets="Build">
+    <ItemGroup>
+      <LibFilesToRemove Include="$(OutputPath)**\*.lib" />
+    </ItemGroup>
+    <Delete Files="@(LibFilesToRemove)" />
+  </Target>
+
+  <Target Name="RemoveUnnecessaryLibFilesAfterPublish" AfterTargets="Publish">
+    <ItemGroup>
+      <LibFilesToRemovePublish Include="$(PublishDir)**\*.lib" />
+    </ItemGroup>
+    <Delete Files="@(LibFilesToRemovePublish)" />
+  </Target>
 
 </Project>
