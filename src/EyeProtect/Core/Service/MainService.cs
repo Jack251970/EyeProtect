@@ -7,6 +7,7 @@ using Microsoft.Win32;
 using EyeProtect.Models.AppInfo;
 using Windows.Win32;
 using System.Threading;
+using CommunityToolkit.Mvvm.DependencyInjection;
 
 namespace EyeProtect.Core.Service
 {
@@ -55,7 +56,7 @@ namespace EyeProtect.Core.Service
         private readonly NotificationService notification;
         private readonly MediaControlService mediaControl;
         private readonly FaceDetectionService faceDetection;
-        private readonly RestService rest;
+        private RestService rest;
 
         public delegate void MainEventHandler(object service, int msg);
         /// <summary>
@@ -97,8 +98,7 @@ namespace EyeProtect.Core.Service
             SystemResourcesService systemResources,
             NotificationService notification,
             MediaControlService mediaControl,
-            FaceDetectionService faceDetection,
-            RestService rest)
+            FaceDetectionService faceDetection)
         {
             this.config = config;
             this.cache = cache;
@@ -106,7 +106,6 @@ namespace EyeProtect.Core.Service
             this.notification = notification;
             this.mediaControl = mediaControl;
             this.faceDetection = faceDetection;
-            this.rest = rest;
             SystemEvents.PowerModeChanged += OnPowerModeChanged;
         }
 
@@ -162,6 +161,7 @@ namespace EyeProtect.Core.Service
             //加载语言
             HandleLanguageChanged();
 
+            rest = Ioc.Default.GetRequiredService<RestService>();
             rest.RestCompleted += Rest_RestCompleted;
         }
         #endregion
@@ -261,9 +261,19 @@ namespace EyeProtect.Core.Service
             
             lock (postRestFaceDetectionLock)
             {
-                // Stop face detection when user presence is confirmed
-                faceDetection.FaceDetected -= OnFaceDetectedAfterRest;
-                faceDetection.Stop();
+                //用户在休息时间离开了电脑
+                if (IsUserLeave())
+                {
+                    OnLeave();
+                }
+                else
+                {
+                    faceDetection.FaceDetected -= OnFaceDetectedAfterRest;
+                    faceDetection.Stop();
+                }
+
+                SaveCursorPos();
+
                 isPostRestFaceDetectionActive = false;
             }
         }
