@@ -12,6 +12,7 @@ namespace EyeProtect.Views
         private const double FadeInDuration = 0.9; // seconds
         private const double FadeOutDuration = 0.6; // seconds
         private bool isAnimating = false;
+        private bool isActivating = false;
         
         public TipWindow()
         {
@@ -58,9 +59,11 @@ namespace EyeProtect.Views
         {
             // When the tip window is visible, prevent it from losing focus
             // This ensures user input stays blocked
-            if (IsVisible && !isAnimating)
+            if (IsVisible && !isAnimating && !isActivating)
             {
+                isActivating = true;
                 Activate();
+                isActivating = false;
             }
         }
 
@@ -100,13 +103,25 @@ namespace EyeProtect.Views
                 };
                 
                 // When fade-in completes, ensure the window is activated to block input
-                fadeIn.Completed += (s, args) =>
-                {
-                    Activate();
-                };
+                fadeIn.Completed += OnFadeInCompleted;
                 
                 BeginAnimation(OpacityProperty, fadeIn);
             }
+        }
+
+        /// <summary>
+        /// Handle fade-in animation completion
+        /// </summary>
+        private void OnFadeInCompleted(object sender, EventArgs e)
+        {
+            // Unsubscribe from the event to prevent memory leaks
+            if (sender is AnimationClock clock && clock.Timeline is DoubleAnimation animation)
+            {
+                animation.Completed -= OnFadeInCompleted;
+            }
+            
+            // Activate the window to ensure input is blocked
+            Activate();
         }
 
         /// <summary>
