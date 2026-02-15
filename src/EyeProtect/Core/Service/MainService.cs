@@ -249,11 +249,12 @@ namespace EyeProtect.Core.Service
         /// </summary>
         private void OnFaceDetectedAfterRest(object sender, EventArgs e)
         {
+            faceDetection.FaceDetected -= OnFaceDetectedAfterRest;
+
             //用户在休息时间离开了电脑
             if (faceDetection.IsFaceDetected())
             {
                 LogHelper.Debug("休息结束后人脸检测到用户仍在");
-                faceDetection.FaceDetected -= OnFaceDetectedAfterRest;
                 faceDetection.Stop();
             }
             else
