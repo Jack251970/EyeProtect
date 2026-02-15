@@ -39,7 +39,7 @@ namespace EyeProtect.Core.Service
         /// <summary>
         /// Occurs when the camera has been refreshed.
         /// </summary>
-        public event EventHandler CameraRefreshed;
+        public event EventHandler<bool> CameraRefreshed;
 
         public FaceDetectionService(ConfigService config)
         {
@@ -192,7 +192,7 @@ namespace EyeProtect.Core.Service
                                     if (_uiDispatcher != null && !_uiDispatcher.HasShutdownStarted)
                                     {
                                         _uiDispatcher.BeginInvoke(
-                                            () => CameraRefreshed?.Invoke(this, EventArgs.Empty),
+                                            () => CameraRefreshed?.Invoke(this, detected),
                                             DispatcherPriority.Normal);
                                     }
 

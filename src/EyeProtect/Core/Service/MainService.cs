@@ -247,23 +247,22 @@ namespace EyeProtect.Core.Service
         /// <summary>
         /// Handle face detection after rest completes
         /// </summary>
-        private void OnFaceDetectedAfterRest(object sender, EventArgs e)
+        private void OnCameraRefreshedAfterRest(object sender, bool faceDetected)
         {
-            faceDetection.FaceDetected -= OnFaceDetectedAfterRest;
+            faceDetection.CameraRefreshed -= OnCameraRefreshedAfterRest;
 
-            //用户在休息时间离开了电脑
-            if (faceDetection.IsFaceDetected())
+            //用户在休息时间未离开
+            if (faceDetected)
             {
                 LogHelper.Debug("休息结束后人脸检测到用户仍在");
                 faceDetection.Stop();
             }
+            //用户在休息时间离开了电脑
             else
             {
                 LogHelper.Debug("休息结束后人脸检测到用户离开");
                 OnLeave();
             }
-
-            SaveCursorPos();
         }
 
         /// <summary>
@@ -275,7 +274,9 @@ namespace EyeProtect.Core.Service
             if (config.options.Behavior.IsFaceDetectionEnabled)
             {
                 LogHelper.Debug("休息结束后启动人脸检测");
-                faceDetection.FaceDetected += OnFaceDetectedAfterRest;
+
+                faceDetection.CameraRefreshed -= OnCameraRefreshedAfterRest;
+                faceDetection.CameraRefreshed += OnCameraRefreshedAfterRest;
                 faceDetection.Start();
             }
         }
@@ -376,7 +377,7 @@ namespace EyeProtect.Core.Service
             if (faceDetection != null)
             {
                 faceDetection.FaceDetected -= OnFaceDetected;
-                faceDetection.FaceDetected -= OnFaceDetectedAfterRest;
+                faceDetection.CameraRefreshed -= OnCameraRefreshedAfterRest;
             }
         }
         #endregion
