@@ -106,7 +106,7 @@ namespace EyeProtect.Core.Service
             this.mediaControl = mediaControl;
             this.faceDetection = faceDetection;
             this.rest = rest;
-            SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(OnPowerModeChanged);
+            SystemEvents.PowerModeChanged += OnPowerModeChanged;
         }
 
         #region 初始化
@@ -382,12 +382,9 @@ namespace EyeProtect.Core.Service
         {
             DoStop();
             WindowManager.Close("TipWindow");
-            
-            // Cleanup event subscriptions
-            if (rest != null)
-            {
-                rest.RestCompleted -= Rest_RestCompleted;
-            }
+            SystemEvents.PowerModeChanged -= OnPowerModeChanged;
+            config?.Changed -= Config_Changed;
+            rest?.RestCompleted -= Rest_RestCompleted;
             if (faceDetection != null)
             {
                 faceDetection.FaceDetected -= OnFaceDetected;
