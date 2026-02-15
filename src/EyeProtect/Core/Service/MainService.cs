@@ -43,6 +43,10 @@ namespace EyeProtect.Core.Service
         /// 标记休息后人脸检测是否正在运行
         /// </summary>
         private bool isPostRestFaceDetectionActive;
+        /// <summary>
+        /// 用于休息后人脸检测标志的线程安全锁
+        /// </summary>
+        private readonly object postRestFaceDetectionLock = new object();
 
         private readonly ConfigService config;
         private readonly CacheService cache;
@@ -257,10 +261,13 @@ namespace EyeProtect.Core.Service
         {
             LogHelper.Debug("休息结束后检测到用户 - 通过人脸检测");
             
-            // Stop face detection when user presence is confirmed
-            faceDetection.FaceDetected -= OnFaceDetectedAfterRest;
-            faceDetection.Stop();
-            isPostRestFaceDetectionActive = false;
+            lock (postRestFaceDetectionLock)
+            {
+                // Stop face detection when user presence is confirmed
+                faceDetection.FaceDetected -= OnFaceDetectedAfterRest;
+                faceDetection.Stop();
+                isPostRestFaceDetectionActive = false;
+            }
         }
 
         /// <summary>
@@ -269,15 +276,21 @@ namespace EyeProtect.Core.Service
         private void Rest_RestCompleted(object sender, int timed)
         {
             // Start face detection after rest to check if user is back
-            if (config.options.Behavior.IsFaceDetectionEnabled && !isPostRestFaceDetectionActive)
+            if (config.options.Behavior.IsFaceDetectionEnabled)
             {
-                LogHelper.Debug("休息结束 - 启动人脸检测检查用户是否在场");
-                
-                isPostRestFaceDetectionActive = true;
-                
-                // Subscribe to instant face detection event
-                faceDetection.FaceDetected += OnFaceDetectedAfterRest;
-                faceDetection.Start();
+                lock (postRestFaceDetectionLock)
+                {
+                    if (!isPostRestFaceDetectionActive)
+                    {
+                        LogHelper.Debug("休息结束 - 启动人脸检测检查用户是否在场");
+                        
+                        isPostRestFaceDetectionActive = true;
+                        
+                        // Subscribe to instant face detection event
+                        faceDetection.FaceDetected += OnFaceDetectedAfterRest;
+                        faceDetection.Start();
+                    }
+                }
             }
         }
 
