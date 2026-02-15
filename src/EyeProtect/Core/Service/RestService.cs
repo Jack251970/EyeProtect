@@ -47,6 +47,7 @@ namespace EyeProtect.Core.Service
 
         public void Dispose()
         {
+            timer.Stop();
         }
 
         /// <summary>
