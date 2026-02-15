@@ -46,6 +46,7 @@ namespace EyeProtect.Core.Service
         private readonly NotificationService notification;
         private readonly MediaControlService mediaControl;
         private readonly FaceDetectionService faceDetection;
+        private readonly RestService rest;
 
         public delegate void MainEventHandler(object service, int msg);
         /// <summary>
@@ -87,7 +88,8 @@ namespace EyeProtect.Core.Service
             SystemResourcesService systemResources,
             NotificationService notification,
             MediaControlService mediaControl,
-            FaceDetectionService faceDetection)
+            FaceDetectionService faceDetection,
+            RestService rest)
         {
             this.config = config;
             this.cache = cache;
@@ -95,6 +97,7 @@ namespace EyeProtect.Core.Service
             this.notification = notification;
             this.mediaControl = mediaControl;
             this.faceDetection = faceDetection;
+            this.rest = rest;
             SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(OnPowerModeChanged);
         }
 
@@ -150,6 +153,9 @@ namespace EyeProtect.Core.Service
 
             //加载语言
             HandleLanguageChanged();
+            
+            // Subscribe to rest completed event
+            rest.RestCompleted += Rest_RestCompleted;
         }
         #endregion
 
@@ -238,6 +244,35 @@ namespace EyeProtect.Core.Service
             faceDetection.Stop();
             
             DoStart(false);
+        }
+
+        /// <summary>
+        /// Handle face detection after rest completes
+        /// </summary>
+        private void OnFaceDetectedAfterRest(object sender, EventArgs e)
+        {
+            LogHelper.Debug("休息结束后检测到用户 - 通过人脸检测");
+            
+            // Stop face detection when user presence is confirmed
+            faceDetection.FaceDetected -= OnFaceDetectedAfterRest;
+            faceDetection.Stop();
+        }
+
+        /// <summary>
+        /// Handle rest completion - check user existence with face detection if enabled
+        /// </summary>
+        private void Rest_RestCompleted(object sender, int timed)
+        {
+            // Start face detection after rest to check if user is back
+            if (config.options.Behavior.IsFaceDetectionEnabled)
+            {
+                LogHelper.Debug("休息结束 - 启动人脸检测检查用户是否在场");
+                
+                // Subscribe to instant face detection event
+                faceDetection.FaceDetected -= OnFaceDetectedAfterRest;
+                faceDetection.FaceDetected += OnFaceDetectedAfterRest;
+                faceDetection.Start();
+            }
         }
 
         private void leave_timer_Tick(object sender, EventArgs e)
