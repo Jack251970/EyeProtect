@@ -36,6 +36,12 @@ namespace EyeProtect.Core.Service
         /// </summary>
         public event EventHandler FaceDetected;
 
+        /// <summary>
+        /// Raised once per detection cycle with the current face detection result.
+        /// The bool argument is true when a face is detected in the current frame.
+        /// </summary>
+        public event EventHandler<bool> CameraRefreshed;
+
         public FaceDetectionService(ConfigService config)
         {
             _config = config;
@@ -107,7 +113,7 @@ namespace EyeProtect.Core.Service
                 };
                 _detectionThread.Start();
 
-                LogHelper.Info("Face detection service started");
+                LogHelper.Debug("人脸检测启动");
             }
             catch (Exception ex)
             {
@@ -139,7 +145,7 @@ namespace EyeProtect.Core.Service
             _camera?.Dispose();
             _camera = null;
 
-            LogHelper.Info("Face detection service stopped");
+            LogHelper.Debug("人脸检测停止");
         }
 
         /// <summary>
@@ -182,7 +188,15 @@ namespace EyeProtect.Core.Service
                                                 DispatcherPriority.Normal);
                                         }
                                     }
-                                    
+
+                                    // Marshal the event back to the UI thread
+                                    if (_uiDispatcher != null && !_uiDispatcher.HasShutdownStarted)
+                                    {
+                                        _uiDispatcher.BeginInvoke(
+                                            () => CameraRefreshed?.Invoke(this, detected),
+                                            DispatcherPriority.Normal);
+                                    }
+
                                     _faceDetected = detected;
                                     _wasFaceDetected = detected;
                                 }

@@ -6,6 +6,8 @@ using System.Windows.Threading;
 using Microsoft.Win32;
 using EyeProtect.Models.AppInfo;
 using Windows.Win32;
+using System.Threading;
+using CommunityToolkit.Mvvm.DependencyInjection;
 
 namespace EyeProtect.Core.Service
 {
@@ -46,6 +48,7 @@ namespace EyeProtect.Core.Service
         private readonly NotificationService notification;
         private readonly MediaControlService mediaControl;
         private readonly FaceDetectionService faceDetection;
+        private RestService rest;
 
         public delegate void MainEventHandler(object service, int msg);
         /// <summary>
@@ -95,7 +98,7 @@ namespace EyeProtect.Core.Service
             this.notification = notification;
             this.mediaControl = mediaControl;
             this.faceDetection = faceDetection;
-            SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(OnPowerModeChanged);
+            SystemEvents.PowerModeChanged += OnPowerModeChanged;
         }
 
         #region 初始化
@@ -147,9 +150,11 @@ namespace EyeProtect.Core.Service
 
             config.Changed += Config_Changed;
 
-
             //加载语言
             HandleLanguageChanged();
+
+            rest = Ioc.Default.GetRequiredService<RestService>();
+            rest.RestCompleted += Rest_RestCompleted;
         }
         #endregion
 
@@ -205,14 +210,13 @@ namespace EyeProtect.Core.Service
             busy_timer.Stop();
 
             OnHandleTimeout?.Invoke(this, 0);
-
         }
 
         private void back_timer_Tick(object sender, EventArgs e)
         {
             if (IsCursorPosChanged())
             {
-                LogHelper.Debug("用户回来了");
+                LogHelper.Debug("用户回来了 - 通过鼠标检测");
                 back_timer.Stop();
                 
                 // Stop face detection when user comes back
@@ -238,6 +242,43 @@ namespace EyeProtect.Core.Service
             faceDetection.Stop();
             
             DoStart(false);
+        }
+
+        /// <summary>
+        /// Handle face detection after rest completes
+        /// </summary>
+        private void OnCameraRefreshedAfterRest(object sender, bool faceDetected)
+        {
+            faceDetection.CameraRefreshed -= OnCameraRefreshedAfterRest;
+
+            //用户在休息时间未离开
+            if (faceDetected)
+            {
+                LogHelper.Debug("休息结束后人脸检测到用户仍在");
+                faceDetection.Stop();
+            }
+            //用户在休息时间离开了电脑
+            else
+            {
+                LogHelper.Debug("休息结束后人脸检测到用户离开");
+                OnLeave();
+            }
+        }
+
+        /// <summary>
+        /// Handle rest completion - check user existence with face detection if enabled
+        /// </summary>
+        private void Rest_RestCompleted(object sender, int timed)
+        {
+            // Start face detection after rest to check if user is back
+            if (config.options.Behavior.IsFaceDetectionEnabled)
+            {
+                LogHelper.Debug("休息结束后启动人脸检测");
+
+                faceDetection.CameraRefreshed -= OnCameraRefreshedAfterRest;
+                faceDetection.CameraRefreshed += OnCameraRefreshedAfterRest;
+                faceDetection.Start();
+            }
         }
 
         private void leave_timer_Tick(object sender, EventArgs e)
@@ -330,6 +371,14 @@ namespace EyeProtect.Core.Service
         {
             DoStop();
             WindowManager.Close("TipWindow");
+            SystemEvents.PowerModeChanged -= OnPowerModeChanged;
+            config?.Changed -= Config_Changed;
+            rest?.RestCompleted -= Rest_RestCompleted;
+            if (faceDetection != null)
+            {
+                faceDetection.FaceDetected -= OnFaceDetected;
+                faceDetection.CameraRefreshed -= OnCameraRefreshedAfterRest;
+            }
         }
         #endregion
 
@@ -362,7 +411,7 @@ namespace EyeProtect.Core.Service
         {
             if (work_timer.Interval.TotalMinutes != minutes)
             {
-                LogHelper.Debug(work_timer.Interval.TotalMinutes + "," + minutes);
+                LogHelper.Info(work_timer.Interval.TotalMinutes + "," + minutes);
                 work_timer.Interval = new TimeSpan(0, minutes, 0);
                 if (!config.options.General.Noreset)
                 {
