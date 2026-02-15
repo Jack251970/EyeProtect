@@ -411,7 +411,7 @@ namespace EyeProtect.Core.Service
         {
             if (work_timer.Interval.TotalMinutes != minutes)
             {
-                LogHelper.Debug(work_timer.Interval.TotalMinutes + "," + minutes);
+                LogHelper.Info(work_timer.Interval.TotalMinutes + "," + minutes);
                 work_timer.Interval = new TimeSpan(0, minutes, 0);
                 if (!config.options.General.Noreset)
                 {

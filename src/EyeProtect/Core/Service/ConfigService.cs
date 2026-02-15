@@ -142,7 +142,7 @@ namespace EyeProtect.Core.Service
                     }
                 }
 
-                LogHelper.Debug(string.Format("{0}:{1},", name, value));
+                LogHelper.Info(string.Format("{0}:{1},", name, value));
             }
         }
 
