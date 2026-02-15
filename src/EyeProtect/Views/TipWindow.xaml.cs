@@ -78,14 +78,15 @@ namespace EyeProtect.Views
         /// </summary>
         private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (!IsSystemAnimationEnabled())
-            {
-                // If system animations are disabled, keep default behavior
-                return;
-            }
-
             if (IsVisible && !isAnimating)
             {
+                if (!IsSystemAnimationEnabled())
+                {
+                    // If system animations are disabled, activate immediately
+                    Activate();
+                    return;
+                }
+
                 // Set initial opacity to 0 for fade-in effect
                 Opacity = 0.0;
                 
