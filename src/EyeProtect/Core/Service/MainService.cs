@@ -216,7 +216,7 @@ namespace EyeProtect.Core.Service
         {
             if (IsCursorPosChanged())
             {
-                LogHelper.Debug("用户回来了");
+                LogHelper.Debug("用户回来了 - 通过鼠标检测");
                 back_timer.Stop();
                 
                 // Stop face detection when user comes back
