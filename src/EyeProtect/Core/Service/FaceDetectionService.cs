@@ -112,7 +112,7 @@ namespace EyeProtect.Core.Service
                 };
                 _detectionThread.Start();
 
-                LogHelper.Info("Face detection service started");
+                LogHelper.Debug("人脸检测启动");
             }
             catch (Exception ex)
             {
@@ -144,7 +144,7 @@ namespace EyeProtect.Core.Service
             _camera?.Dispose();
             _camera = null;
 
-            LogHelper.Info("Face detection service stopped");
+            LogHelper.Debug("人脸检测停止");
         }
 
         /// <summary>
