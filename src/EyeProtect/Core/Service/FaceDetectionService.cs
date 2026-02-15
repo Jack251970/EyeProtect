@@ -37,7 +37,8 @@ namespace EyeProtect.Core.Service
         public event EventHandler FaceDetected;
 
         /// <summary>
-        /// Occurs when the camera has been refreshed.
+        /// Raised once per detection cycle with the current face detection result.
+        /// The bool argument is true when a face is detected in the current frame.
         /// </summary>
         public event EventHandler<bool> CameraRefreshed;
 
