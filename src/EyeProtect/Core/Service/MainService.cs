@@ -218,7 +218,6 @@ namespace EyeProtect.Core.Service
             busy_timer.Stop();
 
             OnHandleTimeout?.Invoke(this, 0);
-
         }
 
         private void back_timer_Tick(object sender, EventArgs e)
