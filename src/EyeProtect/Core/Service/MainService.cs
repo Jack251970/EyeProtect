@@ -158,11 +158,9 @@ namespace EyeProtect.Core.Service
 
             config.Changed += Config_Changed;
 
-
             //加载语言
             HandleLanguageChanged();
-            
-            // Subscribe to rest completed event
+
             rest.RestCompleted += Rest_RestCompleted;
         }
         #endregion
