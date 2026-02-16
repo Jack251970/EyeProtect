@@ -3,8 +3,9 @@ using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using EyeProtect.Views;
 using iNKORE.UI.WPF.Modern;
-using EyeProtect.Models.Taskbar;
+using U5BFA.Libraries;
 
 namespace EyeProtect.Core.Service
 {
@@ -20,6 +21,7 @@ namespace EyeProtect.Core.Service
         private readonly Guid notifyIconGuid = new("F995B3D0-0F4B-415C-B343-F592296F2749");
 #endif
         private readonly SystemTrayIcon notifyIcon;
+        private readonly MainTrayIconFlyout trayIconFlyout;
 
         // Service
         private readonly MainService mainService;
@@ -62,7 +64,8 @@ namespace EyeProtect.Core.Service
             var iconUri = new Uri(ResourcePaths.Icons.Sunglasses, UriKind.RelativeOrAbsolute);
             var info = Application.GetResourceStream(iconUri);
             using var stream = info.Stream;
-            notifyIcon = new SystemTrayIcon(new Icon(stream), "Eye Protect", notifyIconGuid, true);
+            notifyIcon = new SystemTrayIcon(notifyIconGuid, new Icon(stream), "Eye Protect", true);
+            trayIconFlyout = new MainTrayIconFlyout(mainService);
         }
 
         private void MainService_OnLoadedLanguage(object service, int msg)
@@ -107,11 +110,23 @@ namespace EyeProtect.Core.Service
         {
             CreateTrayMenu();
 
+            notifyIcon.LeftClicked += NotifyIcon_LeftClicked;
             notifyIcon.MouseMoved += NotifyIcon_MouseMoved;
             notifyIcon.RightClicked += NotifyIcon_RightClicked;
             notifyIcon.Show();
 
             noresetTimer = new DispatcherTimer();
+        }
+
+        private void NotifyIcon_LeftClicked(object sender, MouseEventReceivedEventArgs e)
+        {
+            if (trayIconFlyout is null)
+                return;
+
+            if (trayIconFlyout.IsOpen)
+                trayIconFlyout.Hide();
+            else
+                trayIconFlyout.Show();
         }
 
         #region Events
