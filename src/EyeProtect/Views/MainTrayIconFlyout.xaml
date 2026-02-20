@@ -34,7 +34,7 @@
                     Margin="0 0 0 4"
                     HorizontalAlignment="Center"
                     Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
-                    Text="Next break in" />
+                    Text="{DynamicResource Lang_Thenextbreak}" />
                 <TextBlock
                     x:Name="TimerText"
                     HorizontalAlignment="Center"
@@ -79,13 +79,13 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Click="BtnSettings_Click"
-                    ToolTip="Settings">
+                    ToolTip="{DynamicResource Lang_Settings}">
                     <StackPanel>
                         <ui:FontIcon FontSize="16" Glyph="&#xE713;" />
                         <TextBlock
                             Margin="0 2 0 0"
                             FontSize="11"
-                            Text="Settings" />
+                            Text="{DynamicResource Lang_Settings}" />
                     </StackPanel>
                 </Button>
 
@@ -96,13 +96,13 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Click="BtnExit_Click"
-                    ToolTip="Quit">
+                    ToolTip="{DynamicResource Lang_Quit}">
                     <StackPanel>
                         <ui:FontIcon FontSize="16" Glyph="&#xE7E8;" />
                         <TextBlock
                             Margin="0 2 0 0"
                             FontSize="11"
-                            Text="Quit" />
+                            Text="{DynamicResource Lang_Quit}" />
                     </StackPanel>
                 </Button>
             </Grid>
