@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using EyeProtect.Views;
 using iNKORE.UI.WPF.Modern;
+using iNKORE.UI.WPF.Modern.Controls;
 using U5BFA.Libraries;
 
 namespace EyeProtect.Core.Service
@@ -54,7 +55,6 @@ namespace EyeProtect.Core.Service
             this.config = config;
             this.backgroundWorker = backgroundWorker;
             this.theme = theme;
-            this.config.Changed += new EventHandler(config_Changed);
             this.theme.OnChangedTheme += Theme_OnChangedTheme;
             mainService.OnLeaveEvent += MainService_OnLeaveEvent;
             mainService.OnStart += MainService_OnStart;
@@ -93,11 +93,10 @@ namespace EyeProtect.Core.Service
             }
             if (contextMenu != null && !config.options.General.Noreset)
             {
-                menuItem_NoReset.IsChecked = false;
-                menuItem_NoReset_OneHour.IsChecked = false;
-                menuItem_NoReset_TwoHour.IsChecked = false;
-                menuItem_NoReset_Forver.IsChecked = false;
-                menuItem_NoReset_Off.IsChecked = true;
+                menuItem_NoReset_OneHour.Icon = null;
+                menuItem_NoReset_TwoHour.Icon = null;
+                menuItem_NoReset_Forver.Icon = null;
+                menuItem_NoReset_Off.Icon = new FontIcon { Glyph = "\uE915" };
             }
         }
 
@@ -164,11 +163,6 @@ namespace EyeProtect.Core.Service
         private void MenuItem_NoReset_OneHour_Click(object sender, RoutedEventArgs e)
         {
             OnNoResetAction(sender, 1);
-        }
-
-        private void config_Changed(object sender, EventArgs e)
-        {
-            menuItem_NoReset.IsChecked = config.options.General.Noreset;
         }
 
         private void menuItem_Options_Click(object sender, EventArgs e)
@@ -271,7 +265,7 @@ namespace EyeProtect.Core.Service
             menuItem_NoReset_Off = new MenuItem
             {
                 Header = Application.Current.Resources["Lang_Disabled"],
-                IsChecked = true
+                Icon = new FontIcon { Glyph = "\uE915" }
             };
             menuItem_NoReset_Off.Click += MenuItem_NoReset_Off_Click;
 
@@ -315,17 +309,17 @@ namespace EyeProtect.Core.Service
         /// <param name="hour">-1时关闭；0打开；大于0则在到达设定的值（小时）后重新启动</param>
         public void SetNoReset(int hour)
         {
-            menuItem_NoReset_OneHour.IsChecked = false;
-            menuItem_NoReset_TwoHour.IsChecked = false;
-            menuItem_NoReset_Forver.IsChecked = false;
-            menuItem_NoReset_Off.IsChecked = false;
+            menuItem_NoReset_OneHour.Icon = null;
+            menuItem_NoReset_TwoHour.Icon = null;
+            menuItem_NoReset_Forver.Icon = null;
+            menuItem_NoReset_Off.Icon = null;
 
             if (hour == -1)
             {
                 //关闭
                 UpdateIcon(IconType.Sunglasses);
                 config.options.General.Noreset = false;
-                menuItem_NoReset_Off.IsChecked = true;
+                menuItem_NoReset_Off.Icon = new FontIcon { Glyph = "\uE915" };
                 mainService.Start();
 
                 noresetTimer.Stop();
@@ -335,7 +329,7 @@ namespace EyeProtect.Core.Service
                 //直到下次启动
                 UpdateIcon(IconType.Dizzy);
                 config.options.General.Noreset = true;
-                menuItem_NoReset_Forver.IsChecked = true;
+                menuItem_NoReset_Forver.Icon = new FontIcon { Glyph = "\uE915" };
                 mainService.Pause(false);
 
                 noresetTimer.Stop();
@@ -347,11 +341,11 @@ namespace EyeProtect.Core.Service
                 config.options.General.Noreset = true;
                 if (hour == 1)
                 {
-                    menuItem_NoReset_OneHour.IsChecked = true;
+                    menuItem_NoReset_OneHour.Icon = new FontIcon { Glyph = "\uE915" };
                 }
                 else if (hour == 2)
                 {
-                    menuItem_NoReset_TwoHour.IsChecked = true;
+                    menuItem_NoReset_TwoHour.Icon = new FontIcon { Glyph = "\uE915" };
                 }
                 mainService.Pause(false);
 
@@ -363,7 +357,7 @@ namespace EyeProtect.Core.Service
         private void NoresetTimer_Tick(object sender, EventArgs e)
         {
             SetNoReset(-1);
-            menuItem_NoReset_Off.IsChecked = true;
+            menuItem_NoReset_Off.Icon = new FontIcon { Glyph = "\uE915" };
             noresetTimer.Stop();
         }
 
@@ -373,7 +367,6 @@ namespace EyeProtect.Core.Service
             if (!item.IsChecked)
             {
                 SetNoReset(hour);
-                item.IsChecked = true;
             }
         }
 
