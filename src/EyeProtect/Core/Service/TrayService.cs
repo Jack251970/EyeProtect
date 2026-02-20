@@ -116,6 +116,7 @@ namespace EyeProtect.Core.Service
             notifyIcon.Show();
 
             noresetTimer = new DispatcherTimer();
+            noresetTimer.Tick += NoresetTimer_Tick;
         }
 
         private void NotifyIcon_LeftClicked(object sender, MouseEventReceivedEventArgs e)
@@ -343,15 +344,17 @@ namespace EyeProtect.Core.Service
                 mainService.Pause(false);
 
                 noresetTimer.Interval = new TimeSpan(hour, 0, 0);
-                noresetTimer.Tick += (e, c) =>
-                {
-                    SetNoReset(-1);
-                    menuItem_NoReset_Off.IsChecked = true;
-                    noresetTimer.Stop();
-                };
                 noresetTimer.Start();
             }
         }
+
+        private void NoresetTimer_Tick(object sender, EventArgs e)
+        {
+            SetNoReset(-1);
+            menuItem_NoReset_Off.IsChecked = true;
+            noresetTimer.Stop();
+        }
+
         private void OnNoResetAction(object sender, int hour)
         {
             var item = sender as MenuItem;
