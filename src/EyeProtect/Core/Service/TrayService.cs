@@ -16,9 +16,9 @@ namespace EyeProtect.Core.Service
     {
         // Icon
 #if DEBUG
-        private readonly Guid notifyIconGuid = new("A80B9DBC-DCE9-4F07-87C9-AE161869878C");
+        private readonly Guid notifyIconGuid = new("3C8FB3D8-F0E2-43E0-B777-16C3668C7EF3");
 #else
-        private readonly Guid notifyIconGuid = new("F995B3D0-0F4B-415C-B343-F592296F2749");
+        private readonly Guid notifyIconGuid = new("FCAE0D64-2D9C-4569-9439-5767B9C9D7AE");
 #endif
         private readonly SystemTrayIcon notifyIcon;
         private readonly MainTrayIconFlyout trayIconFlyout;
