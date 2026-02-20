@@ -312,7 +312,7 @@ namespace EyeProtect.Core.Service
         /// 设置不提醒操作
         /// </summary>
         /// <param name="hour">-1时关闭；0打开；大于0则在到达设定的值（小时）后重新启动</param>
-        private void SetNoReset(int hour)
+        public void SetNoReset(int hour)
         {
             config.options.General.Noreset = true;
             menuItem_NoReset_OneHour.IsChecked = false;
@@ -329,7 +329,6 @@ namespace EyeProtect.Core.Service
                 menuItem_NoReset.IsChecked = false;
                 mainService.Start();
                 UpdateIcon(IconType.Sunglasses);
-
             }
             else if (hour == 0)
             {
