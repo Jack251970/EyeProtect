@@ -204,4 +204,7 @@
     <sys:String x:Key="Lang_NotificationFullscreen">檢測到全屏應用程式</sys:String>
     <sys:String x:Key="Lang_NotificationIgnoredApp">正在運行忽略的應用程式</sys:String>
 
+    <sys:String x:Key="Lang_Pause">暫停</sys:String>
+    <sys:String x:Key="Lang_Resume">繼續</sys:String>
+
 </ResourceDictionary>

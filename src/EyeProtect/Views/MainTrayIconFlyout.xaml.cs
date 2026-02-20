@@ -70,16 +70,16 @@ namespace EyeProtect.Views
             {
                 StatusText.Text = Application.Current.Resources["Lang_Thenextbreak"] as string ?? "Next break in";
                 PauseIcon.Glyph = "\uE769"; // Pause icon
-                PauseText.Text = "Pause";
-                BtnPause.ToolTip = "Pause";
+                PauseText.Text = Application.Current.Resources["Lang_Pause"] as string ?? "Pause";
+                BtnPause.ToolTip = Application.Current.Resources["Lang_Pause"] as string ?? "Pause";
             }
             else
             {
                 StatusText.Text = Application.Current.Resources["Lang_Reminderisoff"] as string ?? "Reminder is off";
                 TimerText.Text = "--:--"; // Or keep showing time
                 PauseIcon.Glyph = "\uE768"; // Play icon
-                PauseText.Text = "Resume";
-                BtnPause.ToolTip = "Resume";
+                PauseText.Text = Application.Current.Resources["Lang_Resume"] as string ?? "Resume";
+                BtnPause.ToolTip = Application.Current.Resources["Lang_Resume"] as string ?? "Resume";
             }
         }
 
