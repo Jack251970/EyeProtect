@@ -93,10 +93,10 @@ namespace EyeProtect.Core.Service
             }
             if (contextMenu != null && !config.options.General.Noreset)
             {
+                menuItem_NoReset.IsChecked = false;
                 menuItem_NoReset_OneHour.IsChecked = false;
                 menuItem_NoReset_TwoHour.IsChecked = false;
                 menuItem_NoReset_Forver.IsChecked = false;
-                menuItem_NoReset.IsChecked = false;
                 menuItem_NoReset_Off.IsChecked = true;
             }
         }
@@ -315,32 +315,44 @@ namespace EyeProtect.Core.Service
         /// <param name="hour">-1时关闭；0打开；大于0则在到达设定的值（小时）后重新启动</param>
         public void SetNoReset(int hour)
         {
-            config.options.General.Noreset = true;
             menuItem_NoReset_OneHour.IsChecked = false;
             menuItem_NoReset_TwoHour.IsChecked = false;
             menuItem_NoReset_Forver.IsChecked = false;
             menuItem_NoReset_Off.IsChecked = false;
-            menuItem_NoReset.IsChecked = true;
-            noresetTimer.Stop();
-            UpdateIcon(IconType.Dizzy);
+
             if (hour == -1)
             {
                 //关闭
-                config.options.General.Noreset = false;
-                menuItem_NoReset.IsChecked = false;
-                mainService.Start();
                 UpdateIcon(IconType.Sunglasses);
+                config.options.General.Noreset = false;
+                menuItem_NoReset_Off.IsChecked = true;
+                mainService.Start();
+
+                noresetTimer.Stop();
             }
             else if (hour == 0)
             {
                 //直到下次启动
-                menuItem_NoReset.IsChecked = true;
+                UpdateIcon(IconType.Dizzy);
+                config.options.General.Noreset = true;
+                menuItem_NoReset_Forver.IsChecked = true;
                 mainService.Pause(false);
+
+                noresetTimer.Stop();
             }
             else
             {
                 //指定计时
-                menuItem_NoReset.IsChecked = true;
+                UpdateIcon(IconType.Dizzy);
+                config.options.General.Noreset = true;
+                if (hour == 1)
+                {
+                    menuItem_NoReset_OneHour.IsChecked = true;
+                }
+                else if (hour == 2)
+                {
+                    menuItem_NoReset_TwoHour.IsChecked = true;
+                }
                 mainService.Pause(false);
 
                 noresetTimer.Interval = new TimeSpan(hour, 0, 0);
