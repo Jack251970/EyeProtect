@@ -45,15 +45,20 @@
             </StackPanel>
 
             <!--  Quick Actions  -->
-            <UniformGrid
-                Grid.Row="2"
-                Margin="-4 12 -4 0"
-                Columns="3">
+            <Grid Grid.Row="2" Margin="-4 12 -4 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
                 <Button
                     x:Name="BtnPause"
+                    Grid.Column="0"
                     Margin="4"
-                    Click="BtnPause_Click"
-                    ToolTip="Pause/Resume">
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Click="BtnPause_Click">
                     <StackPanel>
                         <ui:FontIcon
                             x:Name="PauseIcon"
@@ -69,7 +74,10 @@
 
                 <Button
                     x:Name="BtnSettings"
+                    Grid.Column="1"
                     Margin="4"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
                     Click="BtnSettings_Click"
                     ToolTip="Settings">
                     <StackPanel>
@@ -83,9 +91,12 @@
 
                 <Button
                     x:Name="BtnExit"
+                    Grid.Column="2"
                     Margin="4"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
                     Click="BtnExit_Click"
-                    ToolTip="Quit EyeProtect">
+                    ToolTip="Quit">
                     <StackPanel>
                         <ui:FontIcon FontSize="16" Glyph="&#xE7E8;" />
                         <TextBlock
@@ -94,7 +105,7 @@
                             Text="Quit" />
                     </StackPanel>
                 </Button>
-            </UniformGrid>
+            </Grid>
         </Grid>
     </local:TrayIconFlyoutIsland>
 

@@ -71,6 +71,7 @@ namespace EyeProtect.Views
                 StatusText.Text = Application.Current.Resources["Lang_Thenextbreak"] as string ?? "Next break in";
                 PauseIcon.Glyph = "\uE769"; // Pause icon
                 PauseText.Text = "Pause";
+                BtnPause.ToolTip = "Pause";
             }
             else
             {
@@ -78,6 +79,7 @@ namespace EyeProtect.Views
                 TimerText.Text = "--:--"; // Or keep showing time
                 PauseIcon.Glyph = "\uE768"; // Play icon
                 PauseText.Text = "Resume";
+                BtnPause.ToolTip = "Resume";
             }
         }
 
