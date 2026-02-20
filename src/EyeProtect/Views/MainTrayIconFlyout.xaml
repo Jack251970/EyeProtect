@@ -7,22 +7,95 @@
     xmlns:local="clr-namespace:U5BFA.Libraries;assembly=TrayIconFlyout.Wpf"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
-    Width="360"
+    Width="320"
     mc:Ignorable="d">
 
-    <local:TrayIconFlyoutIsland Height="300">
-        <Button
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Content="Button">
-            <ui:FlyoutService.Flyout>
-                <ui:MenuFlyout>
-                    <MenuItem Header="A" />
-                    <MenuItem Header="A" />
-                    <MenuItem Header="A" />
-                </ui:MenuFlyout>
-            </ui:FlyoutService.Flyout>
-        </Button>
+    <local:TrayIconFlyoutIsland Height="260">
+        <Grid Margin="16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!--  Header  -->
+            <TextBlock
+                FontSize="16"
+                FontWeight="SemiBold"
+                Text="Eye Protect" />
+
+            <!--  Main Status / Timer  -->
+            <StackPanel
+                Grid.Row="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+                <TextBlock
+                    x:Name="StatusText"
+                    Margin="0 0 0 4"
+                    HorizontalAlignment="Center"
+                    Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
+                    Text="Next break in" />
+                <TextBlock
+                    x:Name="TimerText"
+                    HorizontalAlignment="Center"
+                    FontFamily="Segoe UI"
+                    FontSize="42"
+                    FontWeight="Light"
+                    Text="--" />
+            </StackPanel>
+
+            <!--  Quick Actions  -->
+            <UniformGrid
+                Grid.Row="2"
+                Margin="-4 12 -4 0"
+                Columns="3">
+                <Button
+                    x:Name="BtnPause"
+                    Margin="4"
+                    Click="BtnPause_Click"
+                    ToolTip="Pause/Resume">
+                    <StackPanel>
+                        <ui:FontIcon
+                            x:Name="PauseIcon"
+                            FontSize="16"
+                            Glyph="&#xE769;" />
+                        <TextBlock
+                            x:Name="PauseText"
+                            Margin="0 2 0 0"
+                            FontSize="11"
+                            Text="Pause" />
+                    </StackPanel>
+                </Button>
+
+                <Button
+                    x:Name="BtnSettings"
+                    Margin="4"
+                    Click="BtnSettings_Click"
+                    ToolTip="Settings">
+                    <StackPanel>
+                        <ui:FontIcon FontSize="16" Glyph="&#xE713;" />
+                        <TextBlock
+                            Margin="0 2 0 0"
+                            FontSize="11"
+                            Text="Settings" />
+                    </StackPanel>
+                </Button>
+
+                <Button
+                    x:Name="BtnExit"
+                    Margin="4"
+                    Click="BtnExit_Click"
+                    ToolTip="Quit EyeProtect">
+                    <StackPanel>
+                        <ui:FontIcon FontSize="16" Glyph="&#xE7E8;" />
+                        <TextBlock
+                            Margin="0 2 0 0"
+                            FontSize="11"
+                            Text="Quit" />
+                    </StackPanel>
+                </Button>
+            </UniformGrid>
+        </Grid>
     </local:TrayIconFlyoutIsland>
 
 </local:TrayIconFlyout>
