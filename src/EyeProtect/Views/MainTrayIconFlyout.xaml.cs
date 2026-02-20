@@ -75,7 +75,7 @@ namespace EyeProtect.Views
             }
             else
             {
-                StatusText.Text = Application.Current.Resources["Lang_Reminderisoff"] as string ?? "Paused";
+                StatusText.Text = Application.Current.Resources["Lang_Reminderisoff"] as string ?? "Reminder is off";
                 TimerText.Text = "--:--"; // Or keep showing time
                 PauseIcon.Glyph = "\uE768"; // Play icon
                 PauseText.Text = "Resume";
