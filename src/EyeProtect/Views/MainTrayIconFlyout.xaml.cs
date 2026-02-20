@@ -64,9 +64,7 @@ namespace EyeProtect.Views
             }
 
             // Update Status based solely on timer running state
-            bool isRunning = mainService.IsWorkTimerRun();
-
-            if (isRunning)
+            if (mainService.IsWorkTimerRun())
             {
                 StatusText.Text = Application.Current.Resources["Lang_Thenextbreak"] as string ?? "Next break in";
                 PauseIcon.Glyph = "\uE769"; // Pause icon
