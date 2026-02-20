@@ -65,7 +65,7 @@ namespace EyeProtect.Core.Service
             var info = Application.GetResourceStream(iconUri);
             using var stream = info.Stream;
             notifyIcon = new SystemTrayIcon(notifyIconGuid, new Icon(stream), "Eye Protect", true);
-            trayIconFlyout = new MainTrayIconFlyout(mainService);
+            trayIconFlyout = new MainTrayIconFlyout(mainService, config);
         }
 
         private void MainService_OnLoadedLanguage(object service, int msg)

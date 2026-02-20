@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Threading;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using EyeProtect.Core;
 using EyeProtect.Core.Service;
 using U5BFA.Libraries;
@@ -10,11 +11,13 @@ namespace EyeProtect.Views
     public partial class MainTrayIconFlyout : TrayIconFlyout
     {
         private readonly MainService mainService;
+        private readonly ConfigService config;
         private readonly DispatcherTimer uiTimer;
 
-        public MainTrayIconFlyout(MainService mainService) : base(new MainTrayIconFlyoutWindow())
+        public MainTrayIconFlyout(MainService mainService, ConfigService config) : base(new MainTrayIconFlyoutWindow())
         {
             this.mainService = mainService;
+            this.config = config;
             InitializeComponent();
 
             // Setup UI timer to update countdown
@@ -67,30 +70,36 @@ namespace EyeProtect.Views
             if (mainService.IsWorkTimerRun())
             {
                 StatusText.Text = Application.Current.Resources["Lang_Thenextbreak"] as string ?? "Next break in";
-                PauseIcon.Glyph = "\uE769"; // Pause icon
-                PauseText.Text = Application.Current.Resources["Lang_Pause"] as string ?? "Pause";
-                BtnPause.ToolTip = Application.Current.Resources["Lang_Pause"] as string ?? "Pause";
             }
             else
             {
                 StatusText.Text = Application.Current.Resources["Lang_Reminderisoff"] as string ?? "Reminder is off";
-                TimerText.Text = "--:--"; // Or keep showing time
+                TimerText.Text = "--:--"; // Show dashes when not running
+            }
+            if (config.options.General.Noreset)
+            {
                 PauseIcon.Glyph = "\uE768"; // Play icon
                 PauseText.Text = Application.Current.Resources["Lang_Resume"] as string ?? "Resume";
                 BtnPause.ToolTip = Application.Current.Resources["Lang_Resume"] as string ?? "Resume";
+            }
+            else
+            {
+                PauseIcon.Glyph = "\uE769"; // Pause icon
+                PauseText.Text = Application.Current.Resources["Lang_Pause"] as string ?? "Pause";
+                BtnPause.ToolTip = Application.Current.Resources["Lang_Pause"] as string ?? "Pause";
             }
         }
 
         private void BtnPause_Click(object sender, RoutedEventArgs e)
         {
-            // Simple toggle: Start if paused, Pause if running
-            if (mainService.IsWorkTimerRun())
+            var trayService = Ioc.Default.GetRequiredService<TrayService>();
+            if (!config.options.General.Noreset)
             {
-                mainService.Pause(false); // Pause without stopping statistic
+                trayService.SetNoReset(0);
             }
             else
             {
-                mainService.Start();
+                trayService.SetNoReset(-1);
             }
             UpdateStatus();
         }
