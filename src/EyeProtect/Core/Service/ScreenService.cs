@@ -20,7 +20,7 @@ namespace EyeProtect.Core.Service
             hwndSourceHook = new HwndSourceHook(WndProc);
 
             timer = new DispatcherTimer();
-            timer.Tick += new EventHandler(timer_Tick);
+            timer.Tick += timer_Tick;
             timer.Interval = new TimeSpan(0, 0, 3);
         }
 
@@ -42,7 +42,7 @@ namespace EyeProtect.Core.Service
                 //hookWindow.WindowState = WindowState.Minimized;
                 Visibility = Visibility.Hidden
             };
-            hookWindow.SourceInitialized += new EventHandler(hookWindow_SourceInitialized);
+            hookWindow.SourceInitialized += hookWindow_SourceInitialized;
             hookWindow.Show();
         }
 

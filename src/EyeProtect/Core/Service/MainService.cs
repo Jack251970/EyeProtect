@@ -107,24 +107,24 @@ namespace EyeProtect.Core.Service
 
             //初始化用眼计时器
             work_timer = new DispatcherTimer();
-            work_timer.Tick += new EventHandler(timer_Tick);
+            work_timer.Tick += timer_Tick;
             work_timer.Interval = new TimeSpan(0, config.options.General.WarnTime, 0);
             workTimerStopwatch = new Stopwatch();
             //初始化离开检测计时器
             leave_timer = new DispatcherTimer();
-            leave_timer.Tick += new EventHandler(leave_timer_Tick);
+            leave_timer.Tick += leave_timer_Tick;
             leave_timer.Interval = new TimeSpan(0, 5, 0);
             //初始化回来检测计时器
             back_timer = new DispatcherTimer();
-            back_timer.Tick += new EventHandler(back_timer_Tick);
+            back_timer.Tick += back_timer_Tick;
             back_timer.Interval = new TimeSpan(0, 1, 0);
             //初始化繁忙计时器
             busy_timer = new DispatcherTimer();
-            busy_timer.Tick += new EventHandler(busy_timer_Tick);
+            busy_timer.Tick += busy_timer_Tick;
             busy_timer.Interval = new TimeSpan(0, 0, 30);
 
             date_timer = new DispatcherTimer();
-            date_timer.Tick += new EventHandler(date_timer_Tick);
+            date_timer.Tick += date_timer_Tick;
             /****调试模式代码****/
 #if DEBUG
             //每30秒提示休息

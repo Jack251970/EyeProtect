@@ -34,7 +34,7 @@ namespace EyeProtect.Core.Service
             this.main = main;
             //初始化计时器
             timer = new DispatcherTimer();
-            timer.Tick += new EventHandler(timer_Tick);
+            timer.Tick += timer_Tick;
             timer.Interval = new TimeSpan(0, 0, 1);
         }
 

@@ -38,7 +38,7 @@ namespace EyeProtect.Core
             var objWindow = (Window)type.Assembly.CreateInstance(type.FullName);
             objWindow.Uid = name;
             objWindow.DataContext = viewModel;
-            objWindow.Closed += new EventHandler(window_closed);
+            objWindow.Closed += window_closed;
             if (left > -999999)
             {
                 objWindow.Left = left;
