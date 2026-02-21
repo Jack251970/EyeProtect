@@ -422,5 +422,94 @@ namespace EyeProtect.Core
         }
 
         #endregion
+
+        #region Global Input Hook
+
+        private static HOOKPROC _mouseHookProc;
+        private static HOOKPROC _keyboardHookProc;
+        private static HHOOK _mouseHook;
+        private static HHOOK _keyboardHook;
+
+        /// <summary>
+        /// Fires when mouse wheel, mouse click, or keyboard input activity is detected.
+        /// </summary>
+        public static event Action OnInputActivity;
+
+        /// <summary>
+        /// Registers global low-level hooks for mouse wheel, mouse click, and keyboard events.
+        /// </summary>
+        public static void RegisterInputActivityListener()
+        {
+            if (_mouseHookProc != null || _keyboardHookProc != null)
+                return;
+
+            _mouseHookProc = new HOOKPROC(MouseHookCallback);
+            _keyboardHookProc = new HOOKPROC(KeyboardHookCallback);
+
+            _mouseHook = PInvoke.SetWindowsHookEx(WINDOWS_HOOK_ID.WH_MOUSE_LL, _mouseHookProc, (HINSTANCE)nint.Zero, 0);
+            if (_mouseHook == default)
+            {
+                _mouseHookProc = null;
+                _keyboardHookProc = null;
+                throw new System.ComponentModel.Win32Exception("Error registering mouse input activity hook: " + Marshal.GetLastWin32Error());
+            }
+
+            _keyboardHook = PInvoke.SetWindowsHookEx(WINDOWS_HOOK_ID.WH_KEYBOARD_LL, _keyboardHookProc, (HINSTANCE)nint.Zero, 0);
+            if (_keyboardHook == default)
+            {
+                PInvoke.UnhookWindowsHookEx(_mouseHook);
+                _mouseHook = default;
+                _mouseHookProc = null;
+                _keyboardHookProc = null;
+                throw new System.ComponentModel.Win32Exception("Error registering keyboard input activity hook: " + Marshal.GetLastWin32Error());
+            }
+        }
+
+        /// <summary>
+        /// Unregisters the global low-level input hooks.
+        /// </summary>
+        public static void UnregisterInputActivityListener()
+        {
+            if (_mouseHookProc != null)
+            {
+                PInvoke.UnhookWindowsHookEx(_mouseHook);
+                _mouseHook = default;
+                _mouseHookProc = null;
+            }
+            if (_keyboardHookProc != null)
+            {
+                PInvoke.UnhookWindowsHookEx(_keyboardHook);
+                _keyboardHook = default;
+                _keyboardHookProc = null;
+            }
+        }
+
+        private static LRESULT MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
+        {
+            if (nCode >= 0)
+            {
+                var msg = (uint)wParam.Value;
+                if (msg is PInvoke.WM_LBUTTONDOWN or PInvoke.WM_RBUTTONDOWN or PInvoke.WM_MBUTTONDOWN or PInvoke.WM_XBUTTONDOWN or PInvoke.WM_MOUSEWHEEL)
+                {
+                    OnInputActivity?.Invoke();
+                }
+            }
+            return PInvoke.CallNextHookEx(_mouseHook, nCode, wParam, lParam);
+        }
+
+        private static LRESULT KeyboardHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
+        {
+            if (nCode >= 0)
+            {
+                var msg = (uint)wParam.Value;
+                if (msg is PInvoke.WM_KEYDOWN or PInvoke.WM_SYSKEYDOWN)
+                {
+                    OnInputActivity?.Invoke();
+                }
+            }
+            return PInvoke.CallNextHookEx(_keyboardHook, nCode, wParam, lParam);
+        }
+
+        #endregion
     }
 }
