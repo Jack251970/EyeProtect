@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Threading;
+using System.Windows;
 using System.Windows.Threading;
 using Emgu.CV;
 using EyeProtect.Core.Helpers;
@@ -25,7 +26,6 @@ namespace EyeProtect.Core.Service
         private volatile bool _wasFaceDetected; // Track previous state for edge detection
         private readonly Lock _lock = new();
         private Dispatcher _uiDispatcher;
-        private string _tempModelPath; // Store temp file path for cleanup
 
         // Detection parameters
         private const int DetectionIntervalMs = 1000; // Check every second
@@ -53,22 +53,21 @@ namespace EyeProtect.Core.Service
             {
                 // Initialize ONNX model from embedded resources
                 var modelUri = new Uri(ResourcePaths.Models.FaceDetection, UriKind.RelativeOrAbsolute);
-                var resourceInfo = System.Windows.Application.GetResourceStream(modelUri);
+                var resourceInfo = Application.GetResourceStream(modelUri);
 
                 if (resourceInfo != null)
                 {
-                    // Create a unique temporary file for the ONNX model since InferenceSession requires a file path
-                    _tempModelPath = Path.Combine(Path.GetTempPath(), $"Lightweight-Face-Detection-{Guid.NewGuid()}.onnx");
-
-                    using (var fileStream = File.Create(_tempModelPath))
+                    byte[] modelBytes;
                     using (var resourceStream = resourceInfo.Stream)
+                    using (var memoryStream = new MemoryStream())
                     {
-                        resourceStream.CopyTo(fileStream);
+                        resourceStream.CopyTo(memoryStream);
+                        modelBytes = memoryStream.ToArray();
                     }
 
                     var sessionOptions = new SessionOptions();
                     sessionOptions.RegisterOrtExtensions();
-                    _inferenceSession = new InferenceSession(_tempModelPath, sessionOptions);
+                    _inferenceSession = new InferenceSession(modelBytes, sessionOptions);
                 }
             }
             catch (Exception ex)
@@ -259,19 +258,6 @@ namespace EyeProtect.Core.Service
             Stop();
             _inferenceSession?.Dispose();
             _inferenceSession = null;
-
-            // Clean up temporary model file
-            if (!string.IsNullOrEmpty(_tempModelPath) && File.Exists(_tempModelPath))
-            {
-                try
-                {
-                    File.Delete(_tempModelPath);
-                }
-                catch (Exception ex)
-                {
-                    LogHelper.Warning($"Failed to delete temporary model file: {ex.Message}");
-                }
-            }
         }
     }
 }
