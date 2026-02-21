@@ -331,12 +331,12 @@ namespace EyeProtect.Core.Service
                 //用户离开了电脑
                 OnLeave();
             }
+
             SaveCursorPos();
         }
 
         private void date_timer_Tick(object sender, EventArgs e)
         {
-
             date_timer.Stop();
             if (!isDateTimerReset)
             {
