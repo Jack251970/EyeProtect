@@ -3,10 +3,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
-using Microsoft.Win32;
 using EyeProtect.Models.AppInfo;
 using Windows.Win32;
-using System.Threading;
 using CommunityToolkit.Mvvm.DependencyInjection;
 
 namespace EyeProtect.Core.Service
@@ -98,7 +96,7 @@ namespace EyeProtect.Core.Service
             this.notification = notification;
             this.mediaControl = mediaControl;
             this.faceDetection = faceDetection;
-            SystemEvents.PowerModeChanged += OnPowerModeChanged;
+            RegisterPowerEventListener();
         }
 
         #region 初始化
@@ -188,19 +186,50 @@ namespace EyeProtect.Core.Service
             HandleLanguageChanged();
         }
 
-        private void OnPowerModeChanged(object sender, PowerModeChangedEventArgs e)
+        private void RegisterPowerEventListener()
         {
-            switch (e.Mode)
+            // Fix for sound not playing after sleep / hibernate for both modern standby and legacy standby
+            // https://stackoverflow.com/questions/64805186/mediaplayer-doesnt-play-after-computer-sleeps
+            try
             {
-                case PowerModes.Suspend:
-                    //电脑休眠
-                    Pause();
-                    break;
-                case PowerModes.Resume:
-                    //电脑恢复
-                    Start();
-                    break;
+                Win32APIHelper.RegisterSleepModeListener((suspend) =>
+                {
+                    // We must run InitSoundEffects on UI thread because MediaPlayer is a DispatcherObject
+                    if (!Application.Current.Dispatcher.CheckAccess())
+                    {
+                        Application.Current.Dispatcher.Invoke(() => OnPowerModeChanged(suspend));
+                        return;
+                    }
+
+                    OnPowerModeChanged(suspend);
+                });
             }
+            catch (Exception e)
+            {
+                LogHelper.Error($"Failed to register sound effect event: {e}");
+            }
+        }
+
+        private static void UnregisterPowerEventListener()
+        {
+            try
+            {
+                Win32APIHelper.UnregisterSleepModeListener();
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error($"Failed to unregister sound effect event: {e}");
+            }
+        }
+
+        private void OnPowerModeChanged(bool suspend)
+        {
+            if (suspend)
+                //电脑休眠
+                Pause();
+            else
+                //电脑恢复
+                Start();
         }
 
         private void busy_timer_Tick(object sender, EventArgs e)
@@ -371,7 +400,7 @@ namespace EyeProtect.Core.Service
         {
             DoStop();
             WindowManager.Close("TipWindow");
-            SystemEvents.PowerModeChanged -= OnPowerModeChanged;
+            UnregisterPowerEventListener();
             config?.Changed -= Config_Changed;
             rest?.RestCompleted -= Rest_RestCompleted;
             if (faceDetection != null)

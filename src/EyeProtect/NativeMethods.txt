@@ -66,3 +66,12 @@ CreateWindowEx
 DestroyWindow
 
 WM_DISPLAYCHANGE
+
+DEVICE_NOTIFY_SUBSCRIBE_PARAMETERS
+WM_POWERBROADCAST
+PBT_APMRESUMEAUTOMATIC
+PBT_APMRESUMESUSPEND
+PBT_APMSUSPEND
+PowerRegisterSuspendResumeNotification
+PowerUnregisterSuspendResumeNotification
+DeviceNotifyCallbackRoutine
