@@ -1,42 +1,42 @@
 # Eye Protect
 
-一个基于 `20-20-20` 规则的用眼休息提醒软件（Windows），帮助你保持健康的工作状态，追踪每天的用眼情况。
+An eye rest reminder software (Windows) based on the `20-20-20` rule, helping you maintain a healthy work state and track your daily eye usage.
 
-你可以设定好提醒间隔时间（默认20分钟）和休息时间（默认20秒），当程序启动后开始计时，每到达一次提醒间隔时间，就会弹出一个覆盖全屏幕的窗口提示该休息了。默认情况下你可以选择 `跳过` 或 `开始休息` ，选择 `跳过` 窗口将关闭并重新开始计时，选择 `开始休息` 程序会以从设定的休息时间（秒）开始倒计时，此时你应该将视线离开屏幕眺望远方至少6米远处放松双眼，当倒计时结束程序会播放提示音通知你。
+You can set the reminder interval (default 20 minutes) and break duration (default 20 seconds). When the program starts, the timer begins. Each time the reminder interval is reached, a full-screen window will pop up to remind you to take a break. By default, you can choose to `Skip` or `Start Break`. Selecting `Skip` will close the window and restart the timer. Selecting `Start Break` will start a countdown from the set break duration (seconds). During this time, you should look away from the screen and focus on something at least 6 meters away to relax your eyes. When the countdown ends, the program will play a notification sound.
 
-## 什么是20-20-20规则
+## What is the 20-20-20 Rule
 
-即每 **20** 分钟，将注意力集中在至少 **20** 英尺（ **6** 米）远的地方 **20** 秒。遵循这个规则可以有效地缓解你的用眼疲劳，保护视力健康。
+Every **20** minutes, focus your attention on something at least **20** feet (**6** meters) away for **20** seconds. Following this rule can effectively relieve eye strain and protect your vision health.
 
-[参考资料：https://opto.ca/health-library/the-20-20-20-rule](https://opto.ca/health-library/the-20-20-20-rule)
+[Reference: https://opto.ca/health-library/the-20-20-20-rule](https://opto.ca/health-library/the-20-20-20-rule)
 
-## 亮点
+## Features
 
-- 全屏状态（全屏游戏、全屏看视频）免打扰功能；
-- 进程跳过白名单设置功能，在运行白名单中的程序时不弹出提醒；
-- 多个扩展显示器支持；
-- 离开监听，当检测到用户离开电脑时停止计时直到回来
+- Do Not Disturb mode for full-screen status (full-screen games, full-screen videos);
+- Process whitelist setting to skip reminders when running specific programs;
+- Support for multiple extended monitors;
+- Away detection: pauses the timer when it detects the user has left the computer until they return.
 
-*部分功能需要自行在选项中开启才生效。*
+*Some features need to be manually enabled in the options to take effect.*
 
-## 本地编译
+## Local Build
 
 ```
 dotnet publish src\EyeProtect\EyeProtect.csproj -p:PublishProfile=Net10.0-Win64.pubxml
 ```
 
-## 下载安装
+## Download and Install
 
-你可以在这里 [Releases](https://github.com/Jack251970/EyeProtect/releases) 下载所有发布版本编译好的EXE文件，直接双击EyeProtect.exe即可运行，无需安装。
+You can download the compiled EXE files for all releases here: [Releases](https://github.com/Jack251970/EyeProtect/releases). Just double-click EyeProtect.exe to run, no installation required.
 
-成功启动后你将在右下角的状态栏中看到 😎 图标，右键显示菜单。
+After successful launch, you will see the 😎 icon in the system tray at the bottom right corner. Right-click to show the menu.
 
-## 运行环境
+## Runtime Environment
 
-OS: Windows10/11
+OS: Windows 10/11
 
-Runtime: [.NET 10.0](https://dotnet.microsoft.com/download/dotnet/10.0) 
+Runtime: [.NET 10.0](https://dotnet.microsoft.com/download/dotnet/10.0)
 
-## 其他
+## Other
 
-[帮助文档](https://littlepanda.gitbook.io/project-eye/)
+[Help Documentation](https://github.com/Jack251970/EyeProtect/wiki)
