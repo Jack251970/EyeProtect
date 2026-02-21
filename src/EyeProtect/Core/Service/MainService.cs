@@ -232,8 +232,7 @@ namespace EyeProtect.Core.Service
         {
             try
             {
-                Win32APIHelper.OnInputActivity += OnInputActivityDetected;
-                Win32APIHelper.RegisterInputActivityListener();
+                Win32APIHelper.RegisterInputActivityListener(OnInputActivityDetected);
             }
             catch (Exception e)
             {
@@ -241,11 +240,10 @@ namespace EyeProtect.Core.Service
             }
         }
 
-        private void UnregisterInputActivityListener()
+        private static void UnregisterInputActivityListener()
         {
             try
             {
-                Win32APIHelper.OnInputActivity -= OnInputActivityDetected;
                 Win32APIHelper.UnregisterInputActivityListener();
             }
             catch (Exception e)

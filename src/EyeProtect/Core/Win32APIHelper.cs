@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using EyeProtect.Models;
@@ -429,19 +428,17 @@ namespace EyeProtect.Core
         private static HOOKPROC _keyboardHookProc;
         private static HHOOK _mouseHook;
         private static HHOOK _keyboardHook;
-
-        /// <summary>
-        /// Fires when mouse wheel, mouse click, or keyboard input activity is detected.
-        /// </summary>
-        public static event Action OnInputActivity;
+        private static Action _func1;
 
         /// <summary>
         /// Registers global low-level hooks for mouse wheel, mouse click, and keyboard events.
         /// </summary>
-        public static void RegisterInputActivityListener()
+        public static void RegisterInputActivityListener(Action func)
         {
             if (_mouseHookProc != null || _keyboardHookProc != null)
                 return;
+
+            _func1 = func;
 
             _mouseHookProc = new HOOKPROC(MouseHookCallback);
             _keyboardHookProc = new HOOKPROC(KeyboardHookCallback);
@@ -451,7 +448,7 @@ namespace EyeProtect.Core
             {
                 _mouseHookProc = null;
                 _keyboardHookProc = null;
-                throw new System.ComponentModel.Win32Exception("Error registering mouse input activity hook: " + Marshal.GetLastWin32Error());
+                throw new Win32Exception("Error registering mouse input activity hook: " + Marshal.GetLastWin32Error());
             }
 
             _keyboardHook = PInvoke.SetWindowsHookEx(WINDOWS_HOOK_ID.WH_KEYBOARD_LL, _keyboardHookProc, (HINSTANCE)nint.Zero, 0);
@@ -461,7 +458,7 @@ namespace EyeProtect.Core
                 _mouseHook = default;
                 _mouseHookProc = null;
                 _keyboardHookProc = null;
-                throw new System.ComponentModel.Win32Exception("Error registering keyboard input activity hook: " + Marshal.GetLastWin32Error());
+                throw new Win32Exception("Error registering keyboard input activity hook: " + Marshal.GetLastWin32Error());
             }
         }
 
@@ -491,7 +488,7 @@ namespace EyeProtect.Core
                 var msg = (uint)wParam.Value;
                 if (msg is PInvoke.WM_LBUTTONDOWN or PInvoke.WM_RBUTTONDOWN or PInvoke.WM_MBUTTONDOWN or PInvoke.WM_XBUTTONDOWN or PInvoke.WM_MOUSEWHEEL)
                 {
-                    OnInputActivity?.Invoke();
+                    _func1?.Invoke();
                 }
             }
             return PInvoke.CallNextHookEx(_mouseHook, nCode, wParam, lParam);
@@ -504,7 +501,7 @@ namespace EyeProtect.Core
                 var msg = (uint)wParam.Value;
                 if (msg is PInvoke.WM_KEYDOWN or PInvoke.WM_SYSKEYDOWN)
                 {
-                    OnInputActivity?.Invoke();
+                    _func1?.Invoke();
                 }
             }
             return PInvoke.CallNextHookEx(_keyboardHook, nCode, wParam, lParam);

@@ -87,4 +87,3 @@ PBT_APMRESUMESUSPEND
 PBT_APMSUSPEND
 PowerRegisterSuspendResumeNotification
 PowerUnregisterSuspendResumeNotification
-DeviceNotifyCallbackRoutine
