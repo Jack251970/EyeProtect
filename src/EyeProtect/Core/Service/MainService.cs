@@ -40,6 +40,11 @@ namespace EyeProtect.Core.Service
         /// </summary>
         private bool isDateTimerReset;
 
+        /// <summary>
+        /// 指示自上次检测以来是否有鼠标滚轮、鼠标点击或键盘输入活动
+        /// </summary>
+        private volatile bool _hasInputActivity;
+
         private readonly ConfigService config;
         private readonly CacheService cache;
         private readonly SystemResourcesService systemResources;
@@ -97,6 +102,7 @@ namespace EyeProtect.Core.Service
             this.mediaControl = mediaControl;
             this.faceDetection = faceDetection;
             RegisterPowerEventListener();
+            RegisterInputActivityListener();
         }
 
         #region 初始化
@@ -222,6 +228,38 @@ namespace EyeProtect.Core.Service
             }
         }
 
+        private void RegisterInputActivityListener()
+        {
+            try
+            {
+                Win32APIHelper.RegisterInputActivityListener(OnInputActivityDetected);
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error($"Failed to register input activity event: {e}");
+            }
+        }
+
+        private static void UnregisterInputActivityListener()
+        {
+            try
+            {
+                Win32APIHelper.UnregisterInputActivityListener();
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error($"Failed to unregister input activity event: {e}");
+            }
+        }
+
+        /// <summary>
+        /// 鼠标滚轮、鼠标点击或键盘事件检测到输入活动时触发
+        /// </summary>
+        private void OnInputActivityDetected()
+        {
+            _hasInputActivity = true;
+        }
+
         private void OnPowerModeChanged(bool suspend)
         {
             if (suspend)
@@ -243,9 +281,10 @@ namespace EyeProtect.Core.Service
 
         private void back_timer_Tick(object sender, EventArgs e)
         {
-            if (IsCursorPosChanged())
+            if (IsCursorPosChanged() || _hasInputActivity)
             {
-                LogHelper.Debug("用户回来了 - 通过鼠标检测");
+                LogHelper.Debug("用户回来了 - 通过输入检测");
+                _hasInputActivity = false;
                 back_timer.Stop();
                 
                 // Stop face detection when user comes back
@@ -415,6 +454,7 @@ namespace EyeProtect.Core.Service
             DoStop();
             WindowManager.Close("TipWindow");
             UnregisterPowerEventListener();
+            UnregisterInputActivityListener();
             config?.Changed -= Config_Changed;
             rest?.RestCompleted -= Rest_RestCompleted;
             if (faceDetection != null)
@@ -648,7 +688,10 @@ namespace EyeProtect.Core.Service
         /// <returns></returns>
         private bool IsUserLeave()
         {
-            if (!IsCursorPosChanged() && !mediaControl.IsMediaPlaying())
+            var hasActivity = _hasInputActivity;
+            _hasInputActivity = false;
+
+            if (!IsCursorPosChanged() && !hasActivity && !mediaControl.IsMediaPlaying())
             {
                 return true;
             }
