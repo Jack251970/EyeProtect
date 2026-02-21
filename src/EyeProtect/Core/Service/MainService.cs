@@ -285,6 +285,12 @@ namespace EyeProtect.Core.Service
             {
                 LogHelper.Debug("休息结束后人脸检测到用户仍在");
                 faceDetection.Stop();
+
+                // Resume media if enabled
+                if (config.options.Behavior.IsAutoPauseMedia)
+                {
+                    mediaControl.ResumeMedia();
+                }
             }
             //用户在休息时间离开了电脑
             else
@@ -307,6 +313,14 @@ namespace EyeProtect.Core.Service
                 faceDetection.CameraRefreshed -= OnCameraRefreshedAfterRest;
                 faceDetection.CameraRefreshed += OnCameraRefreshedAfterRest;
                 faceDetection.Start();
+            }
+            // If face detection is not enabled, just resume media if user is back (if enabled)
+            else
+            {
+                if (config.options.Behavior.IsAutoPauseMedia)
+                {
+                    mediaControl.ResumeMedia();
+                }
             }
         }
 

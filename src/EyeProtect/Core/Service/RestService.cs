@@ -26,15 +26,12 @@ namespace EyeProtect.Core.Service
         public event RestEventHandler RestStart;
         private readonly ConfigService config;
         private readonly MainService main;
-        private readonly MediaControlService mediaControl;
         public RestService(
             ConfigService config,
-            MainService main,
-            MediaControlService mediaControl)
+            MainService main)
         {
             this.config = config;
             this.main = main;
-            this.mediaControl = mediaControl;
             //初始化计时器
             timer = new DispatcherTimer();
             timer.Tick += new EventHandler(timer_Tick);
@@ -69,11 +66,6 @@ namespace EyeProtect.Core.Service
             timed = config.options.General.RestTime;
             main.ReStartWorkTimerWatch();
             OnResetCompleted();
-            // Resume media when tip window is hidden (if enabled)
-            if (config.options.Behavior.IsAutoPauseMedia)
-            {
-                mediaControl.ResumeMedia();
-            }
         }
         private void timer_Tick(object sender, EventArgs e)
         {

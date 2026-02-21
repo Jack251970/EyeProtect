@@ -31,8 +31,8 @@ namespace EyeProtect.ViewModels
             MediaControlService mediaControl)
         {
             this.reset = reset;
-            this.reset.TimeChanged += new RestEventHandler(timeChanged);
-            this.reset.RestCompleted += new RestEventHandler(resetCompleted);
+            this.reset.TimeChanged += timeChanged;
+            this.reset.RestCompleted += resetCompleted;
 
             this.sound = sound;
             this.config = config;
