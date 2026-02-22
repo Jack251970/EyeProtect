@@ -67,9 +67,9 @@
 
   <Target Name="RemoveUnnecessaryLibFilesAfterBuild" AfterTargets="Build">
     <ItemGroup>
-      <LibFilesToRemove Include="$(OutputPath)**\*.lib" />
+      <LibFilesToRemoveBuild Include="$(OutputPath)**\*.lib" />
     </ItemGroup>
-    <Delete Files="@(LibFilesToRemove)" />
+    <Delete Files="@(LibFilesToRemoveBuild)" />
   </Target>
 
   <Target Name="RemoveUnnecessaryLibFilesAfterPublish" AfterTargets="Publish">
