@@ -2,6 +2,19 @@
   <Configurations>
     <Platform Name="x64" />
   </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".github/dependabot.yml" />
+    <File Path=".github/FUNDING.yml" />
+    <File Path=".github/workflows/build.yml" />
+    <File Path=".github/workflows/pr_assignee.yml" />
+    <File Path=".github/workflows/remove-old-artifacts.yml" />
+    <File Path=".gitignore" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+    <File Path="Settings.XamlStyler" />
+  </Folder>
   <Project Path="src/EyeProtect/EyeProtect.csproj">
     <Platform Project="x64" />
   </Project>
