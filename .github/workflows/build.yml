@@ -52,4 +52,4 @@ jobs:
 
       # Run the build task
       - name: Run build task
-        run: dotnet run --project ${{ env.Project_Path }}
+        run: dotnet build ${{ env.Project_Path }} --no-restore --configuration Release
