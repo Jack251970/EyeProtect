@@ -27,7 +27,7 @@ namespace EyeProtect.Models.Settings
         private ObservableCollection<AppInfo.AppInfo> breakProgressList = [];
 
         /// <summary>
-        /// 是否禁用跳过休息（为true时将不允许跳过而是直接进入休息
+        /// 是否禁用跳过休息（为true时将不允许跳过而是直接进入休息）
         /// </summary>
         [ObservableProperty]
         private bool isDisabledSkip = false;
