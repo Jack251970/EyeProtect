@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using EyeProtect.Core;
 using EyeProtect.Core.Service;
@@ -24,26 +25,21 @@ namespace EyeProtect.ViewModels
 
         public event ViewModelEventHandler ChangedEvent;
 
-        public TipViewModel(RestService reset,
-            SoundService sound,
-            ConfigService config,
-            MainService main,
-            ThemeService theme,
-            MediaControlService mediaControl)
+        public TipViewModel()
         {
-            this.reset = reset;
-            this.reset.TimeChanged += timeChanged;
-            this.reset.RestCompleted += resetCompleted;
+            reset = Ioc.Default.GetRequiredService<RestService>();
+            reset.TimeChanged += timeChanged;
+            reset.RestCompleted += resetCompleted;
 
-            this.sound = sound;
-            this.config = config;
-            this.config.options.General.PropertyChanged += config_Changed;
-            this.config.options.Style.PropertyChanged += config_Changed;
-            this.config.options.Behavior.PropertyChanged += config_Changed;
+            sound = Ioc.Default.GetRequiredService<SoundService>();
+            config = Ioc.Default.GetRequiredService<ConfigService>();
+            config.options.General.PropertyChanged += config_Changed;
+            config.options.Style.PropertyChanged += config_Changed;
+            config.options.Behavior.PropertyChanged += config_Changed;
 
-            this.main = main;
-            this.mediaControl = mediaControl;
-            theme.OnChangedTheme += Theme_OnChangedTheme;
+            main = Ioc.Default.GetRequiredService<MainService>();
+            mediaControl = Ioc.Default.GetRequiredService<MediaControlService>();
+            Ioc.Default.GetRequiredService<ThemeService>().OnChangedTheme += Theme_OnChangedTheme;
             ChangedEvent += TipViewModel_ChangedEvent;
             main.OnHandleTimeout += Main_OnHandleTimeout;
             LoadConfig();
