@@ -56,6 +56,27 @@ namespace EyeProtect.Core.Service
                 };
                 Save();
             }
+            else
+            {
+                if (options.General == null)
+                {
+                    options.General = new GeneralModel();
+                    Save();
+                }
+                if (options.Style == null)
+                {
+                    options.Style = new StyleModel()
+                    {
+                        Language = systemResources.Languages[0]
+                    };
+                    Save();
+                }
+                if (options.Behavior == null)
+                {
+                    options.Behavior = new BehaviorModel();
+                    Save();
+                }
+            }
 
             // Reset flag
             options.General.Noreset = false;
