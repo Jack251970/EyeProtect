@@ -126,11 +126,6 @@ namespace EyeProtect.ViewModels
             // Save the configuration
             config.Save();
 
-            if (_disposed)
-            {
-                return;
-            }
-
             // Handle specific property changes
             if (propertyName == nameof(Data.General.Startup))
             {
