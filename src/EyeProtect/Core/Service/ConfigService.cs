@@ -157,7 +157,7 @@ namespace EyeProtect.Core.Service
 
         public void Dispose()
         {
-            Save();
+
         }
     }
 }
