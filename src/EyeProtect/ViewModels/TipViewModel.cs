@@ -1,12 +1,13 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using CommunityToolkit.Mvvm.Input;
-using iNKORE.UI.WPF.Modern;
 using EyeProtect.Core;
 using EyeProtect.Core.Service;
 using EyeProtect.Models;
+using iNKORE.UI.WPF.Modern;
 
 namespace EyeProtect.ViewModels
 {
@@ -36,7 +37,9 @@ namespace EyeProtect.ViewModels
 
             this.sound = sound;
             this.config = config;
-            this.config.Changed += config_Changed;
+            this.config.options.General.PropertyChanged += config_Changed;
+            this.config.options.Style.PropertyChanged += config_Changed;
+            this.config.options.Behavior.PropertyChanged += config_Changed;
 
             this.main = main;
             this.mediaControl = mediaControl;
@@ -207,9 +210,16 @@ namespace EyeProtect.ViewModels
         }
 
         //配置文件被修改时
-        private void config_Changed(object sender, EventArgs e)
+        private void config_Changed(object sender, PropertyChangedEventArgs e)
         {
-            LoadConfig();
+            switch (e.PropertyName)
+            {
+                case nameof(config.options.General.RestTime):
+                case nameof(config.options.General.WarnTime):
+                case nameof(config.options.Style.TipContent):
+                    LoadConfig();
+                    break;
+            }
         }
 
         private void resetCompleted(object sender, int timed)
