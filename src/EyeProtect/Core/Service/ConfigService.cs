@@ -81,8 +81,10 @@ namespace EyeProtect.Core.Service
 
             // Reset flag
             options.General.Noreset = false;
+
+            LogHelper.Info("ConfigService initialized. Config loaded.");
         }
-        
+
         public bool Save()
         {
             if (options != null)
