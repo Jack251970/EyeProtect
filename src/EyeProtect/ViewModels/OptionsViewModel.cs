@@ -84,16 +84,16 @@ namespace EyeProtect.ViewModels
         /// </summary>
         private void UnsubscribeFromPropertyChanges()
         {
-            // Subscribe to General settings changes
+            // Unsubscribe to General settings changes
             Data.General.PropertyChanged -= OnGeneralPropertyChanged;
 
-            // Subscribe to Style settings changes
+            // Unsubscribe to Style settings changes
             Data.Style.PropertyChanged -= OnStylePropertyChanged;
 
-            // Subscribe to Behavior settings changes
+            // Unsubscribe to Behavior settings changes
             Data.Behavior.PropertyChanged -= OnBehaviorPropertyChanged;
 
-            // Subscribe to collection changes for BreakProgressList
+            // Unsubscribe to collection changes for BreakProgressList
             Data.Behavior.BreakProgressList.CollectionChanged -= OnBreakProgressListChanged;
         }
 
