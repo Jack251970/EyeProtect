@@ -1,40 +1,64 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using EyeProtect.Core;
 using EyeProtect.Core.Service;
-using EyeProtect.Models;
+using EyeProtect.Models.AppInfo;
+using EyeProtect.Models.Settings;
 using EyeProtect.Views;
 
 namespace EyeProtect.ViewModels
 {
-    public partial class OptionsViewModel : IDisposable
+    public partial class OptionsViewModel : ObservableObject, IDisposable
     {
-        public OptionsModel Model { get; set; }
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(BreakProgressListVisibility))]
+        private OptionsModel data;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(VersionLink))]
+        private string version;
+
+        public string VersionLink => "https://github.com/Jack251970/EyeProtect/releases/tag/" + Version;
+        public AppInfo SelectedItem { get; set; }
+        public List<ComboxModel> Languages { get; set; }
+
+        public bool IsBreakProgressList
+        {
+            get => Data?.Behavior.IsBreakProgressList ?? false;
+            set
+            {
+                if (Data != null)
+                {
+                    Data.Behavior.IsBreakProgressList = value;
+                    OnPropertyChanged(nameof(IsBreakProgressList));
+                    OnPropertyChanged(nameof(BreakProgressListVisibility));
+                }
+            }
+        }
+
+        public Visibility BreakProgressListVisibility => (Data?.Behavior.IsBreakProgressList ?? false) ? Visibility.Visible : Visibility.Collapsed;
 
         private readonly ConfigService config;
         private readonly MainService mainService;
         private bool _disposed = false;
 
-        public OptionsViewModel(ConfigService config,
-            MainService mainService,
-            SystemResourcesService systemResources)
+        public OptionsViewModel()
         {
-            this.config = config;
-            this.mainService = mainService;
-            Model = new OptionsModel
-            {
-                Data = config.options,
-                Languages = systemResources.Languages
-            };
-
+            config = Ioc.Default.GetRequiredService<ConfigService>();
+            mainService = Ioc.Default.GetRequiredService<MainService>();
+            Data = config.options;
+            Languages = Ioc.Default.GetRequiredService<SystemResourcesService>().Languages;
             var version = Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.');
-            Model.Version = version[0] + "." + version[1] + "." + version[2];
+            Version = version[0] + "." + version[1] + "." + version[2];
         }
 
         /// <summary>
@@ -42,23 +66,17 @@ namespace EyeProtect.ViewModels
         /// </summary>
         public void SubscribeToPropertyChanges()
         {
-            if (Model.Data != null)
-            {
-                // Subscribe to General settings changes
-                Model.Data.General?.PropertyChanged += OnGeneralPropertyChanged;
+            // Subscribe to General settings changes
+            Data.General.PropertyChanged += OnGeneralPropertyChanged;
 
-                // Subscribe to Style settings changes
-                Model.Data.Style?.PropertyChanged += OnStylePropertyChanged;
+            // Subscribe to Style settings changes
+            Data.Style.PropertyChanged += OnStylePropertyChanged;
 
-                // Subscribe to Behavior settings changes
-                if (Model.Data.Behavior != null)
-                {
-                    Model.Data.Behavior.PropertyChanged += OnBehaviorPropertyChanged;
-                    
-                    // Subscribe to collection changes for BreakProgressList
-                    Model.Data.Behavior.BreakProgressList.CollectionChanged += OnBreakProgressListChanged;
-                }
-            }
+            // Subscribe to Behavior settings changes
+            Data.Behavior.PropertyChanged += OnBehaviorPropertyChanged;
+
+            // Subscribe to collection changes for BreakProgressList
+            Data.Behavior.BreakProgressList.CollectionChanged += OnBreakProgressListChanged;
         }
 
         /// <summary>
@@ -66,18 +84,17 @@ namespace EyeProtect.ViewModels
         /// </summary>
         private void UnsubscribeFromPropertyChanges()
         {
-            if (Model.Data != null)
-            {
-                Model.Data.General?.PropertyChanged -= OnGeneralPropertyChanged;
+            // Unsubscribe to General settings changes
+            Data.General.PropertyChanged -= OnGeneralPropertyChanged;
 
-                Model.Data.Style?.PropertyChanged -= OnStylePropertyChanged;
+            // Unsubscribe to Style settings changes
+            Data.Style.PropertyChanged -= OnStylePropertyChanged;
 
-                if (Model.Data.Behavior != null)
-                {
-                    Model.Data.Behavior.PropertyChanged -= OnBehaviorPropertyChanged;
-                    Model.Data.Behavior.BreakProgressList.CollectionChanged -= OnBreakProgressListChanged;
-                }
-            }
+            // Unsubscribe to Behavior settings changes
+            Data.Behavior.PropertyChanged -= OnBehaviorPropertyChanged;
+
+            // Unsubscribe to collection changes for BreakProgressList
+            Data.Behavior.BreakProgressList.CollectionChanged -= OnBreakProgressListChanged;
         }
 
         private void OnGeneralPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -106,20 +123,15 @@ namespace EyeProtect.ViewModels
         /// <param name="propertyName">The name of the property that changed</param>
         private void OnSettingChanged(string propertyName)
         {
-            if (_disposed)
-            {
-                return;
-            }
-
             // Save the configuration
             config.Save();
 
             // Handle specific property changes
-            if (propertyName == nameof(Model.Data.General.Startup))
+            if (propertyName == nameof(Data.General.Startup))
             {
                 StartupHelper.SetStartup(config.options.General.Startup);
             }
-            else if (propertyName == nameof(Model.Data.General.WarnTime))
+            else if (propertyName == nameof(Data.General.WarnTime))
             {
                 mainService.SetWarnTime(config.options.General.WarnTime);
             }
@@ -144,7 +156,7 @@ namespace EyeProtect.ViewModels
         [RelayCommand]
         private void RemoveBreackProcess(object obj)
         {
-            Model.Data.Behavior.BreakProgressList.Remove(Model.SelectedItem);
+            Data.Behavior.BreakProgressList.Remove(SelectedItem);
         }
 
         /// <summary>
@@ -155,7 +167,7 @@ namespace EyeProtect.ViewModels
         private void AddBreackProcess(Button button)
         {
             // Show AppSelectionDialog and select an application
-            var dialog = new AppSelectionWindow(Model.Data.Behavior.BreakProgressList)
+            var dialog = new AppSelectionWindow(Data.Behavior.BreakProgressList)
             {
                 Owner = Window.GetWindow(button)
             };
@@ -166,13 +178,13 @@ namespace EyeProtect.ViewModels
                 var addedApp = dialog.ViewModel.SelectedApp;
                 
                 // Check if app already exists in the list (additional safety check)
-                var existingApp = Model.Data.Behavior.BreakProgressList.FirstOrDefault(a => 
+                var existingApp = Data.Behavior.BreakProgressList.FirstOrDefault(a => 
                     a.Equals(addedApp));
                 
                 if (existingApp == null)
                 {
-                    Model.Data.Behavior.BreakProgressList.Add(addedApp);
-                    Model.SelectedItem = null; // Clear selection after adding
+                    Data.Behavior.BreakProgressList.Add(addedApp);
+                    SelectedItem = null; // Clear selection after adding
                 }
             }
         }

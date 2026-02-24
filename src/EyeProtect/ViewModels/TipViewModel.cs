@@ -1,16 +1,18 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using iNKORE.UI.WPF.Modern;
 using EyeProtect.Core;
 using EyeProtect.Core.Service;
 using EyeProtect.Models;
+using iNKORE.UI.WPF.Modern;
 
 namespace EyeProtect.ViewModels
 {
-    public partial class TipViewModel : TipModel, IViewModel
+    public partial class TipViewModel : TipModel, IViewModel, IDisposable
     {
         public string ScreenName { get; set; }
         public Window WindowInstance { get; set; }
@@ -23,27 +25,34 @@ namespace EyeProtect.ViewModels
 
         public event ViewModelEventHandler ChangedEvent;
 
-        public TipViewModel(RestService reset,
-            SoundService sound,
-            ConfigService config,
-            MainService main,
-            ThemeService theme,
-            MediaControlService mediaControl)
+        public TipViewModel()
         {
-            this.reset = reset;
-            this.reset.TimeChanged += timeChanged;
-            this.reset.RestCompleted += resetCompleted;
+            reset = Ioc.Default.GetRequiredService<RestService>();
+            reset.TimeChanged += timeChanged;
+            reset.RestCompleted += resetCompleted;
 
-            this.sound = sound;
-            this.config = config;
-            this.config.Changed += config_Changed;
+            sound = Ioc.Default.GetRequiredService<SoundService>();
+            config = Ioc.Default.GetRequiredService<ConfigService>();
+            config.options.General.PropertyChanged += config_Changed;
+            config.options.Style.PropertyChanged += config_Changed;
 
-            this.main = main;
-            this.mediaControl = mediaControl;
-            theme.OnChangedTheme += Theme_OnChangedTheme;
+            main = Ioc.Default.GetRequiredService<MainService>();
+            mediaControl = Ioc.Default.GetRequiredService<MediaControlService>();
+            Ioc.Default.GetRequiredService<ThemeService>().OnChangedTheme += Theme_OnChangedTheme;
             ChangedEvent += TipViewModel_ChangedEvent;
             main.OnHandleTimeout += Main_OnHandleTimeout;
             LoadConfig();
+        }
+
+        public void Dispose()
+        {
+            reset.TimeChanged -= timeChanged;
+            reset.RestCompleted -= resetCompleted;
+            config.options.General.PropertyChanged -= config_Changed;
+            config.options.Style.PropertyChanged -= config_Changed;
+            Ioc.Default.GetRequiredService<ThemeService>().OnChangedTheme -= Theme_OnChangedTheme;
+            ChangedEvent -= TipViewModel_ChangedEvent;
+            main.OnHandleTimeout -= Main_OnHandleTimeout;
         }
 
         /// <summary>
@@ -207,9 +216,16 @@ namespace EyeProtect.ViewModels
         }
 
         //配置文件被修改时
-        private void config_Changed(object sender, EventArgs e)
+        private void config_Changed(object sender, PropertyChangedEventArgs e)
         {
-            LoadConfig();
+            switch (e.PropertyName)
+            {
+                case nameof(config.options.General.RestTime):
+                case nameof(config.options.General.WarnTime):
+                case nameof(config.options.Style.TipContent):
+                    LoadConfig();
+                    break;
+            }
         }
 
         private void resetCompleted(object sender, int timed)

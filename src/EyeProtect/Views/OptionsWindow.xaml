@@ -39,9 +39,9 @@
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
                                 DisplayMemberPath="DisplayName"
-                                ItemsSource="{Binding Model.Languages}"
-                                SelectedItem="{Binding Model.Data.Style.Language}"
-                                SelectedValue="{Binding Model.Data.Style.Language.Value}"
+                                ItemsSource="{Binding Languages}"
+                                SelectedItem="{Binding Data.Style.Language}"
+                                SelectedValue="{Binding Data.Style.Language.Value}"
                                 SelectedValuePath="Value" />
                         </StackPanel>
 
@@ -56,7 +56,7 @@
                             Minimum="1"
                             SmallChange="1"
                             ToolTip="{DynamicResource Lang_Minutes}"
-                            Value="{Binding Model.Data.General.WarnTime, Mode=TwoWay}" />
+                            Value="{Binding Data.General.WarnTime, Mode=TwoWay}" />
                         <Slider
                             Grid.Row="1"
                             Grid.Column="1"
@@ -67,18 +67,18 @@
                             Minimum="1"
                             SmallChange="1"
                             ToolTip="{DynamicResource Lang_Seconds}"
-                            Value="{Binding Model.Data.General.RestTime, Mode=TwoWay}" />
+                            Value="{Binding Data.General.RestTime, Mode=TwoWay}" />
 
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Autostartatboot}"
-                            IsOn="{Binding Model.Data.General.Startup, Mode=TwoWay}"
+                            IsOn="{Binding Data.General.Startup, Mode=TwoWay}"
                             OffContent="{DynamicResource Lang_Off}"
                             OnContent="{DynamicResource Lang_On}" />
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Soundforbreakend}"
-                            IsOn="{Binding Model.Data.General.Sound, Mode=TwoWay}"
+                            IsOn="{Binding Data.General.Sound, Mode=TwoWay}"
                             OffContent="{DynamicResource Lang_Off}"
                             OnContent="{DynamicResource Lang_On}" />
                     </StackPanel>
@@ -104,7 +104,7 @@
                                     Height="Auto"
                                     VerticalContentAlignment="Top"
                                     AcceptsReturn="True"
-                                    Text="{Binding Model.Data.Style.TipContent, Mode=TwoWay}"
+                                    Text="{Binding Data.Style.TipContent, Mode=TwoWay}"
                                     TextWrapping="Wrap" />
                                 <TextBlock
                                     Margin="0 10 0 0"
@@ -122,49 +122,49 @@
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Breakscannotbeskipped}"
-                            IsOn="{Binding Model.Data.Behavior.IsDisabledSkip, Mode=TwoWay}"
+                            IsOn="{Binding Data.Behavior.IsDisabledSkip, Mode=TwoWay}"
                             OffContent="{DynamicResource Lang_Off}"
                             OnContent="{DynamicResource Lang_On}" />
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
                             Header="{DynamicResource Lang_HandleTimeoutAutoRest}"
-                            IsEnabled="{Binding Model.Data.Behavior.IsDisabledSkip, Converter={StaticResource BoolNegationConverter}}"
-                            IsOn="{Binding Model.Data.Behavior.IsHandleTimeoutRest, Mode=TwoWay}"
+                            IsEnabled="{Binding Data.Behavior.IsDisabledSkip, Converter={StaticResource BoolNegationConverter}}"
+                            IsOn="{Binding Data.Behavior.IsHandleTimeoutRest, Mode=TwoWay}"
                             OffContent="{DynamicResource Lang_Off}"
                             OnContent="{DynamicResource Lang_On}" />
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
                             Header="{DynamicResource Lang_AutoPauseMedia}"
-                            IsOn="{Binding Model.Data.Behavior.IsAutoPauseMedia, Mode=TwoWay}"
+                            IsOn="{Binding Data.Behavior.IsAutoPauseMedia, Mode=TwoWay}"
                             OffContent="{DynamicResource Lang_Off}"
                             OnContent="{DynamicResource Lang_On}" />
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
                             Header="{DynamicResource Lang_EnableFaceDetection}"
-                            IsOn="{Binding Model.Data.Behavior.IsFaceDetectionEnabled, Mode=TwoWay}"
+                            IsOn="{Binding Data.Behavior.IsFaceDetectionEnabled, Mode=TwoWay}"
                             OffContent="{DynamicResource Lang_Off}"
                             OnContent="{DynamicResource Lang_On}" />
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Donotdisturbwhenrunningfullscreenapplications}"
-                            IsOn="{Binding Model.Data.Behavior.IsFullScreenBreak, Mode=TwoWay}"
+                            IsOn="{Binding Data.Behavior.IsFullScreenBreak, Mode=TwoWay}"
                             OffContent="{DynamicResource Lang_Off}"
                             OnContent="{DynamicResource Lang_On}" />
                         <ui:ToggleSwitch
                             Margin="0 8 0 0"
                             Header="{DynamicResource Lang_Donotdisturbwhenfollowingapplicationsarerunning}"
-                            IsOn="{Binding Model.IsBreakProgressList, Mode=TwoWay}"
+                            IsOn="{Binding IsBreakProgressList, Mode=TwoWay}"
                             OffContent="{DynamicResource Lang_Off}"
                             OnContent="{DynamicResource Lang_On}" />
-                        <Grid Margin="0 8 0 0" Visibility="{Binding Model.BreakProgressListVisibility}">
+                        <Grid Margin="0 8 0 0" Visibility="{Binding BreakProgressListVisibility}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
                             <ListView
                                 Name="breakProcessListView"
-                                ItemsSource="{Binding Model.Data.Behavior.BreakProgressList}"
-                                SelectedItem="{Binding Model.SelectedItem, Mode=TwoWay}"
+                                ItemsSource="{Binding Data.Behavior.BreakProgressList}"
+                                SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                                 SelectionMode="Single">
 
                                 <ListView.ContextMenu>
@@ -273,8 +273,8 @@
                             <ui:HyperlinkButton
                                 Margin="8 0 0 0"
                                 VerticalAlignment="Center"
-                                Content="{Binding Model.Version}"
-                                NavigateUri="{Binding Model.VersionLink}" />
+                                Content="{Binding Version}"
+                                NavigateUri="{Binding VersionLink}" />
                         </StackPanel>
 
                         <StackPanel Margin="0 8 0 0" Orientation="Horizontal">

@@ -6,6 +6,8 @@ using System.Windows.Threading;
 using EyeProtect.Models.AppInfo;
 using Windows.Win32;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using System.ComponentModel;
+using EyeProtect.Models.Settings;
 
 namespace EyeProtect.Core.Service
 {
@@ -152,7 +154,7 @@ namespace EyeProtect.Core.Service
 
             Start();
 
-            config.Changed += Config_Changed;
+            config.options.Style.PropertyChanged += Style_PropertyChanged;
 
             //加载语言
             HandleLanguageChanged();
@@ -160,6 +162,7 @@ namespace EyeProtect.Core.Service
             rest = Ioc.Default.GetRequiredService<RestService>();
             rest.RestCompleted += Rest_RestCompleted;
         }
+
         #endregion
 
         private void HandleLanguageChanged()
@@ -187,9 +190,12 @@ namespace EyeProtect.Core.Service
             OnLoadedLanguage?.Invoke(this, 0);
         }
 
-        private void Config_Changed(object sender, EventArgs e)
+        private void Style_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            HandleLanguageChanged();
+            if (e.PropertyName == nameof(StyleModel.Language))
+            {
+                HandleLanguageChanged();
+            }
         }
 
         private void RegisterPowerEventListener()
@@ -442,26 +448,6 @@ namespace EyeProtect.Core.Service
             
             //事件响应
             OnLeaveEvent?.Invoke(this, 0);
-        }
-        #endregion
-
-        #region 停止主进程。退出程序时调用
-        /// <summary>
-        /// 停止主进程。退出程序时调用
-        /// </summary>
-        public void Dispose()
-        {
-            DoStop();
-            WindowManager.Close("TipWindow");
-            UnregisterPowerEventListener();
-            UnregisterInputActivityListener();
-            config?.Changed -= Config_Changed;
-            rest?.RestCompleted -= Rest_RestCompleted;
-            if (faceDetection != null)
-            {
-                faceDetection.FaceDetected -= OnFaceDetected;
-                faceDetection.CameraRefreshed -= OnCameraRefreshedAfterRest;
-            }
         }
         #endregion
 
@@ -790,5 +776,23 @@ namespace EyeProtect.Core.Service
             }
         }
         #endregion
+
+        /// <summary>
+        /// 停止主进程。退出程序时调用
+        /// </summary>
+        public void Dispose()
+        {
+            DoStop();
+            WindowManager.Close("TipWindow");
+            UnregisterPowerEventListener();
+            UnregisterInputActivityListener();
+            config?.options.Style.PropertyChanged -= Style_PropertyChanged;
+            rest?.RestCompleted -= Rest_RestCompleted;
+            if (faceDetection != null)
+            {
+                faceDetection.FaceDetected -= OnFaceDetected;
+                faceDetection.CameraRefreshed -= OnCameraRefreshedAfterRest;
+            }
+        }
     }
 }
