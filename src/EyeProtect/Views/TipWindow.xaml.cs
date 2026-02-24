@@ -37,7 +37,6 @@ namespace EyeProtect.Views
             {
                 viewModel.Dispose();
             }
-            Closed -= OnClosed;
         }
 
         /// <summary>
