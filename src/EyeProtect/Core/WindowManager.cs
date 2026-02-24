@@ -397,7 +397,6 @@ namespace EyeProtect.Core
                 var parameterType = constructorParameters[i].ParameterType;
                 types[i] = parameterType;
                 objs[i] = Ioc.Default.GetService(parameterType);
-
             }
             var ctor = type.GetConstructor(types);
             var instance = ctor.Invoke(objs);
