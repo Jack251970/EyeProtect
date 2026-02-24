@@ -28,6 +28,7 @@ namespace EyeProtect.Core.Service
             this.systemResources = systemResources;
             configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, dir, "config.json");
             jsonExtensions = new JsonExtensions(configPath);
+            LogHelper.Info("ConfigService initialized. Config path: " + configPath);
         }
 
         public void Init()
