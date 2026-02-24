@@ -12,7 +12,7 @@ using iNKORE.UI.WPF.Modern;
 
 namespace EyeProtect.ViewModels
 {
-    public partial class TipViewModel : TipModel, IViewModel
+    public partial class TipViewModel : TipModel, IViewModel, IDisposable
     {
         public string ScreenName { get; set; }
         public Window WindowInstance { get; set; }
@@ -35,7 +35,6 @@ namespace EyeProtect.ViewModels
             config = Ioc.Default.GetRequiredService<ConfigService>();
             config.options.General.PropertyChanged += config_Changed;
             config.options.Style.PropertyChanged += config_Changed;
-            config.options.Behavior.PropertyChanged += config_Changed;
 
             main = Ioc.Default.GetRequiredService<MainService>();
             mediaControl = Ioc.Default.GetRequiredService<MediaControlService>();
@@ -43,6 +42,17 @@ namespace EyeProtect.ViewModels
             ChangedEvent += TipViewModel_ChangedEvent;
             main.OnHandleTimeout += Main_OnHandleTimeout;
             LoadConfig();
+        }
+
+        public void Dispose()
+        {
+            reset.TimeChanged -= timeChanged;
+            reset.RestCompleted -= resetCompleted;
+            config.options.General.PropertyChanged -= config_Changed;
+            config.options.Style.PropertyChanged -= config_Changed;
+            Ioc.Default.GetRequiredService<ThemeService>().OnChangedTheme -= Theme_OnChangedTheme;
+            ChangedEvent -= TipViewModel_ChangedEvent;
+            main.OnHandleTimeout -= Main_OnHandleTimeout;
         }
 
         /// <summary>

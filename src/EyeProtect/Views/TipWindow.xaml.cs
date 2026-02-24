@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media.Animation;
+using EyeProtect.ViewModels;
 
 namespace EyeProtect.Views
 {
@@ -30,6 +31,12 @@ namespace EyeProtect.Views
         private void OnClosed(object sender, EventArgs e)
         {
             IsVisibleChanged -= OnIsVisibleChanged;
+            Closed -= OnClosed;
+            // Clean up ViewModel resources
+            if (DataContext is TipViewModel viewModel)
+            {
+                viewModel.Dispose();
+            }
             Closed -= OnClosed;
         }
 
