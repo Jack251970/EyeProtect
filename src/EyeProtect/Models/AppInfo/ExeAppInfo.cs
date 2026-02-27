@@ -45,10 +45,10 @@ public sealed partial class ExeAppInfo : AppInfo, IJsonOnDeserialized, IEquatabl
     {
         var newAppInfo = new ExeAppInfo
         {
-            DefaultDisplayName = this.DefaultDisplayName,
-            DisplayName = this.DisplayName,
-            OverrideAppIconPath = this.OverrideAppIconPath,
-            ExeFilePath = this.ExeFilePath,
+            DefaultDisplayName = DefaultDisplayName,
+            DisplayName = DisplayName,
+            OverrideAppIconPath = OverrideAppIconPath,
+            ExeFilePath = ExeFilePath,
         };
         newAppInfo.OnDeserialized();
         return newAppInfo;
