@@ -88,12 +88,12 @@ public sealed class UwpAppInfo : AppInfo, IEquatable<UwpAppInfo>
     {
         var newAppInfo = new UwpAppInfo
         {
-            DefaultDisplayName = this.DefaultDisplayName,
-            DisplayName = this.DisplayName,
-            OverrideAppIconPath = this.OverrideAppIconPath,
-            AppUserModelId = this.AppUserModelId,
-            PackageFullName = this.PackageFullName,
-            Package = this.Package,
+            DefaultDisplayName = DefaultDisplayName,
+            DisplayName = DisplayName,
+            OverrideAppIconPath = OverrideAppIconPath,
+            AppUserModelId = AppUserModelId,
+            PackageFullName = PackageFullName,
+            Package = Package,
         };
         newAppInfo.OnDeserialized();
         return newAppInfo;
