@@ -754,21 +754,7 @@ namespace EyeProtect.Core.Service
                 }
 
                 // Check based on AppInfo type
-                if (appInfo is ExeAppInfo exeApp)
-                {
-                    return string.Equals(processPath, exeApp.ExeFilePath, StringComparison.OrdinalIgnoreCase);
-                }
-                else if (appInfo is ShortcutAppInfo shortcutApp)
-                {
-                    return string.Equals(processPath, shortcutApp.TargetPath, StringComparison.OrdinalIgnoreCase);
-                }
-                else if (appInfo is UwpAppInfo uwpApp)
-                {
-                    // For UWP apps, compare the process name with the package family name
-                    return process.ProcessName.Contains(uwpApp.PackageFullName.Split('_')[0], StringComparison.OrdinalIgnoreCase);
-                }
-
-                return false;
+                return string.Equals(processPath, appInfo.Path, StringComparison.OrdinalIgnoreCase);
             }
             catch
             {
