@@ -11,6 +11,8 @@ public sealed partial class ExeAppInfo : AppInfo, IJsonOnDeserialized, IEquatabl
     [JsonPropertyName("exe_file_path")]
     public string ExeFilePath { get; set; }
 
+    public override string Path => ExeFilePath;
+
     // Parameterless constructor for XML serialization
     public ExeAppInfo() { }
 

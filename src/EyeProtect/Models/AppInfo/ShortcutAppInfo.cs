@@ -17,6 +17,8 @@ public sealed partial class ShortcutAppInfo : AppInfo, IEquatable<ShortcutAppInf
     [JsonPropertyName("target_path")]
     public string TargetPath { get; set; }
 
+    public override string Path => TargetPath;
+
     // Parameterless constructor for XML serialization
     public ShortcutAppInfo() { }
 
