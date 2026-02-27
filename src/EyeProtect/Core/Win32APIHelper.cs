@@ -168,30 +168,6 @@ namespace EyeProtect.Core
                 return false;
             }
 
-            // 检查窗口扩展样式
-            // Check window extended styles
-            var exStyle = (WINDOW_EX_STYLE)PInvoke.GetWindowLongPtr(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
-            
-            // 跳过工具窗口
-            // Skip tool windows
-            if ((exStyle & WINDOW_EX_STYLE.WS_EX_TOOLWINDOW) != 0)
-            {
-                return false;
-            }
-
-            // 跳过无应用窗口样式的窗口（这些通常不显示在任务栏）
-            // Skip windows without app window style (these usually don't show in taskbar)
-            if ((exStyle & WINDOW_EX_STYLE.WS_EX_APPWINDOW) == 0)
-            {
-                // 检查窗口是否有所有者，如果有则通常不是顶层应用窗口
-                // Check if window has an owner, if so it's usually not a top-level app window
-                var owner = PInvoke.GetWindow(hwnd, GET_WINDOW_CMD.GW_OWNER);
-                if (owner != HWND.Null)
-                {
-                    return false;
-                }
-            }
-
             // 获取窗口矩形
             // Get window rectangle
             PInvoke.GetWindowRect(hwnd, out var rect);
