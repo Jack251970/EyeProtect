@@ -159,27 +159,6 @@ namespace EyeProtect.Core
                 return false;
             }
 
-            // 跳过UWP应用内部窗口（但保留ApplicationFrameWindow容器）
-            // Skip UWP app internal windows (but keep ApplicationFrameWindow container)
-            if (windowClass is "Windows.UI.Core.CoreWindow")
-            {
-                return false;
-            }
-
-            // 跳过特定的已知覆盖层和系统窗口
-            // Skip specific known overlay and system windows
-            if (windowClass is "CEF-OSC-WIDGET" or "Windows Input Experience")
-            {
-                return false;
-            }
-
-            // 跳过HwndWrapper窗口（通常是WPF托管的背景窗口）
-            // Skip HwndWrapper windows (usually WPF hosted background windows)
-            if (windowClass.StartsWith("HwndWrapper", StringComparison.OrdinalIgnoreCase))
-            {
-                return false;
-            }
-
             // 检查窗口是否被DWM隐藏（Windows 10+的窗口隐藏功能）
             // Check if window is cloaked by DWM (Windows 10+ window hiding feature)
             int cloaked = 0;
