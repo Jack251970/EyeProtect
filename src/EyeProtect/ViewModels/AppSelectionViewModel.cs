@@ -63,9 +63,13 @@ namespace EyeProtect.ViewModels
                 // Load all apps from different sources
                 var tasks = new List<Task<List<AppInfo>>>
                 {
-                    Task.Run(async () => (await ShortcutHelper.GetStartMenuAppsAsync()).Cast<AppInfo>().ToList()),
-                    Task.Run(async () => (await UwpAppHelper.GetUwpAppsAsync()).Cast<AppInfo>().ToList())
+                    Task.Run(async () => (await ShortcutHelper.GetStartMenuAppsAsync()).Cast<AppInfo>().ToList())
                 };
+
+                if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 19041))
+                {
+                    tasks.Add(Task.Run(async () => (await UwpAppHelper.GetUwpAppsAsync()).Cast<AppInfo>().ToList()));
+                }
 
                 await Task.WhenAll(tasks);
 
