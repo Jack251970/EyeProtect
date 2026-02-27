@@ -54,12 +54,12 @@ public sealed partial class ShortcutAppInfo : AppInfo, IEquatable<ShortcutAppInf
     {
         var newAppInfo = new ShortcutAppInfo
         {
-            DefaultDisplayName = this.DefaultDisplayName,
-            DisplayName = this.DisplayName,
-            OverrideAppIconPath = this.OverrideAppIconPath,
-            ShortcutFilePath = this.ShortcutFilePath,
-            IconPath = this.IconPath,
-            TargetPath = this.TargetPath,
+            DefaultDisplayName = DefaultDisplayName,
+            DisplayName = DisplayName,
+            OverrideAppIconPath = OverrideAppIconPath,
+            ShortcutFilePath = ShortcutFilePath,
+            IconPath = IconPath,
+            TargetPath = TargetPath,
         };
         newAppInfo.OnDeserialized();
         return newAppInfo;
