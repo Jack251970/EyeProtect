@@ -83,7 +83,7 @@ internal class UwpAppHelper
                     {
                         var uwpAppInfo = new UwpAppInfo
                         {
-                            AppUserModelId = appListEntry.AppInfo.AppUserModelId,
+                            AppUserModelId = appListEntry.AppUserModelId,
                             PackageFullName = package.Id.FullName,
                             DefaultDisplayName = appListEntry.DisplayInfo.DisplayName,
                             DisplayName = appListEntry.DisplayInfo.DisplayName,
