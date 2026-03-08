@@ -118,6 +118,7 @@ namespace EyeProtect.ViewModels
         {
             if (WindowInstance.IsVisible)
             {
+                Init();
                 UpdateVariable();
                 UpdateUIData();
                 HandleAutoAction();
@@ -243,7 +244,7 @@ namespace EyeProtect.ViewModels
 
         private void Init()
         {
-            Countdown = 20;
+            Countdown = config.options.General.RestTime;
             CountDownVisibility = Visibility.Hidden;
             TakeButtonVisibility = Visibility.Visible;
         }
