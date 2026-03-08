@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Windows.Threading;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using EyeProtect.Core;
@@ -96,7 +97,7 @@ namespace EyeProtect.Views
             {
                 // Show the suspend options context menu above the button
                 BtnPause.ContextMenu.PlacementTarget = BtnPause;
-                BtnPause.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Top;
+                BtnPause.ContextMenu.Placement = PlacementMode.Top;
                 BtnPause.ContextMenu.IsOpen = true;
             }
             else
