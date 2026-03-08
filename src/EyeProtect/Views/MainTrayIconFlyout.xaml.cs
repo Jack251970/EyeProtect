@@ -85,22 +85,45 @@ namespace EyeProtect.Views
             else
             {
                 PauseIcon.Glyph = "\uE769"; // Pause icon
-                PauseText.Text = Application.Current.Resources["Lang_Pause"] as string ?? "Pause";
-                BtnPause.ToolTip = Application.Current.Resources["Lang_Pause"] as string ?? "Pause";
+                PauseText.Text = Application.Current.Resources["Lang_Suspend"] as string ?? "Suspend";
+                BtnPause.ToolTip = Application.Current.Resources["Lang_Suspend"] as string ?? "Suspend";
             }
         }
 
         private void BtnPause_Click(object sender, RoutedEventArgs e)
         {
-            var trayService = Ioc.Default.GetRequiredService<TrayService>();
             if (!config.options.General.Noreset)
             {
-                trayService.SetNoReset(0);
+                // Show the suspend options context menu above the button
+                BtnPause.ContextMenu.PlacementTarget = BtnPause;
+                BtnPause.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Top;
+                BtnPause.ContextMenu.IsOpen = true;
             }
             else
             {
-                trayService.SetNoReset(-1);
+                ApplySuspend(-1);
             }
+        }
+
+        private void MenuItemOneHour_Click(object sender, RoutedEventArgs e)
+        {
+            ApplySuspend(1);
+        }
+
+        private void MenuItemTwoHour_Click(object sender, RoutedEventArgs e)
+        {
+            ApplySuspend(2);
+        }
+
+        private void MenuItemForever_Click(object sender, RoutedEventArgs e)
+        {
+            ApplySuspend(0);
+        }
+
+        private void ApplySuspend(int hour)
+        {
+            var trayService = Ioc.Default.GetRequiredService<TrayService>();
+            trayService.SetNoReset(hour);
             UpdateStatus();
         }
 
