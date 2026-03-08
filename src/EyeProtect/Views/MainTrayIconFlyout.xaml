@@ -59,7 +59,23 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Click="BtnPause_Click"
-                    ToolTip="{DynamicResource Lang_Pause}">
+                    ToolTip="{DynamicResource Lang_Suspend}">
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem
+                                x:Name="MenuItemOneHour"
+                                Click="MenuItemOneHour_Click"
+                                Header="{DynamicResource Lang_Onehours}" />
+                            <MenuItem
+                                x:Name="MenuItemTwoHour"
+                                Click="MenuItemTwoHour_Click"
+                                Header="{DynamicResource Lang_Twohours}" />
+                            <MenuItem
+                                x:Name="MenuItemForever"
+                                Click="MenuItemForever_Click"
+                                Header="{DynamicResource Lang_Suspenduntilnextstartup}" />
+                        </ContextMenu>
+                    </Button.ContextMenu>
                     <StackPanel>
                         <ui:FontIcon
                             x:Name="PauseIcon"
@@ -69,7 +85,7 @@
                             x:Name="PauseText"
                             Margin="0 2 0 0"
                             FontSize="11"
-                            Text="{DynamicResource Lang_Pause}" />
+                            Text="{DynamicResource Lang_Suspend}" />
                     </StackPanel>
                 </Button>
 

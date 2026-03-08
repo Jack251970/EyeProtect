@@ -200,6 +200,7 @@
     <sys:String x:Key="Lang_NotificationFullscreen">Fullscreen application detected</sys:String>
     <sys:String x:Key="Lang_NotificationIgnoredApp">Ignored application is running</sys:String>
 
+    <sys:String x:Key="Lang_Suspend">Suspend</sys:String>
     <sys:String x:Key="Lang_Pause">Pause</sys:String>
     <sys:String x:Key="Lang_Resume">Resume</sys:String>
 
