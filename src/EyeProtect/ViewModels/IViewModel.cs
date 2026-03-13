@@ -14,5 +14,6 @@ namespace EyeProtect.ViewModels
         Window WindowInstance { get; set; }
         event ViewModelEventHandler ChangedEvent;
         void OnChanged();
+        void BeforeShown();
     }
 }
