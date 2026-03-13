@@ -215,8 +215,7 @@ namespace EyeProtect.Core
                 var window = GetWindowByScreen(name, screen.Name);
                 if (window != null)
                 {
-                    var windowModel = GetViewModel(name);
-                    if (windowModel.FirstOrDefault() is IViewModel viewmodel)
+                    if (window.DataContext is IViewModel viewmodel)
                     {
                         viewmodel.BeforeShown();
                     }
