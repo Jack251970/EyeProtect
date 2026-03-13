@@ -694,6 +694,22 @@ namespace EyeProtect.Core.Service
         }
         #endregion
 
+        #region 立即开始休息
+        /// <summary>
+        /// 立即开始休息，跳过所有暂停/全屏/进程检查
+        /// </summary>
+        public void StartRestNow()
+        {
+            busy_timer.Start();
+            WindowManager.Show("TipWindow");
+            if (config.options.Behavior.IsAutoPauseMedia)
+            {
+                mediaControl.PauseMedia();
+            }
+            OnReset?.Invoke(this, 0);
+        }
+        #endregion
+
         #region 创建全屏提示窗口
         /// <summary>
         /// 创建全屏提示窗口

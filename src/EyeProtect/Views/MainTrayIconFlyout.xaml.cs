@@ -91,6 +91,12 @@ namespace EyeProtect.Views
             }
         }
 
+        private void BtnStartRest_Click(object sender, RoutedEventArgs e)
+        {
+            mainService.StartRestNow();
+            Hide();
+        }
+
         private void BtnPause_Click(object sender, RoutedEventArgs e)
         {
             if (!config.options.General.Noreset)

@@ -7,7 +7,7 @@
     xmlns:local="clr-namespace:U5BFA.Libraries;assembly=TrayIconFlyout.Wpf"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
-    Width="320"
+    Width="340"
     mc:Ignorable="d">
 
     <local:TrayIconFlyoutIsland Height="260">
@@ -50,13 +50,31 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <Button
-                    x:Name="BtnPause"
+                    x:Name="BtnStartRest"
                     Grid.Column="0"
                     Margin="4"
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Click="BtnStartRest_Click"
+                    ToolTip="{DynamicResource Lang_StartRest}">
+                    <StackPanel>
+                        <ui:FontIcon FontSize="16" Glyph="&#xE8AF;" />
+                        <TextBlock
+                            Margin="0 2 0 0"
+                            FontSize="11"
+                            Text="{DynamicResource Lang_StartRest}" />
+                    </StackPanel>
+                </Button>
+
+                <Button
+                    x:Name="BtnPause"
+                    Grid.Column="1"
+                    Margin="4"
+                    HorizontalAlignment="Stretch"
                     VerticalAlignment="Center"
                     Click="BtnPause_Click"
                     ToolTip="{DynamicResource Lang_Suspend}">
@@ -91,9 +109,9 @@
 
                 <Button
                     x:Name="BtnSettings"
-                    Grid.Column="1"
+                    Grid.Column="2"
                     Margin="4"
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Stretch"
                     VerticalAlignment="Center"
                     Click="BtnSettings_Click"
                     ToolTip="{DynamicResource Lang_Settings}">
@@ -108,9 +126,9 @@
 
                 <Button
                     x:Name="BtnExit"
-                    Grid.Column="2"
+                    Grid.Column="3"
                     Margin="4"
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Stretch"
                     VerticalAlignment="Center"
                     Click="BtnExit_Click"
                     ToolTip="{DynamicResource Lang_Quit}">
