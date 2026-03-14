@@ -213,7 +213,14 @@ namespace EyeProtect.Core
             foreach (var screen in screens)
             {
                 var window = GetWindowByScreen(name, screen.Name);
-                if (window != null) Show(window);
+                if (window != null)
+                {
+                    if (window.DataContext is IViewModel viewmodel)
+                    {
+                        viewmodel.BeforeShown();
+                    }
+                    Show(window);
+                }
             }
         }
         private static void Show(Window window)

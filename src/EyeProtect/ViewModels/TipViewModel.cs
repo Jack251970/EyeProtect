@@ -118,7 +118,6 @@ namespace EyeProtect.ViewModels
         {
             if (WindowInstance.IsVisible)
             {
-                Init();
                 UpdateVariable();
                 UpdateUIData();
                 HandleAutoAction();
@@ -270,6 +269,11 @@ namespace EyeProtect.ViewModels
         public void OnChanged()
         {
             ChangedEvent?.Invoke();
+        }
+
+        public void BeforeShown()
+        {
+            Init();
         }
     }
 }
