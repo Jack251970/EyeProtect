@@ -10,6 +10,12 @@ Every **20** minutes, focus your attention on something at least **20** feet (**
 
 [Reference: https://opto.ca/health-library/the-20-20-20-rule](https://opto.ca/health-library/the-20-20-20-rule)
 
+## Screenshots
+
+![Screenshot 1](images/screenshot%201.png)
+![Screenshot 2](images/screenshot%202.png)
+![Screenshot 3](images/screenshot%203.png)
+
 ## Features
 
 - Do Not Disturb mode for full-screen status (full-screen games, full-screen videos);
