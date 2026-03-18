@@ -93,6 +93,14 @@ namespace EyeProtect.Views
 
         private void BtnStartRest_Click(object sender, RoutedEventArgs e)
         {
+            // Show the suspend options context menu above the button
+            BtnStartRest.ContextMenu.PlacementTarget = BtnStartRest;
+            BtnStartRest.ContextMenu.Placement = PlacementMode.Top;
+            BtnStartRest.ContextMenu.IsOpen = true;
+        }
+
+        private void MenuItemStartRest_Click(object sender, RoutedEventArgs e)
+        {
             mainService.StartRestNow();
             Hide();
         }

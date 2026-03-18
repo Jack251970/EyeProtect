@@ -61,6 +61,14 @@
                     VerticalAlignment="Center"
                     Click="BtnStartRest_Click"
                     ToolTip="{DynamicResource Lang_StartRest}">
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem
+                                x:Name="MenuItemStartRest"
+                                Click="MenuItemStartRest_Click"
+                                Header="{DynamicResource Lang_StartRest}" />
+                        </ContextMenu>
+                    </Button.ContextMenu>
                     <StackPanel>
                         <ui:FontIcon FontSize="16" Glyph="&#xE8AF;" />
                         <TextBlock
