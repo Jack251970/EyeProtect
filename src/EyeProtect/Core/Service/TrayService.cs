@@ -32,7 +32,6 @@ namespace EyeProtect.Core.Service
 
         // Menu
         private ContextMenu contextMenu;
-        private MenuItem menuItem_StartRest;
         private MenuItem menuItem_NoReset;
         private MenuItem menuItem_Options;
         private MenuItem menuItem_Quit;
@@ -151,11 +150,6 @@ namespace EyeProtect.Core.Service
             OnNoResetAction(sender, -1);
         }
 
-        private void menuItem_StartRest_Click(object sender, RoutedEventArgs e)
-        {
-            mainService.StartRestNow();
-        }
-
         private void MenuItem_NoReset_Forver_Click(object sender, RoutedEventArgs e)
         {
             OnNoResetAction(sender, 0);
@@ -248,12 +242,6 @@ namespace EyeProtect.Core.Service
             };
             menuItem_Options.Click += menuItem_Options_Click;
 
-            menuItem_StartRest = new MenuItem
-            {
-                Header = Application.Current.Resources["Lang_StartRest"]
-            };
-            menuItem_StartRest.Click += menuItem_StartRest_Click;
-
             menuItem_NoReset = new MenuItem
             {
                 Header = Application.Current.Resources["Lang_Suspendnow"]
@@ -293,7 +281,6 @@ namespace EyeProtect.Core.Service
             //添加托盘菜单项
             contextMenu.Items.Add(menuItem_Options);
             contextMenu.Items.Add(new Separator());
-            contextMenu.Items.Add(menuItem_StartRest);
             contextMenu.Items.Add(menuItem_NoReset);
             contextMenu.Items.Add(new Separator());
             contextMenu.Items.Add(menuItem_Quit);
