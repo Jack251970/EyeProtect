@@ -100,9 +100,8 @@ namespace EyeProtect.Core
         /// <returns></returns>
         public static Window[] CreateWindow(string name, bool isMaximized, bool newViewModel = false)
         {
-            var allScreens = MonitorInfo.GetDisplayMonitors();
-            var screenCount = allScreens.Count;
-            var screens = allScreens;
+            var screens = MonitorInfo.GetDisplayMonitors();
+            var screenCount = screens.Count;
             var windows = new Window[screenCount];
 
             for (var index = 0; index < screenCount; index++)
