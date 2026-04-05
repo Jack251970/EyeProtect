@@ -196,6 +196,10 @@ namespace EyeProtect.Core
                 var window = GetWindowByScreen(name, screen.Name);
                 if (window != null)
                 {
+                    if (window.DataContext == null)
+                    {
+                        throw new InvalidOperationException("Failed to show window because its DataContext is null.");
+                    }
                     if (window.DataContext is IViewModel viewmodel)
                     {
                         viewmodel.BeforeShown();
