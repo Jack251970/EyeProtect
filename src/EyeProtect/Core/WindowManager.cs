@@ -149,9 +149,9 @@ namespace EyeProtect.Core
         /// <returns>成功返回窗口实例数组</returns>
         public static Window[] GetCreateWindow(string name, bool isMaximized, bool newViewModel = false)
         {
-            var window = GetWindows(name);
-            window ??= CreateWindow(name, isMaximized, newViewModel);
-            return window;
+            var windows = GetWindows(name);
+            windows ??= CreateWindow(name, isMaximized, newViewModel);
+            return windows;
         }
         /// <summary>
         /// 获取window通过窗口类名+显示器（驱动名称）查找
@@ -235,23 +235,13 @@ namespace EyeProtect.Core
         #region 关闭窗口
         private static void window_closed(object sender, EventArgs e)
         {
-            var name = ((Window)sender).Uid;
-            var windows = GetWindows(name);
-            if (windows == null)
-            {
-                return;
-            }
-
-            foreach (var window in windows)
-            {
-                window.Close();
-            }
-            RemoveWindow(name);
+            if (sender is not Window window) return;
+            RemoveWindow(window);
         }
 
-        private static void RemoveWindow(string name)
+        private static void RemoveWindow(Window window)
         {
-            var select = windowList.Where(m => m.window.Uid == name).ToList();
+            var select = windowList.Where(m => m.window == window).ToList();
             foreach (var windowModel in select)
             {
                 windowList.Remove(windowModel);
