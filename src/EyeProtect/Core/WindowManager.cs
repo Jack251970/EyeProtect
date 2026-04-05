@@ -14,22 +14,13 @@ namespace EyeProtect.Core
     /// </summary>
     public class WindowManager
     {
-        private static readonly List<WindowModel> windowList;
-        
-        static WindowManager()
-        {
-            windowList = [];
-        }
+        private static readonly List<WindowModel> windowList = [];
 
         #region 创建窗口
         private static Window CreateWindow(string name, string screen, double left = -999999, double top = -999999, double width = -999999, double height = -999999, bool newViewModel = false)
         {
-            var viewModel = GetCreateViewModel(name, newViewModel);
-            if (viewModel == null)
-            {
+            var viewModel = GetCreateViewModel(name, newViewModel) ??
                 throw new InvalidOperationException($"Failed to create window '{name}' because the corresponding ViewModel could not be created.");
-            }
-
             var type = Type.GetType("EyeProtect.Views." + name);
             var objWindow = (Window)type.Assembly.CreateInstance(type.FullName);
             objWindow.Uid = name;
