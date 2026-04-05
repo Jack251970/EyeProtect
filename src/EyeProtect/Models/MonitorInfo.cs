@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows;
 using Windows.Win32;
@@ -12,7 +13,7 @@ namespace EyeProtect.Models;
 /// Contains full information about a display monitor.
 /// Inspired from: https://github.com/Jack251970/DesktopWidgets3.
 /// </summary>
-public class MonitorInfo
+public class MonitorInfo: IEquatable<MonitorInfo>
 {
     /// <summary>
     /// Gets the display monitors (including invisible pseudo-monitors associated with the mirroring drivers).
@@ -176,5 +177,30 @@ public class MonitorInfo
             var __result = PInvoke.GetMonitorInfo(hMonitor, lpmiBase);
             return __result;
         }
+    }
+
+    public override bool Equals(object obj)
+    {
+        return obj is MonitorInfo other && Equals(other);
+    }
+
+    public bool Equals(MonitorInfo other)
+    {
+        return Name == other?.Name;
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Name);
+    }
+
+    public static bool operator ==(MonitorInfo left, MonitorInfo right)
+    {
+        return EqualityComparer<MonitorInfo>.Default.Equals(left, right);
+    }
+
+    public static bool operator !=(MonitorInfo left, MonitorInfo right)
+    {
+        return !(left == right);
     }
 }

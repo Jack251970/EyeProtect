@@ -716,8 +716,6 @@ namespace EyeProtect.Core.Service
         /// </summary>
         public void CreateTipWindows()
         {
-            //关闭
-            WindowManager.Close("TipWindow");
             //在所有屏幕上创建全屏提示窗口
             var tipWindow = WindowManager.GetCreateWindow("TipWindow", true);
 
@@ -785,7 +783,6 @@ namespace EyeProtect.Core.Service
         public void Dispose()
         {
             DoStop();
-            WindowManager.Close("TipWindow");
             UnregisterPowerEventListener();
             UnregisterInputActivityListener();
             config?.options.Style.PropertyChanged -= Style_PropertyChanged;
