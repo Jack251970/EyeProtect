@@ -21,7 +21,8 @@ namespace EyeProtect.Core
         {
             var viewModel = GetCreateViewModel(name, newViewModel) ??
                 throw new InvalidOperationException($"Failed to create window '{name}' because the corresponding ViewModel could not be created.");
-            var type = Type.GetType("EyeProtect.Views." + name);
+            var type = Type.GetType("EyeProtect.Views." + name) ??
+                throw new InvalidOperationException($"Failed to create window '{name}' because the corresponding View type could not be found.");
             var objWindow = (Window)type.Assembly.CreateInstance(type.FullName);
             objWindow.Uid = name;
             objWindow.DataContext = viewModel;
