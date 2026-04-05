@@ -25,7 +25,7 @@ namespace EyeProtect.Core
         private static Window CreateWindow(string name, string screen, double left = -999999, double top = -999999, double width = -999999, double height = -999999, bool newViewModel = false)
         {
             var viewModel = GetCreateViewModel(name, newViewModel);
-            if (viewModel != null)
+            if (viewModel == null)
             {
                 throw new InvalidOperationException($"Failed to create window '{name}' because the corresponding ViewModel could not be created.");
             }
