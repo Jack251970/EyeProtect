@@ -17,7 +17,7 @@ namespace EyeProtect.Core
         private static readonly List<WindowModel> windowList = [];
 
         #region 创建窗口
-        private static Window CreateWindow(string name, string screen, double left = -999999, double top = -999999, double width = -999999, double height = -999999, bool newViewModel = false)
+        private static Window CreateWindow(string name, MonitorInfo screen, double left = -999999, double top = -999999, double width = -999999, double height = -999999, bool newViewModel = false)
         {
             var viewModel = GetCreateViewModel(name, newViewModel) ??
                 throw new InvalidOperationException($"Failed to create window '{name}' because the corresponding ViewModel could not be created.");
@@ -48,7 +48,6 @@ namespace EyeProtect.Core
             {
                 if (viewModel is IViewModel basicModel)
                 {
-                    basicModel.ScreenName = screen.Replace("\\", "");
                     basicModel.WindowInstance = objWindow;
                     basicModel.OnChanged();
                 }
@@ -85,7 +84,7 @@ namespace EyeProtect.Core
                 height = size.Height;
             }
             var window = CreateWindow(name,
-                screen.Name,
+                screen,
                 left,
                 top,
                 width,
@@ -119,7 +118,7 @@ namespace EyeProtect.Core
                 var left = ToDips(screen.Bounds.Left, size.XDPI);
                 var top = ToDips(screen.Bounds.Top, size.YDPI);
 
-                var window = CreateWindow(name, screen.Name, left, top, width, height, newViewModel);
+                var window = CreateWindow(name, screen, left, top, width, height, newViewModel);
                 windows[index] = window;
 
             }
@@ -159,7 +158,7 @@ namespace EyeProtect.Core
         /// <param name="windowName"></param>
         /// <param name="screen"></param>
         /// <returns>成功只会返回window实例</returns>
-        public static Window GetWindowByScreen(string windowName, string screen)
+        public static Window GetWindowByScreen(string windowName, MonitorInfo screen)
         {
             var select = windowList.Where(m => m.window.Uid == windowName
               && m.screen == screen).Select(s => s.window);
@@ -175,7 +174,7 @@ namespace EyeProtect.Core
         /// <param name="windowName">窗口类名</param>
         /// <param name="screen">显示器</param>
         /// <returns></returns>
-        public static WindowModel GetWindowModel(string windowName, string screen)
+        public static WindowModel GetWindowModel(string windowName, MonitorInfo screen)
         {
             var select = windowList.Where(m => m.window.Uid == windowName
               && m.screen == screen);
@@ -193,7 +192,7 @@ namespace EyeProtect.Core
             var screens = MonitorInfo.GetDisplayMonitors();
             foreach (var screen in screens)
             {
-                var window = GetWindowByScreen(name, screen.Name);
+                var window = GetWindowByScreen(name, screen);
                 if (window != null)
                 {
                     if (window.DataContext == null)
@@ -280,7 +279,7 @@ namespace EyeProtect.Core
             var screens = MonitorInfo.GetDisplayMonitors();
             foreach (var screen in screens)
             {
-                var window = GetWindowByScreen(name, screen.Name);
+                var window = GetWindowByScreen(name, screen);
                 if (window != null)
                 {
                     var size = GetSize(screen);

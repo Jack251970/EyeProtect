@@ -9,8 +9,8 @@ namespace EyeProtect.Models
         /// </summary>
         public Window window { get; set; }
         /// <summary>
-        /// 所在屏幕（驱动名称）
+        /// 所在屏幕
         /// </summary>
-        public string screen { get; set; }
+        public MonitorInfo screen { get; set; }
     }
 }
