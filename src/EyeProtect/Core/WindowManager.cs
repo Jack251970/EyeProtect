@@ -15,24 +15,20 @@ namespace EyeProtect.Core
     public class WindowManager
     {
         private static readonly List<WindowModel> windowList;
-        private static readonly List<object> viewModelList;
         
         static WindowManager()
         {
             windowList = [];
-            viewModelList = [];
         }
 
-        //window
         #region 创建窗口
         private static Window CreateWindow(string name, string screen, double left = -999999, double top = -999999, double width = -999999, double height = -999999, bool newViewModel = false)
         {
-            //var selectWindow = GetWindowByScreen(name, screen);
-            //if (selectWindow != null)
-            //{
-            //    return selectWindow;
-            //}
             var viewModel = GetCreateViewModel(name, newViewModel);
+            if (viewModel != null)
+            {
+                throw new InvalidOperationException($"Failed to create window '{name}' because the corresponding ViewModel could not be created.");
+            }
 
             var type = Type.GetType("EyeProtect.Views." + name);
             var objWindow = (Window)type.Assembly.CreateInstance(type.FullName);
@@ -86,10 +82,7 @@ namespace EyeProtect.Core
         {
             //创建
             double left = -999999, top = -999999, width = -999999, height = -999999;
-            if (screen == null)
-            {
-                screen = MonitorInfo.GetPrimaryDisplayMonitor();
-            }
+            screen ??= MonitorInfo.GetPrimaryDisplayMonitor();
             if (isMaximized)
             {
                 var size = GetSize(screen);
@@ -152,9 +145,9 @@ namespace EyeProtect.Core
         public static Window[] GetWindows(string name)
         {
             var window = windowList.Where(m => m.window.Uid == name).Select(s => s.window);
-            if (window.Count() > 0)
+            if (window.Any())
             {
-                return window.ToArray();
+                return [.. window];
             }
             return null;
         }
@@ -166,10 +159,7 @@ namespace EyeProtect.Core
         public static Window[] GetCreateWindow(string name, bool isMaximized, bool newViewModel = false)
         {
             var window = GetWindows(name);
-            if (window == null)
-            {
-                window = CreateWindow(name, isMaximized, newViewModel);
-            }
+            window ??= CreateWindow(name, isMaximized, newViewModel);
             return window;
         }
         /// <summary>
@@ -198,7 +188,7 @@ namespace EyeProtect.Core
         {
             var select = windowList.Where(m => m.window.Uid == windowName
               && m.screen == screen);
-            if (select.Count() > 0)
+            if (select.Any())
             {
                 return select.Single();
             }
@@ -252,26 +242,29 @@ namespace EyeProtect.Core
         #endregion
 
         #region 关闭窗口
-        /// <summary>
-        /// 关闭窗口（所有显示器）
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public static int Close(string name)
+        private static void window_closed(object sender, EventArgs e)
         {
+            var name = ((Window)sender).Uid;
             var windows = GetWindows(name);
             if (windows == null)
             {
-                return 0;
+                return;
             }
 
             foreach (var window in windows)
             {
                 window.Close();
             }
-            RemoveViewModel(name);
             RemoveWindow(name);
-            return windows.Length;
+        }
+
+        private static void RemoveWindow(string name)
+        {
+            var select = windowList.Where(m => m.window.Uid == name).ToList();
+            foreach (var windowModel in select)
+            {
+                windowList.Remove(windowModel);
+            }
         }
         #endregion
 
@@ -289,17 +282,6 @@ namespace EyeProtect.Core
                 window.Hide();
             }
             return windows.Length;
-        }
-        #endregion
-
-        #region 移除窗口实例
-        private static void RemoveWindow(string name)
-        {
-            var select = windowList.Where(m => m.window.Uid == name).ToList();
-            foreach (var windowModel in select)
-            {
-                windowList.Remove(windowModel);
-            }
         }
         #endregion
 
@@ -330,15 +312,15 @@ namespace EyeProtect.Core
         }
         #endregion
 
-        #region 获得显示器宽高dips
+        #region DPI相关
         public class Size
         {
             public double Width { get; set; }
             public double Height { get; set; }
             public uint XDPI { get; set; }
             public uint YDPI { get; set; }
-
         }
+
         public static Size GetSize(MonitorInfo screen)
         {
             //uint xDpi, yDpi;
@@ -352,14 +334,13 @@ namespace EyeProtect.Core
             };
             return size;
         }
-        #endregion
 
-        #region 计算dips
         public enum DpiDirection
         {
             X,
             Y
         }
+
         public static double ToDips(MonitorInfo screen, double value, DpiDirection dpiDirection = DpiDirection.X)
         {
             var dpi = screen.GetDpi(MONITOR_DPI_TYPE.MDT_EFFECTIVE_DPI);
@@ -373,17 +354,17 @@ namespace EyeProtect.Core
         }
         #endregion
 
-        //window event
-        #region 窗口被关闭event
-        private static void window_closed(object sender, EventArgs e)
+        #region viewmodel相关
+        private static object GetCreateViewModel(string windowName, bool newViewmodel = false)
         {
-            var window = sender as Window;
-            Close(window.Uid);
+            var viewModel = GetViewModel(windowName);
+            if (viewModel == null || newViewmodel)
+            {
+                return CreateViewModel(windowName);
+            }
+            return viewModel[0];
         }
-        #endregion
 
-        //viewmodel
-        #region 创建viewmodel实例
         private static object CreateViewModel(string windowName)
         {
             var nameSpace = "EyeProtect.ViewModels";
@@ -407,47 +388,19 @@ namespace EyeProtect.Core
             }
             var ctor = type.GetConstructor(types);
             var instance = ctor.Invoke(objs);
-            viewModelList.Add(instance);
             return instance;
         }
-        #endregion
 
-        #region 获取viewmodel实例
         private static List<object> GetViewModel(string windowName)
         {
             var viewModelName = windowName.Replace("Window", "ViewModel");
+            var viewModelList = windowList.Select(m => m.window.DataContext).Where(m => m != null).ToList();
             var select = viewModelList.Where(m => m.GetType().Name == viewModelName);
-            if (select.Count() > 0)
+            if (select.Any())
             {
-                return select.ToList();
+                return [.. select];
             }
             return null;
-        }
-        #endregion
-
-        #region 获取viewmodel实例，不存在时创建
-        private static object GetCreateViewModel(string windowName, bool newViewmodel = false)
-        {
-            var viewModel = GetViewModel(windowName);
-            if (viewModel == null || newViewmodel)
-            {
-                return CreateViewModel(windowName);
-            }
-            return viewModel[0];
-        }
-        #endregion
-
-        #region 移除viewmodel实例
-        private static void RemoveViewModel(string windowName)
-        {
-            var viewModel = GetViewModel(windowName);
-            if (viewModel != null)
-            {
-                foreach (var model in viewModel)
-                {
-                    viewModelList.Remove(model);
-                }
-            }
         }
         #endregion
     }

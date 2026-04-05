@@ -116,6 +116,10 @@ namespace EyeProtect.ViewModels
 
         private void WindowInstance_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            if (WindowInstance.DataContext is not TipViewModel)
+            {
+                throw new InvalidOperationException("WindowInstance's DataContext is not TipViewModel.");
+            }
             if (WindowInstance.IsVisible)
             {
                 UpdateVariable();
