@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using EyeProtect.Models;
 using EyeProtect.Views;
 using U5BFA.Libraries;
 
@@ -15,44 +17,68 @@ namespace EyeProtect.Core.Service
         private const int AutoHideSeconds = 4;
 
         private DispatcherTimer autoHideTimer;
-        private TrayIconFlyout flyout;
-        private TextBlock messageText;
+        private readonly List<TrayIconFlyout> flyouts = [];
+        private readonly List<TextBlock> messageTexts = [];
 
         public void Init()
         {
-            messageText = new TextBlock
-            {
-                TextWrapping = TextWrapping.Wrap
-            };
-
-            var content = new StackPanel
-            {
-                Margin = new Thickness(16),
-                Orientation = Orientation.Vertical,
-                Children =
-                {
-                    messageText
-                }
-            };
-
-            flyout = new TrayIconFlyout(new MainTrayIconFlyoutWindow())
-            {
-                Width = 360,
-                Placement = TrayIconFlyoutPlacementMode.Custom,
-                PopupDirection = TrayIconFlyoutPopupDirection.Down,
-                HideOnLostFocus = false
-            };
-            flyout.Islands.Add(new TrayIconFlyoutIsland
-            {
-                Content = content
-            });
-            flyout.CustomLocationCallback += CustomLocationCallback;
-
             autoHideTimer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromSeconds(AutoHideSeconds)
             };
             autoHideTimer.Tick += AutoHideTimer_Tick;
+
+            CreateFlyoutsForAllScreens();
+        }
+
+        private void CreateFlyoutsForAllScreens()
+        {
+            foreach (var flyout in flyouts)
+            {
+                flyout.Hide();
+                flyout.Dispose();
+            }
+            flyouts.Clear();
+            messageTexts.Clear();
+
+            var monitors = MonitorInfo.GetDisplayMonitors();
+            foreach (var monitor in monitors)
+            {
+                var messageText = new TextBlock
+                {
+                    TextWrapping = TextWrapping.Wrap
+                };
+
+                var content = new StackPanel
+                {
+                    Margin = new Thickness(16),
+                    Orientation = Orientation.Vertical,
+                    Children = { messageText }
+                };
+
+                var flyout = new TrayIconFlyout(new MainTrayIconFlyoutWindow())
+                {
+                    Width = 360,
+                    Placement = TrayIconFlyoutPlacementMode.Custom,
+                    PopupDirection = TrayIconFlyoutPopupDirection.Down,
+                    HideOnLostFocus = false
+                };
+                flyout.Islands.Add(new TrayIconFlyoutIsland { Content = content });
+
+                var capturedMonitor = monitor;
+                flyout.CustomLocationCallback += desireSize =>
+                {
+                    var workingArea = capturedMonitor.WorkingArea;
+                    var dpi = capturedMonitor.GetDpi(Windows.Win32.UI.HiDpi.MONITOR_DPI_TYPE.MDT_EFFECTIVE_DPI);
+                    var scale = dpi.x / 96.0;
+                    var x = workingArea.X / scale + workingArea.Width / scale / 2 - desireSize.Width / 2;
+                    var y = workingArea.Y / scale;
+                    return new Point(x, y);
+                };
+
+                flyouts.Add(flyout);
+                messageTexts.Add(messageText);
+            }
         }
 
         public void Dispose()
@@ -64,10 +90,13 @@ namespace EyeProtect.Core.Service
                 autoHideTimer = null;
             }
 
-            flyout?.Hide();
-            flyout?.Dispose();
-            flyout = null;
-            messageText = null;
+            foreach (var flyout in flyouts)
+            {
+                flyout.Hide();
+                flyout.Dispose();
+            }
+            flyouts.Clear();
+            messageTexts.Clear();
         }
 
         /// <summary>
@@ -81,15 +110,21 @@ namespace EyeProtect.Core.Service
                 var message = Application.Current.TryFindResource("Lang_NotificationBreakSkipped") as string ?? "Break reminder skipped: {0}";
                 message = string.Format(message, reason);
 
-                if (flyout == null || messageText == null || autoHideTimer == null)
+                if (flyouts.Count == 0 || messageTexts.Count == 0 || autoHideTimer == null)
                 {
                     return;
                 }
 
-                messageText.Text = message;
+                foreach (var messageText in messageTexts)
+                {
+                    messageText.Text = message;
+                }
 
-                flyout.Hide();
-                flyout.Show();
+                foreach (var flyout in flyouts)
+                {
+                    flyout.Hide();
+                    flyout.Show();
+                }
                 autoHideTimer.Stop();
                 autoHideTimer.Start();
             }
@@ -121,16 +156,10 @@ namespace EyeProtect.Core.Service
         private void AutoHideTimer_Tick(object sender, EventArgs e)
         {
             autoHideTimer?.Stop();
-            flyout?.Hide();
-        }
-
-        private Point CustomLocationCallback(Size desireSize)
-        {
-            // Position the flyout at the top center of the primary screen
-            var workingArea = SystemParameters.WorkArea;
-            var x = workingArea.X + workingArea.Width / 2 - desireSize.Width / 2;
-            var y = workingArea.Top;
-            return new Point(x, y);
+            foreach (var flyout in flyouts)
+            {
+                flyout.Hide();
+            }
         }
     }
 }
