@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using EyeProtect.Views;
 using U5BFA.Libraries;
 
 namespace EyeProtect.Core.Service
@@ -15,32 +16,29 @@ namespace EyeProtect.Core.Service
 
         private DispatcherTimer autoHideTimer;
         private TrayIconFlyout flyout;
-        private TextBlock titleText;
         private TextBlock messageText;
 
         public void Init()
         {
-            titleText = new TextBlock();
-            messageText = new TextBlock();
-            titleText.FontSize = 16;
-            titleText.FontWeight = FontWeights.SemiBold;
-            messageText.Margin = new Thickness(0, 8, 0, 0);
-            messageText.TextWrapping = TextWrapping.Wrap;
+            messageText = new TextBlock
+            {
+                TextWrapping = TextWrapping.Wrap
+            };
 
             var content = new StackPanel
             {
                 Margin = new Thickness(16),
+                Orientation = Orientation.Vertical,
                 Children =
                 {
-                    titleText,
                     messageText
                 }
             };
 
-            flyout = new TrayIconFlyout
+            flyout = new TrayIconFlyout(new MainTrayIconFlyoutWindow())
             {
                 Width = 360,
-                Placement = TrayIconFlyoutPlacementMode.TopRight,
+                Placement = TrayIconFlyoutPlacementMode.Custom,
                 PopupDirection = TrayIconFlyoutPopupDirection.Down,
                 HideOnLostFocus = false
             };
@@ -48,6 +46,7 @@ namespace EyeProtect.Core.Service
             {
                 Content = content
             });
+            flyout.CustomLocationCallback += CustomLocationCallback;
 
             autoHideTimer = new DispatcherTimer
             {
@@ -68,7 +67,6 @@ namespace EyeProtect.Core.Service
             flyout?.Hide();
             flyout?.Dispose();
             flyout = null;
-            titleText = null;
             messageText = null;
         }
 
@@ -80,16 +78,14 @@ namespace EyeProtect.Core.Service
         {
             try
             {
-                var title = Application.Current.TryFindResource("Lang_NotificationTitle") as string ?? "Eye Protect Reminder";
                 var message = Application.Current.TryFindResource("Lang_NotificationBreakSkipped") as string ?? "Break reminder skipped: {0}";
                 message = string.Format(message, reason);
 
-                if (flyout == null || titleText == null || messageText == null || autoHideTimer == null)
+                if (flyout == null || messageText == null || autoHideTimer == null)
                 {
                     return;
                 }
 
-                titleText.Text = title;
                 messageText.Text = message;
 
                 flyout.Hide();
@@ -126,6 +122,15 @@ namespace EyeProtect.Core.Service
         {
             autoHideTimer?.Stop();
             flyout?.Hide();
+        }
+
+        private Point CustomLocationCallback(Size desireSize)
+        {
+            // Position the flyout at the top center of the primary screen
+            var workingArea = SystemParameters.WorkArea;
+            var x = workingArea.X + workingArea.Width / 2 - desireSize.Width / 2;
+            var y = workingArea.Top;
+            return new Point(x, y);
         }
     }
 }
