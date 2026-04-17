@@ -13,13 +13,15 @@ namespace EyeProtect.Core.Service
     {
         private const int AutoHideSeconds = 4;
 
-        private readonly DispatcherTimer autoHideTimer = new();
-        private readonly TrayIconFlyout flyout = new();
-        private readonly TextBlock titleText = new();
-        private readonly TextBlock messageText = new();
+        private DispatcherTimer autoHideTimer;
+        private TrayIconFlyout flyout;
+        private TextBlock titleText;
+        private TextBlock messageText;
 
         public void Init()
         {
+            titleText = new TextBlock();
+            messageText = new TextBlock();
             titleText.FontSize = 16;
             titleText.FontWeight = FontWeights.SemiBold;
             messageText.Margin = new Thickness(0, 8, 0, 0);
@@ -35,25 +37,39 @@ namespace EyeProtect.Core.Service
                 }
             };
 
-            flyout.Width = 360;
-            flyout.Placement = TrayIconFlyoutPlacementMode.TopRight;
-            flyout.PopupDirection = TrayIconFlyoutPopupDirection.Down;
-            flyout.HideOnLostFocus = false;
+            flyout = new TrayIconFlyout
+            {
+                Width = 360,
+                Placement = TrayIconFlyoutPlacementMode.TopRight,
+                PopupDirection = TrayIconFlyoutPopupDirection.Down,
+                HideOnLostFocus = false
+            };
             flyout.Islands.Add(new TrayIconFlyoutIsland
             {
                 Content = content
             });
 
-            autoHideTimer.Interval = TimeSpan.FromSeconds(AutoHideSeconds);
+            autoHideTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(AutoHideSeconds)
+            };
             autoHideTimer.Tick += AutoHideTimer_Tick;
         }
 
         public void Dispose()
         {
-            autoHideTimer.Stop();
-            autoHideTimer.Tick -= AutoHideTimer_Tick;
-            flyout.Hide();
-            flyout.Dispose();
+            if (autoHideTimer != null)
+            {
+                autoHideTimer.Stop();
+                autoHideTimer.Tick -= AutoHideTimer_Tick;
+                autoHideTimer = null;
+            }
+
+            flyout?.Hide();
+            flyout?.Dispose();
+            flyout = null;
+            titleText = null;
+            messageText = null;
         }
 
         /// <summary>
@@ -68,14 +84,15 @@ namespace EyeProtect.Core.Service
                 var message = Application.Current.TryFindResource("Lang_NotificationBreakSkipped") as string ?? "Break reminder skipped: {0}";
                 message = string.Format(message, reason);
 
+                if (flyout == null || titleText == null || messageText == null || autoHideTimer == null)
+                {
+                    return;
+                }
+
                 titleText.Text = title;
                 messageText.Text = message;
 
-                if (flyout.IsOpen)
-                {
-                    flyout.Hide();
-                }
-
+                flyout.Hide();
                 flyout.Show();
                 autoHideTimer.Stop();
                 autoHideTimer.Start();
@@ -107,8 +124,8 @@ namespace EyeProtect.Core.Service
 
         private void AutoHideTimer_Tick(object sender, EventArgs e)
         {
-            autoHideTimer.Stop();
-            flyout.Hide();
+            autoHideTimer?.Stop();
+            flyout?.Hide();
         }
     }
 }
