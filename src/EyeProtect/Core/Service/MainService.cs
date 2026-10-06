@@ -125,7 +125,7 @@ namespace EyeProtect.Core.Service
             //初始化回来检测计时器
             back_timer = new DispatcherTimer();
             back_timer.Tick += back_timer_Tick;
-            back_timer.Interval = new TimeSpan(0, 1, 0);
+            back_timer.Interval = new TimeSpan(0, 0, 1);
             //初始化繁忙计时器
             busy_timer = new DispatcherTimer();
             busy_timer.Tick += busy_timer_Tick;
@@ -139,8 +139,8 @@ namespace EyeProtect.Core.Service
             work_timer.Interval = new TimeSpan(0, 0, 30);
             //每20秒表示离开
             leave_timer.Interval = new TimeSpan(0, 0, 20);
-            //每10秒检测回来
-            back_timer.Interval = new TimeSpan(0, 0, 10);
+            //每1秒检测回来
+            back_timer.Interval = new TimeSpan(0, 0, 1);
             //每5秒检测用户是否处理了休息提示
             busy_timer.Interval = new TimeSpan(0, 0, 5);
 #endif
