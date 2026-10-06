@@ -2,7 +2,9 @@
     x:Class="EyeProtect.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:flyout="clr-namespace:U5BFA.Libraries;assembly=TrayIconFlyout.Wpf"
     xmlns:local="clr-namespace:EyeProtect"
+    xmlns:models="clr-namespace:EyeProtect.Models"
     xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern">
     <Application.Resources>
         <ResourceDictionary>
@@ -11,6 +13,39 @@
                 <ui:XamlControlsResources />
                 <ResourceDictionary Source="/Resources/Language/en.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="BreakSkippedNotificationIslandStyle" TargetType="{x:Type flyout:TrayIconFlyoutIsland}">
+                <Setter Property="BorderThickness" Value="0" />
+            </Style>
+
+            <DataTemplate DataType="{x:Type models:BreakSkippedNotificationContent}">
+                <Border Padding="16" CornerRadius="8">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsFullscreen}" Value="True">
+                                    <Setter Property="Background" Value="{ui:ThemeResource SystemFillColorCriticalBackgroundBrush}" />
+                                    <Setter Property="BorderBrush" Value="{ui:ThemeResource SystemFillColorCriticalBrush}" />
+                                    <Setter Property="BorderThickness" Value="1" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <TextBlock Text="{Binding Message}" TextWrapping="Wrap">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="{ui:ThemeResource TextFillColorPrimaryBrush}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsFullscreen}" Value="True">
+                                        <Setter Property="FontWeight" Value="SemiBold" />
+                                        <Setter Property="Foreground" Value="{ui:ThemeResource SystemFillColorCriticalBrush}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Border>
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
