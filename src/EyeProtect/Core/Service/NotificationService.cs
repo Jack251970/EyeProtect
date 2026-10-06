@@ -18,7 +18,7 @@ namespace EyeProtect.Core.Service
 
         private DispatcherTimer autoHideTimer;
         private readonly List<TrayIconFlyout> flyouts = [];
-        private readonly List<TextBlock> messageTexts = [];
+        private readonly List<ContentControl> notificationContents = [];
 
         public void Init()
         {
@@ -39,22 +39,12 @@ namespace EyeProtect.Core.Service
                 flyout.Dispose();
             }
             flyouts.Clear();
-            messageTexts.Clear();
+            notificationContents.Clear();
 
             var monitors = MonitorInfo.GetDisplayMonitors();
             foreach (var monitor in monitors)
             {
-                var messageText = new TextBlock
-                {
-                    TextWrapping = TextWrapping.Wrap
-                };
-
-                var content = new StackPanel
-                {
-                    Margin = new Thickness(16),
-                    Orientation = Orientation.Vertical,
-                    Children = { messageText }
-                };
+                var content = new ContentControl();
 
                 var flyout = new TrayIconFlyout(new MainTrayIconFlyoutWindow())
                 {
@@ -63,7 +53,9 @@ namespace EyeProtect.Core.Service
                     PopupDirection = TrayIconFlyoutPopupDirection.Down,
                     HideOnLostFocus = false
                 };
-                flyout.Islands.Add(new TrayIconFlyoutIsland { Content = content });
+                var island = new TrayIconFlyoutIsland { Content = content };
+                island.SetResourceReference(FrameworkElement.StyleProperty, "BreakSkippedNotificationIslandStyle");
+                flyout.Islands.Add(island);
 
                 var capturedMonitor = monitor;
                 flyout.CustomLocationCallback += desireSize =>
@@ -77,7 +69,7 @@ namespace EyeProtect.Core.Service
                 };
 
                 flyouts.Add(flyout);
-                messageTexts.Add(messageText);
+                notificationContents.Add(content);
             }
         }
 
@@ -96,28 +88,29 @@ namespace EyeProtect.Core.Service
                 flyout.Dispose();
             }
             flyouts.Clear();
-            messageTexts.Clear();
+            notificationContents.Clear();
         }
 
         /// <summary>
         /// Show a top flyout notification for skipped break
         /// </summary>
         /// <param name="reason">Reason for skipping the break (fullscreen or ignored app)</param>
-        public void ShowBreakSkippedNotification(string reason)
+        /// <param name="showCriticalColor">Whether to use the critical-color</param>
+        public void ShowBreakSkippedNotification(string reason, bool showCriticalColor = false)
         {
             try
             {
                 var message = Application.Current.TryFindResource("Lang_NotificationBreakSkipped") as string ?? "Break reminder skipped: {0}";
                 message = string.Format(message, reason);
 
-                if (flyouts.Count == 0 || messageTexts.Count == 0 || autoHideTimer == null)
+                if (flyouts.Count == 0 || notificationContents.Count == 0 || autoHideTimer == null)
                 {
                     return;
                 }
 
-                foreach (var messageText in messageTexts)
+                foreach (var content in notificationContents)
                 {
-                    messageText.Text = message;
+                    content.Content = new BreakSkippedNotificationContent(message, showCriticalColor);
                 }
 
                 foreach (var flyout in flyouts)
@@ -141,7 +134,7 @@ namespace EyeProtect.Core.Service
         public void ShowFullscreenSkippedNotification()
         {
             var reason = Application.Current.TryFindResource("Lang_NotificationFullscreen") as string ?? "Fullscreen application detected";
-            ShowBreakSkippedNotification(reason);
+            ShowBreakSkippedNotification(reason, showCriticalColor: true);
         }
 
         /// <summary>
@@ -150,7 +143,7 @@ namespace EyeProtect.Core.Service
         public void ShowIgnoredAppSkippedNotification()
         {
             var reason = Application.Current.TryFindResource("Lang_NotificationIgnoredApp") as string ?? "Ignored application is running";
-            ShowBreakSkippedNotification(reason);
+            ShowBreakSkippedNotification(reason, showCriticalColor: true);
         }
 
         private void AutoHideTimer_Tick(object sender, EventArgs e)
