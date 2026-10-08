@@ -269,11 +269,15 @@ namespace EyeProtect.Core.Service
         private void OnPowerModeChanged(bool suspend)
         {
             if (suspend)
+            {
                 //电脑休眠
                 Pause();
+            }
             else
+            {
                 //电脑恢复
                 Start();
+            }
         }
 
         private void busy_timer_Tick(object sender, EventArgs e)
