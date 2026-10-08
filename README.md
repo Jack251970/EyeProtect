@@ -1,55 +1,50 @@
 # Eye Protect
 
-An eye rest reminder software (Windows) based on the `20-20-20` rule, helping you maintain a healthy work state and track your daily eye usage.
+Eye Protect is a Windows break reminder based on the **20-20-20 rule**. It runs from the system tray, reminds you to look away from your screen, and can track your daily work and break time.
 
-You can set the reminder interval (default 20 minutes) and break duration (default 20 seconds). When the program starts, the timer begins. Each time the reminder interval is reached, a full-screen window will pop up to remind you to take a break. By default, you can choose to `Skip` or `Start Break`. Selecting `Skip` will close the window and restart the timer. Selecting `Start Break` will start a countdown from the set break duration (seconds). During this time, you should look away from the screen and focus on something at least 6 meters away to relax your eyes. When the countdown ends, the program will play a notification sound.
+## Get started
 
-## What is the 20-20-20 Rule
+1. Download the latest release from [GitHub Releases](https://github.com/Jack251970/EyeProtect/releases).
+2. Run `EyeProtect.exe`. No installer is required. The app appears as a sunglasses icon in the system tray; right-click it to open the menu.
+3. Open **Settings** to adjust the reminder interval and break duration. The defaults are **20 minutes** and **20 seconds**.
 
-Every **20** minutes, focus your attention on something at least **20** feet (**6** meters) away for **20** seconds. Following this rule can effectively relieve eye strain and protect your vision health.
+Eye Protect supports **Windows 10 and 11 (x64)** and requires the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0).
 
-[Reference: https://opto.ca/health-library/the-20-20-20-rule](https://opto.ca/health-library/the-20-20-20-rule)
+## How it works
 
-## Screenshots
+The timer starts when Eye Protect launches. When the reminder interval ends, a full-screen prompt appears on each connected monitor. You can **Break** to start the countdown or **Skip** to dismiss the prompt and restart the timer. At the end of a break, Eye Protect plays a sound if the break-end sound is enabled.
 
-![Screenshot 1](images/screenshot%201.png)
-![Screenshot 2](images/screenshot%202.png)
-![Screenshot 3](images/screenshot%203.png)
+The 20-20-20 rule suggests looking at something at least **20 feet (about 6 meters)** away for **20 seconds** every **20 minutes**. See the [Optometrists' 20-20-20 guide](https://opto.ca/health-library/the-20-20-20-rule).
 
 ## Features
 
-- Do Not Disturb mode for full-screen status (full-screen games, full-screen videos);
-- Process whitelist setting to skip reminders when running specific programs;
-- Support for multiple extended monitors;
-- Away detection: pauses the timer when it detects the user has left the computer until they return.
+- Adjustable reminder interval and break duration, with optional daily statistics.
+- Do-not-disturb options for full-screen apps and selected applications.
+- Away detection that pauses reminders while you are away from the computer.
+- Optional automatic media pause during breaks and optional face detection.
+- Tray controls for viewing the next break, starting a break, or suspending reminders.
+- English, Simplified Chinese, and Traditional Chinese interfaces.
 
-*Some features need to be manually enabled in the options to take effect.*
+Some features are off by default; enable them in **Settings** if needed.
 
-## Local Build
+## Screenshots
 
+![Eye Protect screenshot 1](images/screenshot%201.png)
+![Eye Protect screenshot 2](images/screenshot%202.png)
+![Eye Protect screenshot 3](images/screenshot%203.png)
+
+## Build from source
+
+Install the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) and run this command from the repository root on Windows:
+
+```powershell
+dotnet publish src/EyeProtect/EyeProtect.csproj -p:PublishProfile=Net10.0-Win64.pubxml
 ```
-dotnet publish src\EyeProtect\EyeProtect.csproj -p:PublishProfile=Net10.0-Win64.pubxml
-```
 
-## Download and Install
+The publish profile creates a framework-dependent, single-file Windows x64 build in `src/EyeProtect/bin/Publish/`. The .NET 10 Desktop Runtime is still required on the target computer.
 
-You can download the compiled EXE files for all releases here: [Releases](https://github.com/Jack251970/EyeProtect/releases). Just double-click EyeProtect.exe to run, no installation required.
+## Help and support
 
-After successful launch, you will see the 😎 icon in the system tray at the bottom right corner. Right-click to show the menu.
-
-## Runtime Environment
-
-OS: Windows 10/11
-
-Runtime: [.NET 10.0](https://dotnet.microsoft.com/download/dotnet/10.0)
-
-## Other
-
-[Help Documentation](https://github.com/Jack251970/EyeProtect/wiki)
-
-## Thank You
-
-If you are enjoying this plugin, then please support my work and enthusiasm by buying me a coffee on
-[https://ko-fi/jackye](https://ko-fi.com/jackye).
-
-[<img style="float:left" src="https://user-images.githubusercontent.com/14358394/115450238-f39e8100-a21b-11eb-89d0-fa4b82cdbce8.png" width="200">](https://ko-fi.com/jackye)
+- [Help documentation](https://github.com/Jack251970/EyeProtect/wiki)
+- [Report an issue](https://github.com/Jack251970/EyeProtect/issues)
+- [Support the project on Ko-fi](https://ko-fi.com/jackye)
