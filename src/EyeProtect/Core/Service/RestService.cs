@@ -12,6 +12,8 @@ namespace EyeProtect.Core.Service
 
         private int timed = 0;
 
+        public bool IsResting => timer.IsEnabled;
+
         /// <summary>
         /// 倒计时更改时发生
         /// </summary>
