@@ -54,6 +54,7 @@ namespace EyeProtect.Core.Service
         private readonly MediaControlService mediaControl;
         private readonly FaceDetectionService faceDetection;
         private RestService rest;
+        private bool IsBreakActive => busy_timer?.IsEnabled == true || rest?.IsResting == true;
 
         public delegate void MainEventHandler(object service, int msg);
         /// <summary>
@@ -291,6 +292,11 @@ namespace EyeProtect.Core.Service
 
         private void back_timer_Tick(object sender, EventArgs e)
         {
+            if (IsBreakActive)
+            {
+                return;
+            }
+
             if (IsCursorPosChanged() || _hasInputActivity)
             {
                 LogHelper.Debug("用户回来了 - 通过输入检测");
@@ -312,6 +318,11 @@ namespace EyeProtect.Core.Service
         /// </summary>
         private void OnFaceDetected(object sender, EventArgs e)
         {
+            if (IsBreakActive)
+            {
+                return;
+            }
+
             LogHelper.Debug("用户回来了 - 通过人脸检测");
             back_timer.Stop();
             
@@ -433,6 +444,12 @@ namespace EyeProtect.Core.Service
         /// </summary>
         public void OnLeave()
         {
+            // A reminder or rest countdown must not be cancelled by an away-detection callback.
+            if (IsBreakActive)
+            {
+                return;
+            }
+
             LogHelper.Debug("用户离开了");
             WindowManager.Hide("TipWindow");
             leave_timer.Stop();
@@ -603,6 +620,7 @@ namespace EyeProtect.Core.Service
             }
 
             // No skip conditions met, show the normal tip window
+            StopPresenceDetectionForBreak();
             busy_timer.Start();
             WindowManager.Show("TipWindow");
 
@@ -704,6 +722,7 @@ namespace EyeProtect.Core.Service
         /// </summary>
         public void StartRestNow()
         {
+            StopPresenceDetectionForBreak();
             busy_timer.Start();
             WindowManager.Show("TipWindow");
             if (config.options.Behavior.IsAutoPauseMedia)
@@ -713,6 +732,17 @@ namespace EyeProtect.Core.Service
             OnReset?.Invoke(this, 0);
         }
         #endregion
+
+        private void StopPresenceDetectionForBreak()
+        {
+            // The reminder and the rest countdown own the screen until the user skips
+            // or the rest ends. An away callback would otherwise hide the tip window.
+            leave_timer.Stop();
+            back_timer.Stop();
+            faceDetection.FaceDetected -= OnFaceDetected;
+            faceDetection.CameraRefreshed -= OnCameraRefreshedAfterRest;
+            faceDetection.Stop();
+        }
 
         #region 创建全屏提示窗口
         /// <summary>
