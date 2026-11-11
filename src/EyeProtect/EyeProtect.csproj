@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
-    <PackageReference Include="iNKORE.UI.WPF.Modern" Version="0.10.2.1" />
+    <PackageReference Include="iNKORE.UI.WPF.Modern" Version="0.11.0" />
     <PackageReference Include="Jack251970.TrayIconFlyout.Wpf" Version="1.0.4" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.6" />
     <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.24.4" />
